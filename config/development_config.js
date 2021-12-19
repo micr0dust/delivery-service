@@ -12,6 +12,11 @@ module.exports = {
     secret: process.env.MY_SECRET,
     mail: {
         account: process.env.MAIL,
-        password: process.env.MAIL_PASSWORD
+        password: process.env.MAIL_PASSWORD,
+        id: process.env.MAIL_ID,
+        secret: process.env.MAIL_SECRET,
+        freshToken: process.env.MAIL_REFRESHTOKEN,
+        accessToken: process.env.MAIL_ACCESSTOKEN,
+
     }
 }

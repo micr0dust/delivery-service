@@ -1,4 +1,6 @@
 const nodemailer = require("nodemailer");
+const { google } = require("googleapis");
+const OAuth2 = google.auth.OAuth2;
 const client = require('../connection_db');
 const config = require('../../config/development_config');
 
@@ -28,17 +30,42 @@ module.exports = async function mailEmit(id, time) {
         }
         // 寄驗證信
         try {
-            console.log(config.mail.account, config.mail.password);
-            var transporter = nodemailer.createTransport({
-                service: 'gmail',
+            const oauth2Client = new OAuth2(
+                config.mail.id,
+                config.mail.secret, // Client Secret
+                "https://developers.google.com/oauthplayground" // Redirect URL
+            );
+            oauth2Client.setCredentials({
+                refresh_token: config.mail.freshToken
+            });
+            const accessToken = oauth2Client.getAccessToken();
+            const transporter = nodemailer.createTransport({
+                host: 'smtp.gmail.com',
+                port: 465,
+                secure: true,
                 auth: {
+                    type: "OAuth2",
                     user: config.mail.account,
-                    pass: config.mail.password,
+                    clientId: config.mail.id,
+                    clientSecret: config.mail.secret,
+                    refreshToken: config.mail.freshToken,
+                    accessToken: accessToken
                 },
                 tls: {
-                    rejectUnauthorized: false,
+                    rejectUnauthorized: false
                 }
             });
+            // console.log(config.mail.account, config.mail.password);
+            // var transporter = nodemailer.createTransport({
+            //     service: 'gmail',
+            //     auth: {
+            //         user: config.mail.account,
+            //         pass: config.mail.password,
+            //     },
+            //     tls: {
+            //         rejectUnauthorized: false,
+            //     }
+            // });
             // var transporter = nodemailer.createTransport({
             //     host: "smtp.mailtrap.io",
             //     port: 2525,
@@ -49,19 +76,18 @@ module.exports = async function mailEmit(id, time) {
             // });
             console.log(member.email, verityCode);
             // send mail with defined transport object
-            let info = transporter.sendMail({
-                    from: config.mail.account,
-                    to: member.email,
-                    subject: 'Hello中原外送平台-信箱驗證',
-                    html: '<h1>' + verityCode + '</h1><p>使用者' + member.name + '您好，您的驗證碼為 ' + verityCode + '</p><p>驗證碼將在十分鐘後無效，如果你沒有註冊過本平台請無視此郵件</p>',
-                },
-                function(err) {
-                    if (err) {
-                        console.log('Unable to send email: ' + err);
-                    }
-                },
-            );
+            const mailOptions = {
+                from: config.mail.account,
+                to: member.email,
+                subject: 'Hello中原外送平台-信箱驗證',
+                html: '<h1>' + verityCode + '</h1><p>使用者' + member.name + '您好，您的驗證碼為 ' + verityCode + '</p><p>驗證碼將在十分鐘後無效，如果你沒有註冊過本平台請無視此郵件</p>',
+            };
+            transporter.sendMail(mailOptions, (error, response) => {
+                error ? console.log(error) : console.log(response);
+                transporter.close();
+            });
         } catch (err) {
+            console.log(err);
             throw "驗證信無法寄出";
         }
     } catch (err) {
