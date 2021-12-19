@@ -1,23 +1,14 @@
 <div class="container">
-    <h2>Card Image</h2>
-    <p>Image at the top (card-img-top):</p>
+    <h2>個人資料</h2>
     <div class="card" style="width:400px">
-        <img class="card-img-top" src="https://www.w3schools.com/bootstrap4/img_avatar1.png" alt="Card image" style="width:100%">
+        <img class="card-img-top" id="img" src="" alt="Card image" style="width:100%">
         <div class="card-body">
-            <h4 class="card-title">John Doe</h4>
-            <p class="card-text">Some example text some example text. John Doe is an architect and engineer</p>
-            <a href="#" class="btn btn-primary">See Profile</a>
+            <h4 id="name" class="card-title"></h4>
+            <p id="email" class="card-text"></p>
+            <p id="create" class="card-text"></p>
+            <p id="update" class="card-text"></p>
+            <a href="" class="btn btn-primary">更新資料</a>
         </div>
-    </div>
-    <br>
-
-    <p>Image at the bottom (card-img-bottom):</p>
-    <div class="card" style="width:400px">
-        <div class="card-body">
-            <h4 class="card-title">Jane Doe</h4>
-            <p class="card-text">Some example text some example text. Jane Doe is an architect and engineer</p>
-            <a href="#" class="btn btn-primary">See Profile</a>
-        </div>
-        <img class="card-img-bottom" src="img_avatar6.png" alt="Card image" style="width:100%">
     </div>
 </div>
+<script src="/js/fetch_request/profile.js"></script>

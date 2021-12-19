@@ -10,6 +10,8 @@ module.exports = {
         product: process.env.COLLECTION_PRODUCT
     },
     secret: process.env.MY_SECRET,
-    mailSecret: process.env.MAIL_SECRET,
-    mail_password: process.env.MAIL_PASSWORD
+    mail: {
+        account: process.env.MAIL,
+        password: process.env.MAIL_PASSWORD
+    }
 }

@@ -33,7 +33,10 @@ function requestMail(swal) {
             title: data.status,
             text: data.result
         }).then(() => {
-            if (data.result === "請重新登入") window.location.href = '/templates/login';
+            if (data.result === "請重新登入") {
+                localStorage.removeItem('acesstoken');
+                window.location.href = '/templates/login';
+            }
         });
         console.log(data);
     })

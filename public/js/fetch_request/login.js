@@ -27,7 +27,7 @@ document.getElementById("submit").addEventListener("click", function(e) {
     }).then(function(data) {
         data = JSON.parse(data);
         if (data.code)
-            window.location.href = '/';
+            window.location.href = '/templates/user';
         else Swal.fire({
             icon: 'error',
             title: data.status,

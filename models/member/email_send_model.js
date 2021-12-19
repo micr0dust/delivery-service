@@ -28,26 +28,30 @@ module.exports = async function mailEmit(id, time) {
         }
         // 寄驗證信
         try {
-            // var transporter = nodemailer.createTransport('SMTP', {
-            //     service: 'Gmail',
-            //     auth: {
-            //         user: "hellocycudeliveryservice@gmail.com",
-            //         pass: config.mail_password,
-            //     },
-            // });
+            console.log(config.mail.account, config.mail.password);
             var transporter = nodemailer.createTransport({
-                host: "smtp.mailtrap.io",
-                port: 2525,
+                service: 'gmail',
                 auth: {
-                    user: "c6acc18c2879f4",
-                    pass: "8ec458587916cd"
+                    user: config.mail.account,
+                    pass: config.mail.password,
+                },
+                tls: {
+                    rejectUnauthorized: false,
                 }
             });
+            // var transporter = nodemailer.createTransport({
+            //     host: "smtp.mailtrap.io",
+            //     port: 2525,
+            //     auth: {
+            //         user: "c6acc18c2879f4",
+            //         pass: "8ec458587916cd"
+            //     }
+            // });
             console.log(member.email, verityCode);
             // send mail with defined transport object
             let info = transporter.sendMail({
-                    from: 'Hello中原外送平台 <feeabe331d-c5e8cf@inbox.mailtrap.io>',
-                    to: member.name + ' <' + member.email + '>',
+                    from: config.mail.account,
+                    to: member.email,
                     subject: 'Hello中原外送平台-信箱驗證',
                     html: '<h1>' + verityCode + '</h1><p>使用者' + member.name + '您好，您的驗證碼為 ' + verityCode + '</p><p>驗證碼將在十分鐘後無效，如果你沒有註冊過本平台請無視此郵件</p>',
                 },

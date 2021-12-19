@@ -3,8 +3,10 @@
 <div id="mySidebar" class="sidebar">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
     <a href="/">首頁</a>
-    <a href="/templates/login">登入</a>
-    <a href="/templates/register">註冊</a>
+    <a class="notAuthenticated" href="/templates/login">登入</a>
+    <a class="notAuthenticated" href="/templates/register">註冊</a>
+    <a class="isAuthenticated" href="/templates/user">個人資料</a>
+    <a id="logout" class="isAuthenticated" href="#">登出</a>
 </div>
 
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top" style="z-index: 2">
@@ -15,6 +17,20 @@
 </nav>
 
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        if (localStorage.acesstoken) {
+            for (let i = 0; i < document.getElementsByClassName('isAuthenticated').length; i++)
+                document.getElementsByClassName('isAuthenticated')[i].style.display = "block";
+            for (let i = 0; i < document.getElementsByClassName('notAuthenticated').length; i++)
+                document.getElementsByClassName('notAuthenticated')[i].style.display = "none";
+        } else {
+            for (let i = 0; i < document.getElementsByClassName('isAuthenticated').length; i++)
+                document.getElementsByClassName('isAuthenticated')[i].style.display = "none";
+            for (let i = 0; i < document.getElementsByClassName('notAuthenticated').length; i++)
+                document.getElementsByClassName('notAuthenticated')[i].style.display = "block";
+        }
+    }, false);
+
     function openNav() {
         document.getElementById("mySidebar").style.width = "250px";
         document.getElementById('main').style.display = "none";
@@ -25,3 +41,4 @@
         document.getElementById('main').style.display = "inline-block";
     }
 </script>
+<script src="/js/fetch_request/logout.js"></script>

@@ -31,7 +31,7 @@ document.getElementById("submit").addEventListener("click", function(e) {
             title: data.status,
             text: data.result
         }).then(() => {
-            window.location.href = '/templates/user';
+            window.location.href = '/templates/login';
         });
         else Swal.fire({
             icon: 'error',
@@ -43,6 +43,21 @@ document.getElementById("submit").addEventListener("click", function(e) {
                 window.location.href = '/templates/login';
             }
         });
+        console.log(data);
+    })
+    let headersList = {
+        "Accept": "*/*",
+        "token": localStorage.acesstoken,
+        "Content-Type": "application/x-www-form-urlencoded"
+    }
+
+    fetch("/member/update", {
+        method: "PUT",
+        body: "name=Jesus&password=1esus",
+        headers: headersList
+    }).then(function(response) {
+        return response.text();
+    }).then(function(data) {
         console.log(data);
     })
 });
