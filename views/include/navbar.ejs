@@ -1,0 +1,27 @@
+<link rel="stylesheet" href="/stylesheets/sidenavbar.css">
+
+<div id="mySidebar" class="sidebar">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+    <a href="/">首頁</a>
+    <a href="/templates/login">登入</a>
+    <a href="/templates/register">註冊</a>
+</div>
+
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top" style="z-index: 2">
+    <!-- Brand -->
+    <li class="navbar-brand">
+        <a class="openbtn" id="main" href="javascript:openNav()">☰</a> Hello中原
+    </li>
+</nav>
+
+<script>
+    function openNav() {
+        document.getElementById("mySidebar").style.width = "250px";
+        document.getElementById('main').style.display = "none";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidebar").style.width = "0";
+        document.getElementById('main').style.display = "inline-block";
+    }
+</script>

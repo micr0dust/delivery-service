@@ -6,6 +6,13 @@ module.exports = class CheckCustomer {
         return result;
     }
 
+    //判斷password格式
+    checkPassword(password) {
+        const filt = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+        const result = filt.test(password);
+        return result;
+    }
+
     //判斷空值
     checkNull(data) {
         for (var key in data) {

@@ -9,43 +9,22 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
     <link rel="icon" sizes="any" mask href="https://www.ubereats.com/_static/3a75cefc131799064d967e4588f26eb0.ico">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <title>
         <%= title %>
     </title>
-    <style>
-         :target {
-            padding-top: 65px;
-            margin-top: -65px;
-        }
-        /* Make the image fully responsive */
-        
-        .carousel-inner img {
-            width: 100%;
-            height: 100%;
-        }
-    </style>
 </head>
 
 <body>
     <%- include('./include/navbar.ejs') %>
-        <div id="demo" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="https://images.squarespace-cdn.com/content/v1/53b839afe4b07ea978436183/1608506169128-S6KYNEV61LEP5MS1UIH4/traditional-food-around-the-world-Travlinmad.jpg">
-                </div>
-            </div>
-        </div>
-
         <div class="container mt-5">
             <div id="Introduction">
                 <p class="display-3">首頁</p>
                 <p class="display-5">所有訂單由外送員一起送餐到宿舍</p>
                 <p class="display-5">需要提前預約</p>
             </div>
-            <div class="footer"></div>
         </div>
-        <%- include('./include/footer.ejs') %>
-            <%- include('./include/preloader.ejs') %>
+        <%- include('./include/preloader.ejs') %>
 </body>
 
 </html>

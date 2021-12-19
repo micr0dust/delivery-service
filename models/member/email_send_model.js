@@ -71,6 +71,12 @@ module.exports = async function mailEmit(id, time) {
         for (var i = 0; i < 6; i++) {
             Num += Math.floor(Math.random() * 10);
         }
+        // const token = jwt.sign({
+        //     algorithm: 'HS256',
+        //     exp: Math.floor(Date.now() / 1000) + (60 * 60), // token一小時後過期。
+        //     data: id.toString()
+        // }, Num);
+        // return token;
         return Num;
     }
 }

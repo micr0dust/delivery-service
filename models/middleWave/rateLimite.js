@@ -11,7 +11,7 @@ module.exports = (req, res, next) => {
         // Consume 1 point for each request
         rateLimiterRedis.consume(req.ip, 1)
             .then((rateLimiterRes) => {
-                console.log(rateLimiterRes)
+                //console.log(rateLimiterRes)
                 next();
             })
             .catch((rejRes) => {
