@@ -43,6 +43,6 @@ document.getElementById("submit").addEventListener("click", function(e) {
                 window.location.href = '/templates/login';
             }
         });
-        console.log(data);
+        //console.log(data);
     })
 });

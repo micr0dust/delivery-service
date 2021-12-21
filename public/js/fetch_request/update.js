@@ -1,16 +1,21 @@
 document.getElementById("submit").addEventListener("click", function(e) {
     e.preventDefault();
     document.getElementById('loader').classList.add('is-active');
-    let code = document.getElementById('code').value;
+    let name = document.getElementById('name').innerText;
+    let email = document.getElementById('email').value;
+    let phone = document.getElementById('phone').value;
+    let gender = document.getElementById('gender').value;
+    let birthday = document.getElementById('birthday').value;
+
     let headersList = {
         "Accept": "*/*",
         "token": localStorage.acesstoken,
-        "Content-Type": "application/x-www-form-urlencoded"
+        "Content-Type": "application/x-www-form-urlencoded",
     }
 
-    fetch("/member/email/verify", {
+    fetch("http://localhost:3000/member/update", {
         method: "PUT",
-        body: "verityCode=" + code,
+        body: "name=" + name + "&email=" + email + "&phone=" + phone + "&gender=" + gender + "&birthday=" + birthday + "",
         headers: headersList
     }).then(function(response) {
         if (response.status === 200);
@@ -26,13 +31,7 @@ document.getElementById("submit").addEventListener("click", function(e) {
         return response.text();
     }).then(function(data) {
         data = JSON.parse(data);
-        if (data.code) Swal.fire({
-            icon: 'success',
-            title: data.status,
-            text: data.result
-        }).then(() => {
-            window.location.href = '/templates/login';
-        });
+        if (data.code) window.location.href = '/templates/user';
         else Swal.fire({
             icon: 'error',
             title: data.status,
@@ -43,21 +42,6 @@ document.getElementById("submit").addEventListener("click", function(e) {
                 window.location.href = '/templates/login';
             }
         });
-        console.log(data);
-    })
-    let headersList = {
-        "Accept": "*/*",
-        "token": localStorage.acesstoken,
-        "Content-Type": "application/x-www-form-urlencoded"
-    }
-
-    fetch("/member/update", {
-        method: "PUT",
-        body: "name=Jesus&password=1esus",
-        headers: headersList
-    }).then(function(response) {
-        return response.text();
-    }).then(function(data) {
         console.log(data);
     })
 });

@@ -13,6 +13,7 @@ const jwt = require('jsonwebtoken');
 const { token } = require('morgan');
 let check = new Check();
 
+
 module.exports = class Member {
     postRegister(req, res, next) {
         // 進行加密
@@ -35,21 +36,20 @@ module.exports = class Member {
         }
 
         const checkEmail = check.checkEmail(memberData.email);
-        const checkName = check.checkNull(memberData.name);
         // email filter
-        if (checkEmail === false) {
+        if (!checkEmail) {
             res.json({
                 status: "註冊失敗",
                 code: false,
                 result: "請輸入正確的Eamil格式 (如format24@gmail.com)"
             })
-        } else if (!(checkName === false)) {
+        } else if (!check.checkName(memberData.name)) {
             res.json({
                 status: "註冊失敗",
                 code: false,
-                result: "名字不可為空"
+                result: "姓名必須介於1~20字元"
             })
-        } else if (checkEmail === true) {
+        } else if (checkEmail) {
             console.log(memberData);
             // insert to database
             toRegister(memberData).then(result => {
@@ -119,11 +119,47 @@ module.exports = class Member {
     }
 
     putUpdate(req, res, next) {
-        const password = encryption(req.body.password);
+        let password = null;
+        if (req.body.password) password = encryption(req.body.password);
+
+        if (password && !check.checkPassword(req.body.password)) {
+            return res.json({
+                status: "更改失敗",
+                code: false,
+                result: "密碼必須由8個以上的大小寫字母和數字組成"
+            })
+        }
         const memberUpdateData = {
+            update_date: onTime(),
             name: req.body.name,
+            email: req.body.email,
+            phone: req.body.phone,
+            gender: req.body.gender,
+            birthday: req.body.birthday,
             password: password,
-            update_date: onTime()
+        }
+        for (let prop in memberUpdateData)
+            if (!memberUpdateData[prop]) delete memberUpdateData[prop];
+        if (memberUpdateData.name && !check.checkName(memberUpdateData.name)) {
+            res.json({
+                status: "更改失敗",
+                code: false,
+                result: "姓名必須介於 1~20 字元"
+            })
+        }
+        if (memberUpdateData.email && !check.checkEmail(memberUpdateData.email)) {
+            return res.json({
+                status: "更改失敗",
+                code: false,
+                result: "請輸入正確的Eamil格式 (如format24@gmail.com)"
+            })
+        }
+        if (memberUpdateData.phone && !check.checkPhone(memberUpdateData.phone)) {
+            return res.json({
+                status: "更改失敗",
+                code: false,
+                result: "請輸入正確的台灣行動電話號碼"
+            })
         }
         updateAction(req.headers['token'], memberUpdateData).then(result => {
             res.json({
@@ -177,17 +213,13 @@ module.exports = class Member {
 
     getUserInfo(req, res, next) {
         getUser(req.headers['token']).then(result => {
-            let verify = (result.verityCode === true) ? true : false;
+            result.verityCode = (result.verityCode === true) ? true : false;
+            delete result["password"];
+            delete result["_id"];
             res.json({
                 status: "成功獲取使用者資料",
                 code: true,
-                result: {
-                    name: result.name,
-                    email: result.email,
-                    verify: verify,
-                    create: result.create_date,
-                    update: result.update_date
-                }
+                result: result
             })
         }, (err) => {
             res.json({

@@ -1,14 +1,58 @@
 <div class="container">
-    <h2>個人資料</h2>
-    <div class="card" style="width:400px">
-        <img class="card-img-top" id="img" src="" alt="Card image" style="width:100%">
-        <div class="card-body">
-            <h4 id="name" class="card-title"></h4>
-            <p id="email" class="card-text"></p>
-            <p id="create" class="card-text"></p>
-            <p id="update" class="card-text"></p>
-            <a href="" class="btn btn-primary">更新資料</a>
+    <div class="row">
+        <div class="card col-md-6 col-sm-12 mt-5">
+            <img class="card-img-top" id="img" src="" alt="Card image" style="width:100%">
+            <div class="card-body">
+                <h4 id="name" class="card-title"></h4>
+            </div>
+        </div>
+        <div class="card col-md-6 col-sm-12">
+            <div class="card-body">
+                <form class="form-signin">
+                    <h4 class="mb-5 mt-5 d-none d-md-block">個人資料</h4>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">信箱</span>
+                        </div>
+                        <input type="email" id="email" class="form-control" placeholder="電子郵件位址" name="email" disabled>
+                        <div class="valid-feedback">已驗證</div>
+                        <div class="invalid-feedback"><a href="/templates/verify">尚未驗證</a></div>
+                    </div>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">號碼</span>
+                        </div>
+                        <input type="tel" id="phone" class="form-control" placeholder="行動電話號碼" name="phone" disabled>
+                        <div class="valid-feedback">已驗證</div>
+                        <div class="invalid-feedback">尚未驗證</div>
+                    </div>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">性別</span>
+                        </div>
+                        <select class="form-control" id="gender" disabled>
+                            <option class="d-none">無</option>
+                            <option>男</option>
+                            <option>女</option>
+                            <option>跨性別</option>
+                            <option>不願透漏</option>
+                        </select>
+                    </div>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">生日</span>
+                        </div>
+                        <input type="date" id="birthday" name="birthday" disabled>
+                    </div>
+                    <p id="create" class="card-text mt-5"></p>
+                    <p id="update" class="card-text"></p>
+                    <a id="edit" href="javascript:editFn()" class="btn btn-primary mb-4">編輯</a>
+                    <a id="submit" class="btn btn-success mb-4 d-none">更新</a>
+                </form>
+            </div>
         </div>
     </div>
+
 </div>
 <script src="/js/fetch_request/profile.js"></script>
+<script src="/js/fetch_request/update.js"></script>

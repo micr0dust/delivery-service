@@ -38,6 +38,6 @@ function requestMail(swal) {
                 window.location.href = '/templates/login';
             }
         });
-        console.log(data);
+        //console.log(data);
     })
 }

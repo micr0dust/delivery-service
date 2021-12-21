@@ -1,3 +1,19 @@
+function checkInputFn(email, phone) {
+    let oemail = document.getElementById('email').value;
+    let ophone = document.getElementById('phone').value;
+    if (oemail) validFn('email', email);
+    if (ophone) validFn('phone', phone);
+}
+
+function editFn() {
+    document.getElementById('email').disabled = false;
+    document.getElementById('phone').disabled = false;
+    document.getElementById('gender').disabled = false;
+    document.getElementById('birthday').disabled = false;
+    document.getElementById('edit').classList.add('d-none');
+    document.getElementById('submit').classList.remove('d-none');
+}
+
 let headersList = {
     "Accept": "*/*",
     "token": localStorage.acesstoken,
@@ -14,18 +30,26 @@ fetch("/member/user/info", {
             icon: 'error',
             title: '發生錯誤',
             text: response.status
-        })
+        });
     }
     return response.text();
 }).then(function(data) {
     data = JSON.parse(data);
+    document.getElementById('loader').classList.remove('is-active');
     if (data.code) {
-        document.getElementById('img').src = "https://www.w3schools.com/bootstrap4/img_avatar" + random(1, 6) + ".png";
-        document.getElementById('name').innerText = data.result.name;
-        document.getElementById('email').innerHTML = data.result.email + ((data.result.verify) ? ' (已驗證)' : ' <a href="/templates/verify">驗證信箱</a>');
-        document.getElementById('create').innerText = "創建時間：" + data.result.create;
-        document.getElementById('update').innerText = "上次更新：" + data.result.update;
-        document.getElementById('loader').classList.remove('is-active');
+        let oimg;
+        if (data.result.gender === "男") oimg = random(1, 3);
+        else if (data.result.gender === "女") oimg = random(4, 6);
+        else oimg = random(1, 6);
+        document.getElementById('img').src = "https://www.w3schools.com/bootstrap4/img_avatar" + oimg + ".png";
+        if (data.result.name) document.getElementById('name').innerText = data.result.name;
+        if (data.result.email) document.getElementById('email').value = data.result.email;
+        if (data.result.phone) document.getElementById('phone').value = data.result.phone;
+        if (data.result.gender) document.getElementById('gender').options[0].innerText = data.result.gender;
+        if (data.result.birthday) document.getElementById('birthday').value = data.result.birthday;
+        if (data.result.create) document.getElementById('create').innerText = "創建時間：" + data.result.create;
+        if (data.result.update) document.getElementById('update').innerText = "上次更新：" + data.result.update;
+        checkInputFn(data.result.verityCode, false);
     } else Swal.fire({
         icon: 'error',
         title: data.status,
@@ -40,5 +64,9 @@ fetch("/member/user/info", {
 })
 
 function random(min, max) {
-    return Math.floor(Math.random() * max) + min;
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 };
+
+document.getElementById("submit").addEventListener("click", function(e) {
+    e.preventDefault();
+});

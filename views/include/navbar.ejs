@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="/stylesheets/sidenavbar.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 <div id="mySidebar" class="sidebar">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
@@ -15,7 +16,6 @@
         <a class="openbtn" id="main" href="javascript:openNav()">☰</a> Hello中原
     </li>
 </nav>
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         if (localStorage.acesstoken) {
@@ -39,6 +39,18 @@
     function closeNav() {
         document.getElementById("mySidebar").style.width = "0";
         document.getElementById('main').style.display = "inline-block";
+    }
+
+    function validFn(id, valid) {
+        let element = document.getElementById(id);
+        if (valid) {
+            element.classList.remove('is-invalid')
+            element.classList.add('is-valid');
+        } else {
+            element.classList.remove('is-valid')
+            element.classList.add('is-invalid');
+        }
+        return valid;
     }
 </script>
 <script src="/js/fetch_request/logout.js"></script>

@@ -1,8 +1,20 @@
-document.getElementById("submit").addEventListener("click", function(e) {
-    e.preventDefault();
-    document.getElementById('loader').classList.add('is-active');
+var submited = false;
+
+function checkInputFn() {
+    if (!submited) return;
+    let allcorrect = true;
     let email = document.getElementById('email').value;
     let password = document.getElementById('password').value;
+    if (!validFn('email', /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email))) allcorrect = false;
+    if (!validFn('password', /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(password))) allcorrect = false;
+    return allcorrect;
+}
+document.getElementById("submit").addEventListener("click", function(e) {
+    e.preventDefault();
+    if (!checkInputFn(submited = true)) return;
+    let email = document.getElementById('email').value;
+    let password = document.getElementById('password').value;
+    document.getElementById('loader').classList.add('is-active');
     let headersList = {
         "Accept": "*/*",
         "Content-Type": "application/x-www-form-urlencoded"
@@ -12,6 +24,7 @@ document.getElementById("submit").addEventListener("click", function(e) {
         body: "email=" + email + "&password=" + password,
         headers: headersList
     }).then(function(response) {
+        document.getElementById('loader').classList.remove('is-active');
         if (response.status === 200)
             localStorage.setItem('acesstoken', response.headers.get('token'));
         else {
@@ -22,7 +35,6 @@ document.getElementById("submit").addEventListener("click", function(e) {
                 text: response.status
             })
         }
-        document.getElementById('loader').classList.remove('is-active');
         return response.text();
     }).then(function(data) {
         data = JSON.parse(data);
@@ -33,6 +45,6 @@ document.getElementById("submit").addEventListener("click", function(e) {
             title: data.status,
             text: data.result
         });
-        console.log(data);
+        //console.log(data);
     })
 });
