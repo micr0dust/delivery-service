@@ -55,7 +55,7 @@ document.getElementById("submit").addEventListener("click", function(e) {
         "Content-Type": "application/x-www-form-urlencoded",
     }
 
-    fetch("http://localhost:3000/member/update", {
+    fetch("/member/update", {
         method: "PUT",
         body: "name=" + name + "&email=" + email + "&phone=" + phone + "&gender=" + gender + "&birthday=" + birthday + "",
         headers: headersList
