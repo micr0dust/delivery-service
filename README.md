@@ -4,7 +4,7 @@
 - 以姓名、郵箱、密碼註冊帳號，並返回時效為一小時的token
 - method: POST
 - request
-- - body
+- - body  
     {  
      "name" : "userName",  
 	"email" : "userEmail",  
@@ -31,7 +31,7 @@
 - 以郵箱、密碼登入帳號，並返回時效為一小時的token
 - method: POST
 - request
-- - body
+- - body  
     {  
 	"email" : "userEmail",  
 	"password" : "userPassword"  
@@ -92,7 +92,7 @@
 - 以使用者token請求，成功將發送驗證碼email
 - method: POST
 - request
-- - header
+- - header  
     {  
 	"token" : "userToken",  
 	"Content-Type" : "application/x-www-form-urlencoded"  
