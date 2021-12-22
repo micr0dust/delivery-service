@@ -19,7 +19,7 @@ module.exports = class Member {
         // 進行加密
         const check_password = check.checkPassword(req.body.password);
         if (check_password === false) {
-            return res.json({
+            return res.status(400).send({
                 status: "註冊失敗",
                 code: false,
                 result: "密碼必須由8個以上的大小寫字母和數字組成"
@@ -38,13 +38,13 @@ module.exports = class Member {
         const checkEmail = check.checkEmail(memberData.email);
         // email filter
         if (!checkEmail) {
-            res.json({
+            res.status(400).send({
                 status: "註冊失敗",
                 code: false,
                 result: "請輸入正確的Eamil格式 (如format24@gmail.com)"
             })
         } else if (!check.checkName(memberData.name)) {
-            res.json({
+            res.status(400).send({
                 status: "註冊失敗",
                 code: false,
                 result: "姓名必須介於1~20字元"
@@ -70,7 +70,7 @@ module.exports = class Member {
                 })
             }).catch((err) => {
                 // respon error
-                res.json({
+                res.status(500).send({
                     status: "註冊失敗",
                     code: false,
                     result: err
@@ -90,7 +90,7 @@ module.exports = class Member {
 
         loginAction(memberData).then(rows => {
             if (check.checkNull(rows) === true) {
-                res.json({
+                res.status(400).send({
                     status: "登入失敗",
                     code: false,
                     result: "請輸入正確的帳號或密碼"
@@ -110,7 +110,7 @@ module.exports = class Member {
                 })
             }
         }).catch(err => {
-            res.json({
+            res.status(400).send({
                 status: "登入失敗",
                 code: false,
                 result: err
@@ -123,7 +123,7 @@ module.exports = class Member {
         if (req.body.password) password = encryption(req.body.password);
 
         if (password && !check.checkPassword(req.body.password)) {
-            return res.json({
+            return res.status(400).send({
                 status: "更改失敗",
                 code: false,
                 result: "密碼必須由8個以上的大小寫字母和數字組成"
@@ -141,35 +141,35 @@ module.exports = class Member {
         for (let prop in memberUpdateData)
             if (!memberUpdateData[prop]) delete memberUpdateData[prop];
         if (memberUpdateData.name && !check.checkName(memberUpdateData.name)) {
-            res.json({
+            return res.status(400).send({
                 status: "更改失敗",
                 code: false,
                 result: "姓名必須介於 1~20 字元"
             })
         }
         if (memberUpdateData.email && !check.checkEmail(memberUpdateData.email)) {
-            return res.json({
+            return res.status(400).send({
                 status: "更改失敗",
                 code: false,
                 result: "請輸入正確的Eamil格式 (如format24@gmail.com)"
             })
         }
         if (memberUpdateData.phone && !check.checkPhone(memberUpdateData.phone)) {
-            return res.json({
+            return res.status(400).send({
                 status: "更改失敗",
                 code: false,
                 result: "請輸入正確的台灣行動電話號碼"
             })
         }
         if (memberUpdateData.gender && !check.checkGender(memberUpdateData.gender)) {
-            return res.json({
+            return res.status(400).send({
                 status: "更改失敗",
                 code: false,
                 result: "請輸入正確的性別"
             })
         }
         if (memberUpdateData.birthday && !check.checkBirthday(memberUpdateData.birthday)) {
-            return res.json({
+            return res.status(400).send({
                 status: "更改失敗",
                 code: false,
                 result: "請輸入正確的生日格式 (yyyy-mm-dd)"
@@ -177,11 +177,13 @@ module.exports = class Member {
         }
         updateAction(req.headers['token'], memberUpdateData).then(result => {
             res.json({
+                status: "更改成功",
                 code: true,
-                result: result
+                result: "資料更改成功"
             })
         }, (err) => {
-            res.json({
+            res.status(500).send({
+                status: "更改失敗",
                 code: false,
                 result: err
             })
@@ -196,7 +198,7 @@ module.exports = class Member {
                 result: result
             })
         }, (err) => {
-            res.json({
+            res.status(500).send({
                 status: "無法發送驗證碼",
                 code: false,
                 result: err
@@ -217,7 +219,7 @@ module.exports = class Member {
                 result: result
             })
         }, (err) => {
-            res.json({
+            res.status(400).send({
                 status: "驗證失敗",
                 code: false,
                 result: err
@@ -236,7 +238,7 @@ module.exports = class Member {
                 result: result
             })
         }, (err) => {
-            res.json({
+            res.status(500).send({
                 status: "無法獲取使用者資料",
                 code: false,
                 result: err
