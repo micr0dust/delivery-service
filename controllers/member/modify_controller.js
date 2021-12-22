@@ -161,6 +161,20 @@ module.exports = class Member {
                 result: "請輸入正確的台灣行動電話號碼"
             })
         }
+        if (memberUpdateData.gender && !check.checkGender(memberUpdateData.gender)) {
+            return res.json({
+                status: "更改失敗",
+                code: false,
+                result: "請輸入正確的性別"
+            })
+        }
+        if (memberUpdateData.birthday && !check.checkBirthday(memberUpdateData.birthday)) {
+            return res.json({
+                status: "更改失敗",
+                code: false,
+                result: "請輸入正確的生日格式 (yyyy-mm-dd)"
+            })
+        }
         updateAction(req.headers['token'], memberUpdateData).then(result => {
             res.json({
                 code: true,

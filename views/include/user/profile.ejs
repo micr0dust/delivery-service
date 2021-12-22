@@ -47,7 +47,11 @@
                     <p id="create" class="card-text mt-5"></p>
                     <p id="update" class="card-text"></p>
                     <a id="edit" href="javascript:editFn()" class="btn btn-primary mb-4">編輯</a>
-                    <a id="submit" class="btn btn-success mb-4 d-none">更新</a>
+                    <div id="updata" class="input-group mb-2 d-none">
+                        <a id="submit" class="btn btn-success mb-4">更新</a>
+                        <a id="cancel" href="javascript:imeditFn()" class="btn btn-danger mb-4">取消</a>
+                        <div class="invalid-feedback">資料未更動</div>
+                    </div>
                 </form>
             </div>
         </div>

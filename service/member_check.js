@@ -28,11 +28,16 @@ module.exports = class CheckCustomer {
     }
 
     //判斷gender格式
-    checkPhone(gender) {
-        if (typeof singleQuotes === string)
-            if (!["男", "女", "跨性別", "不願透漏"].some(str => str === gender)) return false;
-        const filt = /^09[0-9]{8}$/;
+    checkGender(gender) {
+        const filt = /^(男|女|跨性別|不願透漏)$/;
         const result = filt.test(gender);
+        return result;
+    }
+
+    //判斷birthday格式
+    checkBirthday(birthday) {
+        const filt = /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/;
+        const result = filt.test(birthday);
         return result;
     }
 

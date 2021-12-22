@@ -5,15 +5,6 @@ function checkInputFn(email, phone) {
     if (ophone) validFn('phone', phone);
 }
 
-function editFn() {
-    document.getElementById('email').disabled = false;
-    document.getElementById('phone').disabled = false;
-    document.getElementById('gender').disabled = false;
-    document.getElementById('birthday').disabled = false;
-    document.getElementById('edit').classList.add('d-none');
-    document.getElementById('submit').classList.remove('d-none');
-}
-
 let headersList = {
     "Accept": "*/*",
     "token": localStorage.acesstoken,
