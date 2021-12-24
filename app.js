@@ -9,6 +9,8 @@ var bodyParser = require('body-parser');
 var indexRouter = require('./routes/index');
 var productRouter = require('./routes/product');
 var templatesRouter = require('./routes/templates');
+var authedRouter = require('./routes/authed');
+var adminRouter = require('./routes/admin');
 var usersRouter = require('./routes/users');
 var rateLimiterMiddleware = require('./models/middleWave/rateLimite');
 
@@ -25,8 +27,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-
 app.use('/templates', templatesRouter);
+app.use('/auth', authedRouter);
+app.use('/admin', adminRouter);
 app.get('/', function(req, res, next) {
     res.render('index', { title: 'Hello中原' });
 });

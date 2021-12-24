@@ -33,7 +33,7 @@ function imeditFn() {
     document.getElementById('submit').classList.remove('is-invalid');
 }
 
-document.getElementById("submit").addEventListener("click", function(e) {
+document.getElementById("submit").addEventListener("click", (function submitFn(e) {
     e.preventDefault();
     let name = document.getElementById('name').innerText;
     let email = document.getElementById('email').value;
@@ -59,9 +59,12 @@ document.getElementById("submit").addEventListener("click", function(e) {
         method: "PUT",
         body: "name=" + name + "&email=" + email + "&phone=" + phone + "&gender=" + gender + "&birthday=" + birthday + "",
         headers: headersList
-    }).then(function(response) {
+    }).then(async function(response) {
         if (response.status === 200);
-        else {
+        else if (response.status === 403 && localStorage.refresh_token) {
+            await getToken();
+            return submitFn();
+        } else {
             console.log('error: ' + response);
             Swal.fire({
                 icon: 'error',
@@ -73,7 +76,7 @@ document.getElementById("submit").addEventListener("click", function(e) {
         return response.text();
     }).then(function(data) {
         data = JSON.parse(data);
-        if (data.code) window.location.href = '/templates/user';
+        if (data.code) window.location.href = '/auth';
         else Swal.fire({
             icon: 'error',
             title: data.status,
@@ -81,9 +84,10 @@ document.getElementById("submit").addEventListener("click", function(e) {
         }).then(() => {
             if (data.result === "請重新登入") {
                 localStorage.removeItem('acesstoken');
-                window.location.href = '/templates/login';
+                localStorage.removeItem('refresh_token');
+                window.location.href = '/admin/login';
             }
         });
         console.log(data);
     })
-});
+}));

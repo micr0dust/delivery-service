@@ -25,9 +25,10 @@ document.getElementById("submit").addEventListener("click", function(e) {
         headers: headersList
     }).then(function(response) {
         document.getElementById('loader').classList.remove('is-active');
-        if (response.status === 200)
+        if (response.status === 200) {
             localStorage.setItem('acesstoken', response.headers.get('token'));
-        else {
+            localStorage.setItem('refresh_token', response.headers.get('refresh_token'));
+        } else {
             console.log('error: ' + response);
             Swal.fire({
                 icon: 'error',
@@ -39,7 +40,7 @@ document.getElementById("submit").addEventListener("click", function(e) {
     }).then(function(data) {
         data = JSON.parse(data);
         if (data.code)
-            window.location.href = '/templates/user';
+            window.location.href = '/auth';
         else Swal.fire({
             icon: 'error',
             title: data.status,

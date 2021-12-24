@@ -4,9 +4,9 @@
 <div id="mySidebar" class="sidebar">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
     <a href="/">首頁</a>
-    <a class="notAuthenticated" href="/templates/login">登入</a>
-    <a class="notAuthenticated" href="/templates/register">註冊</a>
-    <a class="isAuthenticated" href="/templates/user">個人資料</a>
+    <a class="notAuthenticated" href="/admin/login">登入</a>
+    <a class="notAuthenticated" href="/admin/register">註冊</a>
+    <a class="isAuthenticated" href="/auth">個人資料</a>
     <a id="logout" class="isAuthenticated" href="#">登出</a>
 </div>
 
@@ -17,20 +17,6 @@
     </li>
 </nav>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        if (localStorage.acesstoken) {
-            for (let i = 0; i < document.getElementsByClassName('isAuthenticated').length; i++)
-                document.getElementsByClassName('isAuthenticated')[i].style.display = "block";
-            for (let i = 0; i < document.getElementsByClassName('notAuthenticated').length; i++)
-                document.getElementsByClassName('notAuthenticated')[i].style.display = "none";
-        } else {
-            for (let i = 0; i < document.getElementsByClassName('isAuthenticated').length; i++)
-                document.getElementsByClassName('isAuthenticated')[i].style.display = "none";
-            for (let i = 0; i < document.getElementsByClassName('notAuthenticated').length; i++)
-                document.getElementsByClassName('notAuthenticated')[i].style.display = "block";
-        }
-    }, false);
-
     function openNav() {
         document.getElementById("mySidebar").style.width = "250px";
         document.getElementById('main').style.display = "none";
@@ -40,17 +26,7 @@
         document.getElementById("mySidebar").style.width = "0";
         document.getElementById('main').style.display = "inline-block";
     }
-
-    function validFn(id, valid) {
-        let element = document.getElementById(id);
-        if (valid) {
-            element.classList.remove('is-invalid')
-            element.classList.add('is-valid');
-        } else {
-            element.classList.remove('is-valid')
-            element.classList.add('is-invalid');
-        }
-        return valid;
-    }
 </script>
 <script src="/js/fetch_request/logout.js"></script>
+<script src="/js/fetch_request/token.js"></script>
+<script src="/js/forAll.js"></script>

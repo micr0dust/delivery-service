@@ -10,6 +10,7 @@ module.exports = {
         product: process.env.COLLECTION_PRODUCT
     },
     secret: process.env.MY_SECRET,
+    fresh_secret: process.env.FRESH_SECRET,
     mail: {
         account: process.env.MAIL,
         password: process.env.MAIL_PASSWORD,

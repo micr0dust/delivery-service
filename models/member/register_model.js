@@ -1,5 +1,6 @@
 const client = require('../connection_db');
 const config = require('../../config/development_config');
+const jwt = require('jsonwebtoken');
 
 module.exports = async function register(memberData) {
     let result = {};
@@ -16,7 +17,6 @@ module.exports = async function register(memberData) {
         } catch (err) {
             throw errValue;
         }
-
         // 將資料寫入資料庫
         try {
             const insertResult = await collection.insertOne(memberData);

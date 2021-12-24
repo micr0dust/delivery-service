@@ -10,7 +10,10 @@ function requestMail(swal) {
         headers: headersList
     }).then(function(response) {
         if (response.status === 200);
-        else {
+        else if (response.status === 403 && localStorage.refresh_token) {
+            await getToken();
+            return requestMail(swal);
+        } else {
             console.log('error: ' + response);
             Swal.fire({
                 icon: 'error',
@@ -35,7 +38,8 @@ function requestMail(swal) {
         }).then(() => {
             if (data.result === "請重新登入") {
                 localStorage.removeItem('acesstoken');
-                window.location.href = '/templates/login';
+                localStorage.removeItem('refresh_token');
+                window.location.href = '/admin/login';
             }
         });
         //console.log(data);

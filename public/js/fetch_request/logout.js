@@ -1,5 +1,6 @@
 document.getElementById("logout").addEventListener("click", function(e) {
     e.preventDefault();
     localStorage.removeItem('acesstoken');
-    window.location.href = '/templates/login';
+    localStorage.removeItem('refresh_token');
+    window.location.href = '/admin/login';
 });

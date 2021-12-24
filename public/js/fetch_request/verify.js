@@ -1,4 +1,4 @@
-document.getElementById("submit").addEventListener("click", function(e) {
+document.getElementById("submit").addEventListener("click", (function submitFn(e) {
     e.preventDefault();
     document.getElementById('loader').classList.add('is-active');
     let code = document.getElementById('code').value;
@@ -14,7 +14,10 @@ document.getElementById("submit").addEventListener("click", function(e) {
         headers: headersList
     }).then(function(response) {
         if (response.status === 200);
-        else {
+        else if (response.status === 403 && localStorage.refresh_token) {
+            await getToken();
+            return submitFn();
+        } else {
             console.log('error: ' + response);
             Swal.fire({
                 icon: 'error',
@@ -31,7 +34,7 @@ document.getElementById("submit").addEventListener("click", function(e) {
             title: data.status,
             text: data.result
         }).then(() => {
-            window.location.href = '/templates/user';
+            window.location.href = '/auth';
         });
         else Swal.fire({
             icon: 'error',
@@ -40,9 +43,10 @@ document.getElementById("submit").addEventListener("click", function(e) {
         }).then(() => {
             if (data.result === "請重新登入") {
                 localStorage.removeItem('acesstoken');
-                window.location.href = '/templates/login';
+                localStorage.removeItem('refresh_token');
+                window.location.href = '/admin/login';
             }
         });
         //console.log(data);
     })
-});
+}));

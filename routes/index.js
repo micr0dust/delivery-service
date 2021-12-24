@@ -12,4 +12,5 @@ router.put('/update', middleWave, memberModifyMethod.putUpdate);
 router.put('/email/send', middleWave, memberModifyMethod.putEmailSend);
 router.put('/email/verify', middleWave, memberModifyMethod.putEmailVerify);
 router.get('/user/info', middleWave, memberModifyMethod.getUserInfo);
+router.get('/user/token', middleWave, memberModifyMethod.getUserToken);
 module.exports = router;
