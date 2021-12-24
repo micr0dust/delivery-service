@@ -1,7 +1,7 @@
-# 外送系統API文件
+# 外送系統 API 文件
 網站位址：https://hello-cycu-delivery-service.herokuapp.com
 ## /member/register 註冊
-- 以姓名、郵箱、密碼註冊帳號，並返回時效為一小時的token
+- 以姓名、郵箱、密碼註冊帳號，並返回時效為一小時的 token
 - method: POST
 - request
 - - body  
@@ -33,7 +33,7 @@
 	}   
 ```
 ## /member/login 登入
-- 以郵箱、密碼登入帳號，並返回時效為一小時的token
+- 以郵箱、密碼登入帳號，並返回時效為一小時的 token
 - method: POST
 - request
 - - body  
@@ -61,7 +61,7 @@
 	}  
 ```
 ## /member/update 更新使用者資料
-- 以使用者token請求，成功將更新使用者資料，資料未填寫將不更新
+- 以使用者 token 請求，成功將更新使用者資料，資料未填寫將不更新
 - method: PUT
 - request
 - - header  
@@ -107,8 +107,8 @@
   	"result": "請重新登入"  
 	}  
 ```
-## /member/email/send 請求驗證email發送
-- 以使用者token請求，成功將發送驗證碼email
+## /member/email/send 請求驗證 email 發送
+- 以使用者 token 請求，成功將發送驗證碼 email
 - method: POST
 - request
 - - header  
@@ -142,8 +142,8 @@
   	"result": "請重新登入"  
 	}  
 ```
-## /member/email/verify 驗證email
-- 以使用者token和驗證碼請求，返回email是否驗證成功
+## /member/email/verify 驗證 email
+- 以使用者 token 和 verityCode 請求，返回 email 是否驗證成功
 - method: POST
 - request
 - - header  
@@ -185,7 +185,7 @@
 	}  
 ```
 ## /member/user/info 獲取使用者資料
-- 以使用者token請求，返回email是否驗證成功
+- 以使用者 token 請求，返回使用者資料
 - method: GET
 - request
 - - header  
@@ -229,7 +229,7 @@
   	"result": "請重新登入"  
 	}  
 ```
-## 各項輸入允許格式(regex)
+## 各項輸入允許格式 (regex)
 name: 
 ```dart
 /^.{1,20}$/
