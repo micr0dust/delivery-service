@@ -12,7 +12,7 @@ document.getElementById("submit").addEventListener("click", (function submitFn(e
         method: "PUT",
         body: "verityCode=" + code,
         headers: headersList
-    }).then(function(response) {
+    }).then(async function(response) {
         if (response.status === 200);
         else if (response.status === 403 && localStorage.refresh_token) {
             await getToken();

@@ -8,7 +8,7 @@ function requestMail(swal) {
     fetch("/member/email/send", {
         method: "PUT",
         headers: headersList
-    }).then(function(response) {
+    }).then(async function(response) {
         if (response.status === 200);
         else if (response.status === 403 && localStorage.refresh_token) {
             await getToken();
