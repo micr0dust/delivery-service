@@ -6,6 +6,7 @@ const emailSend = require('../../models/member/email_send_model')
 const emailVerify = require('../../models/member/mail_verify_model')
 const getUser = require('../../models/member/getUser_model')
 
+const verify = require('../../models/member/verification_model');
 const Check = require('../../service/member_check')
 const encryption = require('../../models/encryption')
 const config = require('../../config/development_config')
@@ -213,27 +214,44 @@ module.exports = class Member {
     }
 
     putEmailVerify(req, res, next) {
-        const data = {
-            id: req.headers['token'],
-            verityCode: req.body.verityCode,
-            time: onTime()
-        }
-        emailVerify(data).then(
-            result => {
-                res.json({
-                    status: '驗證成功',
-                    code: true,
-                    result: result
-                })
-            },
-            err => {
-                res.status(400).send({
-                    status: '驗證失敗',
+        if (check.checkNull(req.body.verityCode)) return res.status(403).send({
+            status: "token錯誤",
+            code: false,
+            result: "請重新登入"
+        });
+        verify(req.body.verityCode, config.verify_secret).then(tokenResult => {
+            req.body.verityCode = tokenResult;
+            console.log(tokenResult, config.verify_secret);
+            if (!tokenResult) {
+                return res.status(401).send({
+                    status: "驗證碼錯誤",
                     code: false,
-                    result: err
-                })
+                    result: "請確認驗證碼"
+                });
+            } else {
+                const data = {
+                    id: req.headers['token'],
+                    verityCode: req.body.verityCode,
+                    time: onTime()
+                }
+                emailVerify(data).then(
+                    result => {
+                        res.json({
+                            status: '驗證成功',
+                            code: true,
+                            result: result
+                        })
+                    },
+                    err => {
+                        res.status(400).send({
+                            status: '驗證失敗',
+                            code: false,
+                            result: err
+                        })
+                    }
+                );
             }
-        )
+        });
     }
 
     getUserInfo(req, res, next) {

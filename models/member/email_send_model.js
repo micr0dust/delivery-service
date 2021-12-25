@@ -1,4 +1,7 @@
 const nodemailer = require("nodemailer");
+var fs = require("fs");
+var ejs = require("ejs");
+const jwt = require('jsonwebtoken');
 const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
 const client = require('../connection_db');
@@ -21,7 +24,14 @@ module.exports = async function mailEmit(id, time) {
             throw "伺服器錯誤，請稍後再試";
         }
 
-        let verityCode = createSixNum();
+        let verityCode = createNum();
+        const token = jwt.sign({
+                algorithm: 'HS256',
+                exp: Math.floor(Date.now() / 1000) + 60 * 10, // token 10 分鐘後過期。
+                data: verityCode
+            },
+            config.verify_secret
+        );
 
         try {
             const updateResult = await collection.updateOne({ _id: ObjectId(id) }, { $set: { verityCode: verityCode, update_date: time } });
@@ -80,16 +90,37 @@ module.exports = async function mailEmit(id, time) {
             //---------------------------------------------------------
             console.log(member.email, verityCode);
             // send mail with defined transport object
-            const mailOptions = {
-                from: config.mail.account,
-                to: member.email,
-                subject: 'Hello中原外送平台-信箱驗證',
-                html: '<h1>' + verityCode + '</h1><p>使用者 ' + member.name + ' 您好，您的驗證碼為 ' + verityCode + '</p><p>驗證碼將在十分鐘後無效，如果你沒有註冊過本平台請無視此郵件</p>',
-            };
-            transporter.sendMail(mailOptions, (error, response) => {
-                error ? console.log(error) : console.log(response);
-                transporter.close();
+            ejs.renderFile(__dirname + "/email.ejs", {
+                host: config.heroku.hostname,
+                user: member.name,
+                verityCode: token
+            }, function(err, data) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    const mailOptions = {
+                        from: config.mail.account,
+                        to: member.email,
+                        subject: 'Hello中原外送平台-信箱驗證',
+                        html: data
+                    };
+                    console.log("html data ======================>", mailOptions.html);
+                    transporter.sendMail(mailOptions, (error, response) => {
+                        error ? console.log(error) : console.log(response);
+                        transporter.close();
+                    });
+                }
             });
+            // const mailOptions = {
+            //     from: config.mail.account,
+            //     to: member.email,
+            //     subject: 'Hello中原外送平台-信箱驗證',
+            //     html: '<h1>' + verityCode + '</h1><p>使用者 ' + member.name + ' 您好，您的驗證碼為 ' + verityCode + '</p><p>驗證碼將在十分鐘後無效，如果你沒有註冊過本平台請無視此郵件</p>',
+            // };
+            // transporter.sendMail(mailOptions, (error, response) => {
+            //     error ? console.log(error) : console.log(response);
+            //     transporter.close();
+            // });
         } catch (err) {
             console.log(err);
             throw "驗證信無法寄出";
@@ -100,17 +131,11 @@ module.exports = async function mailEmit(id, time) {
         client.close();
     }
 
-    function createSixNum() {
+    function createNum() {
         var Num = "";
-        for (var i = 0; i < 6; i++) {
+        for (var i = 0; i < 10; i++) {
             Num += Math.floor(Math.random() * 10);
         }
-        // const token = jwt.sign({
-        //     algorithm: 'HS256',
-        //     exp: Math.floor(Date.now() / 1000) + (60 * 60), // token一小時後過期。
-        //     data: id.toString()
-        // }, Num);
-        // return token;
         return Num;
     }
 }

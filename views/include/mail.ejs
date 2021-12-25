@@ -1,0 +1,22 @@
+<div class="container h-100">
+    <div class="row h-100 justify-content-center align-items-center">
+        <div class="col-sm-6 col-md-6">
+            <div class="account-wall">
+                <img class="profile-img" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120" alt="">
+                <form class="form-signin" autocomplete="off">
+                    <p>已發送驗證碼至您的信箱</p>
+                    <button class="btn btn-lg btn-primary btn-block" onclick="remail()">重新請求驗證碼</button>
+                </form>
+                <a href="/admin/register" class="text-right new-account mr-4">註冊新帳號</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/fetch_request/mail.js"></script>
+<script>
+    requestMail(false);
+
+    function remail() {
+        requestMail(true);
+    }
+</script>

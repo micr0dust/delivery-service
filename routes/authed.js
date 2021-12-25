@@ -5,6 +5,10 @@ router.get('/', function(req, res, next) {
     res.render('console', { title: 'Hello中原-個人資料' });
 });
 
+router.get('/mail', function(req, res, next) {
+    res.render('form', { title: 'Hello中原-郵箱驗證', part: 'mail' });
+});
+
 router.get('/verify', function(req, res, next) {
     res.render('form', { title: 'Hello中原-郵箱驗證', part: 'verify' });
 });

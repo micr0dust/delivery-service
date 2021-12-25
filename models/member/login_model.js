@@ -1,6 +1,6 @@
-const client = require('../connection_db')
-const config = require('../../config/development_config')
-const jwt = require('jsonwebtoken')
+const client = require('../connection_db');
+const config = require('../../config/development_config');
+const jwt = require('jsonwebtoken');
 
 module.exports = async function memberLogin(memberData) {
     await client.connect()

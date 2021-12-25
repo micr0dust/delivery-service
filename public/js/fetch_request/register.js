@@ -46,7 +46,7 @@ document.getElementById("submit").addEventListener("click", function(e) {
     }).then(function(data) {
         data = JSON.parse(data);
         if (data.code)
-            window.location.href = '/auth/verify';
+            window.location.href = '/auth/mail';
         else Swal.fire({
             icon: 'error',
             title: data.status,

@@ -1,6 +1,9 @@
 require('dotenv').config();
 
 module.exports = {
+    heroku: {
+        hostname: process.env.HOST_NAME
+    },
     mongo: {
         host: process.env.HOST,
         user: process.env.DATABASE_USER,
@@ -9,8 +12,6 @@ module.exports = {
         member: process.env.COLLECTION_MEMBER,
         product: process.env.COLLECTION_PRODUCT
     },
-    secret: process.env.MY_SECRET,
-    fresh_secret: process.env.FRESH_SECRET,
     mail: {
         account: process.env.MAIL,
         password: process.env.MAIL_PASSWORD,
@@ -18,6 +19,8 @@ module.exports = {
         secret: process.env.MAIL_SECRET,
         freshToken: process.env.MAIL_REFRESHTOKEN,
         accessToken: process.env.MAIL_ACCESSTOKEN,
-
-    }
+    },
+    secret: process.env.MY_SECRET,
+    fresh_secret: process.env.FRESH_SECRET,
+    verify_secret: process.env.VERIFY_SECRET
 }

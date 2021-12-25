@@ -22,7 +22,9 @@ module.exports = async function mailEmit(data) {
         let exp = now - past;
 
         if (exp > 1000 * (60) * (10)) throw "驗證碼超時";
-        if (data.verityCode === member.verityCode) {
+        if (member.verityCode === true) {
+            return "此信箱已被驗證過";
+        } else if (data.verityCode === member.verityCode) {
             try {
                 const updateResult = await collection.updateOne({ _id: ObjectId(data.id) }, { $set: { verityCode: true, update_date: data.time } });
                 console.log(updateResult);
