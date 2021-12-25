@@ -3,7 +3,7 @@ submitFn();
 async function submitFn() {
     let url = window.location.href;
     if (!(url.indexOf('?verify=') + 1)) return;
-    let code = url.toString().split('?')[1].split('=')[1];
+    let code = url.toString().split('?verify=')[1];
     let headersList = {
         Accept: '*/*',
         token: localStorage.acesstoken,

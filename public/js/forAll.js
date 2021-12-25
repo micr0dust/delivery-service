@@ -18,7 +18,7 @@ redirect();
 
 async function redirect() {
     if (localStorage.refresh_token && !localStorage.acesstoken) await getToken();
-    if (!localStorage.acesstoken && window.location.pathname.split('/')[1] === "auth") return window.location.href = '/admin/login';
+    if (!localStorage.acesstoken && window.location.pathname.split('/')[1] === "auth") return window.location.href = '/admin/login?redirct=' + window.location.href;
     if (localStorage.acesstoken && window.location.pathname.split('/')[1] === "admin") return window.location.href = '/auth';
     return display();
 }

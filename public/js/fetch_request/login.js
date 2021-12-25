@@ -12,6 +12,9 @@ function checkInputFn() {
 document.getElementById("submit").addEventListener("click", function(e) {
     e.preventDefault();
     if (!checkInputFn(submited = true)) return;
+    let url = window.location.href;
+    if (!(url.indexOf('?redirct=') + 1)) return;
+    let redirct = url.toString().split('?redirct=')[1];
     let email = document.getElementById('email').value;
     let password = document.getElementById('password').value;
     document.getElementById('loader').classList.add('is-active');
@@ -40,7 +43,7 @@ document.getElementById("submit").addEventListener("click", function(e) {
     }).then(function(data) {
         data = JSON.parse(data);
         if (data.code)
-            window.location.href = '/auth';
+            window.location.href = (redirct) ? redirct : '/auth';
         else Swal.fire({
             icon: 'error',
             title: data.status,
