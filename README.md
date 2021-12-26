@@ -4,7 +4,7 @@
 - 以姓名、郵箱、密碼註冊帳號，並返回時效為一小時的 token
 - method: POST
 - request
-- - body  
+body
 ```json
 	{
 	"name" : "userName",  
@@ -14,6 +14,14 @@
 ``` 
 - response
 - - status code 200  
+
+header
+```json
+	{
+	"token": "userToken"
+	}
+```
+body
 ```json
 	{  
   	"status": "註冊成功",  
@@ -25,6 +33,8 @@
 	}  
 ```
 - - status code 500  
+
+body
 ```json
 	{  
   	"status": "註冊失敗",  
@@ -36,7 +46,8 @@
 - 以郵箱、密碼登入帳號，並返回時效為一小時的 token
 - method: POST
 - request
-- - body  
+
+body
 ```json
 	{  
 	"email" : "userEmail",  
@@ -45,6 +56,15 @@
 ```
 - response
 - - status code 200  
+
+header
+```json
+	{
+	"token": "userToken"
+	"refresh_token": "userRefreshToken"
+	}
+```
+body
 ```json
 	{  
   	"status": "登入成功",  
@@ -53,6 +73,8 @@
 	}  
 ```
 - - status code 400  
+
+body
 ```json
 	{  
   	"status": "登入失敗",  
@@ -64,14 +86,15 @@
 - 以使用者 token 請求，成功將更新使用者資料，資料未填寫將不更新
 - method: PUT
 - request
-- - header  
+
+header
 ```json
 	{  
 	"token" : "userToken",  
 	"Content-Type" : "application/x-www-form-urlencoded"  
 	}  
 ```
-- - body  
+body
 ```json
 	{  
 	"name" : "userEmail",
@@ -84,6 +107,8 @@
 ```
 - response
 - - status code 200  
+
+body
 ```json
 	{  
   	"status": "更改成功",  
@@ -92,6 +117,8 @@
 	}  
 ```
 - - status code 500  
+
+body
 ```json
 	{  
   	"status": "更改失敗",  
@@ -100,6 +127,8 @@
 	} 
 ```
 - - status code 403  
+
+body
 ```json
 	{  
   	"status": "token錯誤",  
@@ -111,7 +140,8 @@
 - 以使用者 token 請求，成功將發送驗證碼 email
 - method: POST
 - request
-- - header  
+
+header
 ```json
 	{  
 	"token" : "userToken",  
@@ -120,6 +150,8 @@
 ```
 - response
 - - status code 200  
+
+body
 ```json
     {  
   	"status": "成功發送驗證碼",  
@@ -127,6 +159,8 @@
 	}  
 ```
 - - status code 500  
+
+body
 ```json
 	{  
      	"status": "無法發送驗證碼",  
@@ -135,6 +169,8 @@
     	}  
 ```
 - - status code 403  
+
+body
 ```json
 	{  
   	"status": "token錯誤",  
@@ -146,14 +182,15 @@
 - 以使用者 token 和 verityCode 請求，返回 email 是否驗證成功
 - method: POST
 - request
-- - header  
+
+header
 ```json
 	{  
 	"token" : "userToken",  
 	"Content-Type" : "application/x-www-form-urlencoded"  
 	}  
 ```
-- - body  
+body
 ```json
 	{  
 	"verityCode" : "userVerityCode"
@@ -161,6 +198,8 @@
 ```
 - response
 - - status code 200  
+
+body
 ```json
 	{  
   	"status": "驗證成功",  
@@ -168,15 +207,19 @@
   	"result": "驗證成功"  
 	} 
 ```
-- - status code 400  
+- - status code 401  
+
+body
 ```json
 	{  
-  	"status": "驗證失敗",  
-  	"code": false,  
-  	"result": "驗證碼錯誤"  
+	"status": "驗證碼錯誤",
+        "code": false,
+        "result": "請確認驗證碼" 
 	}  
 ```
 - - status code 403  
+
+body
 ```json
 	{  
   	"status": "token錯誤",  
@@ -188,7 +231,8 @@
 - 以使用者 token 請求，返回使用者資料
 - method: GET
 - request
-- - header  
+
+header
 ```json
 	{  
 	"token" : "userToken",  
@@ -197,6 +241,8 @@
 ```
 - response
 - - status code 200  
+
+body
 ```json
 	{  
   	"status": "成功獲取使用者資料",  
@@ -214,6 +260,8 @@
 	}  
 ```
 - - status code 400  
+
+body
 ```json
 	{  
     	"status": "無法獲取使用者資料",  
@@ -222,6 +270,47 @@
     	}  
 ```
 - - status code 403  
+
+body
+```json
+	{  
+  	"status": "token錯誤",  
+  	"code": false,  
+  	"result": "請重新登入"  
+	}  
+```
+## /member/user/token 獲取使用者資料
+- 以使用者 fresh_token 請求，返回一個新的 token
+- method: GET
+- request
+
+header
+```json
+	{  
+	"refresh_token" : "userRefreshToken",  
+	"Content-Type" : "application/x-www-form-urlencoded"  
+	}  
+```
+- response
+- - status code 200  
+
+header
+```json
+	{
+  	"token": "userToken"
+	}
+```
+body
+```json
+	{
+  	"status": "成功獲取新token",
+  	"code": true,
+  	"result": "token時效為半小時"
+	}
+```
+- - status code 403  
+
+body
 ```json
 	{  
   	"status": "token錯誤",  
