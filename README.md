@@ -280,7 +280,7 @@ body
   	"result": "請重新登入"  
 	}  
 ```
-## /member/user/token 獲取使用者資料
+## /member/user/token 請求新令牌 (token)
 - 以使用者 fresh_token 請求，返回一個新的 token
 - method: GET
 - request
