@@ -4,6 +4,7 @@
 - 以姓名、郵箱、密碼註冊帳號，並返回時效為一小時的 token
 - method: POST
 - request
+
 body
 ```json
 	{
