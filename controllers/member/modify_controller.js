@@ -214,19 +214,19 @@ module.exports = class Member {
     }
 
     putEmailVerify(req, res, next) {
-        if (check.checkNull(req.body.verityCode)) return res.status(403).send({
-            status: "token錯誤",
+        if (check.checkNull(req.body.verityCode)) return res.status(401).send({
+            status: "驗證失敗",
             code: false,
-            result: "請重新登入"
+            result: "驗證碼錯誤"
         });
         verify(req.body.verityCode, config.verify_secret).then(tokenResult => {
             req.body.verityCode = tokenResult;
             console.log(tokenResult, config.verify_secret);
             if (!tokenResult) {
                 return res.status(401).send({
-                    status: "驗證碼錯誤",
+                    status: "驗證失敗",
                     code: false,
-                    result: "請確認驗證碼"
+                    result: "驗證碼錯誤"
                 });
             } else {
                 const data = {
