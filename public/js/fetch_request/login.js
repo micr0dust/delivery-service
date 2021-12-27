@@ -13,8 +13,8 @@ document.getElementById("submit").addEventListener("click", function(e) {
     e.preventDefault();
     if (!checkInputFn(submited = true)) return;
     let url = window.location.href;
-    if (!(url.indexOf('?redirct=') + 1)) return;
-    let redirct = url.toString().split('?redirct=')[1];
+    let redirct;
+    if ((url.indexOf('?redirct=') + 1)) redirct = url.toString().split('?redirct=')[1];
     let email = document.getElementById('email').value;
     let password = document.getElementById('password').value;
     document.getElementById('loader').classList.add('is-active');
