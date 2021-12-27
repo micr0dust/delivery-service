@@ -104,7 +104,7 @@ module.exports = async function mailEmit(id, time) {
                         subject: 'Hello中原外送平台-信箱驗證',
                         html: data
                     };
-                    console.log("html data ======================>", mailOptions.html);
+                    //console.log("html data ======================>", mailOptions.html);
                     transporter.sendMail(mailOptions, (error, response) => {
                         error ? console.log(error) : console.log(response);
                         transporter.close();

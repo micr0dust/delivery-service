@@ -11,6 +11,8 @@ async function getToken() {
     }).then(function(response) {
         if (response.status === 200) {
             localStorage.setItem('acesstoken', response.headers.get('token'));
+        } else {
+            localStorage.removeItem('refresh_token');
         }
         return response.text();
     }).then(function(data) {

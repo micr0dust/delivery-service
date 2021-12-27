@@ -1,4 +1,4 @@
-function requestMail(swal) {
+function requestMail() {
     let headersList = {
         "Accept": "*/*",
         "token": localStorage.acesstoken,
@@ -12,7 +12,7 @@ function requestMail(swal) {
         if (response.status === 200);
         else if (response.status === 403 && localStorage.refresh_token) {
             await getToken();
-            return requestMail(swal);
+            return requestMail();
         } else {
             console.log('error: ' + response);
             Swal.fire({
@@ -25,12 +25,11 @@ function requestMail(swal) {
     }).then(function(data) {
         data = JSON.parse(data);
         if (data.code) {
-            if (swal)
-                Swal.fire({
-                    icon: 'success',
-                    title: "已重新發送新的驗證碼",
-                    text: "請確認發送的郵件是否被歸類為垃圾郵件"
-                });
+            Swal.fire({
+                icon: 'success',
+                title: "已重新發送新的驗證碼",
+                text: "請確認發送的郵件是否被歸類為垃圾郵件"
+            });
         } else Swal.fire({
             icon: 'error',
             title: data.status,
