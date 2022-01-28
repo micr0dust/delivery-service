@@ -98,12 +98,12 @@ header
 body
 ```json
 	{  
-	"name" : "userEmail",
+	"name" : "userName",
 	"email" : "userEmail",
-	"phone" : "userEmail",
-	"password" : "userEmail",
-	"gender" : "userEmail",
-	"birthday" : "userEmail"
+	"phone" : "userPhone",
+	"password" : "userPassword",
+	"gender" : "userGender",
+	"birthday" : "userBirthday"
 	}  
 ```
 - response
