@@ -1,18 +1,18 @@
-const toRegister = require('../../models/member/register_model')
-const loginAction = require('../../models/member/login_model')
-const getToken = require('../../models/member/get_token_model')
-const updateAction = require('../../models/member/update_model')
-const emailSend = require('../../models/member/email_send_model')
-const emailVerify = require('../../models/member/mail_verify_model')
-const getUser = require('../../models/member/getUser_model')
+const toRegister = require('../../models/member/register_model');
+const loginAction = require('../../models/member/login_model');
+const getToken = require('../../models/member/get_token_model');
+const updateAction = require('../../models/member/update_model');
+const emailSend = require('../../models/member/email_send_model');
+const emailVerify = require('../../models/member/mail_verify_model');
+const getUser = require('../../models/member/getUser_model');
 
 const verify = require('../../models/member/verification_model');
-const Check = require('../../service/member_check')
-const encryption = require('../../models/encryption')
-const config = require('../../config/development_config')
-const jwt = require('jsonwebtoken')
-const { token } = require('morgan')
-let check = new Check()
+const Check = require('../../service/member_check');
+const encryption = require('../../models/encryption');
+const config = require('../../config/development_config');
+const jwt = require('jsonwebtoken');
+const { token } = require('morgan');
+let check = new Check();
 
 module.exports = class Member {
     postRegister(req, res, next) {

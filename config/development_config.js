@@ -10,7 +10,8 @@ module.exports = {
         password: process.env.DATABASE_PASSWORD,
         database: process.env.DATABASE,
         member: process.env.COLLECTION_MEMBER,
-        product: process.env.COLLECTION_PRODUCT
+        product: process.env.COLLECTION_PRODUCT,
+        store: process.env.COLLECTION_STORE
     },
     mail: {
         account: process.env.MAIL,

@@ -7,7 +7,7 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 
 var indexRouter = require('./routes/index');
-var productRouter = require('./routes/product');
+var storeRouter = require('./routes/store');
 var templatesRouter = require('./routes/templates');
 var authedRouter = require('./routes/authed');
 var adminRouter = require('./routes/admin');
@@ -35,7 +35,7 @@ app.get('/', function(req, res, next) {
 });
 app.use(rateLimiterMiddleware);
 app.use('/member', indexRouter);
-app.use('/product', productRouter);
+app.use('/store', storeRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
