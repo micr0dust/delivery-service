@@ -1,20 +1,20 @@
-var createError = require('http-errors');
-var cors = require('cors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var bodyParser = require('body-parser');
+const createError = require('http-errors');
+const cors = require('cors');
+const express = require('express');
+const path = require('path');
+//const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const bodyParser = require('body-parser');
 
-var indexRouter = require('./routes/index');
-var storeRouter = require('./routes/store');
-var templatesRouter = require('./routes/templates');
-var authedRouter = require('./routes/authed');
-var adminRouter = require('./routes/admin');
-var usersRouter = require('./routes/users');
-var rateLimiterMiddleware = require('./models/middleWave/rateLimite');
+const indexRouter = require('./routes/index');
+const storeRouter = require('./routes/store');
+const templatesRouter = require('./routes/templates');
+const authedRouter = require('./routes/authed');
+const adminRouter = require('./routes/admin');
+const usersRouter = require('./routes/users');
+const rateLimiterMiddleware = require('./models/middleWave/rateLimite');
 
-var app = express();
+const app = express();
 
 app.use(cors());
 
