@@ -5,6 +5,8 @@ const updateAction = require('../../models/member/update_model');
 const emailSend = require('../../models/member/email_send_model');
 const emailVerify = require('../../models/member/mail_verify_model');
 const getUser = require('../../models/member/getUser_model');
+const getProduct = require('../../models/member/get_product_model');
+const getStore = require('../../models/member/get_stores_model');
 
 const verify = require('../../models/member/verification_model');
 const Check = require('../../service/member_check');
@@ -257,9 +259,6 @@ module.exports = class Member {
     getUserInfo(req, res, next) {
         getUser(req.headers['token']).then(
             result => {
-                result.verityCode = result.verityCode === true ? true : false
-                delete result['password']
-                delete result['_id']
                 res.json({
                     status: '成功獲取使用者資料',
                     code: true,
@@ -269,6 +268,48 @@ module.exports = class Member {
             err => {
                 res.status(500).send({
                     status: '無法獲取使用者資料',
+                    code: false,
+                    result: err
+                })
+            }
+        )
+    }
+
+    getProductInfo(req, res, next) {
+        let data = {
+            name: req.body.name,
+            address: req.body.address
+        }
+        getProduct(data).then(
+            result => {
+                res.json({
+                    status: '成功獲取商品資料',
+                    code: true,
+                    result: result
+                })
+            },
+            err => {
+                res.status(500).send({
+                    status: '無法獲取商品資料',
+                    code: false,
+                    result: err
+                })
+            }
+        )
+    }
+
+    getStoreInfo(req, res, next) {
+        getStore().then(
+            result => {
+                res.json({
+                    status: '成功獲取商家列表',
+                    code: true,
+                    result: result
+                })
+            },
+            err => {
+                res.status(500).send({
+                    status: '無法獲取商家列表',
                     code: false,
                     result: err
                 })
