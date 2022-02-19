@@ -309,6 +309,7 @@ body
       		"address": "桃園市中壢區OO街OO號"
     	}
 	  ]
+	}
 ```
 - - status code 500  
 
@@ -351,19 +352,20 @@ body
   	"status": "成功獲取商品資料",  
   	"code": true,  
   	"result": [
-		{
-      		"name": "奶茶",
-      		"price": "30",
-      		"describe": "",
-      		"type": "飲料"
-    	},
-    	{
-      		"name": "漢堡",
-      		"price": "1395",
-      		"describe": "美味蟹堡",
-      		"type": "熱食"
-    	}
-	]
+			{
+      			"name": "奶茶",
+      			"price": "30",
+      			"describe": "",
+      			"type": "飲料"
+    		},
+    		{
+      			"name": "漢堡",
+      			"price": "1395",
+      			"describe": "美味蟹堡",
+      			"type": "熱食"
+    		}
+		]
+	}
 ```
 - - status code 500  
 
