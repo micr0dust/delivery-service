@@ -280,6 +280,111 @@ body
   	"result": "請重新登入"  
 	}  
 ```
+## /member/store 獲取商家列表
+- 以使用者 token 請求，返回商家列表
+- method: GET
+- request
+
+header
+```json
+	{  
+	"token" : "userToken",  
+	"Content-Type" : "application/x-www-form-urlencoded"  
+	}  
+```
+- response
+- - status code 200  
+
+body
+```json
+	{  
+  	"status": "成功獲取商家列表",  
+  	"code": true,  
+  	"result": [
+		{
+      		"name": "店家名稱",
+      		"address": "OO市OO區OO街OO號"
+    	},{
+      		"name": "友朋小吃",
+      		"address": "桃園市中壢區OO街OO號"
+    	}
+	  ]
+```
+- - status code 500  
+
+body
+```json
+	{  
+    	"status": "無法獲取商家列表",  
+    	"code": false,  
+    	"result": "error message"  
+    	}  
+```
+- - status code 403  
+
+body
+```json
+	{  
+  	"status": "token錯誤",  
+  	"code": false,  
+  	"result": "請重新登入"  
+	}  
+```
+## /member/store/product 獲取特定商家所有商品
+- 以使用者 token 、商家名稱、商家地址請求，返回特定商家的所有商品
+- method: GET
+- request
+
+header
+```json
+	{  
+	"token" : "userToken",  
+	"Content-Type" : "application/x-www-form-urlencoded"  
+	}  
+```
+- response
+- - status code 200  
+
+body
+```json
+	{  
+  	"status": "成功獲取商品資料",  
+  	"code": true,  
+  	"result": [
+		{
+      		"name": "奶茶",
+      		"price": "30",
+      		"describe": "",
+      		"type": "飲料"
+    	},
+    	{
+      		"name": "漢堡",
+      		"price": "1395",
+      		"describe": "美味蟹堡",
+      		"type": "熱食"
+    	}
+	]
+```
+- - status code 500  
+
+body
+```json
+	{  
+    	"status": "無法獲取商品資料",  
+    	"code": false,  
+    	"result": "error message"  
+    	}  
+```
+- - status code 403  
+
+body
+```json
+	{  
+  	"status": "token錯誤",  
+  	"code": false,  
+  	"result": "請重新登入"  
+	}  
+```
 ## /member/user/token 請求新令牌 (token)
 - 以使用者 fresh_token 請求，返回一個新的 token
 - method: GET
