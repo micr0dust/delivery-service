@@ -30,7 +30,7 @@ module.exports = async function addProduct(productData) {
                 console.log(insertResult.insertedId.toString());
                 const updateResult = await store.updateOne({ _id: ObjectId(productData.belong) }, {
                     $push: {
-                        product: insertResult.insertedId.toString()
+                        product: insertResult.insertedId
                     }
                 });
                 console.log(updateResult);

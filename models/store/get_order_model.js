@@ -3,14 +3,14 @@ const config = require('../../config/development_config');
 
 var ObjectId = require('mongodb').ObjectId;
 
-module.exports = async function getStore(id) {
+module.exports = async function getOrder(id) {
     await client.connect();
     const db = client.db(config.mongo.database);
-    const collection = db.collection(config.mongo.store);
+    const order = db.collection(config.mongo.order);
 
     try {
         try {
-            const findResult = await collection.findOne({ _id: ObjectId(id) });
+            const findResult = await order.find({ store: ObjectId(id) }).toArray();
             console.log('Found documents =>', findResult);
             if (findResult) return findResult;
             if (!findResult) throw err;

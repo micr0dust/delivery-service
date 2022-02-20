@@ -11,7 +11,8 @@ module.exports = {
         database: process.env.DATABASE,
         member: process.env.COLLECTION_MEMBER,
         product: process.env.COLLECTION_PRODUCT,
-        store: process.env.COLLECTION_STORE
+        store: process.env.COLLECTION_STORE,
+        order: process.env.COLLECTION_ORDER
     },
     mail: {
         account: process.env.MAIL,

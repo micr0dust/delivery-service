@@ -1,5 +1,21 @@
 # 外送系統 API 文件
 網站位址：https://hello-cycu-delivery-service.herokuapp.com
+# 索引
+### 使用者
+[/member/register 註冊](#memberregister-註冊)
+[/member/login 登入](#memberlogin-登入)
+[/member/update 更新使用者資料](#memberupdate-更新使用者資料)
+[/member/email/send 請求驗證 email 發送](#memberemailsend-請求驗證-email-發送)
+[/member/email/verify 驗證 email](#memberemailverify-驗證-email)
+[/member/user/info 獲取使用者資料](#memberuserinfo-獲取使用者資料)
+[/member/store 獲取商家列表](#memberstore-獲取商家列表)
+[/member/store/product 獲取特定商家所有商品](#memberstoreproduct-獲取特定商家所有商品)
+[/member/user/token 請求新令牌 (token)](#memberusertoken-請求新令牌-token)
+[各項輸入允許格式 (regex)](#各項輸入允許格式-regex)
+
+### 商家
+
+# API 詳細資料 - 使用者
 ## /member/register 註冊
 - 以姓名、郵箱、密碼註冊帳號，並返回時效為一小時的 token
 - method: POST
@@ -451,6 +467,102 @@ birthday:
 ```java
 /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/
 ```
+# API 詳細資料 - 商家
+## /store/business/order/get 商家獲取訂單
+- 以商家的 access_token 請求，返回此商家所有的訂單
+- method: GET
+- request
 
+header
+```json
+	{  
+	"refresh_token" : "storeAccessToken",  
+	"Content-Type" : "application/x-www-form-urlencoded"  
+	}  
+```
 
+- response
+- - status code 200  
 
+body
+```json
+	{
+  	"code": true,
+	"result": [
+    {
+      "DATE": "2022-02-20T06:29:32.928Z",
+      "id": "61c9774137e1ba4becbbe1c7",
+      "_id": "6211dfd06fdc48d566ae202e",
+      "order": "[{\"id\":\"620cdd750813c9620d3c7fd0\",\"count\":\"2\"},{\"id\":\"620cdc8c8e1bae9b3962b1f2\",\"count\":\"1\",\"describe\":\"去冰\"}]",
+      "store": "62062d8d136e8a533bb22e48"
+    },
+    {
+      "DATE": "2022-02-20T06:30:55.254Z",
+      "id": "61c9774137e1ba4becbbe1c7",
+      "_id": "6211e02249403543cdb3148f",
+      "order": "[{\"id\":\"620cdd750813c9620d3c7fd0\",\"count\":\"4\"},{\"id\":\"620cdc8c8e1bae9b3962b1f2\",\"count\":\"1\",\"describe\":\"熱\"}]",
+      "store": "62062d8d136e8a533bb22e48"
+    },
+    {
+      "DATE": "2022-02-20T06:43:44.598Z",
+      "id": "61c9774137e1ba4becbbe1c7",
+      "_id": "6211e32327e60f21cc93d7a9",
+      "order": "[{\"id\":\"6211e1afb27988329badd497\",\"count\":\"1\"},]",
+      "store": "62062d8d136e8a533bb22e48"
+    }
+	]
+	}
+```
+- - status code 403  
+
+body
+```json
+	{  
+  	"status": "token錯誤",  
+  	"code": false,  
+  	"result": "請重新登入"  
+	}  
+```
+
+## /store/login 商家開啟營業模式
+- 以商家的 access_token 請求，返回營業模式專屬的一組 access_token 和 refresh_token
+- method: GET
+- request
+
+header
+```json
+	{  
+	"refresh_token" : "storeAccessToken",  
+	"Content-Type" : "application/x-www-form-urlencoded"  
+	}  
+```
+
+- response
+- - status code 200  
+
+header
+```json
+	{  
+	"token" : "bussinessAccessToken",  
+	"refresh_token" : "bussinessRefreshToken"  
+	}  
+```
+
+body
+```json
+	{
+  	"status": "成功",
+  	"code": true,
+  	"result": "友朋小吃 的營運模式已開啟"
+	}
+```
+- - status code 403  
+
+body
+```json
+	{  
+  	"status": "token錯誤",  
+  	"code": false,  
+  	"result": "請重新登入"  
+	}  
+```

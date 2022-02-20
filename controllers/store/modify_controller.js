@@ -1,5 +1,6 @@
 const toEstablish = require('../../models/store/store_establish_model');
 const storeData = require('../../models/store/get_store_model');
+const orderData = require('../../models/store/get_order_model');
 const loginAction = require('../../models/store/store_mode_model');
 const addProduct = require('../../models/store/add_product_model');
 
@@ -163,9 +164,9 @@ module.exports = class Store {
         }
     }
 
-    // 取得全部店家
-    getStoreInfo(req, res, next) {
-        storeData().then(result => {
+    // 店家取得訂單
+    getOrder(req, res, next) {
+        orderData(req.headers['token']).then(result => {
             res.json({
                 code: true,
                 result: result
@@ -178,9 +179,9 @@ module.exports = class Store {
         })
     }
 
-    // 取得accesstoken
-    getAccessToken(req, res, next) {
-        getToken().then(result => {
+    // 取得全部店家
+    getStoreInfo(req, res, next) {
+        storeData().then(result => {
             res.json({
                 code: true,
                 result: result

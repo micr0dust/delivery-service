@@ -12,12 +12,9 @@ module.exports = async function getProduct(storeData) {
     try {
         try {
             const storeResult = await store.findOne({ name: storeData.name, address: storeData.address });
-            const productResult = await product.find({ belong: storeResult._id.toString() }).toArray();
+            const productResult = await product.find({ _id: { $in: storeResult.product } }).toArray();
             for (let i = 0; i < productResult.length; i++) {
-                delete productResult[i]['_id'];
-                delete productResult[i]['belong'];
-                delete productResult[i]['create_date'];
-                storeResult[i] = {
+                productResult[i] = {
                     name: productResult[i].name,
                     price: productResult[i].price,
                     describe: productResult[i].describe,
