@@ -1,19 +1,21 @@
 # 外送系統 API 文件
 網站位址：https://hello-cycu-delivery-service.herokuapp.com
 # 索引
-### 使用者
-[/member/register 註冊](#memberregister-註冊)
-[/member/login 登入](#memberlogin-登入)
-[/member/update 更新使用者資料](#memberupdate-更新使用者資料)
-[/member/email/send 請求驗證 email 發送](#memberemailsend-請求驗證-email-發送)
-[/member/email/verify 驗證 email](#memberemailverify-驗證-email)
-[/member/user/info 獲取使用者資料](#memberuserinfo-獲取使用者資料)
-[/member/store 獲取商家列表](#memberstore-獲取商家列表)
-[/member/store/product 獲取特定商家所有商品](#memberstoreproduct-獲取特定商家所有商品)
-[/member/user/token 請求新令牌 (token)](#memberusertoken-請求新令牌-token)
-[各項輸入允許格式 (regex)](#各項輸入允許格式-regex)
+### [使用者]()
+##### [/member/register 註冊](#memberregister-註冊)
+##### [/member/login 登入](#memberlogin-登入)
+##### [/member/update 更新使用者資料](#memberupdate-更新使用者資料)
+##### [/member/email/send 請求驗證 email 發送](#memberemailsend-請求驗證-email-發送)
+##### [/member/email/verify 驗證 email](#memberemailverify-驗證-email)
+##### [/member/user/info 獲取使用者資料](#memberuserinfo-獲取使用者資料)
+##### [/member/store 獲取商家列表](#memberstore-獲取商家列表)
+##### [/member/store/product 獲取特定商家所有商品](#memberstoreproduct-獲取特定商家所有商品)
+##### [/member/user/token 請求新令牌 (token)](#memberusertoken-請求新令牌-token)
+##### [各項輸入允許格式 (regex)](#各項輸入允許格式-regex)
 
-### 商家
+### [商家](#api-詳細資料---商家)
+##### [/store/business/order/get 商家獲取訂單](#storebusinessorderget-商家獲取訂單)
+##### [/store/login 商家開啟營業模式](#storelogin-商家開啟營業模式)
 
 # API 詳細資料 - 使用者
 ## /member/register 註冊
