@@ -1,7 +1,7 @@
 # 外送系統 API 文件
 網站位址：https://hello-cycu-delivery-service.herokuapp.com
 # 索引
-### [使用者]()
+## [使用者]()
 ##### [/member/register 註冊](#memberregister-註冊)
 ##### [/member/login 登入](#memberlogin-登入)
 ##### [/member/update 更新使用者資料](#memberupdate-更新使用者資料)
@@ -13,7 +13,7 @@
 ##### [/member/user/token 請求新令牌 (token)](#memberusertoken-請求新令牌-token)
 ##### [各項輸入允許格式 (regex)](#各項輸入允許格式-regex)
 
-### [商家](#api-詳細資料---商家)
+## [商家](#api-詳細資料---商家)
 ##### [/store/business/order/get 商家獲取訂單](#storebusinessorderget-商家獲取訂單)
 ##### [/store/login 商家開啟營業模式](#storelogin-商家開啟營業模式)
 
