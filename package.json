@@ -12,7 +12,7 @@
         "debug": "4.3.3",
         "dotenv": "16.0.0",
         "ejs": "3.1.6",
-        "express": "4.17.2",
+        "express": "4.17.3",
         "googleapis": "95.0.0",
         "http-errors": "2.0.0",
         "jsonwebtoken": "8.5.1",
