@@ -10,16 +10,18 @@ module.exports = async function loginAction(data) {
     const db = client.db(config.mongo.database);
     const store = db.collection(config.mongo.store);
     const member = db.collection(config.mongo.member);
-
+    let errValue = "伺服器錯誤，請稍後在試";
     try {
         try {
             const memberResult = await member.findOne({ _id: ObjectId(data.id) });
+            if (!memberResult) throw (errValue = "請確認登入狀態");
             const storeResult = await store.findOne({ _id: ObjectId(memberResult.store_id) });
+            if (!storeResult) throw (errValue = "查無店家帳號，請建立店家");
             console.log('Found documents =>', storeResult);
             storeData = storeResult;
             if (!storeData) throw err;
         } catch (err) {
-            throw "伺服器錯誤，請稍後在試";
+            throw errValue;
         }
 
         storeData.refresh_token = jwt.sign({
@@ -30,7 +32,6 @@ module.exports = async function loginAction(data) {
             config.fresh_secret
         );
 
-        console.log("storeData");
         // 更新refresh_token
         try {
             await store.updateOne({ _id: storeData._id }, {
@@ -41,8 +42,7 @@ module.exports = async function loginAction(data) {
             })
             return storeData;
         } catch (err) {
-            console.log(err)
-            throw '伺服器錯誤，請稍後再試'
+            throw errValue;
         }
     } catch (err) {
         throw err;
