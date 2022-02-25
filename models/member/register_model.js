@@ -9,21 +9,19 @@ module.exports = async function register(memberData) {
     const collection = db.collection(config.mongo.member);
 
     try {
-        let errValue = "伺服器錯誤，請稍後在試";
         try {
             const findResult = await collection.findOne({ email: memberData.email });
-            console.log('Found documents =>', findResult);
-            if (findResult) throw errValue = "該信箱已被註冊";
+            if (findResult) throw new Error("該信箱已被註冊");
         } catch (err) {
             throw errValue;
         }
         // 將資料寫入資料庫
         try {
             const insertResult = await collection.insertOne(memberData);
-            console.log(insertResult);
+            if (!insertResult) throw new Error("資料儲存過程發生錯誤");
             return memberData;
         } catch (err) {
-            throw errValue;
+            throw err;
         }
     } catch (err) {
         throw err;

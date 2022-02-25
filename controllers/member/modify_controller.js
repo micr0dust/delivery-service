@@ -18,8 +18,8 @@ const { token } = require('morgan');
 let check = new Check();
 
 module.exports = class Member {
+    //註冊帳號
     postRegister(req, res, next) {
-        // 進行加密
         const check_password = check.checkPassword(req.body.password);
         if (check_password === false) {
             return res.status(400).send({
@@ -30,7 +30,6 @@ module.exports = class Member {
         }
         const password = encryption(req.body.password);
 
-        // get data from client
         const memberData = {
             name: req.body.name,
             email: req.body.email,
@@ -39,7 +38,6 @@ module.exports = class Member {
         };
 
         const checkEmail = check.checkEmail(memberData.email);
-        // email filter
         if (!checkEmail) {
             res.status(400).send({
                 status: '註冊失敗',
@@ -53,12 +51,9 @@ module.exports = class Member {
                 result: '姓名必須介於1~20字元'
             });
         } else if (checkEmail) {
-            console.log(memberData);
-            // insert to database
             toRegister(memberData).then(result => {
                     const token = getTokenFn(result._id.toString(), 30, config.secret);
                     res.setHeader('token', token);
-                    // respon successful
                     res.json({
                         status: '註冊成功',
                         code: true,
@@ -69,15 +64,16 @@ module.exports = class Member {
                     });
                 })
                 .catch(err => {
-                    // respon error
                     res.status(500).send({
                         status: '註冊失敗',
                         code: false,
-                        result: err
+                        result: err.message
                     });
                 });
         };
     }
+
+    //登入
     postLogin(req, res, next) {
         // 進行加密
         const password = encryption(req.body.password);
@@ -111,11 +107,12 @@ module.exports = class Member {
                 res.status(400).send({
                     status: '登入失敗',
                     code: false,
-                    result: err
+                    result: err.message
                 });
             });
     }
 
+    //資料更新
     putUpdate(req, res, next) {
         let password = null;
         if (req.body.password) password = encryption(req.body.password);
@@ -185,12 +182,13 @@ module.exports = class Member {
                 res.status(500).send({
                     status: '更改失敗',
                     code: false,
-                    result: err
+                    result: err.message
                 });
             }
         );
     }
 
+    //驗證碼寄出
     putEmailSend(req, res, next) {
         emailSend(req.headers['token'], onTime()).then(
             result => {
@@ -204,12 +202,13 @@ module.exports = class Member {
                 res.status(500).send({
                     status: '無法發送驗證碼',
                     code: false,
-                    result: err
+                    result: err.message
                 });
             }
         );
     }
 
+    //驗證驗證碼
     putEmailVerify(req, res, next) {
         if (check.checkNull(req.body.verityCode)) return res.status(401).send({
             status: "驗證失敗",
@@ -243,7 +242,7 @@ module.exports = class Member {
                         res.status(400).send({
                             status: '驗證失敗',
                             code: false,
-                            result: err
+                            result: err.message
                         });
                     }
                 );
@@ -251,6 +250,7 @@ module.exports = class Member {
         });
     }
 
+    //取得使用者資料
     getUserInfo(req, res, next) {
         getUser(req.headers['token']).then(
             result => {
@@ -264,12 +264,13 @@ module.exports = class Member {
                 res.status(500).send({
                     status: '無法獲取使用者資料',
                     code: false,
-                    result: err
+                    result: err.message
                 });
             }
         );
     }
 
+    //取得商品資料
     getProductInfo(req, res, next) {
         let data = {
             name: req.body.name,
@@ -287,12 +288,13 @@ module.exports = class Member {
                 res.status(500).send({
                     status: '無法獲取商品資料',
                     code: false,
-                    result: err
+                    result: err.message
                 });
             }
         );
     }
 
+    //取得所有店家
     getStoreInfo(req, res, next) {
         getStore().then(
             result => {
@@ -306,12 +308,13 @@ module.exports = class Member {
                 res.status(500).send({
                     status: '無法獲取商家列表',
                     code: false,
-                    result: err
+                    result: err.message
                 });
             }
         );
     }
 
+    //訂單寄出
     postOrder(req, res, next) {
         const data = {
             id: req.headers['token'],
@@ -330,12 +333,13 @@ module.exports = class Member {
                 res.status(500).send({
                     status: '點餐失敗',
                     code: false,
-                    result: err
+                    result: err.message
                 });
             }
         );
     }
 
+    //取得使用者 token
     getUserToken(req, res, next) {
         getToken(req.headers['refresh_token']).then(id => {
                 const token = getTokenFn(id, 30, config.secret);
@@ -350,7 +354,7 @@ module.exports = class Member {
                 res.status(500).send({
                     status: '無法獲取token',
                     code: false,
-                    result: err
+                    result: err.message
                 });
             }
         );

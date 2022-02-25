@@ -59,7 +59,7 @@ module.exports = class Store {
                     res.status(500).send({
                         status: '註冊失敗',
                         code: false,
-                        result: err
+                        result: err.message
                     })
                 })
         }
@@ -92,7 +92,7 @@ module.exports = class Store {
                 res.status(500).send({
                     status: '切換失敗',
                     code: false,
-                    result: err
+                    result: err.message
                 })
             })
     }
@@ -158,7 +158,7 @@ module.exports = class Store {
                     res.status(500).send({
                         status: '新增失敗',
                         code: false,
-                        result: err
+                        result: err.message
                     })
                 })
         }
@@ -180,7 +180,7 @@ module.exports = class Store {
             res.status(500).json({
                 status: "刪除商品失敗",
                 code: false,
-                result: err
+                result: err.message
             });
         });
     }
@@ -197,7 +197,7 @@ module.exports = class Store {
             res.status(500).json({
                 status: "無法獲取訂單",
                 code: false,
-                result: err
+                result: err.message
             })
         })
     }
@@ -214,7 +214,7 @@ module.exports = class Store {
             res.status(500).json({
                 status: "無法獲取店家資料",
                 code: false,
-                result: err
+                result: err.message
             })
         })
     }

@@ -14,14 +14,13 @@ module.exports = async function mailEmit(id, time) {
     await client.connect();
     const db = client.db(config.mongo.database);
     const collection = db.collection(config.mongo.member);
-
+    let errValue = new Error("伺服器錯誤，請稍後在試");
     try {
         try {
             member = await collection.findOne({ _id: ObjectId(id) });
-            console.log('Found documents =>', member);
-            if (!member) throw err;
+            if (!member) throw new Error("查無帳號，請重新登入");
         } catch (err) {
-            throw "伺服器錯誤，請稍後再試";
+            throw errValue;
         }
 
         let verityCode = createNum();
@@ -36,7 +35,7 @@ module.exports = async function mailEmit(id, time) {
         try {
             const updateResult = await collection.updateOne({ _id: ObjectId(id) }, { $set: { verityCode: verityCode, update_date: time } });
         } catch (err) {
-            throw "伺服器錯誤，請稍後再試";
+            throw err;
         }
         // 寄驗證信
         try {
@@ -122,8 +121,7 @@ module.exports = async function mailEmit(id, time) {
             //     transporter.close();
             // });
         } catch (err) {
-            console.log(err);
-            throw "驗證信無法寄出";
+            throw err;
         }
     } catch (err) {
         throw err;

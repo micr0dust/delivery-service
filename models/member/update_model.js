@@ -12,11 +12,10 @@ module.exports = async function customerEdit(id, memberUpdateData) {
     try {
         try {
             const findResult = await collection.findOne({ _id: ObjectId(id) });
-            console.log('Found documents =>', findResult);
+            if (!findResult) throw new Error("查無帳號，請重新登入");
             if (memberUpdateData.email && findResult.email != memberUpdateData.email) memberUpdateData.verityCode = false;
-            if (!findResult) throw err;
         } catch (err) {
-            throw "伺服器錯誤，請稍後再試";
+            throw errValue;
         }
 
         // 更新資料庫資料
@@ -31,8 +30,7 @@ module.exports = async function customerEdit(id, memberUpdateData) {
             result.memberUpdateData = memberUpdateData;
             return result;
         } catch (err) {
-            console.log(err);
-            throw "伺服器錯誤，請稍後再試";
+            throw err;
         }
     } catch (err) {
         throw err;

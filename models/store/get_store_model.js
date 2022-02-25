@@ -8,12 +8,11 @@ module.exports = async function storeData(id) {
     const db = client.db(config.mongo.database);
     const member = db.collection(config.mongo.member);
     const store = db.collection(config.mongo.store);
-
     try {
         try {
             const memberResult = await member.findOne({ _id: ObjectId(id) });
+            if (!memberResult) throw new Error("查無帳號，請重新登入")
             const findResult = await store.findOne({ belong: memberResult._id.toString() });
-            console.log('Found documents =>', findResult);
             if (findResult) return {
                 name: findResult.name,
                 address: findResult.address,
@@ -21,9 +20,9 @@ module.exports = async function storeData(id) {
                 last_login: findResult.last_login,
                 product: findResult.product,
             };
-            if (!findResult) throw err;
+            throw new Error("查無此帳號擁有的商店");
         } catch (err) {
-            throw "伺服器錯誤，請稍後在試";
+            throw err;
         }
     } catch (err) {
         throw err;

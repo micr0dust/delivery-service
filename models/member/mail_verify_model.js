@@ -11,28 +11,27 @@ module.exports = async function mailEmit(data) {
     try {
         try {
             member = await collection.findOne({ _id: ObjectId(data.id) });
-            console.log('Found documents =>', member);
-            if (!member) throw err;
+            if (!member) throw new Error("查無帳號，請重新登入");
         } catch (err) {
-            throw "伺服器錯誤，請稍後再試";
+            throw err;
         }
 
         let now = new Date(data.time);
         let past = new Date(member.time);
         let exp = now - past;
 
-        if (exp > 1000 * (60) * (10)) throw "驗證碼超時";
+        if (exp > 1000 * (60) * (10)) throw new Error("驗證碼超時");
         if (member.verityCode === true) {
             return "此信箱已被驗證過";
         } else if (data.verityCode === member.verityCode) {
             try {
                 const updateResult = await collection.updateOne({ _id: ObjectId(data.id) }, { $set: { verityCode: true, update_date: data.time } });
-                console.log(updateResult);
+                if (!updateResult) new Error("資料庫更新失敗");
                 return "驗證成功";
             } catch (err) {
-                throw "伺服器錯誤，請稍後再試";
+                throw err;
             }
-        } else throw "驗證碼錯誤";
+        } else throw new Error("驗證碼錯誤");
 
     } catch (err) {
         throw err;

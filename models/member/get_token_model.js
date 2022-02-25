@@ -11,11 +11,10 @@ module.exports = async function getToken(id) {
     try {
         try {
             const findResult = await collection.findOne({ _id: ObjectId(id) });
-            console.log('Found documents =>', findResult);
             if (findResult) return id;
-            throw "請重新登入";
+            throw new Error("查無帳號，請重新登入");
         } catch (err) {
-            throw err ? err : "伺服器錯誤，請稍後再試";
+            throw err;
         }
     } catch (err) {
         throw err;

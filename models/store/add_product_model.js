@@ -11,35 +11,30 @@ module.exports = async function addProduct(productData) {
     const product = db.collection(config.mongo.product);
 
     try {
-        let errValue = '伺服器錯誤，請稍後在試'
         try {
             const storeResult = await store.findOne({ _id: ObjectId(productData.belong) });
-            if (!storeResult) throw (errValue = '請確認是否為登入狀態');
-            console.log('Found documents =>', storeResult);
+            if (!storeResult) throw new Error('請確認是否為登入狀態');
         } catch (err) {
-            throw errValue;
+            throw err;
         }
         // 將資料寫入資料庫
         try {
             insertResult = await product.insertOne(productData);
-            console.log(insertResult);
+            if (!insertResult) throw new Error("資料插入時發生錯誤");
             // 帳號product綁定
             try {
-                if (!insertResult) throw errValue;
-                console.log(productData.belong);
-                console.log(insertResult.insertedId.toString());
                 const updateResult = await store.updateOne({ _id: ObjectId(productData.belong) }, {
                     $push: {
                         product: insertResult.insertedId
                     }
                 });
-                console.log(updateResult);
+                if (updateResult) throw new Error("商家和商品綁定時發生錯誤");
             } catch (err) {
-                throw errValue;
+                throw err;
             }
             return productData;
         } catch (err) {
-            throw errValue;
+            throw err;
         }
 
     } catch (err) {

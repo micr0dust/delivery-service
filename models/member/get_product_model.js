@@ -1,8 +1,6 @@
 const client = require('../connection_db');
 const config = require('../../config/development_config');
 
-var ObjectId = require('mongodb').ObjectId;
-
 module.exports = async function getProduct(storeData) {
     await client.connect();
     const db = client.db(config.mongo.database);
@@ -12,7 +10,9 @@ module.exports = async function getProduct(storeData) {
     try {
         try {
             const storeResult = await store.findOne({ name: storeData.name, address: storeData.address });
+            if (!storeResult) throw new Error("查無店家，請確認資料是否正確");
             const productResult = await product.find({ _id: { $in: storeResult.product } }).toArray();
+            if (!productResult) throw new Error("查無此商家商品");
             for (let i = 0; i < productResult.length; i++) {
                 productResult[i] = {
                     name: productResult[i].name,
@@ -21,11 +21,9 @@ module.exports = async function getProduct(storeData) {
                     type: productResult[i].type
                 }
             }
-            console.log('Found documents =>', productResult);
             if (productResult) return productResult;
-            if (!productResult) throw err;
         } catch (err) {
-            throw "伺服器錯誤，請稍後在試";
+            throw err;
         }
     } catch (err) {
         throw err;

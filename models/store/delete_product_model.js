@@ -11,35 +11,32 @@ module.exports = async function delProduct(data) {
     const product = db.collection(config.mongo.product);
 
     try {
-        let errValue = '伺服器錯誤，請稍後在試';
         try {
             const storeResult = await store.findOne({ _id: ObjectId(data.store) });
-            if (!storeResult) throw (errValue = "請確認是否為登入狀態");
-            console.log(data.product);
+            if (!storeResult) throw new Error("請確認是否為登入狀態");
             const productResult = await product.findOne({ _id: ObjectId(data.product) });
-            if (!productResult) throw (errValue = "請確認是否有該商品");
+            if (!productResult) throw new Error("請確認是否有該商品");
             targetProduct = productResult;
-            if (storeResult._id.toString() != productResult.belong) throw (errValue = "請確認是否為該商品所有者");
+            if (storeResult._id.toString() != productResult.belong) throw new Error("請確認是否為該商品所有者");
         } catch (err) {
-            throw errValue;
+            throw err;
         }
         // 將資料刪除
         try {
             const deleteResult = await product.deleteOne({ _id: ObjectId(data.product) });
-            if (!deleteResult) throw errValue;
-            console.log(deleteResult);
+            if (!deleteResult) throw new Error("刪除資料時發生錯誤");
             // 帳號product綁定
             try {
                 const updateResult = await store.updateOne({ _id: ObjectId(targetProduct.belong) }, {
                     $pull: { product: targetProduct._id }
                 });
-                console.log(updateResult);
+                if (updateResult) throw new Error("商家和商品解除綁定時發生錯誤");
             } catch (err) {
-                throw errValue;
+                throw err;
             }
             return "成功刪除商品";
         } catch (err) {
-            throw errValue;
+            throw err;
         }
 
     } catch (err) {

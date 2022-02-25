@@ -11,11 +11,10 @@ module.exports = async function getOrder(id) {
     try {
         try {
             const findResult = await order.find({ store: ObjectId(id) }).toArray();
-            console.log('Found documents =>', findResult);
+            if (!findResult) throw new Error("查無訂單");
             if (findResult) return findResult;
-            if (!findResult) throw err;
         } catch (err) {
-            throw "伺服器錯誤，請稍後在試";
+            throw err;
         }
     } catch (err) {
         throw err;
