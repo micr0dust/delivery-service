@@ -12,6 +12,7 @@ let memberModifyMethod = new MemberModifyMethod();
 router.post('/register', memberModifyMethod.postRegister);
 router.post('/login', memberModifyMethod.postLogin);
 router.put('/update', middleWave, memberModifyMethod.putUpdate);
+router.delete('/delete', middleWave, memberModifyMethod.deleteAccount);
 router.put('/email/send', middleWave, memberModifyMethod.putEmailSend);
 router.put('/email/verify', middleWave, memberModifyMethod.putEmailVerify);
 router.get('/user/info', middleWave, memberModifyMethod.getUserInfo);

@@ -1,4 +1,5 @@
 const toEstablish = require('../../models/store/store_establish_model');
+const delStore = require('../../models/store/delete_store_model');
 const storeData = require('../../models/store/get_store_model');
 const orderData = require('../../models/store/get_order_model');
 const loginAction = require('../../models/store/store_mode_model');
@@ -63,6 +64,40 @@ module.exports = class Store {
                     })
                 })
         }
+    }
+
+    //刪除商家及其商品
+    deleteStore(req, res, next) {
+        let password = null;
+        if (req.body.password) password = encryption(req.body.password);
+        if (password && !check.checkPassword(req.body.password)) {
+            return res.status(400).send({
+                status: '刪除失敗',
+                code: false,
+                result: '必須輸入密碼以刪除帳號'
+            });
+        };
+        const data = {
+            id: req.headers['token'],
+            password: password
+        };
+
+        delStore(data).then(
+            result => {
+                res.json({
+                    status: '商家身分已成功刪除',
+                    code: true,
+                    result: result
+                });
+            },
+            err => {
+                res.status(500).send({
+                    status: '商家身分刪除失敗',
+                    code: false,
+                    result: err.message
+                });
+            }
+        );
     }
 
     // 營業模式開啟

@@ -2,6 +2,7 @@ const toRegister = require('../../models/member/register_model');
 const loginAction = require('../../models/member/login_model');
 const getToken = require('../../models/member/get_token_model');
 const updateAction = require('../../models/member/update_model');
+const deleteAction = require('../../models/member/delete_model');
 const emailSend = require('../../models/member/email_send_model');
 const emailVerify = require('../../models/member/mail_verify_model');
 const getUser = require('../../models/member/getUser_model');
@@ -181,6 +182,40 @@ module.exports = class Member {
             err => {
                 res.status(500).send({
                     status: '更改失敗',
+                    code: false,
+                    result: err.message
+                });
+            }
+        );
+    }
+
+    //刪除帳號
+    deleteAccount(req, res, next) {
+        let password = null;
+        if (req.body.password) password = encryption(req.body.password);
+        if (password && !check.checkPassword(req.body.password)) {
+            return res.status(400).send({
+                status: '刪除失敗',
+                code: false,
+                result: '必須輸入密碼以刪除帳號'
+            });
+        };
+        const data = {
+            id: req.headers['token'],
+            password: password
+        };
+
+        deleteAction(data).then(
+            result => {
+                res.json({
+                    status: '帳號已成功刪除',
+                    code: true,
+                    result: result
+                });
+            },
+            err => {
+                res.status(500).send({
+                    status: '帳號無法刪除',
                     code: false,
                     result: err.message
                 });

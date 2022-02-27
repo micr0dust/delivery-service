@@ -1,5 +1,5 @@
 const createError = require('http-errors');
-const cors = require('cors');
+//const cors = require('cors');
 const express = require('express');
 const path = require('path');
 //const cookieParser = require('cookie-parser');
@@ -16,7 +16,7 @@ const rateLimiterMiddleware = require('./models/middleWave/rateLimite');
 
 const app = express();
 
-app.use(cors());
+//app.use(cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
