@@ -9,6 +9,7 @@
 - [/member/register 註冊](#memberregister-註冊)
 - [/member/login 登入](#memberlogin-登入)
 - [/member/update 更新使用者資料](#memberupdate-更新使用者資料)
+- [/member/delete 刪除帳號](#memberdelete-刪除帳號)
 - [/member/email/send 請求驗證 email 發送](#memberemailsend-請求驗證-email-發送)
 - [/member/email/verify 驗證 email](#memberemailverify-驗證-email)
 - [/member/user/info 獲取使用者資料](#memberuserinfo-獲取使用者資料)
