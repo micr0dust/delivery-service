@@ -252,7 +252,6 @@ module.exports = class Member {
         });
         verify(req.body.verityCode, config.verify_secret).then(tokenResult => {
             req.body.verityCode = tokenResult;
-            console.log(tokenResult, config.verify_secret);
             if (!tokenResult) {
                 return res.status(401).send({
                     status: "驗證失敗",
