@@ -3,11 +3,16 @@ body {
     height: 100%;
 }
 
-body {
+
+/* body {
     background-image: url('https://images.squarespace-cdn.com/content/v1/53b839afe4b07ea978436183/1608506169128-S6KYNEV61LEP5MS1UIH4/traditional-food-around-the-world-Travlinmad.jpg');
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
+} */
+
+body {
+    background-color: rgba(0, 117, 101, 1);
 }
 
 .form-signin {

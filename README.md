@@ -12,10 +12,11 @@
 - [/member/email/send 請求驗證 email 發送](#memberemailsend-請求驗證-email-發送)
 - [/member/email/verify 驗證 email](#memberemailverify-驗證-email)
 - [/member/user/info 獲取使用者資料](#memberuserinfo-獲取使用者資料)
+- [/member/user/token 請求新令牌 (token)](#memberusertoken-請求新令牌-token)
+- [/member/user/order 訂單寄出](#memberuserorder-訂單寄出)
 - [/member/store 獲取商家列表](#memberstore-獲取商家列表)
 - [/member/store/product 獲取特定商家所有商品](#memberstoreproduct-獲取特定商家所有商品)
-- [/member/user/token 請求新令牌 (token)](#memberusertoken-請求新令牌-token)
-- [各項輸入允許格式 (regex)](#各項輸入允許格式-regex)
+- [各項輸入允許格式1 (regex)](#各項輸入允許格式1-regex)
 
 ## [商家](#api-詳細資料---商家)
 
@@ -23,8 +24,10 @@
 - [/store/login 商家開啟營業模式](#storelogin-商家開啟營業模式)
 - [/store/get 獲取商家資訊](#storeget-獲取商家資訊)
 - [/store/establish 建立商家](#storeestablish-建立商家)
+- [/store/delete 刪除商家](#storedelete-刪除商家)
 - [/store/product/add 新增商品](#storeproductadd-新增商品)
 - [/store/product/remove 刪除商品](#storeproductremove-刪除商品)
+- [各項輸入允許格式2 (regex)](#各項輸入允許格式2-regex)
 
 ## API 詳細資料 - 使用者
 
@@ -180,6 +183,70 @@ body
       "code": false,  
       "result": "error message"  
     } 
+```
+
+- status code 403  
+
+body
+
+```json
+    {  
+      "status": "token錯誤",  
+      "code": false,  
+      "result": "請重新登入"  
+    }  
+```
+
+## /member/delete 刪除帳號
+
+- 以 access_token 和密碼請求，刪除帳號。如有店家身分或商品將一併刪除。
+- method: DELETE
+- request
+
+header
+
+```json
+    {  
+    "refresh_token" : "accessToken",
+    "Content-Type" : "application/x-www-form-urlencoded"
+    }  
+```
+
+- response
+- status code 200
+
+body
+
+```json
+{
+  "status": "帳號已成功刪除",
+  "code": true,
+  "result": "成功刪除帳號"
+}
+```
+
+- status code 400  
+
+body
+
+```json
+    {  
+      "status": "刪除失敗",  
+      "code": false,  
+      "result": "error message"  
+    }  
+```
+
+- status code 500  
+
+body
+
+```json
+    {  
+      "status": "帳號無法刪除",  
+      "code": false,  
+      "result": "error message"  
+    }  
 ```
 
 - status code 403  
@@ -366,6 +433,134 @@ body
     }  
 ```
 
+## /member/user/token 請求新令牌 (token)
+
+- 以使用者 refresh_token 請求，返回一個新的 token
+- method: GET
+- request
+
+header
+
+```json
+    {  
+    "refresh_token" : "userRefreshToken",  
+    "Content-Type" : "application/x-www-form-urlencoded"  
+    }  
+```
+
+- response
+- status code 200  
+
+header
+
+```json
+    {
+      "token": "userToken"
+    }
+```
+
+body
+
+```json
+    {
+      "status": "成功獲取新token",
+      "code": true,
+      "result": "token時效為半小時"
+    }
+```
+
+- status code 500  
+
+body
+
+```json
+    {  
+        "status": "無法獲取token",  
+        "code": false,  
+        "result": "error message"  
+        }  
+```
+
+- status code 403  
+
+body
+
+```json
+    {  
+      "status": "token錯誤",  
+      "code": false,  
+      "result": "請重新登入"  
+    }  
+```
+
+## /member/user/order 訂單寄出
+
+- 以使用者 access_token 和 Json 陣列形式的資料請求，在資料庫中新增一個訂單。
+- method: POST
+- request
+
+header
+
+```json
+    {  
+    "refresh_token" : "accessToken",  
+    "Content-Type" : "application/x-www-form-urlencoded"  
+    }  
+```
+
+body
+
+```json
+  [
+    {
+      "id": "6211e1afb27988329badd497",
+      "count": 4,
+      "note": "熱"
+    },{
+      "id": "6211e1d8b27988329badd498",
+      "count": 1,
+      "note": "冰的"
+    }
+  ]
+```
+
+- response
+- status code 201  
+
+body
+
+```json
+    {
+      "status": "點餐成功",
+      "code": true,
+      "result": "[{\"id\":\"6211e1afb27988329badd497\",\"count\":4,\"note\":\"熱\"},{\"id\":\"6211e1d8b27988329badd498\",\"count\":1,\"note\":\"冰的\"}]"
+    }
+```
+
+- status code 500  
+
+body
+
+```json
+    {  
+        "status": "點餐失敗",  
+        "code": false,  
+        "result": "error message"  
+        }  
+```
+
+- status code 403  
+
+body
+
+```json
+    {  
+      "status": "token錯誤",  
+      "code": false,  
+      "result": "請重新登入"  
+    }  
+```
+
 ## /member/store 獲取商家列表
 
 - 以使用者 token 請求，返回商家列表
@@ -491,67 +686,7 @@ body
     }  
 ```
 
-## /member/user/token 請求新令牌 (token)
-
-- 以使用者 fresh_token 請求，返回一個新的 token
-- method: GET
-- request
-
-header
-
-```json
-    {  
-    "refresh_token" : "userRefreshToken",  
-    "Content-Type" : "application/x-www-form-urlencoded"  
-    }  
-```
-
-- response
-- status code 200  
-
-header
-
-```json
-    {
-      "token": "userToken"
-    }
-```
-
-body
-
-```json
-    {
-      "status": "成功獲取新token",
-      "code": true,
-      "result": "token時效為半小時"
-    }
-```
-
-- status code 500  
-
-body
-
-```json
-    {  
-        "status": "無法獲取token",  
-        "code": false,  
-        "result": "error message"  
-        }  
-```
-
-- status code 403  
-
-body
-
-```json
-    {  
-      "status": "token錯誤",  
-      "code": false,  
-      "result": "請重新登入"  
-    }  
-```
-
-## 各項輸入允許格式 (regex)
+## 各項輸入允許格式1 (regex)
 
 name:
 
@@ -587,6 +722,24 @@ birthday:
 
 ```java
 /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/
+```
+
+describe:
+
+```java
+/^.{0,30}$/
+```
+
+id:
+
+```java
+/^[a-fA-F0-9]{24}$/
+```
+
+count:
+
+```java
+/^[1-9][0-9]?$|^100$/
 ```
 
 ## API 詳細資料 - 商家
@@ -668,7 +821,7 @@ body
 ## /store/login 商家開啟營業模式
 
 - 以商家的 access_token 請求，返回營業模式專屬的一組 access_token 和 refresh_token
-- method: GET
+- method: POST
 - request
 
 header
@@ -863,6 +1016,70 @@ body
     }  
 ```
 
+## /store/delete 刪除商家
+
+- 以 access_token 和密碼請求，刪除帳號的店家身分及其下商品
+- method: DELETE
+- request
+
+header
+
+```json
+    {  
+    "refresh_token" : "accessToken",
+    "Content-Type" : "application/x-www-form-urlencoded"
+    }  
+```
+
+- response
+- status code 200
+
+body
+
+```json
+{
+  "status": "商家身分已成功刪除",
+  "code": true,
+  "result": "成功刪除商家及其商品"
+}
+```
+
+- status code 400  
+
+body
+
+```json
+    {  
+      "status": "刪除失敗",  
+      "code": false,  
+      "result": "error message"  
+    }  
+```
+
+- status code 500  
+
+body
+
+```json
+    {  
+      "status": "商家身分刪除失敗",  
+      "code": false,  
+      "result": "error message"  
+    }  
+```
+
+- status code 403  
+
+body
+
+```json
+    {  
+      "status": "token錯誤",  
+      "code": false,  
+      "result": "請重新登入"  
+    }  
+```
+
 ## /store/product/add 新增商品
 
 - 以商家的 access_token 和商品資料請求，建立商品
@@ -946,7 +1163,7 @@ body
 ## /store/product/remove 刪除商品
 
 - 以商家的 access_token 和商品id請求，刪除商品
-- method: POST
+- method: DELETE
 - request
 
 header
@@ -1013,4 +1230,42 @@ body
       "code": false,  
       "result": "請重新登入"  
     }  
+```
+
+## 各項輸入允許格式2 (regex)
+
+name:
+
+```dart
+/^.{1,30}$/
+```
+
+password:
+
+```java
+/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
+```
+
+describe:
+
+```java
+/^.{0,30}$/
+```
+
+address:
+
+```java
+/^.{1,200}$/
+```
+
+price:
+
+```java
+/^[1-9]\d*$/
+```
+
+type:
+
+```java
+/^.{0,10}$/
 ```

@@ -66,7 +66,7 @@ module.exports = class Store {
         }
     }
 
-    //刪除商家及其商品
+    // 刪除商家及其商品
     deleteStore(req, res, next) {
         let password = null;
         if (req.body.password) password = encryption(req.body.password);
@@ -135,7 +135,6 @@ module.exports = class Store {
     // 店家新增商品
     postProduct(req, res, next) {
         const data = {
-            belong: req.headers['token'],
             name: req.body.name,
             price: req.body.price,
             describe: req.body.describe,
@@ -175,7 +174,7 @@ module.exports = class Store {
             })
         } else {
             // insert to database
-            addProduct(data).then(result => {
+            addProduct(req.headers['token'], data).then(result => {
                     // respon successful
                     res.status(201).json({
                         status: '新增成功',
@@ -202,7 +201,7 @@ module.exports = class Store {
     // 店家刪除商品
     deleteProduct(req, res, next) {
         let data = {
-            store: req.headers['token'],
+            id: req.headers['token'],
             product: req.body.product
         };
         delProduct(data).then(result => {

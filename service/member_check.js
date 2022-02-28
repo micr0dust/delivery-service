@@ -41,6 +41,27 @@ module.exports = class CheckCustomer {
         return result;
     }
 
+    //判斷describe格式
+    checkDescribe(describe) {
+        const filt = /^.{0,30}$/;
+        const result = filt.test(describe);
+        return result;
+    }
+
+    //判斷hexStringId格式
+    checkHexStringId(id) {
+        const filt = /^[a-fA-F0-9]{24}$/;
+        const result = filt.test(id);
+        return result;
+    }
+
+    //判斷count格式
+    checkCount(count) {
+        const filt = /^[1-9][0-9]?$|^100$/;
+        const result = filt.test(count);
+        return result;
+    }
+
     //判斷空值
     checkNull(data) {
         for (var key in data) {

@@ -7,6 +7,13 @@ module.exports = class CheckCustomer {
         return result;
     }
 
+    //判斷password格式
+    checkPassword(password) {
+        const filt = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+        const result = filt.test(password);
+        return result;
+    }
+
     //判斷describe格式
     checkDescribe(describe) {
         const filt = /^.{0,30}$/;
@@ -25,13 +32,6 @@ module.exports = class CheckCustomer {
     checkPrice(price) {
         const filt = /^[1-9]\d*$/;
         const result = filt.test(price);
-        return result;
-    }
-
-    //判斷type格式
-    checkType(type) {
-        const filt = /^.{0,10}$/;
-        const result = filt.test(type);
         return result;
     }
 

@@ -358,7 +358,7 @@ module.exports = class Member {
         };
         orderAction(data).then(
             result => {
-                res.json({
+                res.status(201).json({
                     status: '點餐成功',
                     code: true,
                     result: result
