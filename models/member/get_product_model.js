@@ -15,6 +15,7 @@ module.exports = async function getProduct(storeData) {
             if (!productResult) throw new Error("查無此商家商品");
             for (let i = 0; i < productResult.length; i++) {
                 productResult[i] = {
+                    id: productResult[i]._id.toString(),
                     name: productResult[i].name,
                     price: productResult[i].price,
                     describe: productResult[i].describe,
