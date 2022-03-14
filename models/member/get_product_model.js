@@ -9,8 +9,8 @@ module.exports = async function getProduct(storeData) {
 
     try {
         try {
-            const storeResult = await store.findOne({ name: storeData.name, address: storeData.address });
-            if (!storeResult) throw new Error("查無店家，請確認資料是否正確");
+            const storeResult = await store.findOne({ url: storeData.url });
+            if (!storeResult) throw new Error("查無店家，請確認 id 是否正確");
             const productResult = await product.find({ _id: { $in: storeResult.product } }).toArray();
             if (!productResult) throw new Error("查無此商家商品");
             for (let i = 0; i < productResult.length; i++) {

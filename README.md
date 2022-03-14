@@ -624,7 +624,7 @@ body
 
 ## /member/store/product 獲取特定商家所有商品
 
-- 以使用者 token 、商家名稱、商家地址請求，返回特定商家的所有商品
+- 以使用者 token 、商家Id請求，返回特定商家的所有商品
 - method: GET
 - request
 
@@ -632,7 +632,8 @@ header
 
 ```json
     {  
-    "token" : "userToken",  
+    "token" : "userToken",
+    "id" : "storeId",
     "Content-Type" : "application/x-www-form-urlencoded"  
     }  
 ```

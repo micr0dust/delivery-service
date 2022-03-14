@@ -13,4 +13,12 @@ router.get('/verify', function(req, res, next) {
     res.render('form', { title: 'Hello中原-郵箱驗證', part: 'verify' });
 });
 
+router.get('/wall', function(req, res, next) {
+    res.render('posts', { title: 'Hello中原', part: 'wall' });
+});
+
+router.get('/storepage', function(req, res, next) {
+    res.render('posts', { title: 'Hello中原', part: 'storePage' });
+});
+
 module.exports = router;

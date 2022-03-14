@@ -13,5 +13,6 @@ router.delete('/delete', middleWave, storeModifyMethod.deleteStore);
 router.post('/product/add', middleWave, storeModifyMethod.postProduct);
 router.delete('/product/remove', middleWave, storeModifyMethod.deleteProduct);
 router.get('/business/order/get', middleWave, storeModifyMethod.getOrder);
+router.get('/business/token', middleWave, storeModifyMethod.getStoreToken);
 
 module.exports = router;

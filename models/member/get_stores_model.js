@@ -13,7 +13,8 @@ module.exports = async function getProduct() {
             for (let i = 0; i < storeResult.length; i++) {
                 storeResult[i] = {
                     name: storeResult[i].name,
-                    address: storeResult[i].address
+                    address: storeResult[i].address,
+                    id: storeResult[i].url
                 }
             }
             if (storeResult) return storeResult;

@@ -307,8 +307,7 @@ module.exports = class Member {
     //取得商品資料
     getProductInfo(req, res, next) {
         let data = {
-            name: req.body.name,
-            address: req.body.address
+            url: req.headers['id']
         };
         getProduct(data).then(
             result => {

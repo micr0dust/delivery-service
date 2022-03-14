@@ -5,6 +5,7 @@ const orderData = require('../../models/store/get_order_model');
 const loginAction = require('../../models/store/store_mode_model');
 const addProduct = require('../../models/store/add_product_model');
 const delProduct = require('../../models/store/delete_product_model');
+const getToken = require('../../models/store/get_token_model');
 
 const verify = require('../../models/store/verification_model');
 const Check = require('../../service/store_check');
@@ -25,6 +26,7 @@ module.exports = class Store {
             belong: req.headers['token'],
             name: req.body.name,
             address: req.body.address,
+            url: ((new Date().getTime() - 1637560475159) * 100000 + createNum()).toString(36),
             create_date: onTime()
         }
 
@@ -252,6 +254,27 @@ module.exports = class Store {
             })
         })
     }
+
+    //取得營業模式 token
+    getStoreToken(req, res, next) {
+        getToken(req.headers['refresh_token']).then(id => {
+                const token = getTokenFn(id, 30, config.secret);
+                res.setHeader('token', token);
+                res.json({
+                    status: '成功獲取新token',
+                    code: true,
+                    result: 'token時效為半小時'
+                });
+            },
+            err => {
+                res.status(500).send({
+                    status: '無法獲取token',
+                    code: false,
+                    result: err.message
+                });
+            }
+        );
+    }
 }
 
 function getTokenFn(id, minutes, secret) {
@@ -262,6 +285,14 @@ function getTokenFn(id, minutes, secret) {
         },
         secret
     )
+}
+
+function createNum() {
+    var Num = "";
+    for (var i = 0; i < 5; i++) {
+        Num += Math.floor(Math.random() * 10);
+    }
+    return Num;
 }
 
 const onTime = () => {
