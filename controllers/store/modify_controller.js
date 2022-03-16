@@ -26,7 +26,7 @@ module.exports = class Store {
             belong: req.headers['token'],
             name: req.body.name,
             address: req.body.address,
-            url: ((new Date().getTime() - 1637560475159) * 100000 + createNum()).toString(36),
+            url: ((new Date().getTime() - 1637560475159) * 100 + parseInt(createNum())).toString(36),
             create_date: onTime()
         }
 
@@ -289,7 +289,7 @@ function getTokenFn(id, minutes, secret) {
 
 function createNum() {
     var Num = "";
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < 2; i++) {
         Num += Math.floor(Math.random() * 10);
     }
     return Num;

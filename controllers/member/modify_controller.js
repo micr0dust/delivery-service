@@ -35,6 +35,7 @@ module.exports = class Member {
             name: req.body.name,
             email: req.body.email,
             password: password,
+            role: ["user"],
             create_date: onTime()
         };
 

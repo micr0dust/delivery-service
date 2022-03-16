@@ -11,6 +11,13 @@ module.exports = async function getProduct(storeData) {
         try {
             const storeResult = await store.findOne({ url: storeData.url });
             if (!storeResult) throw new Error("查無店家，請確認 id 是否正確");
+            if (!storeResult.product) return [{
+                id: "尚未上架任何商品",
+                name: "尚未上架任何商品",
+                price: 0,
+                describe: "尚未上架任何商品",
+                type: "尚未上架任何商品"
+            }];
             const productResult = await product.find({ _id: { $in: storeResult.product } }).toArray();
             if (!productResult) throw new Error("查無此商家商品");
             for (let i = 0; i < productResult.length; i++) {

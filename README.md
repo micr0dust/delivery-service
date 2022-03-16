@@ -583,19 +583,22 @@ header
 body
 
 ```json
-    {  
-      "status": "成功獲取商家列表",  
-      "code": true,  
-      "result": [
-        {
-              "name": "店家名稱",
-              "address": "OO市OO區OO街OO號"
-        },{
-              "name": "友朋小吃",
-              "address": "桃園市中壢區OO街OO號"
-        }
-      ]
-    }
+  {
+  "status": "成功獲取商家列表",
+  "code": true,
+  "result": [
+      {
+      "name": "友朋小吃",
+      "address": "桃園市中壢區OO街OO號",
+      "id": "8y3un9ka"
+      },
+      {
+        "name": "燒肉飯店",
+        "address": "台北市中山區OO街OO號",
+        "id": "9xe72aqx"
+      }
+    ]
+  }
 ```
 
 - status code 500  
@@ -756,7 +759,7 @@ header
 
 ```json
     {  
-    "refresh_token" : "storeAccessToken",  
+    "token" : "storeAccessToken",  
     "Content-Type" : "application/x-www-form-urlencoded"  
     }  
 ```
@@ -820,6 +823,66 @@ body
     }  
 ```
 
+## /store/business/token 商家獲取 token
+
+- 以商家的 refresh_token 請求，返回此商家營業模式的 token
+- method: GET
+- request
+
+header
+
+```json
+    {  
+    "refresh_token" : "storeRefreshToken",  
+    "Content-Type" : "application/x-www-form-urlencoded"  
+    }  
+```
+
+- response
+- status code 200  
+
+header
+
+```json
+    {  
+    "token" : "storeAccessToken"
+    }  
+```
+
+body
+
+```json
+  {
+  "status": "成功獲取新token",
+  "code": true,
+  "result": "token時效為半小時"
+  }
+```
+
+- status code 500  
+
+body
+
+```json
+    {  
+        "status": "無法獲取token",  
+        "code": false,  
+        "result": "error message"  
+        }  
+```
+
+- status code 403  
+
+body
+
+```json
+    {  
+      "status": "token錯誤",  
+      "code": false,  
+      "result": "請重新登入"  
+    }  
+```
+
 ## /store/login 商家開啟營業模式
 
 - 以商家的 access_token 請求，返回營業模式專屬的一組 access_token 和 refresh_token
@@ -830,7 +893,7 @@ header
 
 ```json
     {  
-    "refresh_token" : "storeAccessToken",  
+    "token" : "storeAccessToken",  
     "Content-Type" : "application/x-www-form-urlencoded"  
     }  
 ```
@@ -891,7 +954,7 @@ header
 
 ```json
     {  
-    "refresh_token" : "storeAccessToken",  
+    "token" : "storeAccessToken",  
     "Content-Type" : "application/x-www-form-urlencoded"  
     }  
 ```
@@ -952,7 +1015,7 @@ header
 
 ```json
     {  
-    "refresh_token" : "accessToken",  
+    "token" : "accessToken",  
     "Content-Type" : "application/x-www-form-urlencoded"  
     }  
 ```
@@ -1028,7 +1091,7 @@ header
 
 ```json
     {  
-    "refresh_token" : "accessToken",
+    "token" : "accessToken",
     "Content-Type" : "application/x-www-form-urlencoded"
     }  
 ```
@@ -1092,7 +1155,7 @@ header
 
 ```json
     {  
-    "refresh_token" : "storeAccessToken",  
+    "token" : "storeAccessToken",  
     "Content-Type" : "application/x-www-form-urlencoded"  
     }  
 ```
@@ -1172,7 +1235,7 @@ header
 
 ```json
     {  
-    "refresh_token" : "storeAccessToken",  
+    "token" : "storeAccessToken",  
     "Content-Type" : "application/x-www-form-urlencoded"  
     }  
 ```

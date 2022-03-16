@@ -29,6 +29,9 @@ module.exports = async function storeEstablish(storeData) {
                 const updateResult = await member.updateOne({ _id: ObjectId(storeData.belong) }, {
                     $set: {
                         store_id: insertResult.insertedId.toString()
+                    },
+                    $push: {
+                        role: "store"
                     }
                 });
                 if (!updateResult) throw new Error("帳號和商店間綁定發生錯誤");

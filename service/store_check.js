@@ -35,6 +35,13 @@ module.exports = class CheckCustomer {
         return result;
     }
 
+    //判斷type格式
+    checkType(type) {
+        const filt = /^.{0,10}$/;
+        const result = filt.test(type);
+        return result;
+    }
+
     //判斷空值
     checkNull(data) {
         for (var key in data) {

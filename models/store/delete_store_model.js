@@ -25,8 +25,9 @@ module.exports = async function delStore(data) {
 
         // 商家product刪除
         try {
-            const deleteResult = await product.deleteMany({ _id: { $in: storeResult.product } });
-            if (!deleteResult) throw new Error("刪除商品時發生錯誤");
+            let deleteResult;
+            if (storeResult.product) deleteResult = await product.deleteMany({ _id: { $in: storeResult.product } });
+            if (!deleteResult && storeResult.product) throw new Error("刪除商品時發生錯誤");
             const deleteCheck = await product.deleteMany({ belong: storeResult._id.toString() });
         } catch (err) {
             throw err;
@@ -44,7 +45,8 @@ module.exports = async function delStore(data) {
         // 商家身分解除綁定
         try {
             const updateResult = await member.updateOne({ _id: ObjectId(data.id) }, {
-                $unset: { store_id: 1 }
+                $unset: { store_id: 1 },
+                $pull: { role: "store" }
             });
             if (!updateResult) throw new Error("解除綁定商家身分時發生錯誤");
             return "成功刪除商家及其商品";
