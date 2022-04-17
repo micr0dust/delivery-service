@@ -279,7 +279,7 @@ router.put('/email/verify', middleWave, memberModifyMethod.putEmailVerify, () =>
                 type: 'string',
                 required: 'true',
                 description: '驗證碼',
-                schema: "Aaaaaaa1"
+                schema: { $ref: '#/definitions/token' }
     } */
 
     /*  #swagger.responses[200] = {
