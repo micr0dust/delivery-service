@@ -13,7 +13,7 @@ module.exports = async function register(memberData) {
             const findResult = await collection.findOne({ email: memberData.email });
             if (findResult) throw new Error("該信箱已被註冊");
         } catch (err) {
-            throw errValue;
+            throw err;
         }
         // 將資料寫入資料庫
         try {

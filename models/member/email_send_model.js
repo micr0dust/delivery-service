@@ -20,7 +20,7 @@ module.exports = async function mailEmit(id, time) {
             member = await collection.findOne({ _id: ObjectId(id) });
             if (!member) throw new Error("查無帳號，請重新登入");
         } catch (err) {
-            throw errValue;
+            throw err;
         }
 
         let verityCode = createNum();

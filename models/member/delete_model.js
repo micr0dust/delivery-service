@@ -18,7 +18,7 @@ module.exports = async function deleteAction(data) {
             if (memberResult.password != data.password) throw new Error("密碼錯誤");
             storeResult = await store.findOne({ _id: ObjectId(memberResult.store_id) });
         } catch (err) {
-            throw errValue;
+            throw err;
         }
 
         // 商家product刪除

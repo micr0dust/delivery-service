@@ -1,8 +1,6 @@
-# 外送系統 API 文件
+# REST API
 
-網站位址：<https://hello-cycu-delivery-service.herokuapp.com>
-
-API 文件：<https://hello-cycu-delivery-service.herokuapp.com/api-docs>
+## Version: 1.0.0
 
 ### /member/register
 

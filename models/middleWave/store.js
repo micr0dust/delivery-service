@@ -5,6 +5,18 @@ let check = new Check();
 
 module.exports = (req, res, next) => {
     //var token = req.body.token || req.query.token || req.headers['token'];
+    /* #swagger.security = [{
+               "bearerAuth": []
+        }] */
+    /*  #swagger.responses[403] = {
+                description: 'token錯誤',
+                schema: {
+                    status: 'token錯誤',
+                    code: false,
+                    result: "請重新登入"
+                }
+            }
+    } */
     let token = req.headers['token'];
     let refresh_token = req.headers['refresh_token'];
     if (refresh_token) {

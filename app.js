@@ -1,3 +1,4 @@
+const swaggerUi = require('swagger-ui-express');
 const createError = require('http-errors');
 //const cors = require('cors');
 const express = require('express');
@@ -15,6 +16,9 @@ const usersRouter = require('./routes/users');
 const rateLimiterMiddleware = require('./models/middleWave/rateLimite');
 
 const app = express();
+const swaggerDocument = require('./api-docs.json');
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 //app.use(cors());
 
@@ -27,16 +31,29 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/templates', templatesRouter);
-app.use('/auth', authedRouter);
-app.use('/admin', adminRouter);
+app.use('/templates', templatesRouter
+    // #swagger.ignore = true
+);
+app.use('/auth', authedRouter
+    // #swagger.ignore = true
+);
+app.use('/admin', adminRouter
+    // #swagger.ignore = true
+);
 app.get('/', function(req, res, next) {
+    // #swagger.ignore = true
     res.render('index', { title: 'Hello中原' });
 });
 app.use(rateLimiterMiddleware);
-app.use('/member', indexRouter);
-app.use('/store', storeRouter);
-app.use('/users', usersRouter);
+app.use('/member', indexRouter
+    // #swagger.tags = ['member']
+);
+app.use('/store', storeRouter
+    // #swagger.tags = ['store']
+);
+app.use('/users', usersRouter
+    // #swagger.ignore = true
+);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

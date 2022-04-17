@@ -101,7 +101,7 @@ module.exports = class Member {
                     res.json({
                         status: '登入成功',
                         code: true,
-                        result: '歡迎 ' + rows.name + ' 的登入'
+                        result: rows.name
                     });
                 }
             })
