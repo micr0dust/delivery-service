@@ -1370,10 +1370,10 @@ supports-color@^7.1.0:
   dependencies:
     has-flag "^4.0.0"
 
-swagger-autogen@^2.21.0:
-  version "2.21.0"
-  resolved "https://registry.yarnpkg.com/swagger-autogen/-/swagger-autogen-2.21.0.tgz#e95fdd94e91e432a82dc02379bc592f4b61f2963"
-  integrity sha512-7sLomnbWamYencFqWDSG5ete3qeSLUtC7pfG0mJi9qOjIC35MNaFeDyxS95rwyuzq2B2Kyt3FCAO5Zt/B03vLQ==
+swagger-autogen@2.21.1:
+  version "2.21.1"
+  resolved "https://registry.yarnpkg.com/swagger-autogen/-/swagger-autogen-2.21.1.tgz#6aa3b2378f996d85a85508c9556c61d04521a64d"
+  integrity sha512-PHCaE1yd1Lh5P3htLsGGrkF7fbuWubfBdCjRu/4Jfdk6Foqt6/6wQdSGkwtnrAbOwSekVv2/58A2vox7fWxzhg==
   dependencies:
     acorn "^7.4.1"
     deepmerge "^4.2.2"
