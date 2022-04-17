@@ -1,5 +1,7 @@
 const toRegister = require('../../models/member/register_model');
+const googleRegister = require('../../models/member/google_register_model');
 const loginAction = require('../../models/member/login_model');
+const googleLogin = require('../../models/member/google_login_model');
 const getToken = require('../../models/member/get_token_model');
 const updateAction = require('../../models/member/update_model');
 const deleteAction = require('../../models/member/delete_model');
@@ -75,6 +77,43 @@ module.exports = class Member {
         };
     }
 
+    //Google 註冊帳號
+    postGoogleRegister(req, res, next) {
+        if (!req.body.access_token)
+            res.status(400).send({
+                status: '註冊失敗',
+                code: false,
+                result: '需要 Google access token'
+            });
+
+        googleRegister(req.body.access_token).then(rows => {
+                if (!rows.name || !rows.email) {
+                    res.status(400).send({
+                        status: '註冊失敗',
+                        code: true,
+                        result: "需要存取帳戶名稱和電子郵件的權限"
+                    });
+                    return;
+                }
+                if (check.checkNull(rows) === false) {
+                    const token = getTokenFn(rows._id.toString(), 30, config.secret);
+                    res.setHeader('token', token);
+                    res.json({
+                        status: '註冊成功',
+                        code: true,
+                        result: rows
+                    });
+                }
+            })
+            .catch(err => {
+                res.status(400).send({
+                    status: '註冊失敗',
+                    code: false,
+                    result: err.message
+                });
+            });
+    }
+
     //登入
     postLogin(req, res, next) {
         // 進行加密
@@ -102,6 +141,43 @@ module.exports = class Member {
                         status: '登入成功',
                         code: true,
                         result: rows.name
+                    });
+                }
+            })
+            .catch(err => {
+                res.status(400).send({
+                    status: '登入失敗',
+                    code: false,
+                    result: err.message
+                });
+            });
+    }
+
+    //Google 登入
+    postGoogleLogin(req, res, next) {
+        if (!req.body.access_token)
+            res.status(400).send({
+                status: '登入失敗',
+                code: false,
+                result: '需要 Google access token'
+            });
+        googleLogin(req.body.access_token).then(rows => {
+                if (!rows.name || !rows.email) {
+                    res.status(400).send({
+                        status: '登入失敗',
+                        code: true,
+                        result: "需要存取帳戶名稱和電子郵件的權限"
+                    });
+                    return;
+                }
+                if (check.checkNull(rows) === false) {
+                    const token = getTokenFn(rows._id.toString(), 30, config.secret);
+                    res.setHeader('token', token);
+                    res.setHeader('refresh_token', rows.refresh_token);
+                    res.json({
+                        status: '登入成功',
+                        code: true,
+                        result: rows
                     });
                 }
             })

@@ -56,3 +56,52 @@ document.getElementById("submit").addEventListener("click", function(e) {
         //console.log(data);
     })
 });
+
+function onSignIn(googleUser) {
+    // Useful data for your client-side scripts:
+    // var profile = googleUser.getBasicProfile();
+    // console.log("ID: " + profile.getId());
+    // console.log('Full Name: ' + profile.getName());
+    // console.log('Given Name: ' + profile.getGivenName());
+    // console.log('Family Name: ' + profile.getFamilyName());
+    // console.log("Image URL: " + profile.getImageUrl());
+    // console.log("Email: " + profile.getEmail());
+    // The ID token you need to pass to your backend:
+    var id_token = googleUser.getAuthResponse().id_token;
+
+    document.getElementById('loader').classList.add('is-active');
+    let headersList = {
+        "Accept": "*/*",
+        "Content-Type": "application/x-www-form-urlencoded"
+    }
+
+    fetch("/member/google-register", {
+        method: "POST",
+        body: "accesstoken=" + id_token,
+        headers: headersList
+    }).then(function(response) {
+        if (response.status === 200)
+            localStorage.setItem('acesstoken', response.headers.get('token'));
+        else {
+            console.log('error: ' + response);
+            Swal.fire({
+                icon: 'error',
+                title: '發生錯誤',
+                text: response.status
+            })
+        }
+        document.getElementById('loader').classList.remove('is-active');
+        return response.text();
+    }).then(function(data) {
+        data = JSON.parse(data);
+        if (data.code)
+            window.location.href = '/auth/mail';
+        else Swal.fire({
+            icon: 'error',
+            title: data.status,
+            text: data.result
+        })
+
+        //console.log(data);
+    })
+}

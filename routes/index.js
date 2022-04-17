@@ -105,6 +105,96 @@ router.post('/login', memberModifyMethod.postLogin, () => {
             }
     */
 });
+router.post('/google-register', memberModifyMethod.postGoogleRegister, () => {
+    //  #swagger.summary  = '用 Google 註冊'
+    //  #swagger.description = '提供 Google 的 accesstoken ，讓伺服器能向 Google 請求使用者資料並建立帳號'
+    /*  #swagger.consumes = ['application/x-www-form-urlencoded']*/
+    /*  #swagger.parameters['accesstoken'] = {
+                in: 'header',
+                type: 'string',
+                required: 'true',
+                description: 'Google accesstoken',
+                schema: { $ref: '#/definitions/token' }
+    }*/
+
+    /*  #swagger.responses[200] = {
+                description: '註冊成功',
+                schema: {
+                    status: '註冊成功',
+                    code: true,
+                    result: {
+                            name: "使用者名稱",
+                            email: "usermail123@gmail.com"
+                        }
+                }
+            }
+    } */
+    /*
+        #swagger.responses[400] = {
+                description: '因格式錯誤導致的註冊失敗',
+                schema: {
+                    status: '註冊失敗',
+                    code: false,
+                    result: 'error message'
+                }
+            }
+    */
+    /*
+        #swagger.responses[500] = {
+                description: '因伺服器錯誤導致的註冊失敗',
+                schema: {
+                    status: '註冊失敗',
+                    code: false,
+                    result: 'error message'
+                }
+            }
+    */
+});
+router.post('/google-login', memberModifyMethod.postGoogleLogin, () => {
+    //  #swagger.summary  = '用 Google 登入'
+    //  #swagger.description = '以郵箱、密碼登入帳號，並返回時效為一小時的 token'
+    /*  #swagger.consumes = ['application/x-www-form-urlencoded']*/
+    /*  #swagger.parameters['accesstoken'] = {
+                in: 'header',
+                type: 'string',
+                required: 'true',
+                description: 'Google accesstoken',
+                schema: { $ref: '#/definitions/token' }
+    }*/
+
+    /*  #swagger.responses[200] = {
+                description: '註冊成功',
+                schema: {
+                    status: '註冊成功',
+                    code: true,
+                    result: {
+                            name: "使用者名稱",
+                            email: "usermail123@gmail.com"
+                        }
+                }
+            }
+    } */
+    /*
+        #swagger.responses[400] = {
+                description: '因格式錯誤導致的註冊失敗',
+                schema: {
+                    status: '註冊失敗',
+                    code: false,
+                    result: 'error message'
+                }
+            }
+    */
+    /*
+        #swagger.responses[500] = {
+                description: '因伺服器錯誤導致的註冊失敗',
+                schema: {
+                    status: '註冊失敗',
+                    code: false,
+                    result: 'error message'
+                }
+            }
+    */
+});
 router.put('/update', middleWave, memberModifyMethod.putUpdate, () => {
     //  #swagger.summary  = '更新使用者資料'
     //  #swagger.description = '以使用者 token 請求，成功將更新使用者資料，資料未填寫將不更新'
