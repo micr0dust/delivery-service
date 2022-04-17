@@ -176,7 +176,7 @@
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | token | header | member access token | Yes | [token](#token) |
-| verityCode | formData | 驗證碼 | Yes | string |
+| verityCode | formData | 驗證碼 | Yes | [token](#token) |
 
 ##### Responses
 

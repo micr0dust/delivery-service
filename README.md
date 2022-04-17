@@ -4,6 +4,10 @@
 
 API 文件：<https://hello-cycu-delivery-service.herokuapp.com/api-docs>
 
+# REST API
+
+## Version: 1.0.0
+
 ### /member/register
 
 #### POST
@@ -178,7 +182,7 @@ API 文件：<https://hello-cycu-delivery-service.herokuapp.com/api-docs>
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | token | header | member access token | Yes | [token](#token) |
-| verityCode | formData | 驗證碼 | Yes | string |
+| verityCode | formData | 驗證碼 | Yes | [token](#token) |
 
 ##### Responses
 

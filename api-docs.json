@@ -692,8 +692,7 @@
             "required": true,
             "description": "驗證碼",
             "schema": {
-              "type": "string",
-              "example": "Aaaaaaa1"
+              "$ref": "#/definitions/token"
             }
           }
         ],
