@@ -23,8 +23,13 @@
         "nodemailer": "6.7.3",
         "rate-limiter-flexible": "2.3.6",
         "request": "^2.88.2",
+<<<<<<< HEAD
         "swagger-autogen": "^2.21.1",
         "swagger-jsdoc": "^6.2.1",
+=======
+        "swagger-autogen": "2.21.1",
+        "swagger-jsdoc": "^6.2.0",
+>>>>>>> 14acf0af414e75302e7a10963aba3e7e2ff5d185
         "swagger-ui-express": "^4.3.0"
     }
 }

@@ -1370,7 +1370,11 @@ supports-color@^7.1.0:
   dependencies:
     has-flag "^4.0.0"
 
+<<<<<<< HEAD
 swagger-autogen@^2.21.1:
+=======
+swagger-autogen@2.21.1:
+>>>>>>> 14acf0af414e75302e7a10963aba3e7e2ff5d185
   version "2.21.1"
   resolved "https://registry.yarnpkg.com/swagger-autogen/-/swagger-autogen-2.21.1.tgz#6aa3b2378f996d85a85508c9556c61d04521a64d"
   integrity sha512-PHCaE1yd1Lh5P3htLsGGrkF7fbuWubfBdCjRu/4Jfdk6Foqt6/6wQdSGkwtnrAbOwSekVv2/58A2vox7fWxzhg==
