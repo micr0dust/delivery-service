@@ -1,6 +1,7 @@
 const toRegister = require('../../models/member/register_model');
 const loginAction = require('../../models/member/login_model');
 const googleLogin = require('../../models/member/google_login_model');
+const googleGetRefreshToken = require('../../models/member/google_refreshToken_model');
 const getToken = require('../../models/member/get_token_model');
 const updateAction = require('../../models/member/update_model');
 const deleteAction = require('../../models/member/delete_model');
@@ -429,6 +430,8 @@ module.exports = class Member {
         request(token_option, function(err, resposne, body) {
             console.log(JSON.parse(body))
             let access_token = JSON.parse(body).access_token;
+            console.log(access_token);
+            //console.log(access_token)
             let info_option = {
                 url: "https://www.googleapis.com/oauth2/v1/userinfo?" + "access_token=" + access_token,
                 method: "GET",
@@ -478,6 +481,30 @@ module.exports = class Member {
                 //res.send(body);
             });
         })
+    }
+
+    //googleGetToken
+    googleGetToken(req, res, next) {
+        let id = req.headers['id'];
+
+        googleGetRefreshToken(id).then(data => {
+                const token = getTokenFn(data._id.toString(), 30, config.secret);
+                res.setHeader('token', token);
+                res.setHeader('refresh_token', data.refresh_token);
+                res.status(200).send({
+                    status: '請求成功',
+                    code: false,
+                    result: "token 在 header 中"
+                });
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(400).send({
+                    status: '請求失敗',
+                    code: false,
+                    result: err.message
+                });
+            });
     }
 }
 

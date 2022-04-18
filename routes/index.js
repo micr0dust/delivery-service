@@ -128,6 +128,10 @@ router.get("/google/callback", memberModifyMethod.googleCallback
     // #swagger.ignore = true
 );
 
+router.get("/google/refresh_token", memberModifyMethod.googleGetToken
+    // #swagger.ignore = true
+);
+
 router.put('/update', middleWave, memberModifyMethod.putUpdate, () => {
     //  #swagger.summary  = '更新使用者資料'
     //  #swagger.description = '以使用者 token 請求，成功將更新使用者資料，資料未填寫將不更新'
