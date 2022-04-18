@@ -7,6 +7,14 @@ function checkInputFn(email, phone) {
 getInfoFn();
 
 function getInfoFn() {
+    let urlparm = window.location.href;
+    if (window.location.href.split('?')[1]) {
+        urlparm = window.location.href.split('?')[1];
+        if (urlparm.split('&')[0].split('=')[0] == "refresh_token")
+            if (urlparm.split('&')[0].split('=')[1] != "")
+                localStorage.setItem('refresh_token', urlparm.split('&')[0].split('=')[1]);
+    }
+
     let headersList = {
         "Accept": "*/*",
         "token": localStorage.acesstoken,
@@ -33,11 +41,13 @@ function getInfoFn() {
         data = JSON.parse(data);
         document.getElementById('loader').classList.remove('is-active');
         if (data.code) {
-            let oimg;
-            if (data.result.gender === "男") oimg = random(1, 3);
-            else if (data.result.gender === "女") oimg = random(4, 6);
-            else oimg = random(1, 6);
-            document.getElementById('img').src = "https://www.w3schools.com/bootstrap4/img_avatar" + oimg + ".png";
+            if (!data.result.picture) {
+                let oimg;
+                if (data.result.gender === "男") oimg = random(1, 3);
+                else if (data.result.gender === "女") oimg = random(4, 6);
+                else oimg = random(1, 6);
+                document.getElementById('img').src = "https://www.w3schools.com/bootstrap4/img_avatar" + oimg + ".png";
+            } else document.getElementById('img').src = data.result.picture;
             if (data.result.name) document.getElementById('name').innerText = data.result.name;
             if (data.result.email) document.getElementById('email').value = data.result.email;
             if (data.result.phone) document.getElementById('phone').value = data.result.phone;
@@ -57,7 +67,7 @@ function getInfoFn() {
                 window.location.href = '/admin/login';
             }
         });
-        console.log(data);
+        //console.log(data);
     })
 }
 

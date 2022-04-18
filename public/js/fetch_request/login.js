@@ -67,16 +67,17 @@ function onSignIn(googleUser) {
     var id_token = googleUser.getAuthResponse().id_token;
     let url = window.location.href;
     let redirct;
+    //console.log(id_token);
     if ((url.indexOf('?redirct=') + 1)) redirct = url.toString().split('?redirct=')[1];
 
     document.getElementById('loader').classList.add('is-active');
     let headersList = {
         "Accept": "*/*",
+        "accesstoken": id_token,
         "Content-Type": "application/x-www-form-urlencoded"
     }
-    fetch("/member/login", {
-        method: "POST",
-        body: "accesstoken=" + id_token,
+    fetch("/member/google/login", {
+        method: "GET",
         headers: headersList
     }).then(function(response) {
         document.getElementById('loader').classList.remove('is-active');
@@ -94,13 +95,8 @@ function onSignIn(googleUser) {
         return response.text();
     }).then(function(data) {
         data = JSON.parse(data);
-        if (data.code)
-            window.location.href = (redirct) ? redirct : '/auth';
-        else Swal.fire({
-            icon: 'error',
-            title: data.status,
-            text: data.result
-        });
+        if (data)
+            window.location.href = data.redirect_url;
         //console.log(data);
     })
 }

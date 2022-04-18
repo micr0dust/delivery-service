@@ -18,6 +18,8 @@ module.exports = async function getUser(id) {
             if (findResult.phone) result.phone = findResult.phone;
             if (findResult.birthday) result.birthday = findResult.birthday;
             if (findResult.gender) result.gender = findResult.gender;
+            if (findResult.locale) result.locale = findResult.locale;
+            if (findResult.picture) result.picture = findResult.picture;
             if (findResult.store_id) result.store_id = findResult.store_id;
             result.verityCode = (findResult.verityCode === true);
             if (findResult.update_date) result.update_date = findResult.update_date;

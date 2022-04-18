@@ -1,5 +1,4 @@
 const toRegister = require('../../models/member/register_model');
-const googleRegister = require('../../models/member/google_register_model');
 const loginAction = require('../../models/member/login_model');
 const googleLogin = require('../../models/member/google_login_model');
 const getToken = require('../../models/member/get_token_model');
@@ -19,6 +18,9 @@ const config = require('../../config/development_config');
 const jwt = require('jsonwebtoken');
 const { token } = require('morgan');
 let check = new Check();
+const { OAuth2Client } = require('google-auth-library');
+const request = require("request");
+const client = new OAuth2Client(config.mail.id);
 
 module.exports = class Member {
     //註冊帳號
@@ -77,43 +79,6 @@ module.exports = class Member {
         };
     }
 
-    //Google 註冊帳號
-    postGoogleRegister(req, res, next) {
-        if (!req.body.access_token)
-            res.status(400).send({
-                status: '註冊失敗',
-                code: false,
-                result: '需要 Google access token'
-            });
-
-        googleRegister(req.body.access_token).then(rows => {
-                if (!rows.name || !rows.email) {
-                    res.status(400).send({
-                        status: '註冊失敗',
-                        code: true,
-                        result: "需要存取帳戶名稱和電子郵件的權限"
-                    });
-                    return;
-                }
-                if (check.checkNull(rows) === false) {
-                    const token = getTokenFn(rows._id.toString(), 30, config.secret);
-                    res.setHeader('token', token);
-                    res.json({
-                        status: '註冊成功',
-                        code: true,
-                        result: rows
-                    });
-                }
-            })
-            .catch(err => {
-                res.status(400).send({
-                    status: '註冊失敗',
-                    code: false,
-                    result: err.message
-                });
-            });
-    }
-
     //登入
     postLogin(req, res, next) {
         // 進行加密
@@ -141,43 +106,6 @@ module.exports = class Member {
                         status: '登入成功',
                         code: true,
                         result: rows.name
-                    });
-                }
-            })
-            .catch(err => {
-                res.status(400).send({
-                    status: '登入失敗',
-                    code: false,
-                    result: err.message
-                });
-            });
-    }
-
-    //Google 登入
-    postGoogleLogin(req, res, next) {
-        if (!req.body.access_token)
-            res.status(400).send({
-                status: '登入失敗',
-                code: false,
-                result: '需要 Google access token'
-            });
-        googleLogin(req.body.access_token).then(rows => {
-                if (!rows.name || !rows.email) {
-                    res.status(400).send({
-                        status: '登入失敗',
-                        code: true,
-                        result: "需要存取帳戶名稱和電子郵件的權限"
-                    });
-                    return;
-                }
-                if (check.checkNull(rows) === false) {
-                    const token = getTokenFn(rows._id.toString(), 30, config.secret);
-                    res.setHeader('token', token);
-                    res.setHeader('refresh_token', rows.refresh_token);
-                    res.json({
-                        status: '登入成功',
-                        code: true,
-                        result: rows
                     });
                 }
             })
@@ -468,6 +396,88 @@ module.exports = class Member {
                 });
             }
         );
+    }
+
+    //googleLogin
+    googleLogin(req, res, next) {
+        let google_oauth_url = "https://accounts.google.com/o/oauth2/v2/auth?" +
+            "scope=email%20profile&" +
+            "redirect_uri=" + config.heroku.hostname + "/member/google/callback&" +
+            "response_type=code&" +
+            "client_id=" + config.mail.id;
+        console.log(JSON.stringify({ "redirect_url": google_oauth_url }))
+        res.send(JSON.stringify({ "redirect_url": google_oauth_url }));
+    }
+
+    //googleCallback
+    googleCallback(req, res, next) {
+        var code = req.query.code;
+        var token_option = {
+            url: "https://www.googleapis.com/oauth2/v4/token",
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            form: {
+                code: code,
+                client_id: config.mail.id,
+                client_secret: config.mail.secret,
+                grant_type: "authorization_code",
+                redirect_uri: config.heroku.hostname + "/member/google/callback"
+            }
+        };
+        request(token_option, function(err, resposne, body) {
+            console.log(JSON.parse(body))
+            let access_token = JSON.parse(body).access_token;
+            let info_option = {
+                url: "https://www.googleapis.com/oauth2/v1/userinfo?" + "access_token=" + access_token,
+                method: "GET",
+            };
+            request(info_option, function(err, response, body) {
+                if (err) {
+                    res.send(err);
+                    //res.redirect('/auth');
+                }
+                googleLogin(body, onTime).then(rows => {
+                        if (check.checkNull(rows) === true) {
+                            res.status(400).send({
+                                status: '登入失敗',
+                                code: true,
+                                result: "需要存取帳戶的權限"
+                            });
+                            return;
+                        }
+                        if (check.checkNull(rows) === false) {
+                            const token = getTokenFn(rows._id.toString(), 30, config.secret);
+                            //res.setHeader('token', token);
+                            res.setHeader('refresh_token', rows.refresh_token);
+                            res.redirect('/auth?refresh_token=' + rows.refresh_token);
+                            // res.json({
+                            //     status: '登入成功',
+                            //     code: true,
+                            //     result: {
+                            //         name: rows.name,
+                            //         email: rows.email,
+                            //         verityCode: rows.verityCode,
+                            //         locale: rows.locale,
+                            //         picture: rows.picture,
+                            //         update_date: rows.update_date,
+                            //         create_date: rows.create_date,
+                            //         role: rows.role
+                            //     }
+                            // });
+                        }
+                    })
+                    .catch(err => {
+                        res.status(400).send({
+                            status: '登入失敗',
+                            code: false,
+                            result: err.message
+                        });
+                    });
+                //res.send(body);
+            });
+        })
     }
 }
 

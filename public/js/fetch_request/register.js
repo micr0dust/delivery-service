@@ -76,7 +76,7 @@ function onSignIn(googleUser) {
     }
 
     fetch("/member/google-register", {
-        method: "POST",
+        method: "GET",
         body: "accesstoken=" + id_token,
         headers: headersList
     }).then(function(response) {
@@ -95,7 +95,8 @@ function onSignIn(googleUser) {
     }).then(function(data) {
         data = JSON.parse(data);
         if (data.code)
-            window.location.href = '/auth/mail';
+            console.log(data);
+        //window.location.href = '/auth/mail';
         else Swal.fire({
             icon: 'error',
             title: data.status,

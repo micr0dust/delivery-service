@@ -242,216 +242,35 @@
         }
       }
     },
-    "/member/google-register": {
-      "post": {
+    "/member/google/login": {
+      "get": {
         "tags": [
           "member"
         ],
-        "summary": "用 Google 註冊",
-        "description": "提供 Google 的 accesstoken ，讓伺服器能向 Google 請求使用者資料並建立帳號",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
+        "summary": "Google 登入",
+        "description": "將 id_token 傳給伺服器，表示該使用者授權登入",
         "parameters": [
           {
             "name": "accesstoken",
             "in": "header",
             "type": "string",
             "required": true,
-            "description": "Google accesstoken",
+            "description": "id_token = googleUser.getAuthResponse().id_token",
             "schema": {
-              "$ref": "#/definitions/token"
+              "type": "string",
+              "example": "id_token"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "註冊成功",
+            "description": "redirect_url",
             "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "註冊成功"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "result": {
-                  "type": "object",
-                  "properties": {
-                    "name": {
-                      "type": "string",
-                      "example": "使用者名稱"
-                    },
-                    "email": {
-                      "type": "string",
-                      "example": "usermail123@gmail.com"
-                    }
-                  }
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "400": {
-            "description": "因格式錯誤導致的註冊失敗",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "註冊失敗"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "error message"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
+              "$ref": "#/definitions/redirect_url"
             }
           },
           "429": {
             "description": "Too Many Requests"
-          },
-          "500": {
-            "description": "因伺服器錯誤導致的註冊失敗",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "註冊失敗"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "error message"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/member/google-login": {
-      "post": {
-        "tags": [
-          "member"
-        ],
-        "summary": "用 Google 登入",
-        "description": "以郵箱、密碼登入帳號，並返回時效為一小時的 token",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "parameters": [
-          {
-            "name": "accesstoken",
-            "in": "header",
-            "type": "string",
-            "required": true,
-            "description": "Google accesstoken",
-            "schema": {
-              "$ref": "#/definitions/token"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "註冊成功",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "註冊成功"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "result": {
-                  "type": "object",
-                  "properties": {
-                    "name": {
-                      "type": "string",
-                      "example": "使用者名稱"
-                    },
-                    "email": {
-                      "type": "string",
-                      "example": "usermail123@gmail.com"
-                    }
-                  }
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "400": {
-            "description": "因格式錯誤導致的註冊失敗",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "註冊失敗"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "error message"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "429": {
-            "description": "Too Many Requests"
-          },
-          "500": {
-            "description": "因伺服器錯誤導致的註冊失敗",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "註冊失敗"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "error message"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
           }
         }
       }
@@ -2654,13 +2473,14 @@
     }
   },
   "definitions": {
-    "code": {
-      "type": "boolean",
-      "example": true
-    },
-    "id": {
-      "type": "string",
-      "example": "6211e1afb27988329badd497"
+    "redirect_url": {
+      "type": "object",
+      "properties": {
+        "redirect_url": {
+          "type": "string",
+          "example": "https://accounts.google.com/o/oauth2/v2/auth?scope=email%20profile&redirect_uri=http://localhost:3000/member/google/callback&response_type=code&client_id=1047494292997-3ph1u638fcq835lnt2dgfmntj8.apps.googleusercontent.com"
+        }
+      }
     },
     "token": {
       "type": "string",

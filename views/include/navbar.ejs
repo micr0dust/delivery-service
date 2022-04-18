@@ -1,3 +1,8 @@
+<head>
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="1047924292997-3pht638fc2a7qs83lnt2deqiqkfmntj8.apps.googleusercontent.com">
+</head>
+
 <link rel="stylesheet" href="/stylesheets/sidenavbar.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
@@ -27,7 +32,21 @@
         document.getElementById("mySidebar").style.width = "0";
         document.getElementById('main').style.display = "inline-block";
     }
+
+    function signOut() {
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function() {
+            console.log('User signed out.');
+        });
+    }
+
+    function onLoad() {
+        gapi.load('auth2', function() {
+            gapi.auth2.init();
+        });
+    }
 </script>
+<script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
 <script src="/js/fetch_request/logout.js"></script>
 <script src="/js/fetch_request/token.js"></script>
 <script src="/js/forAll.js"></script>
