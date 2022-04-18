@@ -128,9 +128,7 @@ router.get("/google/callback", memberModifyMethod.googleCallback
     // #swagger.ignore = true
 );
 
-router.get("/google/refresh_token", memberModifyMethod.googleGetToken
-    // #swagger.ignore = true
-);
+//router.get("/google/refresh_token", memberModifyMethod.googleGetToken);
 
 router.put('/update', middleWave, memberModifyMethod.putUpdate, () => {
     //  #swagger.summary  = '更新使用者資料'

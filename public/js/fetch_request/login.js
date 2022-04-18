@@ -82,30 +82,30 @@ function onSignIn(googleUser) {
     }).then(function(response) {
         document.getElementById('loader').classList.remove('is-active');
         if (response.status === 200) {
-            fetch("/member/google/refresh_token", {
-                    method: "GET",
-                    headers: headersList
-                }).then(function(response) {
-                    if (response.status === 200) {
-                        localStorage.setItem('acesstoken', response.headers.get('token'));
-                        localStorage.setItem('refresh_token', response.headers.get('refresh_token'));
-                    } else {
-                        console.log('error: ' + response);
-                        Swal.fire({
-                            icon: 'error',
-                            title: '發生錯誤',
-                            text: response.status
-                        })
-                    }
-                    return response.text();
-                }).then(function(data) {
-                    data = JSON.parse(data);
-                    if (data)
-                        window.location.href = "/auth";
-                    //console.log(data);
-                })
-                // localStorage.setItem('acesstoken', response.headers.get('token'));
-                // localStorage.setItem('refresh_token', response.headers.get('refresh_token'));
+            // fetch("/member/google/refresh_token", {
+            //         method: "GET",
+            //         headers: headersList
+            //     }).then(function(response) {
+            //         if (response.status === 200) {
+            //             localStorage.setItem('acesstoken', response.headers.get('token'));
+            //             localStorage.setItem('refresh_token', response.headers.get('refresh_token'));
+            //         } else {
+            //             console.log('error: ' + response);
+            //             Swal.fire({
+            //                 icon: 'error',
+            //                 title: '發生錯誤',
+            //                 text: response.status
+            //             })
+            //         }
+            //         return response.text();
+            //     }).then(function(data) {
+            //         data = JSON.parse(data);
+            //         if (data)
+            //             window.location.href = "/auth";
+            //         //console.log(data);
+            //     })
+            localStorage.setItem('acesstoken', response.headers.get('token'));
+            localStorage.setItem('refresh_token', response.headers.get('refresh_token'));
         } else {
             console.log('error: ' + response);
             Swal.fire({
@@ -117,8 +117,8 @@ function onSignIn(googleUser) {
         return response.text();
     }).then(function(data) {
         data = JSON.parse(data);
-        // if (data)
-        //     window.location.href = data.redirect_url;
+        if (data)
+            window.location.href = data.redirect_url;
         //console.log(data);
     })
 }

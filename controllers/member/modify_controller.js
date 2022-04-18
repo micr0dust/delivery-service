@@ -483,29 +483,29 @@ module.exports = class Member {
         })
     }
 
-    //googleGetToken
-    googleGetToken(req, res, next) {
-        let id = req.headers['id'];
+    // //googleGetToken
+    // googleGetToken(req, res, next) {
+    //     let id = req.headers['id'];
 
-        googleGetRefreshToken(id).then(data => {
-                const token = getTokenFn(data._id.toString(), 30, config.secret);
-                res.setHeader('token', token);
-                res.setHeader('refresh_token', data.refresh_token);
-                res.status(200).send({
-                    status: '請求成功',
-                    code: false,
-                    result: "token 在 header 中"
-                });
-            })
-            .catch(err => {
-                console.log(err);
-                res.status(400).send({
-                    status: '請求失敗',
-                    code: false,
-                    result: err.message
-                });
-            });
-    }
+    //     googleGetRefreshToken(id).then(data => {
+    //             const token = getTokenFn(data._id.toString(), 30, config.secret);
+    //             res.setHeader('token', token);
+    //             res.setHeader('refresh_token', data.refresh_token);
+    //             res.status(200).send({
+    //                 status: '請求成功',
+    //                 code: false,
+    //                 result: "token 在 header 中"
+    //             });
+    //         })
+    //         .catch(err => {
+    //             console.log(err);
+    //             res.status(400).send({
+    //                 status: '請求失敗',
+    //                 code: false,
+    //                 result: err.message
+    //             });
+    //         });
+    // }
 }
 
 function getTokenFn(id, minutes, secret) {
