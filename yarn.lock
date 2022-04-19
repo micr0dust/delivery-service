@@ -1370,11 +1370,7 @@ supports-color@^7.1.0:
   dependencies:
     has-flag "^4.0.0"
 
-<<<<<<< HEAD
-swagger-autogen@^2.21.1:
-=======
 swagger-autogen@2.21.1:
->>>>>>> 14acf0af414e75302e7a10963aba3e7e2ff5d185
   version "2.21.1"
   resolved "https://registry.yarnpkg.com/swagger-autogen/-/swagger-autogen-2.21.1.tgz#6aa3b2378f996d85a85508c9556c61d04521a64d"
   integrity sha512-PHCaE1yd1Lh5P3htLsGGrkF7fbuWubfBdCjRu/4Jfdk6Foqt6/6wQdSGkwtnrAbOwSekVv2/58A2vox7fWxzhg==
@@ -1384,7 +1380,7 @@ swagger-autogen@2.21.1:
     glob "^7.1.7"
     json5 "^2.2.1"
 
-swagger-jsdoc@^6.2.1:
+swagger-jsdoc@^6.2.0:
   version "6.2.1"
   resolved "https://registry.yarnpkg.com/swagger-jsdoc/-/swagger-jsdoc-6.2.1.tgz#2f3f67c8433ae2c09e7e318d2f8fd9e09f0166b3"
   integrity sha512-l2BwFf7wzNPb11+NRRy65X+kuHUGLb3ZuGFn6A8xDXXTu73YzJmCiy+LED/6QsOgPBPgO3u3sDEz6KuOHAlCtA==
