@@ -45,9 +45,9 @@
   integrity sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ==
 
 "@types/node@*":
-  version "17.0.24"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.24.tgz#20ba1bf69c1b4ab405c7a01e950c4f446b05029f"
-  integrity sha512-aveCYRQbgTH9Pssp1voEP7HiuWlD2jW2BO56w+bVrJn04i61yh6mRfoKO6hEYQD9vF+W8Chkwc6j1M36uPkx4g==
+  version "17.0.25"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.25.tgz#527051f3c2f77aa52e5dc74e45a3da5fb2301448"
+  integrity sha512-wANk6fBrUwdpY4isjWrKTufkrXdu1D2YHCot2fD/DfWxF5sMrVSA+KN7ydckvaTCh0HiqX9IVl0L5/ZoXg5M7w==
 
 "@types/webidl-conversions@*":
   version "6.1.1"
@@ -1370,20 +1370,24 @@ supports-color@^7.1.0:
   dependencies:
     has-flag "^4.0.0"
 
-swagger-autogen@^2.21.0:
-  version "2.21.0"
-  resolved "https://registry.yarnpkg.com/swagger-autogen/-/swagger-autogen-2.21.0.tgz#e95fdd94e91e432a82dc02379bc592f4b61f2963"
-  integrity sha512-7sLomnbWamYencFqWDSG5ete3qeSLUtC7pfG0mJi9qOjIC35MNaFeDyxS95rwyuzq2B2Kyt3FCAO5Zt/B03vLQ==
+<<<<<<< HEAD
+swagger-autogen@^2.21.1:
+=======
+swagger-autogen@2.21.1:
+>>>>>>> 14acf0af414e75302e7a10963aba3e7e2ff5d185
+  version "2.21.1"
+  resolved "https://registry.yarnpkg.com/swagger-autogen/-/swagger-autogen-2.21.1.tgz#6aa3b2378f996d85a85508c9556c61d04521a64d"
+  integrity sha512-PHCaE1yd1Lh5P3htLsGGrkF7fbuWubfBdCjRu/4Jfdk6Foqt6/6wQdSGkwtnrAbOwSekVv2/58A2vox7fWxzhg==
   dependencies:
     acorn "^7.4.1"
     deepmerge "^4.2.2"
     glob "^7.1.7"
     json5 "^2.2.1"
 
-swagger-jsdoc@^6.2.0:
-  version "6.2.0"
-  resolved "https://registry.yarnpkg.com/swagger-jsdoc/-/swagger-jsdoc-6.2.0.tgz#ba8e575de826ee6f524526201ac43698525e921d"
-  integrity sha512-+37GcTwC1FaQeF/7EREeVzOv94RArhqMw0le8q4BZ+62/aPdJO3bQ5on/ULlucgXSN7vqkvjm4ObFO0W4Bs5aQ==
+swagger-jsdoc@^6.2.1:
+  version "6.2.1"
+  resolved "https://registry.yarnpkg.com/swagger-jsdoc/-/swagger-jsdoc-6.2.1.tgz#2f3f67c8433ae2c09e7e318d2f8fd9e09f0166b3"
+  integrity sha512-l2BwFf7wzNPb11+NRRy65X+kuHUGLb3ZuGFn6A8xDXXTu73YzJmCiy+LED/6QsOgPBPgO3u3sDEz6KuOHAlCtA==
   dependencies:
     commander "6.2.0"
     doctrine "3.0.0"
