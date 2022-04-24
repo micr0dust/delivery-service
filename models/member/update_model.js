@@ -13,7 +13,6 @@ module.exports = async function customerEdit(id, memberUpdateData) {
         try {
             const findResult = await collection.findOne({ _id: ObjectId(id) });
             if (!findResult) throw new Error("查無帳號，請重新登入");
-            if (memberUpdateData.email && findResult.email != memberUpdateData.email) memberUpdateData.verityCode = false;
         } catch (err) {
             throw err;
         }

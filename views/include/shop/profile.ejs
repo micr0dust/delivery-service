@@ -1,0 +1,52 @@
+<div class="container">
+    <div class="row">
+        <div class="card col-md-6 col-sm-12 mt-5">
+            <img class="card-img-top" id="img" src="/images/background.jpg" alt="Card image" style="width:100%">
+            <div class="card-body">
+                <h4 id="name" class="card-title"></h4>
+            </div>
+        </div>
+        <div class="card col-md-6 col-sm-12">
+            <div class="card-body">
+                <form class="form-signin">
+                    <h4 class="mb-5 mt-5 d-none d-md-block">商家主控台</h4>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">地址</span>
+                        </div>
+                        <input type="text" id="address" class="form-control" placeholder="地址" name="address" disabled>
+                    </div>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">創建時間</span>
+                        </div>
+                        <input type="text" id="create" class="form-control" placeholder="創建時間" name="create" disabled>
+                    </div>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">上次更新</span>
+                        </div>
+                        <input type="text" id="update" class="form-control" placeholder="上次更新" name="update" disabled>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <template id="productTemplate">
+            <div class="card col-sm-6 col-md-3 mt-3 mr-3">
+                <a class="text-decoration-none">
+                    <div class="card-body"><img class="img-fluid" src="/images/background.jpg"></div>
+                    <div class="card-footer justify-content-between">
+                        <span>name</span>
+                        <span>price</span>
+                    </div>
+                </a>
+            </div>
+        </template>
+        <script src="/js/fetch_request/storePage.js"></script>
+    </div>
+    <div id="product" class="row mt-3 justify-content-start align-items-center"></div>
+</div>
+<script src="/js/fetch_request/shop/profile.js"></script>
+<script src="/js/fetch_request/shop/deleteProduct.js"></script>

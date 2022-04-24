@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
-    res.render('console', { title: 'Hello中原-個人資料' });
+    res.render('console', { title: 'Hello中原-個人資料', part: 'user/profile' });
 });
 
 router.get('/mail', function(req, res, next) {

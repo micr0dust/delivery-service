@@ -1,14 +1,18 @@
 <div class="container h-100">
-    <div id="product" class="row mt-5 h-100 justify-content-center align-items-center"></div>
+    <div id="product" class="row mt-5 h-100 justify-content-start align-items-center"></div>
 </div>
 <template id="productTemplate">
-    <div class="card col-sm-6 col-md-3 mt-3 mr-3">
-        <div class="card-body"><img class="img-fluid" src="/images/background.jpg"></div>
-        <div class="card-footer justify-content-between">
-            <span>name</span>
-            <span>price</span>
+        <div class="card col-sm-6 col-md-3 mt-3 mr-3">
+            <a class="text-decoration-none">
+            <div class="card-body"><img class="img-fluid" src="/images/background.jpg"></div>
+            <div class="card-footer justify-content-between">
+                <span>name</span>
+                <span>price</span>
+            </div>
+            </a>
         </div>
-        <div class="product_id" style="display: none;">Id</div>
-    </div>
 </template>
 <script src="/js/fetch_request/storePage.js"></script>
+<script>
+    getProductFn();
+</script>

@@ -11,6 +11,7 @@ const indexRouter = require('./routes/index');
 const storeRouter = require('./routes/store');
 const templatesRouter = require('./routes/templates');
 const authedRouter = require('./routes/authed');
+const shopRouter = require('./routes/shop');
 const adminRouter = require('./routes/admin');
 const usersRouter = require('./routes/users');
 const rateLimiterMiddleware = require('./models/middleWave/rateLimite');
@@ -35,6 +36,9 @@ app.use('/templates', templatesRouter
     // #swagger.ignore = true
 );
 app.use('/auth', authedRouter
+    // #swagger.ignore = true
+);
+app.use('/shop', shopRouter
     // #swagger.ignore = true
 );
 app.use('/admin', adminRouter

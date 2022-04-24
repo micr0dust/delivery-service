@@ -18,7 +18,8 @@ module.exports = async function storeData(id) {
                 address: findResult.address,
                 create_date: findResult.create_date,
                 last_login: findResult.last_login,
-                product: findResult.product,
+                url: findResult.url,
+                product: findResult.product
             };
             throw new Error("查無此帳號擁有的商店");
         } catch (err) {

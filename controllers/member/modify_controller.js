@@ -134,7 +134,6 @@ module.exports = class Member {
         const memberUpdateData = {
             update_date: onTime(),
             name: req.body.name,
-            email: req.body.email,
             phone: req.body.phone,
             gender: req.body.gender,
             birthday: req.body.birthday,

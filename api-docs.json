@@ -308,17 +308,6 @@
             }
           },
           {
-            "name": "email",
-            "in": "formData",
-            "type": "string",
-            "required": false,
-            "description": "電子信箱",
-            "schema": {
-              "type": "string",
-              "example": "usermail123@gmail.com"
-            }
-          },
-          {
             "name": "phone",
             "in": "formData",
             "type": "string",

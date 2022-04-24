@@ -148,13 +148,6 @@ router.put('/update', middleWave, memberModifyMethod.putUpdate, () => {
                 description: '使用者名稱',
                 schema: "吳玼芢"
     }
-        #swagger.parameters['email'] = {
-                in: 'formData',
-                type: 'string',
-                required: 'false',
-                description: '電子信箱',
-                schema: "usermail123@gmail.com"
-    }
         #swagger.parameters['phone'] = {
                 in: 'formData',
                 type: 'string',
