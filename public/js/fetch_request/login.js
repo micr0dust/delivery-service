@@ -42,14 +42,14 @@ document.getElementById("submit").addEventListener("click", function(e) {
         return response.text();
     }).then(function(data) {
         data = JSON.parse(data);
-        if (data.code)
+        if (data.code) {
+            if (data.result.role) localStorage.setItem('role', JSON.stringify(data.result.role));
             window.location.href = (redirct) ? redirct : '/auth';
-        else Swal.fire({
+        } else Swal.fire({
             icon: 'error',
             title: data.status,
             text: data.result
         });
-        //console.log(data);
     })
 });
 
@@ -95,8 +95,10 @@ function onSignIn(googleUser) {
         return response.text();
     }).then(function(data) {
         data = JSON.parse(data);
-        if (data)
+        if (data) {
+            if (data.result.role) localStorage.setItem('role', JSON.stringify(data.result.role));
             window.location.href = data.redirect_url;
+        }
         //console.log(data);
     })
 }

@@ -106,7 +106,10 @@ module.exports = class Member {
                     res.json({
                         status: '登入成功',
                         code: true,
-                        result: rows.name
+                        result: {
+                            name: rows.name,
+                            role: rows.role
+                        }
                     });
                 }
             })

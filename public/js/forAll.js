@@ -12,6 +12,9 @@ function display() {
         for (let i = 0; i < document.getElementsByClassName('notAuthenticated').length; i++)
             document.getElementsByClassName('notAuthenticated')[i].style.display = "block";
     }
+    if (JSON.parse(localStorage.role).indexOf("store") + 1)
+        for (let i = 0; i < document.getElementsByClassName('haveStore').length; i++)
+            document.getElementsByClassName('haveStore')[i].style.display = "block";
 }
 
 redirect();

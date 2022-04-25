@@ -52,8 +52,8 @@ async function getProductFn(url) {
                     text: data.result
                 }).then(() => {
                     if (data.result === '請重新登入') {
-                        localStorage.removeItem('acesstoken')
-                        localStorage.removeItem('refresh_token')
+                        localStorage.removeItem('acesstoken');
+                        localStorage.removeItem('refresh_token');
                         window.location.href = '/admin/login'
                     } else window.location.href = '/auth'
                 })
