@@ -15,7 +15,7 @@ window.addEventListener('hashchange', function() {
         confirmButtonText: '刪除',
         showLoaderOnConfirm: true,
         preConfirm: (confirm) => {
-            if (confirm == name) return true;
+            if (confirm == name) return delProduct(selected.id);
             else Swal.showValidationMessage(
                 '輸入錯誤'
             )
@@ -89,13 +89,8 @@ function getInfoFn() {
     })
 }
 
-window.addEventListener('locationchange', function() {
-    delProduct();
-});
-
-async function delProduct() {
-    if (!location.href.split('#')[1]) return;
-    productID = location.href.split('#')[1];
+async function delProduct(productID) {
+    if (!productID) return false;
     let headersList = {
         Accept: '*/*',
         token: localStorage.acesstoken,
@@ -123,16 +118,10 @@ async function delProduct() {
         })
         .then(function(data) {
             data = JSON.parse(data);
-            if (data.code) {
-                Swal.fire({
-                    title: `成功刪除 ${oProduct.name}`
-                })
-            } else
-                Swal.fire({
-                    icon: 'error',
-                    title: data.status,
-                    text: data.result
-                }).then(() => {
+            if (!data.code)
+                Swal.showValidationMessage(
+                    `發生錯誤：: ${data.result}`
+                ).then(() => {
                     if (data.result === '請重新登入') {
                         localStorage.removeItem('acesstoken')
                         localStorage.removeItem('refresh_token')

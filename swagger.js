@@ -7,6 +7,7 @@ const options = {
     //autoBody: true // Enable/Disable automatic body capture. By default is true
 }
 const swaggerAutogen = require('swagger-autogen')(options);
+const config = require('./config/development_config');
 
 const doc = {
     tags: [
@@ -24,6 +25,8 @@ const doc = {
             description: '商家營業模式'
         }
     ],
+    host: config.heroku.hostname,
+    schemes: ['https'],
     definitions: {
         redirect_url: { 'redirect_url': 'https://accounts.google.com/o/oauth2/v2/auth?scope=email%20profile&redirect_uri=http://localhost:3000/member/google/callback&response_type=code&client_id=1047494292997-3ph1u638fcq835lnt2dgfmntj8.apps.googleusercontent.com' },
         token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhbGdvcml0aG0iOiJIUzI1NiIsImV4cCI6MTY1MDEyMTc1MCwiZGF0YSI6IjYyNWFkMDE2NzI0MGNhMzgzOWZlYmQwNSIsImlhdCI6MTY1MDExOTk1MH0.zK_jiJATx4W1INvg1yJsWnn_cnXjD2oc38DaRVTTx8k",
