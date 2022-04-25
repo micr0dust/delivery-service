@@ -3,7 +3,7 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
-        "start": "node ./swagger.js --delay 500ms --watch node ./bin/www",
+        "start": "node ./bin/www",
         "api": "node ./swagger.js",
         "dev": "node ./swagger.js --delay 500ms --watch node ./bin/www"
     },
