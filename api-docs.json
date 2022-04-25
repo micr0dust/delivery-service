@@ -204,8 +204,22 @@
                   "example": true
                 },
                 "result": {
-                  "type": "string",
-                  "example": "吳玼芢"
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "example": "測試用帳號2"
+                    },
+                    "role": {
+                      "type": "array",
+                      "example": [
+                        "user"
+                      ],
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
                 }
               },
               "xml": {

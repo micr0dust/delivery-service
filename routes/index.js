@@ -90,7 +90,12 @@ router.post('/login', memberModifyMethod.postLogin, () => {
                 schema: {
                     status: '登入成功',
                     code: true,
-                    result: "吳玼芢"
+                    result: {
+                        "name": "測試用帳號2",
+                        "role": [
+                        "user"
+                        ]
+                    }
                 }
             }
     } */
