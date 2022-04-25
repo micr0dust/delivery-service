@@ -269,7 +269,7 @@ router.post('/product/add', middleWave, storeModifyMethod.postProduct, () => {
         }
     */
 
-    /*  #swagger.responses[200] = {
+    /*  #swagger.responses[201] = {
                 description: '新增成功',
                 schema: {
                     status: '新增成功',

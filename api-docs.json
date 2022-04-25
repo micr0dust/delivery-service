@@ -5,7 +5,7 @@
     "title": "REST API",
     "description": ""
   },
-  "host": "http://localhost:3000",
+  "host": "localhost:3000",
   "basePath": "/",
   "tags": [
     {
@@ -22,7 +22,7 @@
     }
   ],
   "schemes": [
-    "https"
+    "http"
   ],
   "paths": {
     "/member/register": {
@@ -2099,7 +2099,7 @@
           }
         ],
         "responses": {
-          "200": {
+          "201": {
             "description": "新增成功",
             "schema": {
               "type": "object",

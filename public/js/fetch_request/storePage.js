@@ -1,8 +1,9 @@
 async function getProductFn(url) {
+    if (url) localStorage.setItem('url', url);
     let headersList = {
         Accept: '*/*',
         token: localStorage.acesstoken,
-        id: location.href.split('?')[1] || url,
+        id: location.href.split('?')[1] || localStorage.url,
         'Content-Type': 'application/x-www-form-urlencoded'
     }
     await fetch('/member/store/product', {
@@ -30,6 +31,9 @@ async function getProductFn(url) {
         .then(function(data) {
             data = JSON.parse(data);
             if (data.code) {
+                let products = document.getElementById('product');
+                while (products.hasChildNodes())
+                    products.removeChild(products.lastChild);
                 let productList = document.getElementById('product');
                 for (let i = 0; i < data.result.length; i++) {
                     const product = data.result[i];
