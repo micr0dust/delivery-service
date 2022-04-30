@@ -96,7 +96,11 @@ function onSignIn(googleUser) {
     }).then(function(data) {
         data = JSON.parse(data);
         if (data) {
-            if (data.result.role) localStorage.setItem('role', JSON.stringify(data.result.role));
+            try {
+                if (data.result.role) localStorage.setItem('role', JSON.stringify(data.result.role));
+            } catch (error) {
+
+            }
             window.location.href = data.redirect_url;
         }
         //console.log(data);
