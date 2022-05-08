@@ -1,2613 +1,2546 @@
 {
-  "swagger": "2.0",
-  "info": {
-    "version": "1.0.0",
-    "title": "REST API",
-    "description": ""
-  },
-  "host": "localhost:3000",
-  "basePath": "/",
-  "tags": [
-    {
-      "name": "member",
-      "description": "使用者"
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "REST API",
+        "description": ""
     },
-    {
-      "name": "store",
-      "description": "商家後台管理"
-    },
-    {
-      "name": "business",
-      "description": "商家營業模式"
-    }
-  ],
-  "schemes": [
-    "http"
-  ],
-  "paths": {
-    "/member/register": {
-      "post": {
-        "tags": [
-          "member"
-        ],
-        "summary": "註冊",
-        "description": "以姓名、郵箱、密碼註冊帳號，並返回時效為一小時的 token",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "parameters": [
-          {
-            "name": "name",
-            "in": "formData",
-            "type": "string",
-            "required": true,
-            "description": "使用者名稱",
-            "schema": {
-              "type": "string",
-              "example": "吳玼芢"
-            }
-          },
-          {
-            "name": "email",
-            "in": "formData",
-            "type": "string",
-            "required": true,
-            "description": "電子信箱",
-            "schema": {
-              "type": "string",
-              "example": "usermail123@gmail.com"
-            }
-          },
-          {
-            "name": "password",
-            "in": "formData",
-            "type": "string",
-            "required": true,
-            "description": "密碼",
-            "schema": {
-              "type": "string",
-              "example": "Aaaaaaa1"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "註冊成功",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "註冊成功"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "result": {
-                  "type": "object",
-                  "properties": {
-                    "name": {
-                      "type": "string",
-                      "example": "使用者名稱"
-                    },
-                    "email": {
-                      "type": "string",
-                      "example": "usermail123@gmail.com"
-                    }
-                  }
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "400": {
-            "description": "因格式錯誤導致的註冊失敗",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "註冊失敗"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "error message"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "429": {
-            "description": "Too Many Requests"
-          },
-          "500": {
-            "description": "因伺服器錯誤導致的註冊失敗",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "註冊失敗"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "error message"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          }
+    "host": "hello-cycu-delivery-service.herokuapp.com",
+    "basePath": "/",
+    "tags": [{
+            "name": "member",
+            "description": "使用者"
+        },
+        {
+            "name": "store",
+            "description": "商家後台管理"
+        },
+        {
+            "name": "business",
+            "description": "商家營業模式"
         }
-      }
-    },
-    "/member/login": {
-      "post": {
-        "tags": [
-          "member"
-        ],
-        "summary": "登入",
-        "description": "以郵箱、密碼登入帳號，並返回時效為一小時的 token",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "parameters": [
-          {
-            "name": "email",
-            "in": "formData",
-            "type": "string",
-            "required": true,
-            "description": "電子信箱",
-            "schema": {
-              "type": "string",
-              "example": "usermail123@gmail.com"
-            }
-          },
-          {
-            "name": "password",
-            "in": "formData",
-            "type": "string",
-            "required": true,
-            "description": "密碼",
-            "schema": {
-              "type": "string",
-              "example": "Aaaaaaa1"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "登入成功",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "登入成功"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "result": {
-                  "type": "object",
-                  "properties": {
-                    "name": {
-                      "type": "string",
-                      "example": "測試用帳號2"
+    ],
+    "schemes": [
+        "http"
+    ],
+    "paths": {
+        "/member/register": {
+            "post": {
+                "tags": [
+                    "member"
+                ],
+                "summary": "註冊",
+                "description": "以姓名、郵箱、密碼註冊帳號，並返回時效為一小時的 token",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "parameters": [{
+                        "name": "name",
+                        "in": "formData",
+                        "type": "string",
+                        "required": true,
+                        "description": "使用者名稱",
+                        "schema": {
+                            "type": "string",
+                            "example": "吳玼芢"
+                        }
                     },
-                    "role": {
-                      "type": "array",
-                      "example": [
-                        "user"
-                      ],
-                      "items": {
-                        "type": "string"
-                      }
+                    {
+                        "name": "email",
+                        "in": "formData",
+                        "type": "string",
+                        "required": true,
+                        "description": "電子信箱",
+                        "schema": {
+                            "type": "string",
+                            "example": "usermail123@gmail.com"
+                        }
+                    },
+                    {
+                        "name": "password",
+                        "in": "formData",
+                        "type": "string",
+                        "required": true,
+                        "description": "密碼",
+                        "schema": {
+                            "type": "string",
+                            "example": "Aaaaaaa1"
+                        }
                     }
-                  }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "註冊成功",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "註冊成功"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "result": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string",
+                                            "example": "使用者名稱"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "usermail123@gmail.com"
+                                        }
+                                    }
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "因格式錯誤導致的註冊失敗",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "註冊失敗"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "error message"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too Many Requests"
+                    },
+                    "500": {
+                        "description": "因伺服器錯誤導致的註冊失敗",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "註冊失敗"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "error message"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    }
                 }
-              },
-              "xml": {
-                "name": "main"
-              }
             }
-          },
-          "400": {
-            "description": "登入失敗",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "註冊失敗"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "error message"
+        },
+        "/member/login": {
+            "post": {
+                "tags": [
+                    "member"
+                ],
+                "summary": "登入",
+                "description": "以郵箱、密碼登入帳號，並返回時效為一小時的 token",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "parameters": [{
+                        "name": "email",
+                        "in": "formData",
+                        "type": "string",
+                        "required": true,
+                        "description": "電子信箱",
+                        "schema": {
+                            "type": "string",
+                            "example": "usermail123@gmail.com"
+                        }
+                    },
+                    {
+                        "name": "password",
+                        "in": "formData",
+                        "type": "string",
+                        "required": true,
+                        "description": "密碼",
+                        "schema": {
+                            "type": "string",
+                            "example": "Aaaaaaa1"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "登入成功",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "登入成功"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "result": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string",
+                                            "example": "測試用帳號2"
+                                        },
+                                        "role": {
+                                            "type": "array",
+                                            "example": [
+                                                "user"
+                                            ],
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "登入失敗",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "註冊失敗"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "error message"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too Many Requests"
+                    }
                 }
-              },
-              "xml": {
-                "name": "main"
-              }
             }
-          },
-          "429": {
-            "description": "Too Many Requests"
-          }
+        },
+        "/member/google/login": {
+            "get": {
+                "tags": [
+                    "member"
+                ],
+                "summary": "Google 登入",
+                "description": "將 id_token 傳給伺服器，表示該使用者授權登入",
+                "parameters": [{
+                    "name": "accesstoken",
+                    "in": "header",
+                    "type": "string",
+                    "required": true,
+                    "description": "id_token = googleUser.getAuthResponse().id_token",
+                    "schema": {
+                        "type": "string",
+                        "example": "id_token"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "redirect_url",
+                        "schema": {
+                            "$ref": "#/definitions/redirect_url"
+                        }
+                    },
+                    "429": {
+                        "description": "Too Many Requests"
+                    }
+                }
+            }
+        },
+        "/member/update": {
+            "put": {
+                "tags": [
+                    "member"
+                ],
+                "summary": "更新使用者資料",
+                "description": "以使用者 token 請求，成功將更新使用者資料，資料未填寫將不更新",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "member access token",
+                        "schema": {
+                            "$ref": "#/definitions/token"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "formData",
+                        "type": "string",
+                        "required": false,
+                        "description": "使用者名稱",
+                        "schema": {
+                            "type": "string",
+                            "example": "吳玼芢"
+                        }
+                    },
+                    {
+                        "name": "phone",
+                        "in": "formData",
+                        "type": "string",
+                        "required": false,
+                        "description": "行動手機號碼",
+                        "schema": {
+                            "type": "string",
+                            "example": "0987654321"
+                        }
+                    },
+                    {
+                        "name": "gender",
+                        "in": "formData",
+                        "type": "string",
+                        "required": false,
+                        "description": "性別",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "oneOf": {
+                                    "type": "array",
+                                    "example": [
+                                        "男",
+                                        "女",
+                                        "跨性別",
+                                        "不願透漏"
+                                    ],
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "birthday",
+                        "in": "formData",
+                        "type": "string",
+                        "required": false,
+                        "description": "生日",
+                        "schema": {
+                            "type": "string",
+                            "example": "2022-11-06"
+                        }
+                    },
+                    {
+                        "name": "password",
+                        "in": "formData",
+                        "type": "string",
+                        "required": false,
+                        "description": "密碼",
+                        "schema": {
+                            "type": "string",
+                            "example": "Aaaaaaa1"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "更改成功",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "更改成功"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "資料更改成功"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "token錯誤",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "token錯誤"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "請重新登入"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too Many Requests"
+                    },
+                    "500": {
+                        "description": "更改失敗",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "更改失敗"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "error message"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    }
+                },
+                "security": [{
+                    "bearerAuth": []
+                }]
+            }
+        },
+        "/member/delete": {
+            "delete": {
+                "tags": [
+                    "member"
+                ],
+                "summary": "刪除帳號",
+                "description": "以 token 和密碼請求，刪除帳號。如有店家身分或商品將一併刪除",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "member access token",
+                        "schema": {
+                            "$ref": "#/definitions/token"
+                        }
+                    },
+                    {
+                        "name": "password",
+                        "in": "formData",
+                        "type": "string",
+                        "required": true,
+                        "description": "密碼",
+                        "schema": {
+                            "type": "string",
+                            "example": "Aaaaaaa1"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "帳號已成功刪除",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "帳號已成功刪除"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "成功刪除帳號"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "因無法驗證身份而刪除失敗",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "刪除失敗"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "error message"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "token錯誤",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "token錯誤"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "請重新登入"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too Many Requests"
+                    },
+                    "500": {
+                        "description": "因伺服器問題導致帳號無法刪除",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "帳號無法刪除"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "error message"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    }
+                },
+                "security": [{
+                    "bearerAuth": []
+                }]
+            }
+        },
+        "/member/email/send": {
+            "put": {
+                "tags": [
+                    "member"
+                ],
+                "summary": "請求驗證 email 發送",
+                "description": "以使用者 token 請求，成功將發送驗證碼 email",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "parameters": [{
+                    "name": "token",
+                    "in": "header",
+                    "type": "string",
+                    "required": true,
+                    "description": "member access token",
+                    "schema": {
+                        "$ref": "#/definitions/token"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "成功發送驗證碼",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "成功發送驗證碼"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "result": {
+                                    "type": "object",
+                                    "properties": {}
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "token錯誤",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "token錯誤"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "請重新登入"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too Many Requests"
+                    },
+                    "500": {
+                        "description": "無法發送驗證碼",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "無法發送驗證碼"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "error message"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    }
+                },
+                "security": [{
+                    "bearerAuth": []
+                }]
+            }
+        },
+        "/member/email/verify": {
+            "put": {
+                "tags": [
+                    "member"
+                ],
+                "summary": "驗證 email",
+                "description": "以使用者 token 和 verityCode 請求，返回 email 是否驗證成功",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "member access token",
+                        "schema": {
+                            "$ref": "#/definitions/token"
+                        }
+                    },
+                    {
+                        "name": "verityCode",
+                        "in": "formData",
+                        "type": "string",
+                        "required": true,
+                        "description": "驗證碼",
+                        "schema": {
+                            "$ref": "#/definitions/token"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "驗證成功",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "驗證成功"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "result": {
+                                    "type": "object",
+                                    "properties": {}
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "驗證碼錯誤",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "驗證碼錯誤"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "請確認驗證碼"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "token錯誤",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "token錯誤"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "請重新登入"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too Many Requests"
+                    }
+                },
+                "security": [{
+                    "bearerAuth": []
+                }]
+            }
+        },
+        "/member/user/info": {
+            "get": {
+                "tags": [
+                    "member"
+                ],
+                "summary": "獲取使用者資料",
+                "description": "以使用者 token 請求，返回使用者資料",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "parameters": [{
+                    "name": "token",
+                    "in": "header",
+                    "type": "string",
+                    "required": true,
+                    "description": "member access token",
+                    "schema": {
+                        "$ref": "#/definitions/token"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "成功獲取使用者資料",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "成功獲取使用者資料"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "result": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string",
+                                            "example": "吳玼芢"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "usermail123@gmail.com"
+                                        },
+                                        "create_date": {
+                                            "type": "string",
+                                            "example": "2022-04-16 22:17:56"
+                                        },
+                                        "update_date": {
+                                            "type": "string",
+                                            "example": "2022-04-16 22:56:18"
+                                        },
+                                        "verityCode": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "phone": {
+                                            "type": "string",
+                                            "example": "0987654321"
+                                        },
+                                        "birthday": {
+                                            "type": "string",
+                                            "example": "2022-11-06"
+                                        }
+                                    }
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "無法獲取使用者資料",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "無法獲取使用者資料"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "error message"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "token錯誤",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "token錯誤"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "請重新登入"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too Many Requests"
+                    }
+                },
+                "security": [{
+                    "bearerAuth": []
+                }]
+            }
+        },
+        "/member/user/token": {
+            "get": {
+                "tags": [
+                    "member"
+                ],
+                "summary": "請求新令牌 (token)",
+                "description": "以使用者 refresh_token 請求，返回一個新的 token",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "parameters": [{
+                    "name": "refresh_token",
+                    "in": "header",
+                    "type": "string",
+                    "required": true,
+                    "description": "member refresh_token",
+                    "schema": {
+                        "$ref": "#/definitions/token"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "成功獲取新token",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "成功獲取新token"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "token時效為半小時"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "無法獲取token",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "無法獲取token"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "error message"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "token錯誤",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "token錯誤"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "請重新登入"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too Many Requests"
+                    }
+                },
+                "security": [{
+                    "bearerAuth": []
+                }]
+            }
+        },
+        "/member/user/order": {
+            "post": {
+                "tags": [
+                    "member"
+                ],
+                "summary": "訂單寄出",
+                "description": "以使用者 token 和 Json 陣列形式的資料請求，在資料庫中新增一個訂單。",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/order"
+                        }
+                    },
+                    {
+                        "name": "token",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "member access token",
+                        "schema": {
+                            "$ref": "#/definitions/token"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "點餐成功",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "點餐成功"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "[{\"id\":\"6211e1afb27988329badd497\",\"count\":4,\"note\":\"熱\"},{\"id\":\"6211e1d8b27988329badd498\",\"count\":1,\"note\":\"冰的\"}]"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "token錯誤",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "token錯誤"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "請重新登入"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too Many Requests"
+                    },
+                    "500": {
+                        "description": "點餐失敗",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "點餐失敗"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "error message"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    }
+                },
+                "security": [{
+                    "bearerAuth": []
+                }]
+            },
+            "get": {
+                "tags": [
+                    "member"
+                ],
+                "summary": "獲取歷史訂單",
+                "description": "以使用者 token 請求，獲取其歷史訂單。",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "parameters": [{
+                    "name": "token",
+                    "in": "header",
+                    "type": "string",
+                    "required": true,
+                    "description": "member access token",
+                    "schema": {
+                        "$ref": "#/definitions/token"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "成功獲取歷史訂單資料",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "成功獲取歷史訂單資料"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "[{\"id\":\"6211e1afb27988329badd497\",\"count\":4,\"note\":\"熱\"},{\"id\":\"6211e1d8b27988329badd498\",\"count\":1,\"note\":\"冰的\"}]"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "token錯誤",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "token錯誤"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "請重新登入"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too Many Requests"
+                    },
+                    "500": {
+                        "description": "無法獲取歷史訂單資料",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "無法獲取歷史訂單資料"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "error message"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    }
+                },
+                "security": [{
+                    "bearerAuth": []
+                }]
+            }
+        },
+        "/member/store": {
+            "get": {
+                "tags": [
+                    "member"
+                ],
+                "summary": "獲取商家列表",
+                "description": "以使用者 token 請求，返回商家列表",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "parameters": [{
+                    "name": "token",
+                    "in": "header",
+                    "type": "string",
+                    "required": true,
+                    "description": "member access token",
+                    "schema": {
+                        "$ref": "#/definitions/token"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "成功獲取商家列表",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "成功獲取商家列表"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "result": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "name": {
+                                                "type": "string",
+                                                "example": "燒肉飯店"
+                                            },
+                                            "address": {
+                                                "type": "string",
+                                                "example": "台北市中山區OO街OO號"
+                                            },
+                                            "id": {
+                                                "type": "string",
+                                                "example": "9xe72aqx"
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "token錯誤",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "token錯誤"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "請重新登入"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too Many Requests"
+                    },
+                    "500": {
+                        "description": "無法獲取商家列表",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "無法獲取商家列表"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "error message"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    }
+                },
+                "security": [{
+                    "bearerAuth": []
+                }]
+            }
+        },
+        "/member/store/product": {
+            "get": {
+                "tags": [
+                    "member"
+                ],
+                "summary": "獲取特定商家所有商品",
+                "description": "以使用者 token 請求，返回商家列表",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "access token",
+                        "schema": {
+                            "$ref": "#/definitions/token"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "store id",
+                        "schema": {
+                            "type": "string",
+                            "example": "8y3un9ka"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功獲取商品資料",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "成功獲取商品資料"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "result": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "name": {
+                                                "type": "string",
+                                                "example": "漢堡"
+                                            },
+                                            "price": {
+                                                "type": "string",
+                                                "example": "1395"
+                                            },
+                                            "describe": {
+                                                "type": "string",
+                                                "example": "美味蟹堡"
+                                            },
+                                            "type": {
+                                                "type": "string",
+                                                "example": "熱食"
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "token錯誤",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "token錯誤"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "請重新登入"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too Many Requests"
+                    },
+                    "500": {
+                        "description": "無法獲取商品資料",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "無法獲取商品資料"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "error message"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    }
+                },
+                "security": [{
+                    "bearerAuth": []
+                }]
+            }
+        },
+        "/store/get": {
+            "get": {
+                "tags": [
+                    "store"
+                ],
+                "summary": "獲取商家資訊",
+                "description": "以 token 請求，返回商家名稱、地址等相關資訊",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "parameters": [{
+                    "name": "token",
+                    "in": "header",
+                    "type": "string",
+                    "required": true,
+                    "description": "member access token",
+                    "schema": {
+                        "$ref": "#/definitions/token"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "成功獲取店家資料",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "成功獲取店家資料"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "result": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string",
+                                            "example": "友朋小吃"
+                                        },
+                                        "address": {
+                                            "type": "string",
+                                            "example": "桃園市中壢區OO街OO號"
+                                        },
+                                        "create_date": {
+                                            "type": "string",
+                                            "example": "2022-02-11 17:34:03"
+                                        },
+                                        "last_login": {
+                                            "type": "string",
+                                            "example": "2022-02-25 17:53:25"
+                                        },
+                                        "product": {
+                                            "type": "array",
+                                            "example": [
+                                                "6211e1afb27988329badd497",
+                                                "6211e1d8b27988329badd498"
+                                            ],
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "token錯誤",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "token錯誤"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "請重新登入"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too Many Requests"
+                    },
+                    "500": {
+                        "description": "無法獲取店家資料",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "無法獲取店家資料"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "error message"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    }
+                },
+                "security": [{
+                    "bearerAuth": []
+                }]
+            }
+        },
+        "/store/login": {
+            "post": {
+                "tags": [
+                    "store"
+                ],
+                "summary": "商家開啟營業模式",
+                "description": "以 token 請求，返回營業模式專屬的一組 token 和 refresh_token",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "parameters": [{
+                    "name": "token",
+                    "in": "header",
+                    "type": "string",
+                    "required": true,
+                    "description": "member access token",
+                    "schema": {
+                        "$ref": "#/definitions/token"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "成功"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "友朋小吃 的營運模式已開啟"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "token錯誤",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "token錯誤"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "請重新登入"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too Many Requests"
+                    },
+                    "500": {
+                        "description": "切換失敗",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "切換失敗"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "error message"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    }
+                },
+                "security": [{
+                    "bearerAuth": []
+                }]
+            }
+        },
+        "/store/business/token": {
+            "get": {
+                "tags": [
+                    "business"
+                ],
+                "summary": "商家獲取 token",
+                "description": "以商家營業模式的 refresh_token 請求，返回此商家營業模式的 token",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "parameters": [{
+                    "name": "refresh_token",
+                    "in": "header",
+                    "type": "string",
+                    "required": true,
+                    "description": "store refresh token",
+                    "schema": {
+                        "$ref": "#/definitions/token"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "成功獲取新token",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "成功獲取新token"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "token時效為半小時"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "token錯誤",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "token錯誤"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "請重新登入"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too Many Requests"
+                    },
+                    "500": {
+                        "description": "無法獲取token",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "無法獲取token"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "error message"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    }
+                },
+                "security": [{
+                    "bearerAuth": []
+                }]
+            }
+        },
+        "/store/establish": {
+            "post": {
+                "tags": [
+                    "store"
+                ],
+                "summary": "建立商家",
+                "description": "以店名和地址為帳號建立商家",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "member access token",
+                        "schema": {
+                            "$ref": "#/definitions/token"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "formData",
+                        "type": "string",
+                        "required": true,
+                        "description": "商店名稱",
+                        "schema": {
+                            "type": "string",
+                            "example": "友朋小吃"
+                        }
+                    },
+                    {
+                        "name": "address",
+                        "in": "formData",
+                        "type": "string",
+                        "required": true,
+                        "description": "地址",
+                        "schema": {
+                            "type": "string",
+                            "example": "台北市中壢區OO街OO號"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "註冊成功",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "註冊成功"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "result": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string",
+                                            "example": "友朋小吃"
+                                        },
+                                        "address": {
+                                            "type": "string",
+                                            "example": "台北市中壢區OO街OO號"
+                                        },
+                                        "create_date": {
+                                            "type": "string",
+                                            "example": "2022-11-06 17:08:07"
+                                        }
+                                    }
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "因格式資料錯誤導致註冊失敗",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "註冊失敗"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "error message"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "token錯誤",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "token錯誤"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "請重新登入"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too Many Requests"
+                    },
+                    "500": {
+                        "description": "因伺服器錯誤導致註冊失敗",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "註冊失敗"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "error message"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    }
+                },
+                "security": [{
+                    "bearerAuth": []
+                }]
+            }
+        },
+        "/store/delete": {
+            "delete": {
+                "tags": [
+                    "store"
+                ],
+                "summary": "刪除商家",
+                "description": "以 token 和密碼請求，刪除帳號的店家身分及其下商品",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "member access token",
+                        "schema": {
+                            "$ref": "#/definitions/token"
+                        }
+                    },
+                    {
+                        "name": "password",
+                        "in": "formData",
+                        "type": "string",
+                        "required": true,
+                        "description": "密碼",
+                        "schema": {
+                            "type": "string",
+                            "example": "Aaaaaaa1"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "商家身分已成功刪除",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "商家身分已成功刪除"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "成功刪除商家及其商品"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "因找不到該帳號所有之店家而導致刪除失敗",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "刪除失敗"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "error message"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "token錯誤",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "token錯誤"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "請重新登入"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too Many Requests"
+                    },
+                    "500": {
+                        "description": "因伺服器錯誤而導致刪除失敗",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "刪除失敗"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "error message"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    }
+                },
+                "security": [{
+                    "bearerAuth": []
+                }]
+            }
+        },
+        "/store/product/add": {
+            "post": {
+                "tags": [
+                    "store"
+                ],
+                "summary": "新增商品",
+                "description": "以 token 和商品資料請求，建立商品",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "member access token",
+                        "schema": {
+                            "$ref": "#/definitions/token"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "formData",
+                        "type": "string",
+                        "required": true,
+                        "description": "商品名稱",
+                        "schema": {
+                            "type": "string",
+                            "example": "火腿蛋餅"
+                        }
+                    },
+                    {
+                        "name": "price",
+                        "in": "formData",
+                        "type": "integer",
+                        "required": true,
+                        "description": "價格",
+                        "schema": {
+                            "type": "number",
+                            "example": 25
+                        }
+                    },
+                    {
+                        "name": "describe",
+                        "in": "formData",
+                        "type": "string",
+                        "required": false,
+                        "description": "簡介",
+                        "schema": {
+                            "type": "string",
+                            "example": "有火腿"
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "in": "formData",
+                        "type": "string",
+                        "required": false,
+                        "description": "類別",
+                        "schema": {
+                            "type": "string",
+                            "example": "蛋餅"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "新增成功",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "新增成功"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "result": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string",
+                                            "example": "火腿蛋餅"
+                                        },
+                                        "price": {
+                                            "type": "string",
+                                            "example": "25"
+                                        },
+                                        "describe": {
+                                            "type": "string",
+                                            "example": "有火腿"
+                                        },
+                                        "type": {
+                                            "type": "string",
+                                            "example": "蛋餅"
+                                        }
+                                    }
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "因格式資料錯誤導致新增失敗",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "新增失敗"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "error message"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "token錯誤",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "token錯誤"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "請重新登入"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too Many Requests"
+                    },
+                    "500": {
+                        "description": "因伺服器錯誤導致新增失敗",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "新增失敗"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "error message"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    }
+                },
+                "security": [{
+                    "bearerAuth": []
+                }]
+            }
+        },
+        "/store/product/remove": {
+            "delete": {
+                "tags": [
+                    "store"
+                ],
+                "summary": "刪除商品",
+                "description": "以 token 和商品id請求，刪除商品",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "member access token",
+                        "schema": {
+                            "$ref": "#/definitions/token"
+                        }
+                    },
+                    {
+                        "name": "product",
+                        "in": "formData",
+                        "type": "string",
+                        "required": true,
+                        "description": "商品ID",
+                        "schema": {
+                            "type": "string",
+                            "example": "6218bc479bd8bbdaa3036906"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功刪除商品",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "成功刪除商品"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "6218bc479bd8bbdaa3036906"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "token錯誤",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "token錯誤"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "請重新登入"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too Many Requests"
+                    },
+                    "500": {
+                        "description": "刪除商品失敗",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "刪除商品失敗"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "error message"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    }
+                },
+                "security": [{
+                    "bearerAuth": []
+                }]
+            }
+        },
+        "/store/business/order/get": {
+            "get": {
+                "tags": [
+                    "business"
+                ],
+                "summary": "商家獲取訂單",
+                "description": "以商家營業模式的 token 請求，返回此商家所有的訂單",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "parameters": [{
+                    "name": "token",
+                    "in": "header",
+                    "type": "string",
+                    "required": true,
+                    "description": "store access token",
+                    "schema": {
+                        "$ref": "#/definitions/token"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "成功獲取訂單",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "成功獲取訂單"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "result": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "DATE": {
+                                                "type": "string",
+                                                "example": "2022-02-20T06:43:44.598Z"
+                                            },
+                                            "id": {
+                                                "type": "string",
+                                                "example": "61c9774137e1ba4becbbe1c7"
+                                            },
+                                            "_id": {
+                                                "type": "string",
+                                                "example": "6211e32327e60f21cc93d7a9"
+                                            },
+                                            "order": {
+                                                "type": "string",
+                                                "example": "[{\"id\":\"6211e1afb27988329badd497\",\"count\":\"1\"},]"
+                                            },
+                                            "store": {
+                                                "type": "string",
+                                                "example": "62062d8d136e8a533bb22e48"
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "token錯誤",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "token錯誤"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "請重新登入"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too Many Requests"
+                    },
+                    "500": {
+                        "description": "無法獲取訂單",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "無法獲取訂單"
+                                },
+                                "code": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "result": {
+                                    "type": "string",
+                                    "example": "error message"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    }
+                },
+                "security": [{
+                    "bearerAuth": []
+                }]
+            }
         }
-      }
     },
-    "/member/google/login": {
-      "get": {
-        "tags": [
-          "member"
-        ],
-        "summary": "Google 登入",
-        "description": "將 id_token 傳給伺服器，表示該使用者授權登入",
-        "parameters": [
-          {
-            "name": "accesstoken",
-            "in": "header",
-            "type": "string",
-            "required": true,
-            "description": "id_token = googleUser.getAuthResponse().id_token",
-            "schema": {
-              "type": "string",
-              "example": "id_token"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "redirect_url",
-            "schema": {
-              "$ref": "#/definitions/redirect_url"
-            }
-          },
-          "429": {
-            "description": "Too Many Requests"
-          }
-        }
-      }
-    },
-    "/member/update": {
-      "put": {
-        "tags": [
-          "member"
-        ],
-        "summary": "更新使用者資料",
-        "description": "以使用者 token 請求，成功將更新使用者資料，資料未填寫將不更新",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "parameters": [
-          {
-            "name": "token",
-            "in": "header",
-            "type": "string",
-            "required": true,
-            "description": "member access token",
-            "schema": {
-              "$ref": "#/definitions/token"
-            }
-          },
-          {
-            "name": "name",
-            "in": "formData",
-            "type": "string",
-            "required": false,
-            "description": "使用者名稱",
-            "schema": {
-              "type": "string",
-              "example": "吳玼芢"
-            }
-          },
-          {
-            "name": "phone",
-            "in": "formData",
-            "type": "string",
-            "required": false,
-            "description": "行動手機號碼",
-            "schema": {
-              "type": "string",
-              "example": "0987654321"
-            }
-          },
-          {
-            "name": "gender",
-            "in": "formData",
-            "type": "string",
-            "required": false,
-            "description": "性別",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "oneOf": {
-                  "type": "array",
-                  "example": [
-                    "男",
-                    "女",
-                    "跨性別",
-                    "不願透漏"
-                  ],
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          },
-          {
-            "name": "birthday",
-            "in": "formData",
-            "type": "string",
-            "required": false,
-            "description": "生日",
-            "schema": {
-              "type": "string",
-              "example": "2022-11-06"
-            }
-          },
-          {
-            "name": "password",
-            "in": "formData",
-            "type": "string",
-            "required": false,
-            "description": "密碼",
-            "schema": {
-              "type": "string",
-              "example": "Aaaaaaa1"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "更改成功",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "更改成功"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "result": {
-                  "type": "string",
-                  "example": "資料更改成功"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "403": {
-            "description": "token錯誤",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "token錯誤"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "請重新登入"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "429": {
-            "description": "Too Many Requests"
-          },
-          "500": {
-            "description": "更改失敗",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "更改失敗"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "error message"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
-      }
-    },
-    "/member/delete": {
-      "delete": {
-        "tags": [
-          "member"
-        ],
-        "summary": "刪除帳號",
-        "description": "以 token 和密碼請求，刪除帳號。如有店家身分或商品將一併刪除",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "parameters": [
-          {
-            "name": "token",
-            "in": "header",
-            "type": "string",
-            "required": true,
-            "description": "member access token",
-            "schema": {
-              "$ref": "#/definitions/token"
-            }
-          },
-          {
-            "name": "password",
-            "in": "formData",
-            "type": "string",
-            "required": true,
-            "description": "密碼",
-            "schema": {
-              "type": "string",
-              "example": "Aaaaaaa1"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "帳號已成功刪除",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "帳號已成功刪除"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "result": {
-                  "type": "string",
-                  "example": "成功刪除帳號"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "400": {
-            "description": "因無法驗證身份而刪除失敗",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "刪除失敗"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "error message"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "403": {
-            "description": "token錯誤",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "token錯誤"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "請重新登入"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "429": {
-            "description": "Too Many Requests"
-          },
-          "500": {
-            "description": "因伺服器問題導致帳號無法刪除",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "帳號無法刪除"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "error message"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
-      }
-    },
-    "/member/email/send": {
-      "put": {
-        "tags": [
-          "member"
-        ],
-        "summary": "請求驗證 email 發送",
-        "description": "以使用者 token 請求，成功將發送驗證碼 email",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "parameters": [
-          {
-            "name": "token",
-            "in": "header",
-            "type": "string",
-            "required": true,
-            "description": "member access token",
-            "schema": {
-              "$ref": "#/definitions/token"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "成功發送驗證碼",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "成功發送驗證碼"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "result": {
-                  "type": "object",
-                  "properties": {}
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "403": {
-            "description": "token錯誤",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "token錯誤"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "請重新登入"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "429": {
-            "description": "Too Many Requests"
-          },
-          "500": {
-            "description": "無法發送驗證碼",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "無法發送驗證碼"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "error message"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
-      }
-    },
-    "/member/email/verify": {
-      "put": {
-        "tags": [
-          "member"
-        ],
-        "summary": "驗證 email",
-        "description": "以使用者 token 和 verityCode 請求，返回 email 是否驗證成功",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "parameters": [
-          {
-            "name": "token",
-            "in": "header",
-            "type": "string",
-            "required": true,
-            "description": "member access token",
-            "schema": {
-              "$ref": "#/definitions/token"
-            }
-          },
-          {
-            "name": "verityCode",
-            "in": "formData",
-            "type": "string",
-            "required": true,
-            "description": "驗證碼",
-            "schema": {
-              "$ref": "#/definitions/token"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "驗證成功",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "驗證成功"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "result": {
-                  "type": "object",
-                  "properties": {}
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "401": {
-            "description": "驗證碼錯誤",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "驗證碼錯誤"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "請確認驗證碼"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "403": {
-            "description": "token錯誤",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "token錯誤"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "請重新登入"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "429": {
-            "description": "Too Many Requests"
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
-      }
-    },
-    "/member/user/info": {
-      "get": {
-        "tags": [
-          "member"
-        ],
-        "summary": "獲取使用者資料",
-        "description": "以使用者 token 請求，返回使用者資料",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "parameters": [
-          {
-            "name": "token",
-            "in": "header",
-            "type": "string",
-            "required": true,
-            "description": "member access token",
-            "schema": {
-              "$ref": "#/definitions/token"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "成功獲取使用者資料",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "成功獲取使用者資料"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "result": {
-                  "type": "object",
-                  "properties": {
-                    "name": {
-                      "type": "string",
-                      "example": "吳玼芢"
-                    },
-                    "email": {
-                      "type": "string",
-                      "example": "usermail123@gmail.com"
-                    },
-                    "create_date": {
-                      "type": "string",
-                      "example": "2022-04-16 22:17:56"
-                    },
-                    "update_date": {
-                      "type": "string",
-                      "example": "2022-04-16 22:56:18"
-                    },
-                    "verityCode": {
-                      "type": "boolean",
-                      "example": true
-                    },
-                    "phone": {
-                      "type": "string",
-                      "example": "0987654321"
-                    },
-                    "birthday": {
-                      "type": "string",
-                      "example": "2022-11-06"
-                    }
-                  }
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "400": {
-            "description": "無法獲取使用者資料",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "無法獲取使用者資料"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "error message"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "403": {
-            "description": "token錯誤",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "token錯誤"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "請重新登入"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "429": {
-            "description": "Too Many Requests"
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
-      }
-    },
-    "/member/user/token": {
-      "get": {
-        "tags": [
-          "member"
-        ],
-        "summary": "請求新令牌 (token)",
-        "description": "以使用者 refresh_token 請求，返回一個新的 token",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "parameters": [
-          {
-            "name": "refresh_token",
-            "in": "header",
-            "type": "string",
-            "required": true,
-            "description": "member refresh_token",
-            "schema": {
-              "$ref": "#/definitions/token"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "成功獲取新token",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "成功獲取新token"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "result": {
-                  "type": "string",
-                  "example": "token時效為半小時"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "400": {
-            "description": "無法獲取token",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "無法獲取token"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "error message"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "403": {
-            "description": "token錯誤",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "token錯誤"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "請重新登入"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "429": {
-            "description": "Too Many Requests"
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
-      }
-    },
-    "/member/user/order": {
-      "post": {
-        "tags": [
-          "member"
-        ],
-        "summary": "訂單寄出",
-        "description": "以使用者 token 和 Json 陣列形式的資料請求，在資料庫中新增一個訂單。",
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/order"
-            }
-          },
-          {
-            "name": "token",
-            "in": "header",
-            "type": "string",
-            "required": true,
-            "description": "member access token",
-            "schema": {
-              "$ref": "#/definitions/token"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "點餐成功",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "點餐成功"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "result": {
-                  "type": "string",
-                  "example": "[{\"id\":\"6211e1afb27988329badd497\",\"count\":4,\"note\":\"熱\"},{\"id\":\"6211e1d8b27988329badd498\",\"count\":1,\"note\":\"冰的\"}]"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "403": {
-            "description": "token錯誤",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "token錯誤"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "請重新登入"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "429": {
-            "description": "Too Many Requests"
-          },
-          "500": {
-            "description": "點餐失敗",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "點餐失敗"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "error message"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
-      },
-      "get": {
-        "tags": [
-          "member"
-        ],
-        "summary": "獲取歷史訂單",
-        "description": "以使用者 token 請求，獲取其歷史訂單。",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "parameters": [
-          {
-            "name": "token",
-            "in": "header",
-            "type": "string",
-            "required": true,
-            "description": "member access token",
-            "schema": {
-              "$ref": "#/definitions/token"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "成功獲取歷史訂單資料",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "成功獲取歷史訂單資料"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "result": {
-                  "type": "string",
-                  "example": "[{\"id\":\"6211e1afb27988329badd497\",\"count\":4,\"note\":\"熱\"},{\"id\":\"6211e1d8b27988329badd498\",\"count\":1,\"note\":\"冰的\"}]"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "403": {
-            "description": "token錯誤",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "token錯誤"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "請重新登入"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "429": {
-            "description": "Too Many Requests"
-          },
-          "500": {
-            "description": "無法獲取歷史訂單資料",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "無法獲取歷史訂單資料"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "error message"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
-      }
-    },
-    "/member/store": {
-      "get": {
-        "tags": [
-          "member"
-        ],
-        "summary": "獲取商家列表",
-        "description": "以使用者 token 請求，返回商家列表",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "parameters": [
-          {
-            "name": "token",
-            "in": "header",
-            "type": "string",
-            "required": true,
-            "description": "member access token",
-            "schema": {
-              "$ref": "#/definitions/token"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "成功獲取商家列表",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "成功獲取商家列表"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "result": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "name": {
-                        "type": "string",
-                        "example": "燒肉飯店"
-                      },
-                      "address": {
-                        "type": "string",
-                        "example": "台北市中山區OO街OO號"
-                      },
-                      "id": {
-                        "type": "string",
-                        "example": "9xe72aqx"
-                      }
-                    }
-                  }
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "403": {
-            "description": "token錯誤",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "token錯誤"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "請重新登入"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "429": {
-            "description": "Too Many Requests"
-          },
-          "500": {
-            "description": "無法獲取商家列表",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "無法獲取商家列表"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "error message"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
-      }
-    },
-    "/member/store/product": {
-      "get": {
-        "tags": [
-          "member"
-        ],
-        "summary": "獲取特定商家所有商品",
-        "description": "以使用者 token 請求，返回商家列表",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "parameters": [
-          {
-            "name": "token",
-            "in": "header",
-            "type": "string",
-            "required": true,
-            "description": "access token",
-            "schema": {
-              "$ref": "#/definitions/token"
-            }
-          },
-          {
-            "name": "id",
-            "in": "header",
-            "type": "string",
-            "required": true,
-            "description": "store id",
-            "schema": {
-              "type": "string",
-              "example": "8y3un9ka"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "成功獲取商品資料",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "成功獲取商品資料"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "result": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "name": {
-                        "type": "string",
-                        "example": "漢堡"
-                      },
-                      "price": {
-                        "type": "string",
-                        "example": "1395"
-                      },
-                      "describe": {
-                        "type": "string",
-                        "example": "美味蟹堡"
-                      },
-                      "type": {
-                        "type": "string",
-                        "example": "熱食"
-                      }
-                    }
-                  }
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "403": {
-            "description": "token錯誤",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "token錯誤"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "請重新登入"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "429": {
-            "description": "Too Many Requests"
-          },
-          "500": {
-            "description": "無法獲取商品資料",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "無法獲取商品資料"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "error message"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
-      }
-    },
-    "/store/get": {
-      "get": {
-        "tags": [
-          "store"
-        ],
-        "summary": "獲取商家資訊",
-        "description": "以 token 請求，返回商家名稱、地址等相關資訊",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "parameters": [
-          {
-            "name": "token",
-            "in": "header",
-            "type": "string",
-            "required": true,
-            "description": "member access token",
-            "schema": {
-              "$ref": "#/definitions/token"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "成功獲取店家資料",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "成功獲取店家資料"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "result": {
-                  "type": "object",
-                  "properties": {
-                    "name": {
-                      "type": "string",
-                      "example": "友朋小吃"
-                    },
-                    "address": {
-                      "type": "string",
-                      "example": "桃園市中壢區OO街OO號"
-                    },
-                    "create_date": {
-                      "type": "string",
-                      "example": "2022-02-11 17:34:03"
-                    },
-                    "last_login": {
-                      "type": "string",
-                      "example": "2022-02-25 17:53:25"
-                    },
-                    "product": {
-                      "type": "array",
-                      "example": [
-                        "6211e1afb27988329badd497",
-                        "6211e1d8b27988329badd498"
-                      ],
-                      "items": {
-                        "type": "string"
-                      }
-                    }
-                  }
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "403": {
-            "description": "token錯誤",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "token錯誤"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "請重新登入"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "429": {
-            "description": "Too Many Requests"
-          },
-          "500": {
-            "description": "無法獲取店家資料",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "無法獲取店家資料"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "error message"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
-      }
-    },
-    "/store/login": {
-      "post": {
-        "tags": [
-          "store"
-        ],
-        "summary": "商家開啟營業模式",
-        "description": "以 token 請求，返回營業模式專屬的一組 token 和 refresh_token",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "parameters": [
-          {
-            "name": "token",
-            "in": "header",
-            "type": "string",
-            "required": true,
-            "description": "member access token",
-            "schema": {
-              "$ref": "#/definitions/token"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "成功",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "成功"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "result": {
-                  "type": "string",
-                  "example": "友朋小吃 的營運模式已開啟"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "403": {
-            "description": "token錯誤",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "token錯誤"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "請重新登入"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "429": {
-            "description": "Too Many Requests"
-          },
-          "500": {
-            "description": "切換失敗",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "切換失敗"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "error message"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
-      }
-    },
-    "/store/business/token": {
-      "get": {
-        "tags": [
-          "business"
-        ],
-        "summary": "商家獲取 token",
-        "description": "以商家營業模式的 refresh_token 請求，返回此商家營業模式的 token",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "parameters": [
-          {
-            "name": "refresh_token",
-            "in": "header",
-            "type": "string",
-            "required": true,
-            "description": "store refresh token",
-            "schema": {
-              "$ref": "#/definitions/token"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "成功獲取新token",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "成功獲取新token"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "result": {
-                  "type": "string",
-                  "example": "token時效為半小時"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "403": {
-            "description": "token錯誤",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "token錯誤"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "請重新登入"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "429": {
-            "description": "Too Many Requests"
-          },
-          "500": {
-            "description": "無法獲取token",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "無法獲取token"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "error message"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
-      }
-    },
-    "/store/establish": {
-      "post": {
-        "tags": [
-          "store"
-        ],
-        "summary": "建立商家",
-        "description": "以店名和地址為帳號建立商家",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "parameters": [
-          {
-            "name": "token",
-            "in": "header",
-            "type": "string",
-            "required": true,
-            "description": "member access token",
-            "schema": {
-              "$ref": "#/definitions/token"
-            }
-          },
-          {
-            "name": "name",
-            "in": "formData",
-            "type": "string",
-            "required": true,
-            "description": "商店名稱",
-            "schema": {
-              "type": "string",
-              "example": "友朋小吃"
-            }
-          },
-          {
-            "name": "address",
-            "in": "formData",
-            "type": "string",
-            "required": true,
-            "description": "地址",
-            "schema": {
-              "type": "string",
-              "example": "台北市中壢區OO街OO號"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "註冊成功",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "註冊成功"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "result": {
-                  "type": "object",
-                  "properties": {
-                    "name": {
-                      "type": "string",
-                      "example": "友朋小吃"
-                    },
-                    "address": {
-                      "type": "string",
-                      "example": "台北市中壢區OO街OO號"
-                    },
-                    "create_date": {
-                      "type": "string",
-                      "example": "2022-11-06 17:08:07"
-                    }
-                  }
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "400": {
-            "description": "因格式資料錯誤導致註冊失敗",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "註冊失敗"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "error message"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "403": {
-            "description": "token錯誤",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "token錯誤"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "請重新登入"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "429": {
-            "description": "Too Many Requests"
-          },
-          "500": {
-            "description": "因伺服器錯誤導致註冊失敗",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "註冊失敗"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "error message"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
-      }
-    },
-    "/store/delete": {
-      "delete": {
-        "tags": [
-          "store"
-        ],
-        "summary": "刪除商家",
-        "description": "以 token 和密碼請求，刪除帳號的店家身分及其下商品",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "parameters": [
-          {
-            "name": "token",
-            "in": "header",
-            "type": "string",
-            "required": true,
-            "description": "member access token",
-            "schema": {
-              "$ref": "#/definitions/token"
-            }
-          },
-          {
-            "name": "password",
-            "in": "formData",
-            "type": "string",
-            "required": true,
-            "description": "密碼",
-            "schema": {
-              "type": "string",
-              "example": "Aaaaaaa1"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "商家身分已成功刪除",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "商家身分已成功刪除"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "result": {
-                  "type": "string",
-                  "example": "成功刪除商家及其商品"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "400": {
-            "description": "因找不到該帳號所有之店家而導致刪除失敗",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "刪除失敗"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "error message"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "403": {
-            "description": "token錯誤",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "token錯誤"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "請重新登入"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "429": {
-            "description": "Too Many Requests"
-          },
-          "500": {
-            "description": "因伺服器錯誤而導致刪除失敗",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "刪除失敗"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "error message"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
-      }
-    },
-    "/store/product/add": {
-      "post": {
-        "tags": [
-          "store"
-        ],
-        "summary": "新增商品",
-        "description": "以 token 和商品資料請求，建立商品",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "parameters": [
-          {
-            "name": "token",
-            "in": "header",
-            "type": "string",
-            "required": true,
-            "description": "member access token",
-            "schema": {
-              "$ref": "#/definitions/token"
-            }
-          },
-          {
-            "name": "name",
-            "in": "formData",
-            "type": "string",
-            "required": true,
-            "description": "商品名稱",
-            "schema": {
-              "type": "string",
-              "example": "火腿蛋餅"
-            }
-          },
-          {
-            "name": "price",
-            "in": "formData",
-            "type": "integer",
-            "required": true,
-            "description": "價格",
-            "schema": {
-              "type": "number",
-              "example": 25
-            }
-          },
-          {
-            "name": "describe",
-            "in": "formData",
-            "type": "string",
-            "required": false,
-            "description": "簡介",
-            "schema": {
-              "type": "string",
-              "example": "有火腿"
-            }
-          },
-          {
-            "name": "type",
-            "in": "formData",
-            "type": "string",
-            "required": false,
-            "description": "類別",
-            "schema": {
-              "type": "string",
-              "example": "蛋餅"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "新增成功",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "新增成功"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "result": {
-                  "type": "object",
-                  "properties": {
-                    "name": {
-                      "type": "string",
-                      "example": "火腿蛋餅"
-                    },
-                    "price": {
-                      "type": "string",
-                      "example": "25"
-                    },
-                    "describe": {
-                      "type": "string",
-                      "example": "有火腿"
-                    },
-                    "type": {
-                      "type": "string",
-                      "example": "蛋餅"
-                    }
-                  }
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "400": {
-            "description": "因格式資料錯誤導致新增失敗",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "新增失敗"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "error message"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "403": {
-            "description": "token錯誤",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "token錯誤"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "請重新登入"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "429": {
-            "description": "Too Many Requests"
-          },
-          "500": {
-            "description": "因伺服器錯誤導致新增失敗",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "新增失敗"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "error message"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
-      }
-    },
-    "/store/product/remove": {
-      "delete": {
-        "tags": [
-          "store"
-        ],
-        "summary": "刪除商品",
-        "description": "以 token 和商品id請求，刪除商品",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "parameters": [
-          {
-            "name": "token",
-            "in": "header",
-            "type": "string",
-            "required": true,
-            "description": "member access token",
-            "schema": {
-              "$ref": "#/definitions/token"
-            }
-          },
-          {
-            "name": "product",
-            "in": "formData",
-            "type": "string",
-            "required": true,
-            "description": "商品ID",
-            "schema": {
-              "type": "string",
-              "example": "6218bc479bd8bbdaa3036906"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "成功刪除商品",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "成功刪除商品"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "result": {
-                  "type": "string",
-                  "example": "6218bc479bd8bbdaa3036906"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "403": {
-            "description": "token錯誤",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "token錯誤"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "請重新登入"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "429": {
-            "description": "Too Many Requests"
-          },
-          "500": {
-            "description": "刪除商品失敗",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "刪除商品失敗"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "error message"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
-      }
-    },
-    "/store/business/order/get": {
-      "get": {
-        "tags": [
-          "business"
-        ],
-        "summary": "商家獲取訂單",
-        "description": "以商家營業模式的 token 請求，返回此商家所有的訂單",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "parameters": [
-          {
-            "name": "token",
-            "in": "header",
-            "type": "string",
-            "required": true,
-            "description": "store access token",
-            "schema": {
-              "$ref": "#/definitions/token"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "成功獲取訂單",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "成功獲取訂單"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "result": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "DATE": {
-                        "type": "string",
-                        "example": "2022-02-20T06:43:44.598Z"
-                      },
-                      "id": {
-                        "type": "string",
-                        "example": "61c9774137e1ba4becbbe1c7"
-                      },
-                      "_id": {
-                        "type": "string",
-                        "example": "6211e32327e60f21cc93d7a9"
-                      },
-                      "order": {
-                        "type": "string",
-                        "example": "[{\"id\":\"6211e1afb27988329badd497\",\"count\":\"1\"},]"
-                      },
-                      "store": {
-                        "type": "string",
-                        "example": "62062d8d136e8a533bb22e48"
-                      }
-                    }
-                  }
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "403": {
-            "description": "token錯誤",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "token錯誤"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "請重新登入"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "429": {
-            "description": "Too Many Requests"
-          },
-          "500": {
-            "description": "無法獲取訂單",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "無法獲取訂單"
-                },
-                "code": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "result": {
-                  "type": "string",
-                  "example": "error message"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
-      }
-    }
-  },
-  "definitions": {
-    "redirect_url": {
-      "type": "object",
-      "properties": {
+    "definitions": {
         "redirect_url": {
-          "type": "string",
-          "example": "https://accounts.google.com/o/oauth2/v2/auth?scope=email%20profile&redirect_uri=http://localhost:3000/member/google/callback&response_type=code&client_id=1047494292997-3ph1u638fcq835lnt2dgfmntj8.apps.googleusercontent.com"
-        }
-      }
-    },
-    "token": {
-      "type": "string",
-      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhbGdvcml0aG0iOiJIUzI1NiIsImV4cCI6MTY1MDEyMTc1MCwiZGF0YSI6IjYyNWFkMDE2NzI0MGNhMzgzOWZlYmQwNSIsImlhdCI6MTY1MDExOTk1MH0.zK_jiJATx4W1INvg1yJsWnn_cnXjD2oc38DaRVTTx8k"
-    },
-    "order": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "$ref": "#/definitions/id"
-          },
-          "count": {
-            "type": "number",
-            "example": 4
-          },
-          "note": {
+            "type": "object",
+            "properties": {
+                "redirect_url": {
+                    "type": "string",
+                    "example": "https://accounts.google.com/o/oauth2/v2/auth?scope=email%20profile&redirect_uri=http://localhost:3000/member/google/callback&response_type=code&client_id=1047494292997-3ph1u638fcq835lnt2dgfmntj8.apps.googleusercontent.com"
+                }
+            }
+        },
+        "token": {
             "type": "string",
-            "example": "熱"
-          }
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhbGdvcml0aG0iOiJIUzI1NiIsImV4cCI6MTY1MDEyMTc1MCwiZGF0YSI6IjYyNWFkMDE2NzI0MGNhMzgzOWZlYmQwNSIsImlhdCI6MTY1MDExOTk1MH0.zK_jiJATx4W1INvg1yJsWnn_cnXjD2oc38DaRVTTx8k"
+        },
+        "order": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "example": "61c00c5e93194731bde89a6f"
+                    },
+                    "count": {
+                        "type": "number",
+                        "example": 4
+                    },
+                    "note": {
+                        "type": "string",
+                        "example": "熱"
+                    }
+                }
+            }
         }
-      }
     }
-  }
 }
