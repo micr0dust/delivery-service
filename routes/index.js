@@ -401,7 +401,7 @@ router.get('/user/token', middleWave, memberModifyMethod.getUserToken, () => {
 router.post('/user/order', jsonParser, middleWave, memberModifyMethod.postOrder, () => {
     //  #swagger.summary  = '訂單寄出'
     //  #swagger.description = '以使用者 token 和 Json 陣列形式的資料請求，在資料庫中新增一個訂單。'
-    /*  #swagger.consumes = ['application/x-www-form-urlencoded']*/
+    /*  #swagger.consumes = ['application/json']*/
     /*  #swagger.parameters['token'] = {
             in: 'header',
             type: 'string',
@@ -432,6 +432,38 @@ router.post('/user/order', jsonParser, middleWave, memberModifyMethod.postOrder,
                 description: '點餐失敗',
                 schema: {
                     status: '點餐失敗',
+                    code: false,
+                    result: 'error message'
+                }
+            }
+    */
+});
+router.get('/user/order', jsonParser, middleWave, memberModifyMethod.getOrder, () => {
+    //  #swagger.summary  = '獲取歷史訂單'
+    //  #swagger.description = '以使用者 token 請求，獲取其歷史訂單。'
+    /*  #swagger.consumes = ['application/x-www-form-urlencoded']*/
+    /*  #swagger.parameters['token'] = {
+            in: 'header',
+            type: 'string',
+            required: 'true',
+            description: 'member access token',
+            schema: { $ref: '#/definitions/token' }
+    }*/
+
+    /*  #swagger.responses[200] = {
+                description: '成功獲取歷史訂單資料',
+                schema: {
+                    status: '成功獲取歷史訂單資料',
+                    code: true,
+                    result: "[{\"id\":\"6211e1afb27988329badd497\",\"count\":4,\"note\":\"熱\"},{\"id\":\"6211e1d8b27988329badd498\",\"count\":1,\"note\":\"冰的\"}]"
+                }
+            }
+    } */
+    /*
+        #swagger.responses[500] = {
+                description: '無法獲取歷史訂單資料',
+                schema: {
+                    status: '無法獲取歷史訂單資料',
                     code: false,
                     result: 'error message'
                 }

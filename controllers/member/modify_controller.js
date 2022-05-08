@@ -11,6 +11,7 @@ const getUser = require('../../models/member/getUser_model');
 const getProduct = require('../../models/member/get_product_model');
 const getStore = require('../../models/member/get_stores_model');
 const orderAction = require('../../models/member/order_model');
+const getOrder = require('../../models/member/get_order_model');
 
 const verify = require('../../models/member/verification_model');
 const Check = require('../../service/member_check');
@@ -373,6 +374,29 @@ module.exports = class Member {
             err => {
                 res.status(500).send({
                     status: '點餐失敗',
+                    code: false,
+                    result: err.message
+                });
+            }
+        );
+    }
+
+    //取得歷史訂單
+    getOrder(req, res, next) {
+        let data = {
+            id: req.headers['token']
+        };
+        getOrder(data).then(
+            result => {
+                res.json({
+                    status: '成功獲取歷史訂單資料',
+                    code: true,
+                    result: result
+                });
+            },
+            err => {
+                res.status(500).send({
+                    status: '無法獲取歷史訂單資料',
                     code: false,
                     result: err.message
                 });

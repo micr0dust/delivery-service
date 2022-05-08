@@ -55,12 +55,13 @@ module.exports = async function order(data) {
                 products.push(ObjectId(orderList[i].id));
             productResult = await product.find({ _id: { $in: products } }).toArray();
             if (!productResult) throw new Error('查無商品');
-            if (orderList.length - productResult.length)
-                throw new Error(
-                    '在提交的訂單中有' +
-                    orderList.length - productResult.length +
-                    '項商品找不到資料'
-                );
+            for (const item in orderList)
+                if (!productResult.some(res => res.id == item.id))
+                    throw new Error(
+                        '在提交的訂單中找不到關於' +
+                        item.id +
+                        '商品的資料'
+                    );
             for (let i = 0; i < productResult.length; i++)
                 if (productResult[i].belong != productOwner._id.toString())
                     throw new Error('無法跨店家購買：' + productResult[i].id);
