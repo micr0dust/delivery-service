@@ -10,9 +10,15 @@ module.exports = async function getOrder(data) {
 
     try {
         try {
-            const findResult = await order.find({ id: data.id }).toArray();
+            let findResult = await order.find({ id: data.id }).toArray();
             if (!findResult) throw new Error("查無訂單");
-            if (findResult) return findResult;
+            if (findResult) {
+                for (const child in findResult) {
+                    delete findResult[child]["id"];
+                    delete findResult[child]["store"];
+                }
+                return findResult;
+            }
         } catch (err) {
             throw err;
         }

@@ -6,7 +6,6 @@ var ObjectId = require('mongodb').ObjectId;
 let check = new Check();
 
 module.exports = async function order(data) {
-    let result;
     let orderList = JSON.parse(data.order);
     await client.connect();
     const db = client.db(config.mongo.database);
@@ -32,6 +31,8 @@ module.exports = async function order(data) {
         try {
             productOwner = await store.findOne({ _id: ObjectId(firestProduct.belong) });
             if (!productOwner) throw new Error('查無商品商家');
+            data.store = productOwner.url;
+            if (productOwner.sale) data.sale = productOwner.sale;
         } catch (err) {
             throw err;
         }
@@ -55,13 +56,22 @@ module.exports = async function order(data) {
                 products.push(ObjectId(orderList[i].id));
             productResult = await product.find({ _id: { $in: products } }).toArray();
             if (!productResult) throw new Error('查無商品');
-            for (const item in orderList)
-                if (!productResult.some(res => res.id == item.id))
+
+            data.total = 0;
+            for (let i = 0; i < orderList.length; i++)
+                if (!productResult.some(item => item._id.toString() == orderList[i].id))
                     throw new Error(
-                        '在提交的訂單中找不到關於' +
-                        item.id +
-                        '商品的資料'
+                        '在提交的訂單中找不到關於 ' +
+                        orderList[i].id +
+                        ' 商品的資料'
                     );
+                else {
+                    let product = productResult.filter(
+                        function(item) { return (item._id.toString() == orderList[i].id); }
+                    )[0];
+                    data.total += parseInt(product.price) * parseInt(orderList[i].count);
+                }
+            if (data.sale) data.total *= data.sale;
             for (let i = 0; i < productResult.length; i++)
                 if (productResult[i].belong != productOwner._id.toString())
                     throw new Error('無法跨店家購買：' + productResult[i].id);
@@ -70,8 +80,8 @@ module.exports = async function order(data) {
         }
 
         // 將資料寫入資料庫
+        let result;
         try {
-            data.store = productOwner._id;
             const insertOrder = await order.insertOne(data);
             if (!insertOrder) throw new Error('資料庫訂單寫入失敗');
             const expire = order.createIndex({ DATE: 1 }, { expireAfterSeconds: 86400 });
@@ -81,7 +91,14 @@ module.exports = async function order(data) {
         } catch (err) {
             throw err;
         }
-        return result.order;
+
+        let finalData = {
+            order: result.order,
+            total: data.total,
+            store: data.store
+        };
+        if (data.sale) finalData.sale = data.sale
+        return finalData;
     } catch (err) {
         throw err;
     } finally {
