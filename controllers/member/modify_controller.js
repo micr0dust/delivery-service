@@ -432,7 +432,7 @@ module.exports = class Member {
             "redirect_uri=" + config.heroku.hostname + "/member/google/callback&" +
             "response_type=code&" +
             "client_id=" + config.mail.id;
-        console.log(JSON.stringify({ "redirect_url": google_oauth_url }))
+        //console.log(JSON.stringify({ "redirect_url": google_oauth_url }))
         res.send(JSON.stringify({ "redirect_url": google_oauth_url }));
     }
 
@@ -454,10 +454,9 @@ module.exports = class Member {
             }
         };
         request(token_option, function(err, resposne, body) {
-            console.log(JSON.parse(body))
+            //console.log(JSON.parse(body))
             let access_token = JSON.parse(body).access_token;
             console.log(access_token);
-            //console.log(access_token)
             let info_option = {
                 url: "https://www.googleapis.com/oauth2/v1/userinfo?" + "access_token=" + access_token,
                 method: "GET",
@@ -465,7 +464,6 @@ module.exports = class Member {
             request(info_option, function(err, response, body) {
                 if (err) {
                     res.send(err);
-                    //res.redirect('/auth');
                 }
                 googleLogin(body, onTime).then(rows => {
                         if (check.checkNull(rows) === true) {
@@ -509,29 +507,56 @@ module.exports = class Member {
         })
     }
 
-    // //googleGetToken
-    // googleGetToken(req, res, next) {
-    //     let id = req.headers['id'];
+    //googleMobileLogin
+    googleMobileLogin(req, res, next) {
+        let info_option = {
+            url: "https://www.googleapis.com/oauth2/v1/userinfo?" + "access_token=" + req.headers['access_token'],
+            method: "GET",
+        };
+        request(info_option, function(err, response, body) {
+            if (err) {
+                res.status(500).send(err);
+            }
+            googleLogin(body, onTime).then(rows => {
+                    if (check.checkNull(rows) === true) {
+                        res.status(400).send({
+                            status: '登入失敗',
+                            code: true,
+                            result: "需要存取帳戶的權限"
+                        });
+                        return;
+                    }
+                    if (check.checkNull(rows) === false) {
+                        const token = getTokenFn(rows._id.toString(), 30, config.secret);
+                        res.setHeader('token', token);
+                        res.setHeader('refresh_token', rows.refresh_token);
+                        res.json({
+                            status: '登入成功',
+                            code: true,
+                            result: {
+                                name: rows.name,
+                                email: rows.email,
+                                verityCode: rows.verityCode,
+                                locale: rows.locale,
+                                picture: rows.picture,
+                                update_date: rows.update_date,
+                                create_date: rows.create_date,
+                                role: rows.role
+                            }
+                        });
+                    }
+                })
+                .catch(err => {
+                    res.status(400).send({
+                        status: '登入失敗',
+                        code: false,
+                        result: err.message
+                    });
+                });
+            //res.send(body);
+        });
+    }
 
-    //     googleGetRefreshToken(id).then(data => {
-    //             const token = getTokenFn(data._id.toString(), 30, config.secret);
-    //             res.setHeader('token', token);
-    //             res.setHeader('refresh_token', data.refresh_token);
-    //             res.status(200).send({
-    //                 status: '請求成功',
-    //                 code: false,
-    //                 result: "token 在 header 中"
-    //             });
-    //         })
-    //         .catch(err => {
-    //             console.log(err);
-    //             res.status(400).send({
-    //                 status: '請求失敗',
-    //                 code: false,
-    //                 result: err.message
-    //             });
-    //         });
-    // }
 }
 
 function getTokenFn(id, minutes, secret) {

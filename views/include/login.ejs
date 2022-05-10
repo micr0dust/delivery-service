@@ -4,25 +4,9 @@
             <div class="account-wall">
                 <img class="profile-img" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120" alt="">
                 <form class="form-signin" autocomplete="off">
-                    <div class="form-group">
-                        <input type="email" id="email" class="form-control" placeholder="電子郵件地址" onfocusout="checkInputFn()" required autofocus>
-                        <div class="invalid-feedback">請輸入正確的Eamil格式</div>
-                    </div>
-                    <div class="form-group">
-                        <input type="password" id="password" class="form-control" placeholder="密碼" onfocusout="checkInputFn()" required>
-                        <div class="invalid-feedback">密碼必須由8個以上的大小寫字母和數字組成</div>
-                    </div>
-                    <button class="btn btn-primary btn-block" id="submit">登入</button>
-                    <div class="g-signin2 mt-1" data-onsuccess="onSignIn" data-theme="dark"></div>
-                    <div class="row justify-content-around align-items-center">
-                        <label class="form-check-label mt-1">
-                                <input type="checkbox" class="form-check-input" value="">
-                                <h6>記住帳號</h6>
-                            </label>
-                        <a href="#" class="need-help">忘記密碼</a>
-                    </div>
+                    <button class="btn btn-dark btn-block" onclick="googleLogin()">
+                        <img class="google-icon mr-3" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/>Google 登入</button>
                 </form>
-                <a href="/admin/register" class="text-right new-account mr-4">註冊新帳號</a>
             </div>
         </div>
     </div>

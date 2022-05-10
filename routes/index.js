@@ -111,7 +111,25 @@ router.post('/login', memberModifyMethod.postLogin, () => {
     */
 });
 router.get("/google/login", memberModifyMethod.googleLogin, () => {
-    //  #swagger.summary  = 'Google 登入'
+    //  #swagger.summary  = 'Google 網頁登入'
+    //  #swagger.description = '將 id_token 傳給伺服器，表示該使用者授權登入'
+    /*  #swagger.parameters['id'] = {
+                in: 'header',
+                type: 'string',
+                required: 'true',
+                description: 'id_token = googleUser.getAuthResponse().id_token',
+                schema: "id_token"
+    }
+    */
+    /*
+        #swagger.responses[200] = {
+            description: "redirect_url",
+            schema: {$ref: "#/definitions/redirect_url"}
+        }
+    */
+});
+router.get("/google/mlogin", memberModifyMethod.googleMobileLogin, () => {
+    //  #swagger.summary  = 'Google 手機應用程式登入'
     //  #swagger.description = '將 id_token 傳給伺服器，表示該使用者授權登入'
     /*  #swagger.parameters['accesstoken'] = {
                 in: 'header',
@@ -128,7 +146,6 @@ router.get("/google/login", memberModifyMethod.googleLogin, () => {
         }
     */
 });
-
 router.get("/google/callback", memberModifyMethod.googleCallback
     // #swagger.ignore = true
 );

@@ -6,6 +6,7 @@ const loginAction = require('../../models/store/store_mode_model');
 const addProduct = require('../../models/store/add_product_model');
 const delProduct = require('../../models/store/delete_product_model');
 const getToken = require('../../models/store/get_token_model');
+const storeUpdate = require('../../models/store/put_store_model');
 
 const verify = require('../../models/store/verification_model');
 const Check = require('../../service/store_check');
@@ -249,6 +250,45 @@ module.exports = class Store {
         }, (err) => {
             res.status(500).json({
                 status: "無法獲取店家資料",
+                code: false,
+                result: err.message
+            })
+        })
+    }
+
+    // 更新店家資料
+    putStoreData(req, res, next) {
+        const data = {
+            id: req.headers['token'],
+            name: req.body.name,
+            address: req.body.address,
+            sale: req.body.sale
+        };
+        for (let prop in data)
+            if (!data[prop]) delete data[prop];
+        if (data.name && !check.checkName(data.name)) {
+            return res.status(400).send({
+                status: '資料更新失敗',
+                code: false,
+                result: '店名必須介於1~30字'
+            })
+        }
+        if (data.address && !check.checkAddress(data.address)) {
+            return res.status(400).send({
+                status: '資料更新失敗',
+                code: false,
+                result: '地址必須介於1~200字'
+            })
+        }
+        storeUpdate(data).then(result => {
+            res.status(200).json({
+                status: "成功更新店家資料",
+                code: true,
+                result: result
+            })
+        }, (err) => {
+            res.status(500).json({
+                status: "無法更新店家資料",
                 code: false,
                 result: err.message
             })

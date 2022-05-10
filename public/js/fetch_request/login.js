@@ -53,6 +53,47 @@ document.getElementById("submit").addEventListener("click", function(e) {
     })
 });
 
+function googleLogin() {
+    let url = window.location.href;
+    let redirct;
+    if ((url.indexOf('?redirct=') + 1)) redirct = url.toString().split('?redirct=')[1];
+
+    document.getElementById('loader').classList.add('is-active');
+    let headersList = {
+        "Accept": "*/*",
+        "Content-Type": "application/x-www-form-urlencoded"
+    }
+    fetch("/member/google/login", {
+        method: "GET",
+        headers: headersList
+    }).then(function(response) {
+        document.getElementById('loader').classList.remove('is-active');
+        if (response.status === 200) {
+            localStorage.setItem('acesstoken', response.headers.get('token'));
+            localStorage.setItem('refresh_token', response.headers.get('refresh_token'));
+        } else {
+            console.log('error: ' + response);
+            Swal.fire({
+                icon: 'error',
+                title: '發生錯誤',
+                text: response.status
+            })
+        }
+        return response.text();
+    }).then(function(data) {
+        data = JSON.parse(data);
+        if (data) {
+            try {
+                if (data.result.role) localStorage.setItem('role', JSON.stringify(data.result.role));
+            } catch (error) {
+
+            }
+            window.location.href = data.redirect_url;
+        }
+        //console.log(data);
+    })
+}
+
 function onSignIn(googleUser) {
     // Useful data for your client-side scripts:
     var profile = googleUser.getBasicProfile();

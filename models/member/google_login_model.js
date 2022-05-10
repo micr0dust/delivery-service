@@ -11,8 +11,8 @@ module.exports = async function memberLogin(profile, onTime) {
 
     try {
         try {
-            if (!profile) throw new Error("向 Google 請求資料失敗");
             profile = JSON.parse(profile);
+            if (!profile.id) throw new Error("向 Google 請求資料失敗");
             const findResult = await collection.findOne({
                 googleID: profile.id,
                 email: profile.email
