@@ -48,6 +48,7 @@ function getInfoFn() {
                 else oimg = random(1, 6);
                 document.getElementById('img').src = "https://www.w3schools.com/bootstrap4/img_avatar" + oimg + ".png";
             } else document.getElementById('img').src = data.result.picture;
+            if (data.result.role) localStorage.setItem('role', JSON.stringify(data.result.role));
             if (data.result.name) document.getElementById('name').innerText = data.result.name;
             if (data.result.email) document.getElementById('email').value = data.result.email;
             if (data.result.phone) document.getElementById('phone').value = data.result.phone;

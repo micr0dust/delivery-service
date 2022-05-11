@@ -9,4 +9,8 @@ router.get('/login', function(req, res, next) {
     res.render('form', { title: 'Hello中原-登入', part: 'login' });
 });
 
+router.get('/old_login', function(req, res, next) {
+    res.render('form', { title: 'Hello中原-登入', part: 'old_login' });
+});
+
 module.exports = router;

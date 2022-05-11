@@ -21,6 +21,7 @@ module.exports = async function getUser(id) {
             if (findResult.locale) result.locale = findResult.locale;
             if (findResult.picture) result.picture = findResult.picture;
             if (findResult.store_id) result.store_id = findResult.store_id;
+            if (findResult.role) result.role = findResult.role;
             result.verityCode = (findResult.verityCode === true);
             if (findResult.update_date) result.update_date = findResult.update_date;
             if (findResult.create_date) result.create_date = findResult.create_date;
