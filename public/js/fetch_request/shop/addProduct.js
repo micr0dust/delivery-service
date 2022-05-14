@@ -49,7 +49,7 @@ async function addProduct(oProduct) {
     };
     await fetch("/store/product/add", {
         method: "POST",
-        body: `name=${oProduct.name}&price=${oProduct.price}&describe=${oProduct.describe}&type=${oProduct.type}`,
+        body: `name=${oProduct.name}&price=${oProduct.price}&describe=${oProduct.describe}&type=${oProduct.tag}`,
         headers: headersList
     }).then(async function(response) {
         if (response.status === 201);
