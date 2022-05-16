@@ -42,11 +42,15 @@ module.exports = class CheckStore {
         return result;
     }
 
-    //判斷sale格式
-    checkType(sale) {
-        const filt = /(\&)?([^=]+)\=([^&]+)/;
-        const result = filt.test(sale);
-        return result;
+    //判斷discount標籤格式
+    checkDiscount(discount) {
+        let odiscount = JSON.parse(discount);
+        for (let i = 0; i < odiscount.length; i++) {
+            if (!odiscount[i]['method']) return false;
+            if (isNaN(odiscount[i]['goal'])) return false;
+            if (isNaN(odiscount[i]['discount'])) return false;
+        }
+        return true;
     }
 
     //判斷空值

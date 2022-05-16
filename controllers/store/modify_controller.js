@@ -142,63 +142,75 @@ module.exports = class Store {
             price: req.body.price,
             describe: req.body.describe,
             type: req.body.type,
+            discount: req.body.discount ? req.body.discount : null,
             create_date: onTime()
         }
 
         if (!check.checkName(data.name)) {
-            res.status(400).send({
+            return res.status(400).send({
                 status: '新增失敗',
                 code: false,
                 result: '商品名必須介於1~30字'
             })
-        } else if (!check.checkAddress(data.address)) {
-            res.status(400).send({
+        }
+        if (!check.checkName(data.discount)) {
+            return res.status(400).send({
+                status: '新增失敗',
+                code: false,
+                result: '折價標籤名必須介於1~30字'
+            })
+        }
+        if (!check.checkAddress(data.address)) {
+            return res.status(400).send({
                 status: '新增失敗',
                 code: false,
                 result: '地址必須介於1~200字'
             })
-        } else if (!check.checkPrice(data.price)) {
-            res.status(400).send({
+        }
+        if (!check.checkPrice(data.price)) {
+            return res.status(400).send({
                 status: '新增失敗',
                 code: false,
                 result: '金額必須為大於0的整數'
             })
-        } else if (!check.checkDescribe(data.describe)) {
-            res.status(400).send({
+        }
+        if (!check.checkDescribe(data.describe)) {
+            return res.status(400).send({
                 status: '新增失敗',
                 code: false,
                 result: '描述必須介於0~30字'
             })
-        } else if (!check.checkType(data.type)) {
-            res.status(400).send({
+        }
+        if (!check.checkType(data.type)) {
+            return res.status(400).send({
                 status: '新增失敗',
                 code: false,
                 result: '類別名稱必須介於0~10字'
             })
-        } else {
-            // insert to database
-            addProduct(req.headers['token'], data).then(result => {
-                    // respon successful
-                    res.status(201).json({
-                        status: '新增成功',
-                        code: true,
-                        result: {
-                            name: result.name,
-                            price: result.price,
-                            describe: result.describe,
-                            type: result.type
-                        }
-                    })
-                })
-                .catch(err => {
-                    // respon error
-                    res.status(500).send({
-                        status: '新增失敗',
-                        code: false,
-                        result: err.message
-                    })
-                })
         }
+        // insert to database
+        addProduct(req.headers['token'], data).then(result => {
+                // respon successful
+                res.status(201).json({
+                    status: '新增成功',
+                    code: true,
+                    result: {
+                        name: result.name,
+                        price: result.price,
+                        describe: result.describe,
+                        type: result.type,
+                        discount: result.discount
+                    }
+                })
+            })
+            .catch(err => {
+                // respon error
+                res.status(500).send({
+                    status: '新增失敗',
+                    code: false,
+                    result: err.message
+                })
+            });
     }
 
     // 店家刪除商品
@@ -262,7 +274,7 @@ module.exports = class Store {
             id: req.headers['token'],
             name: req.body.name,
             address: req.body.address,
-            sale: req.body.sale
+            allDiscount: req.body.discount
         };
         for (let prop in data)
             if (!data[prop]) delete data[prop];
@@ -278,6 +290,13 @@ module.exports = class Store {
                 status: '資料更新失敗',
                 code: false,
                 result: '地址必須介於1~200字'
+            })
+        }
+        if (data.allDiscount && !check.checkDiscount(data.allDiscount)) {
+            return res.status(400).send({
+                status: '新增失敗',
+                code: false,
+                result: '折價資料格式錯誤'
             })
         }
         storeUpdate(data).then(result => {

@@ -2180,6 +2180,162 @@
         ]
       }
     },
+    "/store/update": {
+      "put": {
+        "tags": [
+          "store"
+        ],
+        "summary": "更新商家資料",
+        "description": "以 token 請求，成功將更新商家資料，資料未填寫將不更新",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "required": true,
+            "description": "member access token",
+            "schema": {
+              "$ref": "#/definitions/token"
+            }
+          },
+          {
+            "name": "name",
+            "in": "formData",
+            "type": "string",
+            "required": false,
+            "description": "店名",
+            "schema": {
+              "type": "string",
+              "example": "蟹堡王"
+            }
+          },
+          {
+            "name": "address",
+            "in": "formData",
+            "type": "string",
+            "required": false,
+            "description": "商家地址",
+            "schema": {
+              "type": "string",
+              "example": "臺北市中華路3段45號"
+            }
+          },
+          {
+            "name": "discount",
+            "in": "formData",
+            "type": "string",
+            "required": false,
+            "description": "折價公式",
+            "schema": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "商家身分已成功刪除",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "商家身分已成功刪除"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "result": {
+                  "type": "string",
+                  "example": "成功刪除商家及其商品"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "因找不到該帳號所有之店家而導致刪除失敗",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "刪除失敗"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "403": {
+            "description": "token錯誤",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "token錯誤"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "result": {
+                  "type": "string",
+                  "example": "請重新登入"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "description": "因伺服器錯誤而導致刪除失敗",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "刪除失敗"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
     "/store/product/add": {
       "post": {
         "tags": [

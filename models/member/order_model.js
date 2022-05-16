@@ -73,7 +73,7 @@ module.exports = async function order(data) {
                 const record = {
                     _id: product._id.toString(),
                     name: product.name,
-                    price: parseInt(product.price),
+                    price: parseFloat(product.price),
                     type: product.type,
                     discount: (product.discount) ? product.discount : null,
                     note: orderList[i].note
@@ -105,17 +105,18 @@ module.exports = async function order(data) {
                 }
             }
             let sum = 0;
+            let allDiscountSum = 0;
             for (let i = 0; i < finalRecord.length; i++)
                 sum += finalRecord[i].price;
             sum = (sum - discountSum > 0) ? sum - discountSum : 0;
-            if (productOwner.Alldiscount) {
-                let allDiscountSum = 0;
-                for (let odiscount in productOwner.Alldiscount) {
-                    if (odiscount.method = "exceedPriceDiscount" && sum >= odiscount.goal) allDiscountSum += (odiscount.discount >= 1) ? odiscount.discount : sum * (1 - odiscount.discount);
-                    if (odiscount.method = "exceedCountDiscount") allDiscountSum += discount.exceedCountDiscount(finalRecord, odiscount);
+            if (productOwner.allDiscount) {
+                const allDiscount = JSON.parse(productOwner.allDiscount);
+                for (let i = 0; i < allDiscount.length; i++) {
+                    if (allDiscount[i].method == "exceedPriceDiscount" && sum >= parseInt(allDiscount[i].goal)) allDiscountSum += (parseInt(allDiscount[i].discount) >= 1) ? parseInt(allDiscount[i].discount) : sum * (1 - parseFloat(allDiscount[i].discount));
+                    if (allDiscount[i].method == "exceedCountDiscount") allDiscountSum += discount.exceedCountDiscount(finalRecord, allDiscount[i]);
                 }
             }
-            data.total = sum;
+            data.total = sum - allDiscountSum;
         } catch (err) {
             throw err;
         }

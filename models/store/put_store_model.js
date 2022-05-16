@@ -25,10 +25,10 @@ module.exports = async function storeUpdate(data) {
             let putData = {};
             if (data.name) putData.name = data.name;
             if (data.address) putData.address = data.address;
-            if (data.sale) putData.sale = data.sale;
+            if (data.allDiscount) putData.allDiscount = data.allDiscount;
 
             for (key in putData)
-                await collection.updateOne({ _id: ObjectId(storeID) }, {
+                await store.updateOne({ _id: ObjectId(storeID) }, {
                     $set: {
                         [key]: putData[key]
                     }

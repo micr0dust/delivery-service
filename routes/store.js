@@ -227,6 +227,71 @@ router.delete('/delete', middleWave, storeModifyMethod.deleteStore, () => {
             }
     */
 });
+router.put('/update', middleWave, storeModifyMethod.putStoreData, () => {
+    //  #swagger.summary  = '更新商家資料'
+    //  #swagger.description = '以 token 請求，成功將更新商家資料，資料未填寫將不更新'
+    /*  #swagger.consumes = ['application/x-www-form-urlencoded']*/
+    /*  #swagger.parameters['token'] = {
+                in: 'header',
+                type: 'string',
+                required: 'true',
+                description: 'member access token',
+                schema: { $ref: '#/definitions/token' }
+    }
+    */
+    /*  #swagger.parameters['name'] = {
+                in: 'formData',
+                type: 'string',
+                required: 'false',
+                description: '店名',
+                schema: "蟹堡王"
+    }
+        #swagger.parameters['address'] = {
+                in: 'formData',
+                type: 'string',
+                required: 'false',
+                description: '商家地址',
+                schema: "臺北市中華路3段45號"
+    }
+        #swagger.parameters['discount'] = {
+                in: 'formData',
+                type: 'string',
+                required: 'false',
+                description: '折價公式',
+                schema: ''
+    }
+    */
+
+    /*  #swagger.responses[200] = {
+                description: '商家身分已成功刪除',
+                schema: {
+                    status: '商家身分已成功刪除',
+                    code: true,
+                    result: "成功刪除商家及其商品"
+                }
+            }
+    } */
+    /*
+        #swagger.responses[400] = {
+                description: '因找不到該帳號所有之店家而導致刪除失敗',
+                schema: {
+                    status: '刪除失敗',
+                    code: false,
+                    result: 'error message'
+                }
+            }
+    */
+    /*
+        #swagger.responses[500] = {
+                description: '因伺服器錯誤而導致刪除失敗',
+                schema: {
+                    status: '刪除失敗',
+                    code: false,
+                    result: 'error message'
+                }
+            }
+    */
+});
 router.post('/product/add', middleWave, storeModifyMethod.postProduct, () => {
     //  #swagger.summary  = '新增商品'
     //  #swagger.description = '以 token 和商品資料請求，建立商品'
