@@ -1,4 +1,4 @@
-module.exports = class CheckCustomer {
+module.exports = class CheckStore {
 
     //判斷name格式
     checkName(name) {
@@ -39,6 +39,13 @@ module.exports = class CheckCustomer {
     checkType(type) {
         const filt = /^.{0,10}$/;
         const result = filt.test(type);
+        return result;
+    }
+
+    //判斷sale格式
+    checkType(sale) {
+        const filt = /(\&)?([^=]+)\=([^&]+)/;
+        const result = filt.test(sale);
         return result;
     }
 

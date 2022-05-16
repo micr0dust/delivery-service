@@ -1,9 +1,11 @@
 const client = require('../connection_db');
 const config = require('../../config/development_config');
 const Check = require('../../service/member_check');
+const Discount = require('../../service/discount_check');
 
 var ObjectId = require('mongodb').ObjectId;
 let check = new Check();
+let discount = new Discount();
 
 module.exports = async function order(data) {
     let orderList = JSON.parse(data.order);
@@ -32,7 +34,6 @@ module.exports = async function order(data) {
             productOwner = await store.findOne({ _id: ObjectId(firestProduct.belong) });
             if (!productOwner) throw new Error('查無商品商家');
             data.store = productOwner.url;
-            if (productOwner.sale) data.sale = productOwner.sale;
         } catch (err) {
             throw err;
         }
@@ -49,32 +50,72 @@ module.exports = async function order(data) {
             };
         }
 
-        let productResult;
+        let productResult, finalRecord = [];
         try {
             let products = [];
             for (let i = 0; i < orderList.length; i++)
                 products.push(ObjectId(orderList[i].id));
             productResult = await product.find({ _id: { $in: products } }).toArray();
             if (!productResult) throw new Error('查無商品');
-
-            data.total = 0;
-            for (let i = 0; i < orderList.length; i++)
+            for (let i = 0; i < productResult.length; i++)
+                if (productResult[i].belong != productOwner._id.toString())
+                    throw new Error('無法跨店家購買：' + productResult[i].id);
+            for (let i = 0; i < orderList.length; i++) {
                 if (!productResult.some(item => item._id.toString() == orderList[i].id))
                     throw new Error(
                         '在提交的訂單中找不到關於 ' +
                         orderList[i].id +
                         ' 商品的資料'
                     );
-                else {
-                    let product = productResult.filter(
-                        function(item) { return (item._id.toString() == orderList[i].id); }
-                    )[0];
-                    data.total += parseInt(product.price) * parseInt(orderList[i].count);
+                let product = productResult.filter(
+                    function(item) { return (item._id.toString() == orderList[i].id); }
+                )[0];
+                const record = {
+                    _id: product._id.toString(),
+                    name: product.name,
+                    price: parseInt(product.price),
+                    type: product.type,
+                    discount: (product.discount) ? product.discount : null,
+                    note: orderList[i].note
                 }
-            if (data.sale) data.total *= data.sale;
-            for (let i = 0; i < productResult.length; i++)
-                if (productResult[i].belong != productOwner._id.toString())
-                    throw new Error('無法跨店家購買：' + productResult[i].id);
+                for (let j = 0; j < orderList[i].count; j++)
+                    finalRecord.push(record);
+            }
+        } catch (err) {
+            throw err;
+        }
+
+        //折扣處理
+        try {
+            let discountSum = 0;
+            if (productOwner.productDiscount) {
+                let hadDiscount = new Set();
+                for (let i = 0; i < finalRecord.length; i++) {
+                    if (!finalRecord[i].discount) continue;
+                    for (let tag in finalRecord[i].discount) {
+                        if (hadDiscount.has(finalRecord[i].discount[tag])) continue;
+                        const discounter = productOwner.productDiscount[finalRecord[i].discount[tag]];
+                        const discounts = finalRecord.filter(
+                            function(item) { return (item.discount[tag]); }
+                        );
+                        if (discounter.method = "exceedPriceDiscount") discountSum += discount.exceedPriceDiscount(discounts, discounter);
+                        if (discounter.method = "exceedCountDiscount") discountSum += discount.exceedCountDiscount(discounts, discounter);
+                        hadDiscount.add(finalRecord[tag]);
+                    }
+                }
+            }
+            let sum = 0;
+            for (let i = 0; i < finalRecord.length; i++)
+                sum += finalRecord[i].price;
+            sum = (sum - discountSum > 0) ? sum - discountSum : 0;
+            if (productOwner.Alldiscount) {
+                let allDiscountSum = 0;
+                for (let odiscount in productOwner.Alldiscount) {
+                    if (odiscount.method = "exceedPriceDiscount" && sum >= odiscount.goal) allDiscountSum += (odiscount.discount >= 1) ? odiscount.discount : sum * (1 - odiscount.discount);
+                    if (odiscount.method = "exceedCountDiscount") allDiscountSum += discount.exceedCountDiscount(finalRecord, odiscount);
+                }
+            }
+            data.total = sum;
         } catch (err) {
             throw err;
         }
