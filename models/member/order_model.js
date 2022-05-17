@@ -116,6 +116,7 @@ module.exports = async function order(data) {
                     if (allDiscount[i].method == "exceedCountDiscount") allDiscountSum += discount.exceedCountDiscount(finalRecord, allDiscount[i]);
                 }
             }
+            data.order = JSON.stringify(finalRecord);
             data.total = sum - allDiscountSum;
         } catch (err) {
             throw err;
@@ -136,8 +137,8 @@ module.exports = async function order(data) {
 
         let finalData = {
             order: result.order,
-            total: data.total,
-            store: data.store
+            total: result.total,
+            store: result.store
         };
         if (data.sale) finalData.sale = data.sale
         return finalData;
