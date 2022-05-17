@@ -106,18 +106,28 @@ module.exports = async function order(data) {
             }
             let sum = 0;
             let allDiscountSum = 0;
+            let discountList = [];
             for (let i = 0; i < finalRecord.length; i++)
                 sum += finalRecord[i].price;
             sum = (sum - discountSum > 0) ? sum - discountSum : 0;
             if (productOwner.allDiscount) {
                 const allDiscount = JSON.parse(productOwner.allDiscount);
                 for (let i = 0; i < allDiscount.length; i++) {
-                    if (allDiscount[i].method == "exceedPriceDiscount" && sum >= parseInt(allDiscount[i].goal)) allDiscountSum += (parseInt(allDiscount[i].discount) >= 1) ? parseInt(allDiscount[i].discount) : sum * (1 - parseFloat(allDiscount[i].discount));
-                    if (allDiscount[i].method == "exceedCountDiscount") allDiscountSum += discount.exceedCountDiscount(finalRecord, allDiscount[i]);
+                    let discountMessage = null;
+                    if (allDiscount[i].method == "exceedPriceDiscount" && sum >= parseInt(allDiscount[i].goal)) {
+                        allDiscountSum += (parseInt(allDiscount[i].discount) >= 1) ? parseInt(allDiscount[i].discount) : sum * (1 - parseFloat(allDiscount[i].discount));
+                        discountMessage = (parseInt(allDiscount[i].discount) >= 1) ? `滿${parseInt(allDiscount[i].goal)}元，現省${parseInt(allDiscount[i].discount)}元` : `滿${parseInt(allDiscount[i].goal)}元，打${parseFloat(allDiscount[i].discount)*10}折`;
+                    }
+                    if (allDiscount[i].method == "exceedCountDiscount") {
+                        allDiscountSum += discount.exceedCountDiscount(finalRecord, allDiscount[i]);
+                        discountMessage = (parseInt(allDiscount[i].discount) >= 1) ? `滿${parseInt(allDiscount[i].goal)}件商品，現省${parseInt(allDiscount[i].discount)}元` : `滿${parseInt(allDiscount[i].goal)}件商品，打${parseFloat(allDiscount[i].discount)*10}折`;
+                    }
+                    if (discountMessage) discountList.push(discountMessage);
                 }
             }
             data.order = JSON.stringify(finalRecord);
             data.total = sum - allDiscountSum;
+            data.discount = JSON.stringify(discountList);
         } catch (err) {
             throw err;
         }
@@ -138,7 +148,8 @@ module.exports = async function order(data) {
         let finalData = {
             order: result.order,
             total: result.total,
-            store: result.store
+            store: result.store,
+            discount: result.discount
         };
         if (data.sale) finalData.sale = data.sale
         return finalData;
