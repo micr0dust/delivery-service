@@ -290,7 +290,7 @@
       }
     },
     "/member/google/mlogin": {
-      "get": {
+      "post": {
         "tags": [
           "member"
         ],

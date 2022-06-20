@@ -128,7 +128,7 @@ router.get("/google/login", memberModifyMethod.googleLogin, () => {
         }
     */
 });
-router.get("/google/mlogin", memberModifyMethod.googleMobileLogin, () => {
+router.post("/google/mlogin", memberModifyMethod.googleMobileLogin, () => {
     //  #swagger.summary  = 'Google 手機應用程式登入'
     //  #swagger.description = '將 id_token 傳給伺服器，表示該使用者授權登入'
     /*  #swagger.parameters['google_token'] = {

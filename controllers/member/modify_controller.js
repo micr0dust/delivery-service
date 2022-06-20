@@ -511,7 +511,7 @@ module.exports = class Member {
     googleMobileLogin(req, res, next) {
         async function verify() {
             const ticket = await client.verifyIdToken({
-                idToken: req.headers['google_token'],
+                idToken: "1047924292997-pd5hliq9cpgbdomqhlq3j9986e8crost.apps.googleusercontent.com",
                 audience: config.mail.id, // Specify the CLIENT_ID of the app that accesses the backend
                 // Or, if multiple clients access the backend:
                 //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
@@ -521,9 +521,15 @@ module.exports = class Member {
             // If request specified a G Suite domain:
             // const domain = payload['hd'];
         }
-        verify().catch(console.error);
+        verify().catch(err => {
+            res.status(400).send({
+                status: '登入失敗',
+                code: false,
+                result: err.message
+            });
+        });
         let info_option = {
-            url: "https://oauth2.googleapis.com/tokeninfo?" + "id_token=" + req.headers['google_token'],
+            url: "https://oauth2.googleapis.com/tokeninfo?" + "id_token=" + "1047924292997-pd5hliq9cpgbdomqhlq3j9986e8crost.apps.googleusercontent.com",
             method: "GET",
         };
         request(info_option, function(err, response, body) {
