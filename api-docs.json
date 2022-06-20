@@ -346,13 +346,22 @@
                       "type": "boolean",
                       "example": true
                     },
-                    "phone": {
-                      "type": "string",
-                      "example": "0987654321"
+                    "role": {
+                      "type": "array",
+                      "example": [
+                        "user"
+                      ],
+                      "items": {
+                        "type": "string"
+                      }
                     },
-                    "birthday": {
+                    "locale": {
                       "type": "string",
-                      "example": "2022-11-06"
+                      "example": "en"
+                    },
+                    "picture": {
+                      "type": "string",
+                      "example": "https://google.com/users/14856836/parham-khoshravesh.png"
                     }
                   }
                 }
