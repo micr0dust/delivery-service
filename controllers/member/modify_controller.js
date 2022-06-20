@@ -456,7 +456,7 @@ module.exports = class Member {
         request(token_option, function(err, resposne, body) {
             //console.log(JSON.parse(body))
             let access_token = JSON.parse(body).access_token;
-            console.log(access_token);
+            //console.log(access_token);
             let info_option = {
                 url: "https://www.googleapis.com/oauth2/v1/userinfo?" + "access_token=" + access_token,
                 method: "GET",
@@ -508,35 +508,87 @@ module.exports = class Member {
     }
 
     //googleMobileLogin
+    // googleMobileLogin(req, res, next) {
+    //     async function verify() {
+    //         const ticket = await client.verifyIdToken({
+    //             idToken: req.headers['google_token'],
+    //             audience: "1047924292997-pd5hliq9cpgbdomqhlq3j9986e8crost.apps.googleusercontent.com", // Specify the CLIENT_ID of the app that accesses the backend
+    //             // Or, if multiple clients access the backend:
+    //             //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
+    //         });
+    //         const payload = ticket.getPayload();
+    //         const userid = payload['sub'];
+    //         console.log(userid);
+    //         // If request specified a G Suite domain:
+    //         // const domain = payload['hd'];
+    //     }
+    //     verify().catch(err => {
+    //         res.status(400).send({
+    //             status: '登入失敗',
+    //             code: false,
+    //             result: err.message
+    //         });
+    //     });
+    //     let info_option = {
+    //         url: "https://oauth2.googleapis.com/tokeninfo?" + "id_token=" + req.headers['google_token'],
+    //         method: "GET",
+    //     };
+    //     request(info_option, function(err, response, body) {
+    //         if (err) {
+    //             res.status(500).send(err);
+    //         }
+    //         console.log(body)
+    //         googleLogin(body, onTime).then(rows => {
+    //                 if (check.checkNull(rows) === true) {
+    //                     res.status(400).send({
+    //                         status: '登入失敗',
+    //                         code: true,
+    //                         result: "需要存取帳戶的權限"
+    //                     });
+    //                     return;
+    //                 }
+    //                 if (check.checkNull(rows) === false) {
+    //                     const token = getTokenFn(rows._id.toString(), 30, config.secret);
+    //                     res.setHeader('token', token);
+    //                     res.setHeader('refresh_token', rows.refresh_token);
+    //                     res.json({
+    //                         status: '登入成功',
+    //                         code: true,
+    //                         result: {
+    //                             name: rows.name,
+    //                             email: rows.email,
+    //                             verityCode: rows.verityCode,
+    //                             locale: rows.locale,
+    //                             picture: rows.picture,
+    //                             update_date: rows.update_date,
+    //                             create_date: rows.create_date,
+    //                             role: rows.role
+    //                         }
+    //                     });
+    //                 }
+    //             })
+    //             .catch(err => {
+    //                 res.status(400).send({
+    //                     status: '登入失敗',
+    //                     code: false,
+    //                     result: err.message
+    //                 });
+    //             });
+    //         //res.send(body);
+    //     });
+    // }
+
+    //googleMobileLogin
+
     googleMobileLogin(req, res, next) {
-        async function verify() {
-            const ticket = await client.verifyIdToken({
-                idToken: "1047924292997-pd5hliq9cpgbdomqhlq3j9986e8crost.apps.googleusercontent.com",
-                audience: config.mail.id, // Specify the CLIENT_ID of the app that accesses the backend
-                // Or, if multiple clients access the backend:
-                //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
-            });
-            const payload = ticket.getPayload();
-            const userid = payload['sub'];
-            // If request specified a G Suite domain:
-            // const domain = payload['hd'];
-        }
-        verify().catch(err => {
-            res.status(400).send({
-                status: '登入失敗',
-                code: false,
-                result: err.message
-            });
-        });
         let info_option = {
-            url: "https://oauth2.googleapis.com/tokeninfo?" + "id_token=" + "1047924292997-pd5hliq9cpgbdomqhlq3j9986e8crost.apps.googleusercontent.com",
+            url: "https://www.googleapis.com/oauth2/v1/userinfo?" + "access_token=" + req.headers['google_token'],
             method: "GET",
         };
         request(info_option, function(err, response, body) {
             if (err) {
-                res.status(500).send(err);
+                res.send(err);
             }
-            console.log(body)
             googleLogin(body, onTime).then(rows => {
                     if (check.checkNull(rows) === true) {
                         res.status(400).send({
@@ -548,7 +600,7 @@ module.exports = class Member {
                     }
                     if (check.checkNull(rows) === false) {
                         const token = getTokenFn(rows._id.toString(), 30, config.secret);
-                        res.setHeader('token', token);
+                        //res.setHeader('token', token);
                         res.setHeader('refresh_token', rows.refresh_token);
                         res.json({
                             status: '登入成功',
