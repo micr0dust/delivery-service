@@ -131,18 +131,30 @@ router.get("/google/login", memberModifyMethod.googleLogin, () => {
 router.get("/google/mlogin", memberModifyMethod.googleMobileLogin, () => {
     //  #swagger.summary  = 'Google 手機應用程式登入'
     //  #swagger.description = '將 id_token 傳給伺服器，表示該使用者授權登入'
-    /*  #swagger.parameters['accesstoken'] = {
+    /*  #swagger.parameters['google_token'] = {
                 in: 'header',
                 type: 'string',
                 required: 'true',
-                description: 'id_token = googleUser.getAuthResponse().id_token',
-                schema: "id_token"
+                description: 'google_token = googleUser.getAuthResponse().id_token',
+                schema: "google_token"
     }
     */
     /*
         #swagger.responses[200] = {
-            description: "redirect_url",
-            schema: {$ref: "#/definitions/redirect_url"}
+            description: "登入成功",
+            schema: {
+                    status: '登入成功',
+                    code: true,
+                    result: {
+                        name:"吳玼芢",
+                        email:"usermail123@gmail.com",
+                        create_date:"2022-04-16 22:17:56",
+                        update_date:"2022-04-16 22:56:18",
+                        verityCode: true,
+                        phone:"0987654321",
+                        birthday:"2022-11-06",
+                    }
+                }
         }
     */
 });
@@ -438,9 +450,14 @@ router.post('/user/order', jsonParser, middleWave, memberModifyMethod.postOrder,
     /*  #swagger.responses[200] = {
                 description: '點餐成功',
                 schema: {
-                    status: '點餐成功',
-                    code: true,
-                    result: "[{\"id\":\"6211e1afb27988329badd497\",\"count\":4,\"note\":\"熱\"},{\"id\":\"6211e1d8b27988329badd498\",\"count\":1,\"note\":\"冰的\"}]"
+                    "status": "點餐成功",
+                    "code": true,
+                    "result": {
+                        "order": { $ref: '#/definitions/orderStr' },
+                        "total": 105,
+                        "store": "8y3un9ka",
+                        "discount": { $ref: '#/definitions/discountStr' }
+                    }
                 }
             }
     } */
@@ -470,9 +487,17 @@ router.get('/user/order', jsonParser, middleWave, memberModifyMethod.getOrder, (
     /*  #swagger.responses[200] = {
                 description: '成功獲取歷史訂單資料',
                 schema: {
-                    status: '成功獲取歷史訂單資料',
-                    code: true,
-                    result: "[{\"id\":\"6211e1afb27988329badd497\",\"count\":4,\"note\":\"熱\"},{\"id\":\"6211e1d8b27988329badd498\",\"count\":1,\"note\":\"冰的\"}]"
+                    "status": "成功獲取歷史訂單資料",
+                    "code": true,
+                    "result": [
+                        {
+                        "_id": "6282e9f52774a7fb54a44ee7",
+                        "order": { $ref: '#/definitions/orderStr' },
+                        "DATE": "2022-05-17T00:18:58.637Z",
+                        "total": 135,
+                        "discount": { $ref: '#/definitions/discountStr' }
+                        }
+                    ]
                 }
             }
     } */

@@ -298,22 +298,68 @@
         "description": "將 id_token 傳給伺服器，表示該使用者授權登入",
         "parameters": [
           {
-            "name": "accesstoken",
+            "name": "google_token",
             "in": "header",
             "type": "string",
             "required": true,
-            "description": "id_token = googleUser.getAuthResponse().id_token",
+            "description": "google_token = googleUser.getAuthResponse().id_token",
             "schema": {
               "type": "string",
-              "example": "id_token"
+              "example": "google_token"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "redirect_url",
+            "description": "登入成功",
             "schema": {
-              "$ref": "#/definitions/redirect_url"
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "登入成功"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "result": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "example": "吳玼芢"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "usermail123@gmail.com"
+                    },
+                    "create_date": {
+                      "type": "string",
+                      "example": "2022-04-16 22:17:56"
+                    },
+                    "update_date": {
+                      "type": "string",
+                      "example": "2022-04-16 22:56:18"
+                    },
+                    "verityCode": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "phone": {
+                      "type": "string",
+                      "example": "0987654321"
+                    },
+                    "birthday": {
+                      "type": "string",
+                      "example": "2022-11-06"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
             }
           },
           "429": {
@@ -1126,8 +1172,23 @@
                   "example": true
                 },
                 "result": {
-                  "type": "string",
-                  "example": "[{\"id\":\"6211e1afb27988329badd497\",\"count\":4,\"note\":\"熱\"},{\"id\":\"6211e1d8b27988329badd498\",\"count\":1,\"note\":\"冰的\"}]"
+                  "type": "object",
+                  "properties": {
+                    "order": {
+                      "$ref": "#/definitions/orderStr"
+                    },
+                    "total": {
+                      "type": "number",
+                      "example": 105
+                    },
+                    "store": {
+                      "type": "string",
+                      "example": "8y3un9ka"
+                    },
+                    "discount": {
+                      "$ref": "#/definitions/discountStr"
+                    }
+                  }
                 }
               },
               "xml": {
@@ -1227,8 +1288,30 @@
                   "example": true
                 },
                 "result": {
-                  "type": "string",
-                  "example": "[{\"id\":\"6211e1afb27988329badd497\",\"count\":4,\"note\":\"熱\"},{\"id\":\"6211e1d8b27988329badd498\",\"count\":1,\"note\":\"冰的\"}]"
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "string",
+                        "example": "6282e9f52774a7fb54a44ee7"
+                      },
+                      "order": {
+                        "$ref": "#/definitions/orderStr"
+                      },
+                      "DATE": {
+                        "type": "string",
+                        "example": "2022-05-17T00:18:58.637Z"
+                      },
+                      "total": {
+                        "type": "number",
+                        "example": 135
+                      },
+                      "discount": {
+                        "$ref": "#/definitions/discountStr"
+                      }
+                    }
+                  }
                 }
               },
               "xml": {
@@ -2229,7 +2312,9 @@
             "type": "string",
             "required": false,
             "description": "折價公式",
-            "schema": ""
+            "schema": {
+              "$ref": "#/definitions/discount"
+            }
           }
         ],
         "responses": {
@@ -2786,7 +2871,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "example": "61c00c5e93194731bde89a6f"
+            "example": "6211e1d8b27988329badd498"
           },
           "count": {
             "type": "number",
@@ -2795,6 +2880,34 @@
           "note": {
             "type": "string",
             "example": "熱"
+          }
+        }
+      }
+    },
+    "orderStr": {
+      "type": "string",
+      "example": "[{\"_id\":\"6211e1d8b27988329badd498\",\"name\":\"奶茶\",\"price\":30,\"type\":\"飲料\",\"discount\":null,\"note\":\"熱\"},{\"_id\":\"6211e1d8b27988329badd498\",\"name\":\"奶茶\",\"price\":30,\"type\":\"飲料\",\"discount\":null,\"note\":\"熱\"},{\"_id\":\"6211e1d8b27988329badd498\",\"name\":\"奶茶\",\"price\":30,\"type\":\"飲料\",\"discount\":null,\"note\":\"熱\"},{\"_id\":\"6211e1d8b27988329badd498\",\"name\":\"奶茶\",\"price\":30,\"type\":\"飲料\",\"discount\":null,\"note\":\"熱\"}]"
+    },
+    "discountStr": {
+      "type": "string",
+      "example": "[\"滿100元，現省15元\"]"
+    },
+    "discount": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "method": {
+            "type": "string",
+            "example": "exceedPriceDiscount"
+          },
+          "goal": {
+            "type": "number",
+            "example": 100
+          },
+          "discount": {
+            "type": "number",
+            "example": 15
           }
         }
       }

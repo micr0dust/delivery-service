@@ -1,6 +1,5 @@
 module.exports = class CheckDiscount {
     exceedPriceDiscount(order, method) {
-        console.log('@@')
         let sum = sum(order);
         if (sum >= method.goal) return (method.discount >= 1) ? method.discount : sum * (1 - method.discount);
         return 0;

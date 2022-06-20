@@ -509,8 +509,21 @@ module.exports = class Member {
 
     //googleMobileLogin
     googleMobileLogin(req, res, next) {
+        async function verify() {
+            const ticket = await client.verifyIdToken({
+                idToken: req.headers['google_token'],
+                audience: config.mail.id, // Specify the CLIENT_ID of the app that accesses the backend
+                // Or, if multiple clients access the backend:
+                //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
+            });
+            const payload = ticket.getPayload();
+            const userid = payload['sub'];
+            // If request specified a G Suite domain:
+            // const domain = payload['hd'];
+        }
+        verify().catch(console.error);
         let info_option = {
-            url: "https://www.googleapis.com/oauth2/v1/userinfo?" + "access_token=" + req.headers['access_token'],
+            url: "https://oauth2.googleapis.com/tokeninfo?" + "id_token=" + req.headers['google_token'],
             method: "GET",
         };
         request(info_option, function(err, response, body) {

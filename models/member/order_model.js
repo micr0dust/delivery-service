@@ -137,7 +137,7 @@ module.exports = async function order(data) {
         try {
             const insertOrder = await order.insertOne(data);
             if (!insertOrder) throw new Error('資料庫訂單寫入失敗');
-            const expire = order.createIndex({ DATE: 1 }, { expireAfterSeconds: 86400 });
+            const expire = order.createIndex({ DATE: 1 }, { expireAfterSeconds: 86400 * 30 });
             if (!expire) throw new Error('資料庫訂單時效寫入失敗');
             result = await order.findOne({ _id: insertOrder.insertedId });
             if (!result) throw new Error('資料庫中查無寫入的訂單');

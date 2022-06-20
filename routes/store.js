@@ -258,7 +258,7 @@ router.put('/update', middleWave, storeModifyMethod.putStoreData, () => {
                 type: 'string',
                 required: 'false',
                 description: '折價公式',
-                schema: ''
+                schema: { $ref: '#/definitions/discount' }
     }
     */
 
