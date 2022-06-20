@@ -151,8 +151,9 @@ router.get("/google/mlogin", memberModifyMethod.googleMobileLogin, () => {
                         create_date:"2022-04-16 22:17:56",
                         update_date:"2022-04-16 22:56:18",
                         verityCode: true,
-                        phone:"0987654321",
-                        birthday:"2022-11-06",
+                        role: ["user"],
+                        locale:"en",
+                        picture: "https://google.com/users/14856836/parham-khoshravesh.png",
                     }
                 }
         }
