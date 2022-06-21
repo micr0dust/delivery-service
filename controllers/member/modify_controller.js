@@ -456,7 +456,7 @@ module.exports = class Member {
         request(token_option, function(err, resposne, body) {
             //console.log(JSON.parse(body))
             let access_token = JSON.parse(body).access_token;
-            //console.log(access_token);
+            console.log(access_token);
             let info_option = {
                 url: "https://www.googleapis.com/oauth2/v1/userinfo?" + "access_token=" + access_token,
                 method: "GET",
