@@ -165,7 +165,7 @@ router.get("/google/callback", memberModifyMethod.googleCallback
 
 //router.get("/google/refresh_token", memberModifyMethod.googleGetToken);
 
-router.put('/update', middleWave, memberModifyMethod.putUpdate, () => {
+router.put('/', middleWave, memberModifyMethod.putUpdate, () => {
     //  #swagger.summary  = '更新使用者資料'
     //  #swagger.description = '以使用者 token 請求，成功將更新使用者資料，資料未填寫將不更新'
     /*  #swagger.consumes = ['application/x-www-form-urlencoded']*/
@@ -234,7 +234,7 @@ router.put('/update', middleWave, memberModifyMethod.putUpdate, () => {
             }
     */
 });
-router.delete('/delete', middleWave, memberModifyMethod.deleteAccount, () => {
+router.delete('/', middleWave, memberModifyMethod.deleteAccount, () => {
     //  #swagger.summary  = '刪除帳號'
     //  #swagger.description = '以 token 和密碼請求，刪除帳號。如有店家身分或商品將一併刪除'
     /*  #swagger.consumes = ['application/x-www-form-urlencoded']*/
