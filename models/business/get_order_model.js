@@ -10,11 +10,18 @@ module.exports = async function getNowOrder(id) {
     const store = db.collection(config.mongo.store);
 
     try {
+        let storeUrl;
+        try {
+            const storeResult = await store.findOne({ _id: ObjectId(id) });
+            if (!storeResult) throw new Error("查無店家");
+            if (storeResult) storeUrl = storeResult.url;
+        } catch (err) {
+            throw err;
+        }
         try {
             const findResult = await order.find({
-                store: ObjectId(id),
-                complete: false,
-                accept: true
+                store: storeUrl,
+                complete: false
             }).toArray();
             if (!findResult) throw new Error("查無訂單");
             if (findResult) return findResult;

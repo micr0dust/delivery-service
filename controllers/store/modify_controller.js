@@ -5,7 +5,6 @@ const orderData = require('../../models/store/get_order_model');
 const loginAction = require('../../models/store/store_mode_model');
 const addProduct = require('../../models/store/add_product_model');
 const delProduct = require('../../models/store/delete_product_model');
-const getToken = require('../../models/store/get_token_model');
 const storeUpdate = require('../../models/store/put_store_model');
 
 const verify = require('../../models/store/verification_model');
@@ -234,7 +233,7 @@ module.exports = class Store {
         });
     }
 
-    // 店家取得訂單
+    // 店家取得歷史訂單
     getOrder(req, res, next) {
         orderData(req.headers['token']).then(result => {
             res.json({
@@ -312,27 +311,6 @@ module.exports = class Store {
                 result: err.message
             })
         })
-    }
-
-    //取得營業模式 token
-    getStoreToken(req, res, next) {
-        getToken(req.headers['refresh_token']).then(id => {
-                const token = getTokenFn(id, 30, config.secret);
-                res.setHeader('token', token);
-                res.json({
-                    status: '成功獲取新token',
-                    code: true,
-                    result: 'token時效為半小時'
-                });
-            },
-            err => {
-                res.status(500).send({
-                    status: '無法獲取token',
-                    code: false,
-                    result: err.message
-                });
-            }
-        );
     }
 }
 

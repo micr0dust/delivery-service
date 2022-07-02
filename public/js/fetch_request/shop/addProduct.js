@@ -47,7 +47,7 @@ async function addProduct(oProduct) {
         "token": localStorage.acesstoken,
         "Content-Type": "application/x-www-form-urlencoded"
     };
-    await fetch("/store/product/add", {
+    await fetch("/store/product", {
         method: "POST",
         body: `name=${oProduct.name}&price=${oProduct.price}&describe=${oProduct.describe}&type=${oProduct.tag}`,
         headers: headersList

@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 
 const indexRouter = require('./routes/index');
 const storeRouter = require('./routes/store');
+const businessRouter = require('./routes/business');
 const templatesRouter = require('./routes/templates');
 const authedRouter = require('./routes/authed');
 const shopRouter = require('./routes/shop');
@@ -54,6 +55,9 @@ app.use('/member', indexRouter
 );
 app.use('/store', storeRouter
     // #swagger.tags = ['store']
+);
+app.use('/business', businessRouter
+    // #swagger.tags = ['business']
 );
 app.use('/users', usersRouter
     // #swagger.ignore = true

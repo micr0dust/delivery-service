@@ -1,5 +1,12 @@
 module.exports = class CheckStore {
 
+    //判斷_id格式
+    check_id(_id) {
+        const filt = /^[a-f\d]{24}$/i;
+        const result = filt.test(_id);
+        return result;
+    }
+
     //判斷name格式
     checkName(name) {
         const filt = /^.{1,30}$/;

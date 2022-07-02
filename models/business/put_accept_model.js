@@ -3,7 +3,7 @@ const config = require('../../config/development_config');
 
 var ObjectId = require('mongodb').ObjectId;
 
-module.exports = async function getOrder(id) {
+module.exports = async function putAccept(data) {
     await client.connect();
     const db = client.db(config.mongo.database);
     const order = db.collection(config.mongo.order);
@@ -12,18 +12,22 @@ module.exports = async function getOrder(id) {
     try {
         let storeUrl;
         try {
-            const storeResult = await store.findOne({ belong: id });
+            const storeResult = await store.findOne({ _id: ObjectId(data.id) });
             if (!storeResult) throw new Error("查無店家");
             if (storeResult) storeUrl = storeResult.url;
         } catch (err) {
             throw err;
         }
         try {
-            const findResult = await order.find({
-                store: storeUrl
-            }).toArray();
+            const findResult = await order.findOne({ _id: ObjectId(data.orderID) });
             if (!findResult) throw new Error("查無訂單");
-            if (findResult) return findResult;
+            if (findResult.store != storeUrl) throw new Error("該訂單屬於其他店家");
+            if (findResult.accept == true) throw new Error("已經接受過該訂單");
+            const putResult = await order.updateOne({
+                _id: ObjectId(data.orderID)
+            }, { $set: { accept: true } });
+            if (!putResult) throw new Error("接受訂單時發生錯誤");
+            if (putResult) return true;
         } catch (err) {
             throw err;
         }

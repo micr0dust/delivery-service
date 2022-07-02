@@ -6,7 +6,7 @@ const middleWave = require('../models/middleWave/store');
 
 let storeModifyMethod = new StoreModifyMethod();
 
-router.get('/get', middleWave, storeModifyMethod.getStoreInfo, () => {
+router.get('/', middleWave, storeModifyMethod.getStoreInfo, () => {
     //  #swagger.summary  = '獲取商家資訊'
     //  #swagger.description = '以 token 請求，返回商家名稱、地址等相關資訊'
     /*  #swagger.consumes = ['application/x-www-form-urlencoded']*/
@@ -81,40 +81,6 @@ router.post('/login', middleWave, storeModifyMethod.postLogin, () => {
             }
     */
 });
-router.get('/business/token', middleWave, storeModifyMethod.getStoreToken, () => {
-    // #swagger.tags = ['business']
-    //  #swagger.summary  = '商家獲取 token'
-    //  #swagger.description = '以商家營業模式的 refresh_token 請求，返回此商家營業模式的 token'
-    /*  #swagger.consumes = ['application/x-www-form-urlencoded']*/
-    /*  #swagger.parameters['refresh_token'] = {
-                in: 'header',
-                type: 'string',
-                required: 'true',
-                description: 'store refresh token',
-                schema: { $ref: '#/definitions/token' }
-    }
-    */
-
-    /*  #swagger.responses[200] = {
-                description: '成功獲取新token',
-                schema: {
-                    status: '成功獲取新token',
-                    code: true,
-                    result: "token時效為半小時"
-                }
-            }
-    } */
-    /*
-        #swagger.responses[500] = {
-                description: '無法獲取token',
-                schema: {
-                    status: '無法獲取token',
-                    code: false,
-                    result: 'error message'
-                }
-            }
-    */
-});
 router.post('/establish', middleWave, storeModifyMethod.postEstablish, () => {
     //  #swagger.summary  = '建立商家'
     //  #swagger.description = '以店名和地址為帳號建立商家'
@@ -176,7 +142,7 @@ router.post('/establish', middleWave, storeModifyMethod.postEstablish, () => {
              }
      */
 });
-router.delete('/delete', middleWave, storeModifyMethod.deleteStore, () => {
+router.delete('/', middleWave, storeModifyMethod.deleteStore, () => {
     //  #swagger.summary  = '刪除商家'
     //  #swagger.description = '以 token 和密碼請求，刪除帳號的店家身分及其下商品'
     /*  #swagger.consumes = ['application/x-www-form-urlencoded']*/
@@ -227,7 +193,7 @@ router.delete('/delete', middleWave, storeModifyMethod.deleteStore, () => {
             }
     */
 });
-router.put('/update', middleWave, storeModifyMethod.putStoreData, () => {
+router.put('/', middleWave, storeModifyMethod.putStoreData, () => {
     //  #swagger.summary  = '更新商家資料'
     //  #swagger.description = '以 token 請求，成功將更新商家資料，資料未填寫將不更新'
     /*  #swagger.consumes = ['application/x-www-form-urlencoded']*/
@@ -292,7 +258,7 @@ router.put('/update', middleWave, storeModifyMethod.putStoreData, () => {
             }
     */
 });
-router.post('/product/add', middleWave, storeModifyMethod.postProduct, () => {
+router.post('/product', middleWave, storeModifyMethod.postProduct, () => {
     //  #swagger.summary  = '新增商品'
     //  #swagger.description = '以 token 和商品資料請求，建立商品'
     /*  #swagger.consumes = ['application/x-www-form-urlencoded']*/
@@ -369,7 +335,7 @@ router.post('/product/add', middleWave, storeModifyMethod.postProduct, () => {
              }
      */
 });
-router.delete('/product/remove', middleWave, storeModifyMethod.deleteProduct, () => {
+router.delete('/product', middleWave, storeModifyMethod.deleteProduct, () => {
     //  #swagger.summary  = '刪除商品'
     //  #swagger.description = '以 token 和商品id請求，刪除商品'
     /*  #swagger.consumes = ['application/x-www-form-urlencoded']*/
@@ -410,16 +376,15 @@ router.delete('/product/remove', middleWave, storeModifyMethod.deleteProduct, ()
              }
      */
 });
-router.get('/business/order/get', middleWave, storeModifyMethod.getOrder, () => {
-    // #swagger.tags = ['business']
+router.get('/order', middleWave, storeModifyMethod.getOrder, () => {
     //  #swagger.summary  = '商家獲取訂單'
-    //  #swagger.description = '以商家營業模式的 token 請求，返回此商家所有的訂單'
+    //  #swagger.description = '以 token 請求，返回此商家所有的訂單'
     /*  #swagger.consumes = ['application/x-www-form-urlencoded']*/
     /*  #swagger.parameters['token'] = {
                 in: 'header',
                 type: 'string',
                 required: 'true',
-                description: 'store access token',
+                description: 'access token',
                 schema: { $ref: '#/definitions/token' }
     }
     */

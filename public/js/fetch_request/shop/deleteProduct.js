@@ -41,7 +41,7 @@ async function delProduct(productID) {
         token: localStorage.acesstoken,
         'Content-Type': 'application/x-www-form-urlencoded'
     }
-    await fetch('/store/product/remove', {
+    await fetch('/store/product', {
             method: 'DELETE',
             body: `product=${productID}`,
             headers: headersList

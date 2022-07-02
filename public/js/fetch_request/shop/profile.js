@@ -14,7 +14,7 @@ function getInfoFn() {
         "token": localStorage.acesstoken,
         "Content-Type": "application/x-www-form-urlencoded"
     }
-    fetch("/store/get", {
+    fetch("/store", {
         method: "GET",
         headers: headersList
     }).then(async function(response) {
