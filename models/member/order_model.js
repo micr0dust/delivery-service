@@ -128,6 +128,8 @@ module.exports = async function order(data) {
             data.order = JSON.stringify(finalRecord);
             data.total = sum - allDiscountSum;
             data.discount = JSON.stringify(discountList);
+            data.complete = false;
+            data.accept = false;
         } catch (err) {
             throw err;
         }
