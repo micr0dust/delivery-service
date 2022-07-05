@@ -377,7 +377,7 @@
         }
       }
     },
-    "/member/update": {
+    "/member/": {
       "put": {
         "tags": [
           "member"
@@ -546,9 +546,7 @@
             "bearerAuth": []
           }
         ]
-      }
-    },
-    "/member/delete": {
+      },
       "delete": {
         "tags": [
           "member"
