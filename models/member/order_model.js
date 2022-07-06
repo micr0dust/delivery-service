@@ -34,6 +34,10 @@ module.exports = async function order(data) {
             productOwner = await store.findOne({ _id: ObjectId(firestProduct.belong) });
             if (!productOwner) throw new Error('查無商品商家');
             data.store = productOwner.url;
+            data.store_info = {
+                name: productOwner.name,
+                address: productOwner.address
+            };
         } catch (err) {
             throw err;
         }
@@ -139,7 +143,7 @@ module.exports = async function order(data) {
         try {
             const insertOrder = await order.insertOne(data);
             if (!insertOrder) throw new Error('資料庫訂單寫入失敗');
-            const expire = order.createIndex({ DATE: 1 }, { expireAfterSeconds: 86400 * 30 });
+            const expire = order.createIndex({ DATE: 1 }, { expireAfterSeconds: 86400 * 60 });
             if (!expire) throw new Error('資料庫訂單時效寫入失敗');
             result = await order.findOne({ _id: insertOrder.insertedId });
             if (!result) throw new Error('資料庫中查無寫入的訂單');
@@ -151,6 +155,7 @@ module.exports = async function order(data) {
             order: result.order,
             total: result.total,
             store: result.store,
+            store_info: result.store_info,
             discount: result.discount
         };
         if (data.sale) finalData.sale = data.sale
