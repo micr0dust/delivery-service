@@ -2,6 +2,11 @@ body {
     font-family: "Lato", sans-serif;
 }
 
+html,
+body {
+    overscroll-behavior-y: contain;
+}
+
 .sidebar {
     height: 100%;
     width: 0;
