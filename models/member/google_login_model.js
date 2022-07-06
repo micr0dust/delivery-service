@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 module.exports = async function memberLogin(profile, onTime) {
     await client.connect();
     const db = client.db(config.mongo.database);
-    const collection = db.collection(config.mongo.member);
+    const member = db.collection(config.mongo.member);
 
     let existData;
 
@@ -13,7 +13,7 @@ module.exports = async function memberLogin(profile, onTime) {
         try {
             profile = JSON.parse(profile);
             if (!profile.id) throw new Error("向 Google 請求資料失敗");
-            const findResult = await collection.findOne({
+            const findResult = await member.findOne({
                 googleID: profile.id,
                 email: profile.email
             });
@@ -32,7 +32,7 @@ module.exports = async function memberLogin(profile, onTime) {
                 for (key in memberData) {
                     if (!key) throw new Error("資料存取錯誤");
                 }
-                const insertResult = await collection.insertOne(memberData);
+                const insertResult = await member.insertOne(memberData);
                 if (!insertResult) throw new Error("資料儲存過程發生錯誤");
                 existData = memberData;
                 existData.id = insertResult.insertedId;
@@ -66,7 +66,7 @@ module.exports = async function memberLogin(profile, onTime) {
 
         // 更新資料
         try {
-            const updateData = await collection.updateOne({ _id: existData._id }, {
+            const updateData = await member.updateOne({ _id: existData._id }, {
                 $set: {
                     refresh_token: existData.refresh_token,
                     name: profile.name,

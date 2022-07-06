@@ -1,0 +1,9 @@
+{
+    "short_name": "Fordon",
+    "name": "Fordon",
+    "icons": [{ "src": "images/fordon.png", "sizes": "242x242", "type": "image/png" }],
+    "start_url": "/",
+    "background_color": "#000",
+    "theme_color": "#007565",
+    "display": "standalone"
+}

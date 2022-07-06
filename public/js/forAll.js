@@ -1,5 +1,16 @@
 document.addEventListener('DOMContentLoaded', display(), false);
 
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/service-worker.js', {
+                scope: '.'
+            })
+            .then(function() {
+                console.log("Service Worker Registered");
+            });
+    });
+}
+
 function display() {
     if (localStorage.acesstoken) {
         for (let i = 0; i < document.getElementsByClassName('isAuthenticated').length; i++)
@@ -12,7 +23,7 @@ function display() {
         for (let i = 0; i < document.getElementsByClassName('notAuthenticated').length; i++)
             document.getElementsByClassName('notAuthenticated')[i].style.display = "block";
     }
-    if (JSON.parse(localStorage.role).indexOf("store") + 1)
+    if (localStorage.role && JSON.parse(localStorage.role).indexOf("store") + 1)
         for (let i = 0; i < document.getElementsByClassName('haveStore').length; i++)
             document.getElementsByClassName('haveStore')[i].style.display = "block";
 }

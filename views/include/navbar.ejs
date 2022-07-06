@@ -15,6 +15,7 @@
     <a class="isAuthenticated" href="/auth/wall">動態牆</a>
     <a class="haveStore" href="/shop" style="display: none;">我的商店</a>
     <a id="logout" class="isAuthenticated" href="#">登出</a>
+    <a id="btnInstall" href="javascript:void(0)" onclick="openCreatePostModal()" style="display: none;">安裝</a>
 </div>
 
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top" style="z-index: 2">
@@ -45,6 +46,29 @@
         gapi.load('auth2', function() {
             gapi.auth2.init();
         });
+    }
+
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', function(event) {
+        event.preventDefault();
+        deferredPrompt = event;
+        document.getElementById("btnInstall").style = "block";
+        return false;
+    });
+
+    function openCreatePostModal() {
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then(function(choiceResult) {
+                //console.log(choiceResult.outcome);
+                if (choiceResult.outcome === 'dismissed') {
+                    //console.log('User cancelled installation');
+                } else {
+                    document.getElementById("btnInstall").style = "none";
+                }
+            });
+            deferredPrompt = null;
+        }
     }
 </script>
 <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
