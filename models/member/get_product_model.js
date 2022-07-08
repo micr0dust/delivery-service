@@ -15,8 +15,10 @@ module.exports = async function getProduct(storeData) {
                 id: "尚未上架任何商品",
                 name: "尚未上架任何商品",
                 price: 0,
-                describe: "尚未上架任何商品",
-                type: "尚未上架任何商品"
+                describe: "",
+                type: "",
+                discount: "",
+                options: ""
             }];
             const productResult = await product.find({ _id: { $in: storeResult.product } }).toArray();
             if (!productResult) throw new Error("查無此商家商品");
@@ -26,7 +28,9 @@ module.exports = async function getProduct(storeData) {
                     name: productResult[i].name,
                     price: productResult[i].price,
                     describe: productResult[i].describe,
-                    type: productResult[i].type
+                    type: productResult[i].type,
+                    discount: productResult[i].discount,
+                    options: productResult[i].options
                 }
             }
             if (productResult) return productResult;

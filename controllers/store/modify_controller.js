@@ -143,6 +143,7 @@ module.exports = class Store {
             describe: req.body.describe,
             type: req.body.type,
             discount: req.body.discount ? req.body.discount : null,
+            options: req.body.options,
             create_date: onTime()
         }
 
@@ -151,13 +152,6 @@ module.exports = class Store {
                 status: '新增失敗',
                 code: false,
                 result: '商品名必須介於1~30字'
-            })
-        }
-        if (!check.checkName(data.discount)) {
-            return res.status(400).send({
-                status: '新增失敗',
-                code: false,
-                result: '折價標籤名必須介於1~30字'
             })
         }
         if (!check.checkAddress(data.address)) {
@@ -199,7 +193,8 @@ module.exports = class Store {
                         price: result.price,
                         describe: result.describe,
                         type: result.type,
-                        discount: result.discount
+                        discount: result.discount,
+                        options: result.options
                     }
                 })
             })
