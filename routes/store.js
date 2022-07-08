@@ -431,6 +431,38 @@ router.get('/order', middleWave, storeModifyMethod.getOrder, () => {
             }
     */
 });
+router.get('/income', middleWave, storeModifyMethod.getIncome, () => {
+    //  #swagger.summary  = '取得店家上個月營收'
+    //  #swagger.description = '以 token 請求，返回此店家上個月營收'
+    /*  #swagger.consumes = ['application/x-www-form-urlencoded']*/
+    /*  #swagger.parameters['token'] = {
+                in: 'header',
+                type: 'string',
+                required: 'true',
+                description: 'access token',
+                schema: { $ref: '#/definitions/token' }
+    }
+    */
 
+    /*  #swagger.responses[200] = {
+                description: '成功獲取 7 月營收',
+                schema: {
+                    status: '成功獲取 7 月營收',
+                    code: true,
+                    result: 12345
+                }
+            }
+    } */
+    /*
+        #swagger.responses[500] = {
+                description: '無法獲取 7 月營收',
+                schema: {
+                    status: '無法獲取 7 月營收',
+                    code: false,
+                    result: 'error message'
+                }
+            }
+    */
+});
 
 module.exports = router;

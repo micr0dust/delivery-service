@@ -6,6 +6,7 @@ const loginAction = require('../../models/store/store_mode_model');
 const addProduct = require('../../models/store/add_product_model');
 const delProduct = require('../../models/store/delete_product_model');
 const storeUpdate = require('../../models/store/put_store_model');
+const getIncome = require('../../models/store/get_lastIncome_model');
 
 const verify = require('../../models/store/verification_model');
 const Check = require('../../service/store_check');
@@ -261,6 +262,24 @@ module.exports = class Store {
         }, (err) => {
             res.status(500).json({
                 status: "無法獲取店家資料",
+                code: false,
+                result: err.message
+            })
+        })
+    }
+
+    // 取得店家上個月營收
+    getIncome(req, res, next) {
+        let date = new Date();
+        getIncome(req.headers['token']).then(result => {
+            res.json({
+                status: `成功獲取 ${date.getMonth()} 月營收`,
+                code: true,
+                result: result
+            })
+        }, (err) => {
+            res.status(500).json({
+                status: `無法獲取 ${date.getMonth()} 月營收`,
                 code: false,
                 result: err.message
             })
