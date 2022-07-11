@@ -1184,16 +1184,38 @@
                     "order": {
                       "$ref": "#/definitions/orderStr"
                     },
+                    "DATE": {
+                      "type": "string",
+                      "example": "2022-07-11T08:17:32.616Z"
+                    },
+                    "store_info": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "example": "燒肉飯店"
+                        },
+                        "address": {
+                          "type": "string",
+                          "example": "台北市中山區OO街OO號"
+                        }
+                      }
+                    },
                     "total": {
                       "type": "number",
-                      "example": 105
-                    },
-                    "store": {
-                      "type": "string",
-                      "example": "8y3un9ka"
+                      "example": 135
                     },
                     "discount": {
-                      "$ref": "#/definitions/discountStr"
+                      "type": "string",
+                      "example": "[]"
+                    },
+                    "complete": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "accept": {
+                      "type": "boolean",
+                      "example": false
                     }
                   }
                 }
@@ -1301,21 +1323,43 @@
                     "properties": {
                       "_id": {
                         "type": "string",
-                        "example": "6282e9f52774a7fb54a44ee7"
+                        "example": "62cbdc9f6c1b617ef9b4d3b9"
                       },
                       "order": {
                         "$ref": "#/definitions/orderStr"
                       },
                       "DATE": {
                         "type": "string",
-                        "example": "2022-05-17T00:18:58.637Z"
+                        "example": "2022-07-11T08:17:32.616Z"
+                      },
+                      "store_info": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "example": "燒肉飯店"
+                          },
+                          "address": {
+                            "type": "string",
+                            "example": "台北市中山區OO街OO號"
+                          }
+                        }
                       },
                       "total": {
                         "type": "number",
                         "example": 135
                       },
                       "discount": {
-                        "$ref": "#/definitions/discountStr"
+                        "type": "string",
+                        "example": "[]"
+                      },
+                      "complete": {
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "accept": {
+                        "type": "boolean",
+                        "example": false
                       }
                     }
                   }
@@ -3367,22 +3411,26 @@
         "properties": {
           "id": {
             "type": "string",
-            "example": "6211e1d8b27988329badd498"
+            "example": "62c7f0736129ee4e06d41107"
           },
           "count": {
             "type": "number",
-            "example": 4
+            "example": 1
           },
           "note": {
             "type": "string",
-            "example": "熱"
+            "example": ""
+          },
+          "options": {
+            "type": "string",
+            "example": "[{\"title\":\"飯辣度\",\"option\":\"不辣\"},{\"title\":\"份量\",\"option\":\"小\"}]"
           }
         }
       }
     },
     "orderStr": {
       "type": "string",
-      "example": "[{\"_id\":\"6211e1d8b27988329badd498\",\"name\":\"奶茶\",\"price\":30,\"type\":\"飲料\",\"discount\":null,\"note\":\"熱\"},{\"_id\":\"6211e1d8b27988329badd498\",\"name\":\"奶茶\",\"price\":30,\"type\":\"飲料\",\"discount\":null,\"note\":\"熱\"},{\"_id\":\"6211e1d8b27988329badd498\",\"name\":\"奶茶\",\"price\":30,\"type\":\"飲料\",\"discount\":null,\"note\":\"熱\"},{\"_id\":\"6211e1d8b27988329badd498\",\"name\":\"奶茶\",\"price\":30,\"type\":\"飲料\",\"discount\":null,\"note\":\"熱\"}]"
+      "example": "[{\"_id\":\"62c7f0736129ee4e06d41107\",\"name\":\"握壽司\",\"price\":35,\"type\":\"壽司\",\"discount\":\"[{\\\"method\\\":\\\"exceedPriceDiscount\\\",\\\"goal\\\":100,\\\"discount\\\":15}]\",\"note\":\"\",\"options\":\"[{\\\"title\\\":\\\"飯辣度\\\",\\\"option\\\":\\\"不辣\\\"},{\\\"title\\\":\\\"份量\\\",\\\"option\\\":\\\"小\\\"}]\"}]"
     },
     "discountStr": {
       "type": "string",

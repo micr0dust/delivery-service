@@ -50,7 +50,8 @@ module.exports = async function order(data) {
             orderList[i] = {
                 id: orderList[i].id,
                 count: orderList[i].count,
-                note: orderList[i].note
+                note: orderList[i].note,
+                options: orderList[i].options
             };
         }
 
@@ -74,14 +75,36 @@ module.exports = async function order(data) {
                 let product = productResult.filter(
                     function(item) { return (item._id.toString() == orderList[i].id); }
                 )[0];
+                let newPrice, newOptions;
+                //選項處理
+                if (product.options) {
+                    let arrOptions = JSON.parse(product.options);
+                    let orderOptions = JSON.parse(orderList[i].options);
+                    let optionData = [];
+                    let price = parseFloat(product.price);
+                    for (let j = 0; j < arrOptions.length; j++) {
+                        const found = orderOptions.find(opt => opt['title'] == arrOptions[j]['title']);
+                        if (found) {
+                            const optData = (arrOptions[j]['option']).find(opt => opt['name'] == found['option'])
+                            if (optData) price += parseFloat(optData.cost);
+                            optionData.push(found);
+                        } else if (arrOptions[j].require) throw new Error(
+                            `商品 ${orderList[i].id} 中，的選項 ${arrOptions[j]['name']} 為必選`
+                        );
+                    }
+                    newPrice = price;
+                    newOptions = JSON.stringify(optionData);
+                }
+
                 const record = {
                     _id: product._id.toString(),
                     name: product.name,
-                    price: parseFloat(product.price),
+                    price: newPrice,
                     type: product.type,
                     discount: (product.discount) ? product.discount : null,
-                    note: orderList[i].note
-                }
+                    note: orderList[i].note,
+                    options: newOptions
+                };
                 for (let j = 0; j < orderList[i].count; j++)
                     finalRecord.push(record);
             }

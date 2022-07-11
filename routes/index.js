@@ -455,9 +455,15 @@ router.post('/user/order', jsonParser, middleWave, memberModifyMethod.postOrder,
                     "code": true,
                     "result": {
                         "order": { $ref: '#/definitions/orderStr' },
-                        "total": 105,
-                        "store": "8y3un9ka",
-                        "discount": { $ref: '#/definitions/discountStr' }
+                        "DATE": "2022-07-11T08:17:32.616Z",
+                        "store_info": {
+                            "name": "燒肉飯店",
+                            "address": "台北市中山區OO街OO號"
+                        },
+                        "total": 135,
+                        "discount": "[]",
+                        "complete": false,
+                        "accept": false
                     }
                 }
             }
@@ -492,11 +498,17 @@ router.get('/user/order', jsonParser, middleWave, memberModifyMethod.getOrder, (
                     "code": true,
                     "result": [
                         {
-                        "_id": "6282e9f52774a7fb54a44ee7",
+                        "_id": "62cbdc9f6c1b617ef9b4d3b9",
                         "order": { $ref: '#/definitions/orderStr' },
-                        "DATE": "2022-05-17T00:18:58.637Z",
+                        "DATE": "2022-07-11T08:17:32.616Z",
+                        "store_info": {
+                            "name": "燒肉飯店",
+                            "address": "台北市中山區OO街OO號"
+                        },
                         "total": 135,
-                        "discount": { $ref: '#/definitions/discountStr' }
+                        "discount": "[]",
+                        "complete": false,
+                        "accept": false
                         }
                     ]
                 }

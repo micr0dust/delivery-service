@@ -28,11 +28,12 @@ const doc = {
         redirect_url: { 'redirect_url': 'https://accounts.google.com/o/oauth2/v2/auth?scope=email%20profile&redirect_uri=http://localhost:3000/member/google/callback&response_type=code&client_id=1047494292997-3ph1u638fcq835lnt2dgfmntj8.apps.googleusercontent.com' },
         token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhbGdvcml0aG0iOiJIUzI1NiIsImV4cCI6MTY1MDEyMTc1MCwiZGF0YSI6IjYyNWFkMDE2NzI0MGNhMzgzOWZlYmQwNSIsImlhdCI6MTY1MDExOTk1MH0.zK_jiJATx4W1INvg1yJsWnn_cnXjD2oc38DaRVTTx8k",
         order: [{
-            "id": "6211e1d8b27988329badd498",
-            "count": 4,
-            "note": "熱"
+            "id": "62c7f0736129ee4e06d41107",
+            "count": 1,
+            "note": "",
+            "options": "[{\"title\":\"飯辣度\",\"option\":\"不辣\"},{\"title\":\"份量\",\"option\":\"小\"}]"
         }],
-        orderStr: "[{\"_id\":\"6211e1d8b27988329badd498\",\"name\":\"奶茶\",\"price\":30,\"type\":\"飲料\",\"discount\":null,\"note\":\"熱\"},{\"_id\":\"6211e1d8b27988329badd498\",\"name\":\"奶茶\",\"price\":30,\"type\":\"飲料\",\"discount\":null,\"note\":\"熱\"},{\"_id\":\"6211e1d8b27988329badd498\",\"name\":\"奶茶\",\"price\":30,\"type\":\"飲料\",\"discount\":null,\"note\":\"熱\"},{\"_id\":\"6211e1d8b27988329badd498\",\"name\":\"奶茶\",\"price\":30,\"type\":\"飲料\",\"discount\":null,\"note\":\"熱\"}]",
+        orderStr: "[{\"_id\":\"62c7f0736129ee4e06d41107\",\"name\":\"握壽司\",\"price\":35,\"type\":\"壽司\",\"discount\":\"[{\\\"method\\\":\\\"exceedPriceDiscount\\\",\\\"goal\\\":100,\\\"discount\\\":15}]\",\"note\":\"\",\"options\":\"[{\\\"title\\\":\\\"飯辣度\\\",\\\"option\\\":\\\"不辣\\\"},{\\\"title\\\":\\\"份量\\\",\\\"option\\\":\\\"小\\\"}]\"}]",
         discountStr: "[\"滿100元，現省15元\"]",
         discount: [{ "method": "exceedPriceDiscount", "goal": 100, "discount": 15 }]
     }
