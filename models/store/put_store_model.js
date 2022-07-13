@@ -26,6 +26,7 @@ module.exports = async function storeUpdate(data) {
             if (data.name) putData.name = data.name;
             if (data.address) putData.address = data.address;
             if (data.allDiscount) putData.allDiscount = data.allDiscount;
+            if (data.timeEstimate) putData.timeEstimate = data.timeEstimate;
 
             for (key in putData)
                 await store.updateOne({ _id: ObjectId(storeID) }, {

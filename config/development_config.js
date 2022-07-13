@@ -12,7 +12,8 @@ module.exports = {
         member: process.env.COLLECTION_MEMBER,
         product: process.env.COLLECTION_PRODUCT,
         store: process.env.COLLECTION_STORE,
-        order: process.env.COLLECTION_ORDER
+        order: process.env.COLLECTION_ORDER,
+        group: process.env.COLLECTION_GROUP
     },
     mail: {
         account: process.env.MAIL,

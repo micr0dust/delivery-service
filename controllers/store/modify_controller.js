@@ -8,14 +8,11 @@ const delProduct = require('../../models/store/delete_product_model');
 const storeUpdate = require('../../models/store/put_store_model');
 const getIncome = require('../../models/store/get_lastIncome_model');
 
-const verify = require('../../models/store/verification_model');
 const Check = require('../../service/store_check');
 const encryption = require('../../models/encryption');
 const config = require('../../config/development_config');
 
 const jwt = require('jsonwebtoken');
-const { token } = require('morgan');
-const req = require('express/lib/request');
 
 let check = new Check();
 
@@ -287,7 +284,8 @@ module.exports = class Store {
             id: req.headers['token'],
             name: req.body.name,
             address: req.body.address,
-            allDiscount: req.body.discount
+            allDiscount: req.body.discount,
+            timeEstimate: req.body.timeEstimate
         };
         for (let prop in data)
             if (!data[prop]) delete data[prop];
@@ -310,6 +308,13 @@ module.exports = class Store {
                 status: '新增失敗',
                 code: false,
                 result: '折價資料格式錯誤'
+            })
+        }
+        if (data.timeEstimate && !check.checkPrice(data.timeEstimate)) {
+            return res.status(400).send({
+                status: '新增失敗',
+                code: false,
+                result: '預估時間格式錯誤'
             })
         }
         storeUpdate(data).then(result => {

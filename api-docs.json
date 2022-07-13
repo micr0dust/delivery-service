@@ -19,6 +19,10 @@
     {
       "name": "business",
       "description": "商家營業模式"
+    },
+    {
+      "name": "group",
+      "description": "群組"
     }
   ],
   "schemes": [
@@ -3388,6 +3392,136 @@
           }
         ]
       }
+    },
+    "/group/": {
+      "get": {
+        "tags": [
+          "group"
+        ],
+        "summary": "獲取特定群組",
+        "description": "以 token 請求和群組ID請求，返回特定群組資料",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "required": true,
+            "description": "store access token",
+            "schema": {
+              "$ref": "#/definitions/token"
+            }
+          },
+          {
+            "name": "id",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "description": "群組ID",
+            "schema": {
+              "type": "string",
+              "example": "62bfabae55036d765d2adfbf"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功獲取群組資料",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "成功獲取群組資料"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "result": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "example": "燒肉飯店"
+                      },
+                      "address": {
+                        "type": "string",
+                        "example": "台北市中山區OO街OO號"
+                      },
+                      "url": {
+                        "type": "string",
+                        "example": "9xe72aqx"
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "403": {
+            "description": "token錯誤",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "token錯誤"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "result": {
+                  "type": "string",
+                  "example": "請重新登入"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "description": "無法獲取群組資料",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "無法獲取群組資料"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
     }
   },
   "definitions": {
@@ -3405,25 +3539,34 @@
       "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhbGdvcml0aG0iOiJIUzI1NiIsImV4cCI6MTY1MDEyMTc1MCwiZGF0YSI6IjYyNWFkMDE2NzI0MGNhMzgzOWZlYmQwNSIsImlhdCI6MTY1MDExOTk1MH0.zK_jiJATx4W1INvg1yJsWnn_cnXjD2oc38DaRVTTx8k"
     },
     "order": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "example": "62c7f0736129ee4e06d41107"
-          },
-          "count": {
-            "type": "number",
-            "example": 1
-          },
-          "note": {
-            "type": "string",
-            "example": ""
-          },
-          "options": {
-            "type": "string",
-            "example": "[{\"title\":\"飯辣度\",\"option\":\"不辣\"},{\"title\":\"份量\",\"option\":\"小\"}]"
+      "type": "object",
+      "properties": {
+        "tableware": {
+          "type": "boolean",
+          "example": true
+        },
+        "orders": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "example": "62c7f0736129ee4e06d41107"
+              },
+              "count": {
+                "type": "number",
+                "example": 1
+              },
+              "note": {
+                "type": "string",
+                "example": ""
+              },
+              "options": {
+                "type": "string",
+                "example": "[{\"title\":\"飯辣度\",\"option\":\"不辣\"},{\"title\":\"份量\",\"option\":\"小\"}]"
+              }
+            }
           }
         }
       }
