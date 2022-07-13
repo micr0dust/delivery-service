@@ -8,7 +8,8 @@ let check = new Check();
 let discount = new Discount();
 
 module.exports = async function order(data) {
-    let orderList = JSON.parse(data.order);
+    let orderData = JSON.parse(data.order);
+    let orderList = orderData['orders'];
     await client.connect();
     const db = client.db(config.mongo.database);
     const member = db.collection(config.mongo.member);
@@ -43,6 +44,7 @@ module.exports = async function order(data) {
         }
 
         // Json 格式檢查
+        if (typeof orderData.tableware != "boolean") throw new Error("tableware 型別必須是 boolean");
         for (let i = 0; i < orderList.length; i++) {
             if (!check.checkHexStringId(orderList[i].id)) throw new Error("Json格式錯誤-> 'id':'" + orderList[i].id + "' ");
             if (!check.checkCount(orderList[i].count)) throw new Error("Json格式錯誤-> 'count':'" + orderList[i].count + "' ");
@@ -152,6 +154,7 @@ module.exports = async function order(data) {
                     if (discountMessage) discountList.push(discountMessage);
                 }
             }
+            data.tableware = orderData.tableware;
             data.order = JSON.stringify(finalRecord);
             data.total = sum - allDiscountSum;
             data.discount = JSON.stringify(discountList);
@@ -179,7 +182,8 @@ module.exports = async function order(data) {
             total: result.total,
             store: result.store,
             store_info: result.store_info,
-            discount: result.discount
+            discount: result.discount,
+            tableware: result.tableware
         };
         if (data.sale) finalData.sale = data.sale
         return finalData;
