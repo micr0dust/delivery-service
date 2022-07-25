@@ -624,5 +624,87 @@ router.get('/store/product', middleWave, memberModifyMethod.getProductInfo, () =
             }
     */
 });
+router.post('/twilio/send', middleWave, memberModifyMethod.postTwilioSend, () => {
+    //  #swagger.summary  = '請求發送驗證簡訊'
+    //  #swagger.description = '以使用者 token 請求發送驗證簡訊'
+    /*  #swagger.consumes = ['application/x-www-form-urlencoded']*/
+    /*  #swagger.parameters['token'] = {
+                in: 'header',
+                type: 'string',
+                required: 'true',
+                description: 'member access token',
+                schema: { $ref: '#/definitions/token' }
+    }*/
+
+    /*  #swagger.responses[200] = {
+                description: '成功請求驗證簡訊',
+                schema: {
+                    status: '成功請求驗證簡訊',
+                    code: true,
+                    result: "已發送簡訊"
+                }
+            }
+    } */
+    /*
+        #swagger.responses[400] = {
+                description: '驗證碼格式錯誤',
+                schema: {
+                    status: '驗證碼格式錯誤',
+                    code: false,
+                    result: '驗證碼為八位整數'
+                }
+            }
+    */
+    /*
+        #swagger.responses[500] = {
+                description: '無法請求驗證簡訊',
+                schema: {
+                    status: '無法請求驗證簡訊',
+                    code: false,
+                    result: 'error message'
+                }
+            }
+    */
+});
+router.post('/twilio/verify', middleWave, memberModifyMethod.postTwilioVerify, () => {
+    //  #swagger.summary  = '請求驗證行動電話簡訊驗證碼'
+    //  #swagger.description = '以使用者 token 和簡訊驗證碼請求驗證行動電話號碼'
+    /*  #swagger.consumes = ['application/x-www-form-urlencoded']*/
+    /*  #swagger.parameters['token'] = {
+                in: 'header',
+                type: 'string',
+                required: 'true',
+                description: 'member access token',
+                schema: { $ref: '#/definitions/token' }
+    }*/
+
+    /*  #swagger.parameters['code'] = {
+                in: 'formData',
+                type: 'string',
+                required: 'true',
+                description: '驗證碼',
+                schema: "12345678"
+    } */
+
+    /*  #swagger.responses[200] = {
+                description: '成功驗證手機號碼',
+                schema: {
+                    status: '手機號碼驗證失敗',
+                    code: true,
+                    result: "驗證成功"
+                }
+            }
+    } */
+    /*
+        #swagger.responses[500] = {
+                description: '無法請求驗證簡訊',
+                schema: {
+                    status: '無法請求驗證簡訊',
+                    code: false,
+                    result: 'error message'
+                }
+            }
+    */
+});
 
 module.exports = router;

@@ -25,6 +25,7 @@ module.exports = async function getUser(id) {
             result.verityCode = (findResult.verityCode === true);
             if (findResult.update_date) result.update_date = findResult.update_date;
             if (findResult.create_date) result.create_date = findResult.create_date;
+            if (findResult.phoneVerify) result.phoneVerify = findResult.phoneVerify.verified;
             return result;
         } catch (err) {
             throw err;

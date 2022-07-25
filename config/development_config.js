@@ -23,6 +23,10 @@ module.exports = {
         freshToken: process.env.MAIL_REFRESHTOKEN,
         accessToken: process.env.MAIL_ACCESSTOKEN,
     },
+    teilio: {
+        id: process.env.TWILIO_ID,
+        token: process.env.TWILIO_TOKEN
+    },
     secret: process.env.MY_SECRET,
     fresh_secret: process.env.FRESH_SECRET,
     verify_secret: process.env.VERIFY_SECRET

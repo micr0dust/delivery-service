@@ -12,6 +12,8 @@ const getProduct = require('../../models/member/get_product_model');
 const getStore = require('../../models/member/get_stores_model');
 const orderAction = require('../../models/member/order_model');
 const getOrder = require('../../models/member/get_order_model');
+const postTwilioSend = require('../../models/member/post_twilio_model');
+const postTwilioVerify = require('../../models/member/post_twilio_verify_model');
 
 const verify = require('../../models/member/verification_model');
 const Check = require('../../service/member_check');
@@ -42,7 +44,13 @@ module.exports = class Member {
             email: req.body.email,
             password: password,
             role: ["user"],
-            create_date: onTime()
+            create_date: onTime(),
+            phoneVerify: {
+                code: "00000000",
+                verified: false,
+                times: 0,
+                lastSend: "2022-01-01 00:00:00"
+            }
         };
 
         const checkEmail = check.checkEmail(memberData.email);
@@ -252,7 +260,7 @@ module.exports = class Member {
         );
     }
 
-    //驗證驗證碼
+    //驗證 Email 驗證碼
     putEmailVerify(req, res, next) {
         if (check.checkNull(req.body.verityCode)) return res.status(401).send({
             status: "驗證失敗",
@@ -627,6 +635,57 @@ module.exports = class Member {
                 });
             //res.send(body);
         });
+    }
+
+    // 請求發送驗證簡訊
+    postTwilioSend(req, res, next) {
+        const data = {
+            time: onTime()
+        };
+        postTwilioSend(req.headers['token'], data).then(
+            result => {
+                res.json({
+                    status: '成功請求驗證簡訊',
+                    code: true,
+                    result: result
+                });
+            },
+            err => {
+                res.status(500).send({
+                    status: '無法請求驗證簡訊',
+                    code: false,
+                    result: err.message
+                });
+            }
+        );
+    }
+
+    // 驗證簡訊驗證碼
+    postTwilioVerify(req, res, next) {
+        const data = {
+            code: req.body.code
+        };
+        if (!check.checkCode(data.code)) return res.status(400).send({
+            status: "驗證碼格式錯誤",
+            code: false,
+            result: "驗證碼為八位整數"
+        });
+        postTwilioVerify(req.headers['token'], data).then(
+            result => {
+                res.json({
+                    status: '成功驗證手機號碼',
+                    code: true,
+                    result: result
+                });
+            },
+            err => {
+                res.status(500).send({
+                    status: '手機號碼驗證失敗',
+                    code: false,
+                    result: err.message
+                });
+            }
+        );
     }
 
 }

@@ -27,7 +27,13 @@ module.exports = async function memberLogin(profile, onTime) {
                     locale: profile.locale,
                     role: ["user"],
                     update_date: onTime,
-                    create_date: onTime
+                    create_date: onTime,
+                    phoneVerify: {
+                        code: "00000000",
+                        verified: false,
+                        times: 0,
+                        lastSend: "2022-01-01 00:00:00"
+                    }
                 };
                 for (key in memberData) {
                     if (!key) throw new Error("資料存取錯誤");
@@ -46,7 +52,6 @@ module.exports = async function memberLogin(profile, onTime) {
                 },
                 config.fresh_secret
             );
-            console.log(existData);
             if (!findResult) return {
                 _id: existData._id,
                 name: existData.name,
@@ -57,7 +62,8 @@ module.exports = async function memberLogin(profile, onTime) {
                 update_date: existData.update_date,
                 create_date: existData.create_date,
                 role: existData.role,
-                refresh_token: existData.refresh_token
+                refresh_token: existData.refresh_token,
+                phoneVerify: false
             };
 
         } catch (err) {
@@ -88,7 +94,8 @@ module.exports = async function memberLogin(profile, onTime) {
                 update_date: onTime,
                 create_date: existData.create_date,
                 role: existData.role,
-                refresh_token: existData.refresh_token
+                refresh_token: existData.refresh_token,
+                phoneVerify: phoneVerify.verified
             };
         } catch (err) {
             throw err;

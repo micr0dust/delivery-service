@@ -62,6 +62,13 @@ module.exports = class CheckCustomer {
         return result;
     }
 
+    //判斷code格式
+    checkCode(code) {
+        const filt = /^\d{8,8}$/;
+        const result = filt.test(code);
+        return result;
+    }
+
     //判斷空值
     checkNull(data) {
         for (var key in data) {
