@@ -1602,21 +1602,33 @@
                   "items": {
                     "type": "object",
                     "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "62c7f0736129ee4e06d41107"
+                      },
                       "name": {
                         "type": "string",
-                        "example": "漢堡"
+                        "example": "握壽司"
                       },
                       "price": {
                         "type": "string",
-                        "example": "1395"
+                        "example": "40"
                       },
                       "describe": {
                         "type": "string",
-                        "example": "美味蟹堡"
+                        "example": ""
                       },
                       "type": {
                         "type": "string",
-                        "example": "熱食"
+                        "example": "壽司"
+                      },
+                      "discount": {
+                        "type": "string",
+                        "example": "[{\"method\":\"exceedPriceDiscount\",\"goal\":100,\"discount\":15}]"
+                      },
+                      "options": {
+                        "type": "string",
+                        "example": "[{\"title\":\"飯辣度\",\"requires\":true,\"option\":[{\"name\":\"辣\",\"cost\":\"0\"},{\"name\":\"不辣\",\"cost\":\"0\"}]},{\"title\":\"份量\",\"requires\":true,\"option\":[{\"name\":\"大\",\"cost\":\"10\"},{\"name\":\"中\",\"cost\":\"0\"},{\"name\":\"小\",\"cost\":\"-5\"}]}]"
                       }
                     }
                   }

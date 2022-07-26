@@ -597,16 +597,13 @@ router.get('/store/product', middleWave, memberModifyMethod.getProductInfo, () =
                     code: true,
                     "result": [
                             {
-                                "name": "奶茶",
-                                "price": "30",
-                                "describe": "",
-                                "type": "飲料"
-                            },
-                            {
-                                "name": "漢堡",
-                                "price": "1395",
-                                "describe": "美味蟹堡",
-                                "type": "熱食"
+                            "id": "62c7f0736129ee4e06d41107",
+                            "name": "握壽司",
+                            "price": "40",
+                            "describe": "",
+                            "type": "壽司",
+                            "discount": "[{\"method\":\"exceedPriceDiscount\",\"goal\":100,\"discount\":15}]",
+                            "options": "[{\"title\":\"飯辣度\",\"requires\":true,\"option\":[{\"name\":\"辣\",\"cost\":\"0\"},{\"name\":\"不辣\",\"cost\":\"0\"}]},{\"title\":\"份量\",\"requires\":true,\"option\":[{\"name\":\"大\",\"cost\":\"10\"},{\"name\":\"中\",\"cost\":\"0\"},{\"name\":\"小\",\"cost\":\"-5\"}]}]"
                             }
                         ]
                     }
