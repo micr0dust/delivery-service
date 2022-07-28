@@ -1,0 +1,161 @@
+<div class="container">
+    <div class="row">
+        <div class="card col-md-6 col-sm-12 mt-5">
+            <img class="card-img-top" id="img" src="/images/background.jpg" alt="Card image" style="width:100%">
+        </div>
+        <div class="card col-md-6 col-sm-12">
+            <div class="card-body">
+                <form class="form-signin">
+                    <h4 class="mb-5 mt-5 d-none d-md-block">新增商品</h4>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">商品名稱</span>
+                        </div>
+                        <input type="text" id="product" class="form-control" placeholder="商品名稱" name="product">
+                    </div>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">敘述</span>
+                        </div>
+                        <input type="text" id="describe" class="form-control" placeholder="敘述" name="describe">
+                    </div>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">標籤</span>
+                        </div>
+                        <input type="text" id="tag" class="form-control" placeholder="標籤" name="tag">
+                    </div>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">價格</span>
+                        </div>
+                        <input type="number" id="price" class="form-control" placeholder="價格" name="price">
+                    </div>
+                </form>
+                <button class="btn btn-primary" onclick="submitProduct()">建立</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <template id="optionTemplate">
+        <div class="card col-12 mt-3" name="option">
+            <div class="input-group mb-2 mt-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">項目</span>
+                </div>
+                <input type="text" class="form-control" placeholder="項目" name="title" autocomplete="off">
+                <button class="btn ml-3" onclick="this.parentNode.parentNode.remove()">X</button>
+            </div>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">選項</span>
+                </div>
+                <select class="form-control" name="method">
+                                <option>單選</option>
+                                <option>複選</option>
+                            </select>
+            </div>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">必須填寫</span>
+                </div>
+                <select class="form-control" name="required">
+                                <option value="true">是</option>
+                                <option value="false">否</option>
+                            </select>
+            </div>
+            <ul name="child-options">
+                <li><p>子選項</p></li>
+                <button name="child-options-add" class="btn btn-primary ml-3 mt-1" onclick="addChildOption(this)">+</button>
+            </ul>
+        </div>
+        </template>
+        <template id="childOptionTemplate">
+            <li class="input-group mb-2 col-md-8 col-sm-12 mt-1" name="child-option">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">名稱</span>
+                </div>
+                <input type="text" class="form-control" placeholder="選項名" name="child-title" autocomplete="off">
+                <div class="input-group-prepend ml-3">
+                    <span class="input-group-text">加錢</span>
+                </div>
+                <input type="number" class="form-control" placeholder="須額外花費金額" name="child-cost" value="0" autocomplete="off">
+                <button class="btn ml-3" name="child-options-remove" onclick="this.parentNode.remove()">X</button>
+            </li>
+        </template>
+
+        <script src="/js/fetch_request/storePage.js"></script>
+    </div>
+    <div id="options" class="row mt-3 justify-content-start align-items-center">
+        <button class="btn btn-primary mt-3 md-5" onclick="addOption(this)">新增選項</button>
+    </div>
+</div>
+<script>
+    const dataStr = decodeURI(location.href.split('?')[1]);
+    if (dataStr) {
+        const data = dataStr.split('&');
+        for (let i = 0; i < data.length; i++)
+            if (document.getElementById(data[i].split('=')[0]))
+                document.getElementById(data[i].split('=')[0]).value = data[i].split('=')[1];
+    }
+    document.getElementById('loader').classList.remove('is-active');
+
+    function addChildOption(element) {
+        const childOptionTemplate = document.getElementById('childOptionTemplate');
+        const newChildOption = document.importNode(childOptionTemplate.content, true);
+        element.parentNode.insertBefore(newChildOption, element);
+    }
+
+    function addOption(element) {
+        const optionTemplate = document.getElementById('optionTemplate').cloneNode(true);
+        addChildOption(optionTemplate.content.querySelector('[name="child-options-add"]'));
+        optionTemplate.content.querySelector('[name="child-options-remove"]').style.visibility = 'hidden';
+        const newOption = document.importNode(optionTemplate.content, true);
+        element.parentNode.insertBefore(newOption, element);
+    }
+
+    function submitProduct() {
+        const name = document.getElementById('product');
+        const describe = document.getElementById('describe');
+        const tag = document.getElementById('tag');
+        const price = document.getElementById('price');
+
+        const options = document.getElementById('options');
+        const arrOptions = options.querySelectorAll('[name="option"]');
+
+        let optionData = [];
+        for (let i = 0; i < arrOptions.length; i++) {
+            const title = arrOptions[i].querySelector('[name="title"]');
+            const method = arrOptions[i].querySelector('[name="method"]');
+            const required = arrOptions[i].querySelector('[name="required"]');
+            const childOptions = arrOptions[i].querySelector('[name="child-options"]');
+            const arrChildOptions = childOptions.querySelectorAll('[name="child-option"]');
+            let childOptionsData = [];
+            for (let j = 0; j < arrChildOptions.length; j++) {
+                const childTitle = arrChildOptions[j].querySelector('[name="child-title"]');
+                const childCost = arrChildOptions[j].querySelector('[name="child-cost"]');
+                childOptionsData.push({
+                    name: childTitle.value,
+                    cost: childCost.value
+                });
+            }
+            optionData.push({
+                title: title.value,
+                requires: required.value == "true" ? true : false,
+                option: childOptionsData
+            });
+        }
+
+        let oProduct = {
+            name: name.value,
+            describe: describe.value,
+            tag: tag.value,
+            price: price.value,
+            options: JSON.stringify(optionData),
+        };
+        addProduct(oProduct);
+        document.getElementById('loader').classList.add('is-active');
+    }
+</script>
+<script src="/js/fetch_request/shop/deleteProduct.js"></script>
+<script src="/js/fetch_request/shop/addProduct.js"></script>

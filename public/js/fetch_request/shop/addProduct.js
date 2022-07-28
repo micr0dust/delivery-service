@@ -1,14 +1,18 @@
 function addProductForm() {
     Swal.fire({
         title: '新增商品',
-        html: `<input type="text" id="name" class="swal2-input" placeholder="商品名稱" autocomplete="off">
+        html: `<input type="text" id="product" class="swal2-input" placeholder="商品名稱" autocomplete="off">
         <input type="text" id="describe" class="swal2-input" placeholder="敘述"autocomplete="off">
         <input type="text" id="tag" class="swal2-input" placeholder="標籤" autocomplete="off">
-        <input type="number" id="price" class="swal2-input" min="1" max="9999" placeholder="商品價格" autocomplete="off">`,
+        <input type="number" id="price" class="swal2-input" min="1" max="9999" placeholder="商品價格" autocomplete="off">
+        <div id="options"></div>`,
         inputAttributes: {
             autocapitalize: 'off'
         },
         showCancelButton: true,
+        showDenyButton: true,
+        denyButtonText: '進階選項',
+        denyButtonColor: '#00AAAA',
         cancelButtonColor: '#808080',
         confirmButtonText: '建立',
         showLoaderOnConfirm: true,
@@ -37,11 +41,24 @@ function addProductForm() {
                 '',
                 'success'
             );
+        } else if (result.isDenied) {
+            const product = Swal.getPopup().querySelector('#product').value;
+            const describe = Swal.getPopup().querySelector('#describe').value;
+            const tag = Swal.getPopup().querySelector('#tag').value;
+            const price = Swal.getPopup().querySelector('#price').value;
+            location.href = `/shop/add?product=${product}&describe=${describe}&tag=${tag}&price=${price}`;
         }
     })
 }
 
 async function addProduct(oProduct) {
+    let formData = "";
+    if (oProduct.name) formData += `name=${oProduct.name}&`;
+    if (oProduct.price) formData += `price=${oProduct.price}&`;
+    if (oProduct.describe) formData += `describe=${oProduct.describe}&`;
+    if (oProduct.type) formData += `type=${oProduct.tag}&`;
+    if (oProduct.options) formData += `options=${oProduct.options}`;
+
     let headersList = {
         "Accept": "*/*",
         "token": localStorage.acesstoken,
@@ -49,14 +66,17 @@ async function addProduct(oProduct) {
     };
     await fetch("/store/product", {
         method: "POST",
-        body: `name=${oProduct.name}&price=${oProduct.price}&describe=${oProduct.describe}&type=${oProduct.tag}`,
+        body: formData,
         headers: headersList
     }).then(async function(response) {
-        if (response.status === 201);
+        if (response.status === 201)
+            location.href = "/shop"
         else if (response.status === 403 && localStorage.refresh_token) {
             await getToken();
-            return getInfoFn();
-        } else throw new Error(response.status);
+            return addProduct(oProduct);
+        } else Swal.showValidationMessage(
+            `發生錯誤：${response}`
+        );
     }).catch(error => {
         Swal.showValidationMessage(
             `發生錯誤：${error}`

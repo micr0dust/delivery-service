@@ -140,7 +140,7 @@ module.exports = class Store {
             describe: req.body.describe,
             type: req.body.type,
             discount: req.body.discount ? req.body.discount : null,
-            options: req.body.options,
+            options: req.body.options ? req.body.options : null,
             create_date: onTime()
         }
 
@@ -197,6 +197,7 @@ module.exports = class Store {
             })
             .catch(err => {
                 // respon error
+                console.log(err.message)
                 res.status(500).send({
                     status: '新增失敗',
                     code: false,
