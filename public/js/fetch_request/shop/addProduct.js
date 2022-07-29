@@ -17,7 +17,7 @@ function addProductForm() {
         confirmButtonText: '建立',
         showLoaderOnConfirm: true,
         preConfirm: () => {
-            const name = Swal.getPopup().querySelector('#name').value;
+            const name = Swal.getPopup().querySelector('#product').value;
             const describe = Swal.getPopup().querySelector('#describe').value;
             const tag = Swal.getPopup().querySelector('#tag').value;
             const price = Swal.getPopup().querySelector('#price').value;
@@ -74,9 +74,7 @@ async function addProduct(oProduct) {
         else if (response.status === 403 && localStorage.refresh_token) {
             await getToken();
             return addProduct(oProduct);
-        } else Swal.showValidationMessage(
-            `發生錯誤：${response}`
-        );
+        } else console.log(response)
     }).catch(error => {
         Swal.showValidationMessage(
             `發生錯誤：${error}`
