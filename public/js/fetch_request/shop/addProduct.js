@@ -56,7 +56,7 @@ async function addProduct(oProduct) {
     if (oProduct.name) formData += `name=${oProduct.name}`;
     if (oProduct.price) formData += `&price=${oProduct.price}`;
     if (oProduct.describe) formData += `&describe=${oProduct.describe}`;
-    if (oProduct.type) formData += `&type=${oProduct.tag}`;
+    if (oProduct.tag) formData += `&type=${oProduct.tag}`;
     if (oProduct.options) formData += `&options=${oProduct.options}`;
 
     let headersList = {
