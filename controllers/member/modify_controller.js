@@ -371,7 +371,7 @@ module.exports = class Member {
             order: JSON.stringify(req.body),
             DATE: new Date()
         };
-        orderAction(data).then(
+        orderAction(data, true).then(
             result => {
                 res.status(201).json({
                     status: '點餐成功',
@@ -382,6 +382,31 @@ module.exports = class Member {
             err => {
                 res.status(500).send({
                     status: '點餐失敗',
+                    code: false,
+                    result: err.message
+                });
+            }
+        );
+    }
+
+    //訂單結果預覽
+    postOrderPreview(req, res, next) {
+        const data = {
+            id: req.headers['token'],
+            order: JSON.stringify(req.body),
+            DATE: new Date()
+        };
+        orderAction(data, false).then(
+            result => {
+                res.status(201).json({
+                    status: '訂單結果預覽請求成功',
+                    code: true,
+                    result: result
+                })
+            },
+            err => {
+                res.status(500).send({
+                    status: '訂單結果預覽請求失敗',
                     code: false,
                     result: err.message
                 });

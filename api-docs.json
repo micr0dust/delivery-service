@@ -1431,6 +1431,154 @@
         ]
       }
     },
+    "/member/user/order/preview": {
+      "post": {
+        "tags": [
+          "member"
+        ],
+        "summary": "訂單結果預覽",
+        "description": "以使用者 token 和 Json 陣列形式的資料請求，返回訂單預覽資料。",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/order"
+            }
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "required": true,
+            "description": "member access token",
+            "schema": {
+              "$ref": "#/definitions/token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "訂單結果預覽請求成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "訂單結果預覽請求成功"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "result": {
+                  "type": "object",
+                  "properties": {
+                    "order": {
+                      "$ref": "#/definitions/orderStr"
+                    },
+                    "DATE": {
+                      "type": "string",
+                      "example": "2022-07-11T08:17:32.616Z"
+                    },
+                    "store_info": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "example": "友朋小吃"
+                        },
+                        "address": {
+                          "type": "string",
+                          "example": "桃園市中壢區OO街OO號"
+                        }
+                      }
+                    },
+                    "total": {
+                      "type": "number",
+                      "example": 154
+                    },
+                    "discount": {
+                      "type": "string",
+                      "example": "[\"滿100元，現省15元\"]"
+                    },
+                    "complete": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "accept": {
+                      "type": "boolean",
+                      "example": false
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "403": {
+            "description": "token錯誤",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "token錯誤"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "result": {
+                  "type": "string",
+                  "example": "請重新登入"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "description": "訂單結果預覽請求失敗",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "訂單結果預覽請求失敗"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
     "/member/store": {
       "get": {
         "tags": [

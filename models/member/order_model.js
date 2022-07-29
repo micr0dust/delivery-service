@@ -7,7 +7,7 @@ var ObjectId = require('mongodb').ObjectId;
 let check = new Check();
 let discount = new Discount();
 
-module.exports = async function order(data) {
+module.exports = async function order(data, finalOrder) {
     let orderData = JSON.parse(data.order);
     let orderList = orderData['orders'];
     await client.connect();
@@ -183,16 +183,18 @@ module.exports = async function order(data) {
 
         // 將資料寫入資料庫
         let result;
-        try {
-            const insertOrder = await order.insertOne(data);
-            if (!insertOrder) throw new Error('資料庫訂單寫入失敗');
-            const expire = order.createIndex({ DATE: 1 }, { expireAfterSeconds: 86400 * 60 });
-            if (!expire) throw new Error('資料庫訂單時效寫入失敗');
-            result = await order.findOne({ _id: insertOrder.insertedId });
-            if (!result) throw new Error('資料庫中查無寫入的訂單');
-        } catch (err) {
-            throw err;
-        }
+        if (finalOrder)
+            try {
+                const insertOrder = await order.insertOne(data);
+                if (!insertOrder) throw new Error('資料庫訂單寫入失敗');
+                const expire = order.createIndex({ DATE: 1 }, { expireAfterSeconds: 86400 * 60 });
+                if (!expire) throw new Error('資料庫訂單時效寫入失敗');
+                result = await order.findOne({ _id: insertOrder.insertedId });
+                if (!result) throw new Error('資料庫中查無寫入的訂單');
+            } catch (err) {
+                throw err;
+            }
+        else result = data;
 
         let finalData = {
             order: result.order,

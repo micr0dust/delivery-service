@@ -479,6 +479,57 @@ router.post('/user/order', jsonParser, middleWave, memberModifyMethod.postOrder,
             }
     */
 });
+router.post('/user/order/preview', jsonParser, middleWave, memberModifyMethod.postOrderPreview, () => {
+    //  #swagger.summary  = '訂單結果預覽'
+    //  #swagger.description = '以使用者 token 和 Json 陣列形式的資料請求，返回訂單預覽資料。'
+    /*  #swagger.consumes = ['application/json']*/
+    /*  #swagger.parameters['token'] = {
+            in: 'header',
+            type: 'string',
+            required: 'true',
+            description: 'member access token',
+            schema: { $ref: '#/definitions/token' }
+    }*/
+    /* #swagger.parameters = {
+            in: 'body',
+            name: 'body',
+            required: true,
+            type: 'array',
+            schema:{ $ref: '#/definitions/order' }
+        }
+    */
+
+    /*  #swagger.responses[200] = {
+                description: '訂單結果預覽請求成功',
+                schema: {
+                    "status": "訂單結果預覽請求成功",
+                    "code": true,
+                    "result": {
+                        "order": { $ref: '#/definitions/orderStr' },
+                        "DATE": "2022-07-11T08:17:32.616Z",
+                        "store_info": {
+                            "name": "友朋小吃",
+                            "address": "桃園市中壢區OO街OO號"
+                        },
+                        "total": 154,
+                        "discount": '["滿100元，現省15元"]',
+                        "complete": false,
+                        "accept": false
+                    }
+                }
+            }
+    } */
+    /*
+        #swagger.responses[500] = {
+                description: '訂單結果預覽請求失敗',
+                schema: {
+                    status: '訂單結果預覽請求失敗',
+                    code: false,
+                    result: 'error message'
+                }
+            }
+    */
+});
 router.get('/user/order', jsonParser, middleWave, memberModifyMethod.getOrder, () => {
     //  #swagger.summary  = '獲取歷史訂單'
     //  #swagger.description = '以使用者 token 請求，獲取其歷史訂單。'
