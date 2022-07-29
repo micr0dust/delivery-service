@@ -457,11 +457,11 @@ router.post('/user/order', jsonParser, middleWave, memberModifyMethod.postOrder,
                         "order": { $ref: '#/definitions/orderStr' },
                         "DATE": "2022-07-11T08:17:32.616Z",
                         "store_info": {
-                            "name": "燒肉飯店",
-                            "address": "台北市中山區OO街OO號"
+                            "name": "友朋小吃",
+                            "address": "桃園市中壢區OO街OO號"
                         },
-                        "total": 135,
-                        "discount": "[]",
+                        "total": 154,
+                        "discount": '["滿100元，現省15元"]',
                         "complete": false,
                         "accept": false
                     }

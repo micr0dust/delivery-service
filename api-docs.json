@@ -1197,21 +1197,21 @@
                       "properties": {
                         "name": {
                           "type": "string",
-                          "example": "燒肉飯店"
+                          "example": "友朋小吃"
                         },
                         "address": {
                           "type": "string",
-                          "example": "台北市中山區OO街OO號"
+                          "example": "桃園市中壢區OO街OO號"
                         }
                       }
                     },
                     "total": {
                       "type": "number",
-                      "example": 135
+                      "example": 154
                     },
                     "discount": {
                       "type": "string",
-                      "example": "[]"
+                      "example": "[\"滿100元，現省15元\"]"
                     },
                     "complete": {
                       "type": "boolean",
@@ -2650,7 +2650,7 @@
             "description": "商品名稱",
             "schema": {
               "type": "string",
-              "example": "火腿蛋餅"
+              "example": "超大漢堡"
             }
           },
           {
@@ -2661,7 +2661,7 @@
             "description": "價格",
             "schema": {
               "type": "number",
-              "example": 25
+              "example": 139
             }
           },
           {
@@ -2672,7 +2672,7 @@
             "description": "簡介",
             "schema": {
               "type": "string",
-              "example": "有火腿"
+              "example": "漢堡超大"
             }
           },
           {
@@ -2683,7 +2683,27 @@
             "description": "類別",
             "schema": {
               "type": "string",
-              "example": "蛋餅"
+              "example": "漢堡"
+            }
+          },
+          {
+            "name": "options",
+            "in": "formData",
+            "type": "string",
+            "required": false,
+            "description": "進階選項",
+            "schema": {
+              "$ref": "#/definitions/options"
+            }
+          },
+          {
+            "name": "discount",
+            "in": "formData",
+            "type": "string",
+            "required": false,
+            "description": "折價",
+            "schema": {
+              "$ref": "#/definitions/discount"
             }
           }
         ],
@@ -2706,19 +2726,25 @@
                   "properties": {
                     "name": {
                       "type": "string",
-                      "example": "火腿蛋餅"
+                      "example": "超大漢堡"
                     },
                     "price": {
                       "type": "string",
-                      "example": "25"
+                      "example": "139"
                     },
                     "describe": {
                       "type": "string",
-                      "example": "有火腿"
+                      "example": "漢堡超大"
                     },
                     "type": {
                       "type": "string",
-                      "example": "蛋餅"
+                      "example": "漢堡"
+                    },
+                    "options": {
+                      "$ref": "#/definitions/options"
+                    },
+                    "discount": {
+                      "$ref": "#/definitions/discount"
                     }
                   }
                 }
@@ -3802,21 +3828,33 @@
           "items": {
             "type": "object",
             "properties": {
-              "id": {
-                "type": "string",
-                "example": "62c7f0736129ee4e06d41107"
+              "tableware": {
+                "type": "boolean",
+                "example": true
               },
-              "count": {
-                "type": "number",
-                "example": 1
-              },
-              "note": {
-                "type": "string",
-                "example": ""
-              },
-              "options": {
-                "type": "string",
-                "example": "[{\"title\":\"飯辣度\",\"option\":\"不辣\"},{\"title\":\"份量\",\"option\":\"小\"}]"
+              "orders": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "62e34a28167d90df4ef71efc"
+                    },
+                    "count": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "note": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "options": {
+                      "type": "string",
+                      "example": "[{\"title\":\"肉種\",\"option\":\"牛肉\"},{\"title\":\"加料\",\"option\":[\"雙層肉\",\"2倍起司\"]}]"
+                    }
+                  }
+                }
               }
             }
           }
@@ -3825,31 +3863,19 @@
     },
     "orderStr": {
       "type": "string",
-      "example": "[{\"_id\":\"62c7f0736129ee4e06d41107\",\"name\":\"握壽司\",\"price\":35,\"type\":\"壽司\",\"discount\":\"[{\\\"method\\\":\\\"exceedPriceDiscount\\\",\\\"goal\\\":100,\\\"discount\\\":15}]\",\"note\":\"\",\"options\":\"[{\\\"title\\\":\\\"飯辣度\\\",\\\"option\\\":\\\"不辣\\\"},{\\\"title\\\":\\\"份量\\\",\\\"option\\\":\\\"小\\\"}]\"}]"
+      "example": "[{\"_id\":\"62e34a28167d90df4ef71efc\",\"name\":\"超大漢堡\",\"price\":169,\"type\":null,\"discount\":null,\"note\":\"\",\"options\":\"[{\\\"title\\\":\\\"肉種\\\",\\\"option\\\":\\\"牛肉\\\"},{\\\"title\\\":\\\"加料\\\",\\\"option\\\":[\\\"雙層肉\\\",\\\"2倍起司\\\"]},{\\\"title\\\":\\\"加料\\\",\\\"option\\\":[\\\"雙層肉\\\",\\\"2倍起司\\\"]}]\"}]"
     },
     "discountStr": {
       "type": "string",
       "example": "[\"滿100元，現省15元\"]"
     },
     "discount": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "method": {
-            "type": "string",
-            "example": "exceedPriceDiscount"
-          },
-          "goal": {
-            "type": "number",
-            "example": 100
-          },
-          "discount": {
-            "type": "number",
-            "example": 15
-          }
-        }
-      }
+      "type": "string",
+      "example": "[{\"method\":\"exceedPriceDiscount\",\"goal\":100,\"discount\":15}]"
+    },
+    "options": {
+      "type": "string",
+      "example": "[{ \"title\": \"肉種\", \"multiple\": false, \"requires\": true, \"option\": [{ \"name\": \"牛肉\", \"cost\": \"0\" }, { \"name\": \"雞肉\", \"cost\": \"0\" }, { \"name\": \"豬肉\", \"cost\": \"0\" }, { \"name\": \"魚肉\", \"cost\": \"0\" }] }, { \"title\": \"加料\", \"multiple\": true, \"requires\": false, \"option\": [{ \"name\": \"雙層肉\", \"cost\": \"20\" }, { \"name\": \"2倍起司\", \"cost\": \"10\" }] }]"
     }
   }
 }

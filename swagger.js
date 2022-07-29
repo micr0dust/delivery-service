@@ -34,15 +34,19 @@ const doc = {
         order: {
             "tableware": true,
             "orders": [{
-                "id": "62c7f0736129ee4e06d41107",
-                "count": 1,
-                "note": "",
-                "options": "[{\"title\":\"飯辣度\",\"option\":\"不辣\"},{\"title\":\"份量\",\"option\":\"小\"}]"
+                "tableware": true,
+                "orders": [{
+                    "id": "62e34a28167d90df4ef71efc",
+                    "count": 1,
+                    "note": "",
+                    "options": "[{\"title\":\"肉種\",\"option\":\"牛肉\"},{\"title\":\"加料\",\"option\":[\"雙層肉\",\"2倍起司\"]}]"
+                }]
             }]
         },
-        orderStr: "[{\"_id\":\"62c7f0736129ee4e06d41107\",\"name\":\"握壽司\",\"price\":35,\"type\":\"壽司\",\"discount\":\"[{\\\"method\\\":\\\"exceedPriceDiscount\\\",\\\"goal\\\":100,\\\"discount\\\":15}]\",\"note\":\"\",\"options\":\"[{\\\"title\\\":\\\"飯辣度\\\",\\\"option\\\":\\\"不辣\\\"},{\\\"title\\\":\\\"份量\\\",\\\"option\\\":\\\"小\\\"}]\"}]",
+        orderStr: "[{\"_id\":\"62e34a28167d90df4ef71efc\",\"name\":\"超大漢堡\",\"price\":169,\"type\":null,\"discount\":null,\"note\":\"\",\"options\":\"[{\\\"title\\\":\\\"肉種\\\",\\\"option\\\":\\\"牛肉\\\"},{\\\"title\\\":\\\"加料\\\",\\\"option\\\":[\\\"雙層肉\\\",\\\"2倍起司\\\"]},{\\\"title\\\":\\\"加料\\\",\\\"option\\\":[\\\"雙層肉\\\",\\\"2倍起司\\\"]}]\"}]",
         discountStr: "[\"滿100元，現省15元\"]",
-        discount: [{ "method": "exceedPriceDiscount", "goal": 100, "discount": 15 }]
+        discount: '[{"method":"exceedPriceDiscount","goal":100,"discount":15}]',
+        options: '[{ "title": "肉種", "multiple": false, "requires": true, "option": [{ "name": "牛肉", "cost": "0" }, { "name": "雞肉", "cost": "0" }, { "name": "豬肉", "cost": "0" }, { "name": "魚肉", "cost": "0" }] }, { "title": "加料", "multiple": true, "requires": false, "option": [{ "name": "雙層肉", "cost": "20" }, { "name": "2倍起司", "cost": "10" }] }]'
     }
 }
 

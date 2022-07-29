@@ -275,28 +275,42 @@ router.post('/product', middleWave, storeModifyMethod.postProduct, () => {
                  type: 'string',
                  required: 'true',
                  description: '商品名稱',
-                 schema: "火腿蛋餅"
+                 schema: "超大漢堡"
         }
         #swagger.parameters['price'] = {
                  in: 'formData',
                  type: 'integer',
                  required: 'true',
                  description: '價格',
-                 schema: 25
+                 schema: 139
         }
         #swagger.parameters['describe'] = {
                  in: 'formData',
                  type: 'string',
                  required: 'false',
                  description: '簡介',
-                 schema: "有火腿"
+                 schema: "漢堡超大"
         }
         #swagger.parameters['type'] = {
                  in: 'formData',
                  type: 'string',
                  required: 'false',
                  description: '類別',
-                 schema: "蛋餅"
+                 schema: "漢堡"
+        }
+        #swagger.parameters['options'] = {
+                 in: 'formData',
+                 type: 'string',
+                 required: 'false',
+                 description: '進階選項',
+                 schema: { $ref: '#/definitions/options' }
+        }
+        #swagger.parameters['discount'] = {
+                 in: 'formData',
+                 type: 'string',
+                 required: 'false',
+                 description: '折價',
+                 schema: { $ref: '#/definitions/discount' }
         }
     */
 
@@ -306,10 +320,12 @@ router.post('/product', middleWave, storeModifyMethod.postProduct, () => {
                     status: '新增成功',
                     code: true,
                     result: {
-                        "name": "火腿蛋餅",
-                        "price": "25",
-                        "describe": "有火腿",
-                        "type": "蛋餅"
+                        "name": "超大漢堡",
+                        "price": "139",
+                        "describe": "漢堡超大",
+                        "type": "漢堡",
+                        "options":{ $ref: '#/definitions/options' },
+                        "discount":{ $ref: '#/definitions/discount' }
                     }
                 }
             }
