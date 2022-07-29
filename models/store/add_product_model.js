@@ -16,6 +16,7 @@ module.exports = async function addProduct(id, productData) {
             let optionsData = JSON.parse(productData.options);
             optionsData.forEach(element => {
                 if (typeof element.requires != "boolean") throw new Error("requires 須為 boolean 型別");
+                if (typeof element.multiple != "boolean") throw new Error("multiple 須為 boolean 型別");
                 if (!/^.{0,15}$/.test(element.title)) throw new Error("標題應為0~15字");
                 element.option.forEach(opt => {
                     if (!/^.{0,10}$/.test(opt.name)) throw new Error("選項應為0~10字");

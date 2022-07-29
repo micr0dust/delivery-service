@@ -5,7 +5,7 @@
         </div>
         <div class="card col-md-6 col-sm-12">
             <div class="card-body">
-                <form class="form-signin">
+                <form class="form-signin" autocomplete="off">
                     <h4 class="mb-5 mt-5 d-none d-md-block">新增商品</h4>
                     <div class="input-group mb-2">
                         <div class="input-group-prepend">
@@ -50,9 +50,9 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text">選項</span>
                 </div>
-                <select class="form-control" name="method">
-                                <option>單選</option>
-                                <option>複選</option>
+                <select class="form-control" name="multiple">
+                                <option value="false">單選</option>
+                                <option value="true">複選</option>
                             </select>
             </div>
             <div class="input-group mb-2">
@@ -126,7 +126,7 @@
         let optionData = [];
         for (let i = 0; i < arrOptions.length; i++) {
             const title = arrOptions[i].querySelector('[name="title"]');
-            const method = arrOptions[i].querySelector('[name="method"]');
+            const multiple = arrOptions[i].querySelector('[name="multiple"]');
             const required = arrOptions[i].querySelector('[name="required"]');
             const childOptions = arrOptions[i].querySelector('[name="child-options"]');
             const arrChildOptions = childOptions.querySelectorAll('[name="child-option"]');
@@ -141,6 +141,7 @@
             }
             optionData.push({
                 title: title.value,
+                multiple: multiple.value == "true" ? true : false,
                 requires: required.value == "true" ? true : false,
                 option: childOptionsData
             });

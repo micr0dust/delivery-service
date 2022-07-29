@@ -87,10 +87,27 @@ module.exports = async function order(data) {
                     for (let j = 0; j < arrOptions.length; j++) {
                         const found = orderOptions.find(opt => opt['title'] == arrOptions[j]['title']);
                         if (found) {
-                            const optData = (arrOptions[j]['option']).find(opt => opt['name'] == found['option'])
-                            if (optData) price += parseFloat(optData.cost);
-                            optionData.push(found);
-                        } else if (arrOptions[j].require) throw new Error(
+                            if (arrOptions[j]['multiple'] == true) {
+                                if (!Array.isArray(found['option'])) throw new Error(
+                                    `商品 ${orderList[i].id} 中，的選項 ${arrOptions[j]['title']} 為複選，需用 List 處理`
+                                );
+                                for (let k = 0; k < found['option'].length; k++) {
+                                    const optData = (arrOptions[j]['option']).find(opt => opt['name'] == found['option'][k]);
+                                    if (!optData) throw new Error(
+                                        `商品 ${orderList[i].id} 中的選項 ${arrOptions[j]['title']}，查無子選項 ${found['option'][k]}`
+                                    );
+                                    price += parseFloat(optData.cost);
+                                    optionData.push(found);
+                                }
+                            } else {
+                                const optData = (arrOptions[j]['option']).find(opt => opt['name'] == found['option']);
+                                if (!optData) throw new Error(
+                                    `商品 ${orderList[i].id} 中的選項 ${arrOptions[j]['title']}，查無子選項 ${found['option']}`
+                                );
+                                price += parseFloat(optData.cost);
+                                optionData.push(found);
+                            }
+                        } else if (arrOptions[j]['require']) throw new Error(
                             `商品 ${orderList[i].id} 中，的選項 ${arrOptions[j]['name']} 為必選`
                         );
                     }
