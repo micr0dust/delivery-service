@@ -46,7 +46,7 @@ function addProductForm() {
             const describe = Swal.getPopup().querySelector('#describe').value;
             const tag = Swal.getPopup().querySelector('#tag').value;
             const price = Swal.getPopup().querySelector('#price').value;
-            location.href = `/shop/add?product=${product}&describe=${describe}&type=${tag}&price=${price}`;
+            location.href = `/shop/add?product=${product}&describe=${describe}&tag=${tag}&price=${price}`;
         }
     })
 }
