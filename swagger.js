@@ -34,13 +34,10 @@ const doc = {
         order: {
             "tableware": true,
             "orders": [{
-                "tableware": true,
-                "orders": [{
-                    "id": "62e34a28167d90df4ef71efc",
-                    "count": 1,
-                    "note": "",
-                    "options": "[{\"title\":\"肉種\",\"option\":\"牛肉\"},{\"title\":\"加料\",\"option\":[\"雙層肉\",\"2倍起司\"]}]"
-                }]
+                "id": "62e34a28167d90df4ef71efc",
+                "count": 1,
+                "note": "",
+                "options": "[{\"title\":\"肉種\",\"option\":\"牛肉\"},{\"title\":\"加料\",\"option\":[\"雙層肉\",\"2倍起司\"]}]"
             }]
         },
         orderStr: "[{\"_id\":\"62e34a28167d90df4ef71efc\",\"name\":\"超大漢堡\",\"price\":169,\"type\":null,\"discount\":null,\"note\":\"\",\"options\":\"[{\\\"title\\\":\\\"肉種\\\",\\\"option\\\":\\\"牛肉\\\"},{\\\"title\\\":\\\"加料\\\",\\\"option\\\":[\\\"雙層肉\\\",\\\"2倍起司\\\"]},{\\\"title\\\":\\\"加料\\\",\\\"option\\\":[\\\"雙層肉\\\",\\\"2倍起司\\\"]}]\"}]",
