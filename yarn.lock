@@ -1675,10 +1675,10 @@ swagger-autogen@2.21.1:
     glob "^7.1.7"
     json5 "^2.2.1"
 
-swagger-jsdoc@^6.2.0:
-  version "6.2.1"
-  resolved "https://registry.yarnpkg.com/swagger-jsdoc/-/swagger-jsdoc-6.2.1.tgz#2f3f67c8433ae2c09e7e318d2f8fd9e09f0166b3"
-  integrity sha512-l2BwFf7wzNPb11+NRRy65X+kuHUGLb3ZuGFn6A8xDXXTu73YzJmCiy+LED/6QsOgPBPgO3u3sDEz6KuOHAlCtA==
+swagger-jsdoc@6.2.3:
+  version "6.2.3"
+  resolved "https://registry.yarnpkg.com/swagger-jsdoc/-/swagger-jsdoc-6.2.3.tgz#dc1121f4965a3733ae1b4ea91f16e31240b8bf2a"
+  integrity sha512-PvhwD/TMjAAAmNZaBslCaLpz4Cig5Qh27IT2ZU4AzChzWcRFLRZTGLcf5h8mvWfqfBzGxciaWPiDConCPDvQPg==
   dependencies:
     commander "6.2.0"
     doctrine "3.0.0"
