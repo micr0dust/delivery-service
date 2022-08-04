@@ -97,8 +97,8 @@ module.exports = async function order(data, finalOrder) {
                                         `商品 ${orderList[i].id} 中的選項 ${arrOptions[j]['title']}，查無子選項 ${found['option'][k]}`
                                     );
                                     price += parseFloat(optData.cost);
-                                    optionData.push(found);
                                 }
+                                optionData.push(found);
                             } else {
                                 const optData = (arrOptions[j]['option']).find(opt => opt['name'] === found['option']);
                                 if (!optData) throw new Error(
