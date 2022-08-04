@@ -83,12 +83,11 @@
                 <button class="btn ml-3" name="child-options-remove" onclick="this.parentNode.remove()">X</button>
             </li>
         </template>
-
-        <script src="/js/fetch_request/storePage.js"></script>
     </div>
     <div id="options" class="row mt-3 justify-content-start align-items-center">
         <button class="btn btn-primary mt-3 md-5" onclick="addOption(this)">新增選項</button>
     </div>
+    <script src="/js/fetch_request/storePage.js"></script>
 </div>
 <script>
     const dataStr = decodeURI(location.href.split('?')[1]);

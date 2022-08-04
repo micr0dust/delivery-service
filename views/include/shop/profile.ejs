@@ -8,28 +8,36 @@
         </div>
         <div class="card col-md-6 col-sm-12">
             <div class="card-body">
-                <form class="form-signin">
-                    <h4 class="mb-5 mt-5 d-none d-md-block">商家主控台</h4>
-                    <div class="input-group mb-2">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">地址</span>
-                        </div>
-                        <input type="text" id="address" class="form-control" placeholder="地址" name="address" disabled>
+                <h4 class="mb-3 mt-5 d-none d-md-block">商家主控台</h4>
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">地址</span>
                     </div>
-                    <div class="input-group mb-2">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">創建時間</span>
-                        </div>
-                        <input type="text" id="create" class="form-control" placeholder="創建時間" name="create" disabled>
+                    <input type="text" id="address" class="form-control" placeholder="地址" name="address" disabled>
+                </div>
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">供餐位置</span>
                     </div>
-                    <div class="input-group mb-2">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">上次更新</span>
-                        </div>
-                        <input type="text" id="update" class="form-control" placeholder="上次更新" name="update" disabled>
+                    <select class="form-control" id="place" disabled>
+                        <option class="d-none">未設定</option>
+                        <option>校門口</option>
+                        <option>力行宿舍</option>
+                        <option>恩慈良善宿舍</option>
+                    </select>
+                </div>
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">創建時間</span>
                     </div>
-                </form>
-                <button class="btn btn-primary" onclick="addProductForm()">+</button>
+                    <input type="text" id="create" class="form-control" placeholder="創建時間" name="create" disabled>
+                </div>
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">上次更新</span>
+                    </div>
+                    <input type="text" id="update" class="form-control" placeholder="上次更新" name="update" disabled>
+                </div>
             </div>
         </div>
     </div>
@@ -37,7 +45,7 @@
         <template id="productTemplate">
             <div class="card col-sm-6 col-md-3 mt-3 mr-3">
                 <a class="text-decoration-none">
-                    <div class="card-body"><img class="img-fluid" src="/images/background.jpg"></div>
+                    <img class="img-fluid" src="/images/background.jpg">
                     <div class="card-footer justify-content-between">
                         <span>name</span>
                         <span>price</span>
@@ -45,10 +53,81 @@
                 </a>
             </div>
         </template>
+        <template id="date-Line">
+            <div class="d-flex flex-row justify-content-around">
+                <div name="time">/</div>
+            </div>
+        </template>
+        <template id="date-block">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="Sunday" disabled>
+                <label class="form-check-label" for="Sunday"></label>
+            </div>
+        </template>
         <script src="/js/fetch_request/storePage.js"></script>
+    </div>
+    <div class="row">
+        <div class="card col-12 mt-3 ">
+            <div id="schedule" class="card-body col-sm-12">
+                <h3>營業時間</h3>
+                <div class="d-flex flex-row justify-content-around">
+                    <div name="time" class="ml-5">時間 / 日期</div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="Sunday">
+                        <label class="form-check-label" for="Sunday">星期日</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="Monday">
+                        <label class="form-check-label" for="Monday">星期一</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="Tuesday">
+                        <label class="form-check-label" for="Tuesday">星期二</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="Wentsday">
+                        <label class="form-check-label" for="Wentsday">星期三</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="Thursday">
+                        <label class="form-check-label" for="Thursday">星期四</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="Friday">
+                        <label class="form-check-label" for="Friday">星期五</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="Saturday">
+                        <label class="form-check-label" for="Saturday">星期六</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="options" class="row mt-3 justify-content-start align-items-center">
+        <button class="btn btn-primary mt-3 md-5" onclick="addProductForm()">新增商品</button>
     </div>
     <div id="product" class="row mt-3 justify-content-start align-items-center"></div>
 </div>
 <script src="/js/fetch_request/shop/profile.js"></script>
 <script src="/js/fetch_request/shop/deleteProduct.js"></script>
 <script src="/js/fetch_request/shop/addProduct.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/range.js/1.1.0/range.min.js" integrity="sha512-7vSmKY5RtRf6RrH4bEymyGGl2hNhNha2lkgDkpcsKxT8wMK/4vjuQ+dfnNii9gfQiSTjLQO7wXRsZpmX7hIuBg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    function createDateGrid() {
+        for (let hour = 1; hour <= 24; hour++) {
+            const line = document.getElementById('date-Line').cloneNode(true);
+            const str = `${hour.toString().padStart(2, '0')}:00 ~ ${hour+1>24?'00':(hour+1).toString().padStart(2, '0')}:00`;
+            line.content.querySelector('[name="time"]').innerText = str;
+            for (let day = 0; day < 7; day++) {
+                const block = document.getElementById('date-block').cloneNode(true);
+                //block.content.querySelector('div > label').innerText = hour * 100 + day;
+                const newBlock = document.importNode(block.content, true);
+                line.content.querySelector('div').appendChild(newBlock);
+            }
+            const newLine = document.importNode(line.content, true);
+            document.getElementById('schedule').appendChild(newLine);
+        }
+    }
+    createDateGrid();
+</script>
