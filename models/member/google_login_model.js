@@ -95,7 +95,7 @@ module.exports = async function memberLogin(profile, onTime) {
                 create_date: existData.create_date,
                 role: existData.role,
                 refresh_token: existData.refresh_token,
-                phoneVerify: phoneVerify.verified
+                phoneVerify: existData.phoneVerify.verified
             };
         } catch (err) {
             throw err;

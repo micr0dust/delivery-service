@@ -47,7 +47,7 @@ function getInfoFn() {
                 else if (data.result.gender === "女") oimg = random(4, 6);
                 else oimg = random(1, 6);
                 document.getElementById('img').src = "https://www.w3schools.com/bootstrap4/img_avatar" + oimg + ".png";
-            } else document.getElementById('img').src = data.result.picture;
+            } else document.getElementById('img').src = data.result.picture + "#" + new Date().getTime();
             if (data.result.role) localStorage.setItem('role', JSON.stringify(data.result.role));
             if (data.result.name) document.getElementById('name').innerText = data.result.name;
             if (data.result.email) document.getElementById('email').value = data.result.email;
