@@ -26,7 +26,7 @@
         "rate-limiter-flexible": "2.3.6",
         "request": "^2.88.2",
         "swagger-autogen": "2.21.1",
-        "swagger-jsdoc": "^6.2.0",
+        "swagger-jsdoc": "6.2.5",
         "swagger-ui-express": "^4.3.0",
         "twilio": "^3.80.0"
     }
