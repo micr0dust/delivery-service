@@ -15,7 +15,7 @@ router.get('/', middleWave, groupModifyMethod.getGroupInfo, () => {
                 type: 'string',
                 required: 'true',
                 description: 'store access token',
-                schema: "62ce7094d47de10b3b6d68f7"
+                schema: { $ref: '#/definitions/token' }
     }
     */
     /*  #swagger.parameters['id'] = {

@@ -3837,8 +3837,7 @@
             "required": true,
             "description": "store access token",
             "schema": {
-              "type": "string",
-              "example": "62ce7094d47de10b3b6d68f7"
+              "$ref": "#/definitions/token"
             }
           },
           {
