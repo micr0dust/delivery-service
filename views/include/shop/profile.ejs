@@ -38,6 +38,7 @@
                     </div>
                     <input type="text" id="update" class="form-control" placeholder="上次更新" name="update" disabled>
                 </div>
+                <button name="edit" class="btn btn-primary ml-3 mt-1" onclick="edit(true)">+</button>
             </div>
         </div>
     </div>
@@ -54,14 +55,14 @@
             </div>
         </template>
         <template id="date-Line">
-            <div class="d-flex flex-row justify-content-around">
-                <div name="time">/</div>
+            <div class="d-flex justify-content-around">
+                <div class="col-2 text-center user-select-none" name="time">/</div>
             </div>
         </template>
         <template id="date-block">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="Sunday" disabled>
-                <label class="form-check-label" for="Sunday"></label>
+            <div class="form-check flex-fill">
+                <input class="form-check-input" type="checkbox" name="dateCheck" disabled>
+                <label class="form-check-label"></label>
             </div>
         </template>
         <script src="/js/fetch_request/storePage.js"></script>
@@ -70,37 +71,6 @@
         <div class="card col-12 mt-3 ">
             <div id="schedule" class="card-body col-sm-12">
                 <h3>營業時間</h3>
-                <div class="d-flex flex-row justify-content-around">
-                    <div name="time" class="ml-5">時間 / 日期</div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="Sunday">
-                        <label class="form-check-label" for="Sunday">星期日</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="Monday">
-                        <label class="form-check-label" for="Monday">星期一</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="Tuesday">
-                        <label class="form-check-label" for="Tuesday">星期二</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="Wentsday">
-                        <label class="form-check-label" for="Wentsday">星期三</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="Thursday">
-                        <label class="form-check-label" for="Thursday">星期四</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="Friday">
-                        <label class="form-check-label" for="Friday">星期五</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="Saturday">
-                        <label class="form-check-label" for="Saturday">星期六</label>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -113,12 +83,51 @@
 <script src="/js/fetch_request/shop/deleteProduct.js"></script>
 <script src="/js/fetch_request/shop/addProduct.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/range.js/1.1.0/range.min.js" integrity="sha512-7vSmKY5RtRf6RrH4bEymyGGl2hNhNha2lkgDkpcsKxT8wMK/4vjuQ+dfnNii9gfQiSTjLQO7wXRsZpmX7hIuBg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 <script>
+    function edit(able) {
+        const input = document.getElementsByTagName('input');
+        for (let i = 0; i < input.length; i++)
+            input[i].disabled = able ? false : true;
+    }
+
+    function createFormTitle() {
+        const line = document.getElementById('date-Line').cloneNode(true);
+        const week = ['日', '一', '二', '三', '四', '五', '六'];
+        for (let day = 0; day < 7; day++) {
+            const block = document.getElementById('date-block').cloneNode(true);
+            block.content.querySelector('div > label').innerText = "星期" + week[day];
+            block.content.querySelector('div > input').name = "day";
+            const newBlock = document.importNode(block.content, true);
+            line.content.querySelector('div').appendChild(newBlock);
+        }
+        const newLine = document.importNode(line.content, true);
+        document.getElementById('schedule').appendChild(newLine);
+    }
+
+    function bindEventToForm() {
+        const schedule = document.getElementById('schedule');
+        const checkboxs = schedule.querySelectorAll('[name="dateCheck"]');
+        for (let i = 0; i < checkboxs.length; i++) {
+            checkboxs[i].addEventListener('change', (event) => {
+                if (event.currentTarget.checked)
+                    event.currentTarget.parentNode.classList.add('bg-warning');
+                else
+                    event.currentTarget.parentNode.classList.remove('bg-warning');
+            });
+        }
+    }
+
     function createDateGrid() {
-        for (let hour = 1; hour <= 24; hour++) {
+        createFormTitle();
+        for (let hour = 0; hour < 24; hour++) {
             const line = document.getElementById('date-Line').cloneNode(true);
-            const str = `${hour.toString().padStart(2, '0')}:00 ~ ${hour+1>24?'00':(hour+1).toString().padStart(2, '0')}:00`;
+            const str = `${hour.toString().padStart(2, '0')}:00 ~ ${hour+1>=24?'00':(hour+1).toString().padStart(2, '0')}:00`;
             line.content.querySelector('[name="time"]').innerText = str;
+            if (hour % 2) {
+                line.content.querySelector('div').classList.add('bg-light');
+                line.content.querySelector('div').classList.add('text-secondary');
+            }
             for (let day = 0; day < 7; day++) {
                 const block = document.getElementById('date-block').cloneNode(true);
                 //block.content.querySelector('div > label').innerText = hour * 100 + day;
@@ -128,6 +137,7 @@
             const newLine = document.importNode(line.content, true);
             document.getElementById('schedule').appendChild(newLine);
         }
+        bindEventToForm();
     }
     createDateGrid();
 </script>

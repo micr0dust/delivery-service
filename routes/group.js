@@ -15,7 +15,7 @@ router.get('/', middleWave, groupModifyMethod.getGroupInfo, () => {
                 type: 'string',
                 required: 'true',
                 description: 'store access token',
-                schema: { $ref: '#/definitions/token' }
+                schema: "62ce7094d47de10b3b6d68f7"
     }
     */
     /*  #swagger.parameters['id'] = {
@@ -23,7 +23,7 @@ router.get('/', middleWave, groupModifyMethod.getGroupInfo, () => {
                  type: 'string',
                  required: 'true',
                  description: '群組ID',
-                 schema: "62bfabae55036d765d2adfbf"
+                 schema: "62ce7094d47de10b3b6d68f7"
      } */
 
     /*  #swagger.responses[200] = {

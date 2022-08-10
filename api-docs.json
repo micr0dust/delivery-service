@@ -3837,7 +3837,8 @@
             "required": true,
             "description": "store access token",
             "schema": {
-              "$ref": "#/definitions/token"
+              "type": "string",
+              "example": "62ce7094d47de10b3b6d68f7"
             }
           },
           {
@@ -3848,7 +3849,7 @@
             "description": "群組ID",
             "schema": {
               "type": "string",
-              "example": "62bfabae55036d765d2adfbf"
+              "example": "62ce7094d47de10b3b6d68f7"
             }
           }
         ],
