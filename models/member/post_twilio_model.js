@@ -41,14 +41,23 @@ module.exports = async function deleteAction(id, data) {
                 }
             }
         });
-        twilio.messages
+
+        const callback = twilio.messages
             .create({
                 body: `你的 Fordon 驗證碼為 ${phoneVerify}`,
                 from: '+18644818728',
                 to: '+886' + phoneNumber
-            })
-            .then(message => { return message.sid });
-        return `還剩 ${maxTryPerDay-times} 次簡訊發送機會`;
+            }, function(error, message) {
+
+                if (error) return error.message
+                    // console.log('Success! The SID for this SMS message is:');
+                    // console.log(message.sid);
+
+                // console.log('Message sent on:');
+                // console.log(message.dateCreated);
+            });
+
+        return callback || `還剩 ${maxTryPerDay-times} 次簡訊發送機會`;
     } catch (err) {
         throw err;
     } finally {
