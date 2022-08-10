@@ -14,7 +14,8 @@ module.exports = async function getProduct() {
                 storeResult[i] = {
                     name: storeResult[i].name,
                     address: storeResult[i].address,
-                    id: storeResult[i].url
+                    id: storeResult[i].url,
+                    discount: storeResult[i].allDiscount || "[]"
                 }
             }
             if (storeResult) return storeResult;

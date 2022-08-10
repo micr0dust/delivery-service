@@ -19,7 +19,8 @@ module.exports = async function groupData(data) {
                 finalData.push({
                     name: findResult[i].name,
                     address: findResult[i].address,
-                    url: findResult[i].url
+                    url: findResult[i].url,
+                    discount: findResult[i].allDiscount || "[]"
                 });
             return finalData;
         } catch (err) {
