@@ -8,7 +8,7 @@ module.exports = class Group {
     // 取得特定群組資料
     getGroupInfo(req, res, next) {
         const data = {
-            id: req.body.id
+            id: req.headers['id']
         };
         getGroupData(data).then(result => {
             res.json({
