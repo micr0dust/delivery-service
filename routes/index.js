@@ -598,12 +598,8 @@ router.get('/store', middleWave, memberModifyMethod.getStoreInfo, () => {
                             {
                                 "name": "友朋小吃",
                                 "address": "桃園市中壢區OO街OO號",
-                                "id": "8y3un9ka"
-                            },
-                            {
-                                "name": "燒肉飯店",
-                                "address": "台北市中山區OO街OO號",
-                                "id": "9xe72aqx"
+                                "id": "8y3un9ka",
+                                "discount": "[]"
                             }
                         ]
                     }

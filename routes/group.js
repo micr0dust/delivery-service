@@ -19,7 +19,7 @@ router.get('/', middleWave, groupModifyMethod.getGroupInfo, () => {
     }
     */
     /*  #swagger.parameters['id'] = {
-                 in: 'formData',
+                 in: 'header',
                  type: 'string',
                  required: 'true',
                  description: '群組ID',
@@ -33,9 +33,10 @@ router.get('/', middleWave, groupModifyMethod.getGroupInfo, () => {
                     code: true,
                     result: [
                                 {
-                                "name": "燒肉飯店",
-                                "address": "台北市中山區OO街OO號",
-                                "url": "9xe72aqx"
+                                    "name": "燒肉飯店",
+                                    "address": "台北市中山區OO街OO號",
+                                    "url": "9xe72aqx",
+                                    "discount": "[]"
                                 }
                             ]
                 }

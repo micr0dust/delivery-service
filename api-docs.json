@@ -1622,15 +1622,19 @@
                     "properties": {
                       "name": {
                         "type": "string",
-                        "example": "燒肉飯店"
+                        "example": "友朋小吃"
                       },
                       "address": {
                         "type": "string",
-                        "example": "台北市中山區OO街OO號"
+                        "example": "桃園市中壢區OO街OO號"
                       },
                       "id": {
                         "type": "string",
-                        "example": "9xe72aqx"
+                        "example": "8y3un9ka"
+                      },
+                      "discount": {
+                        "type": "string",
+                        "example": "[]"
                       }
                     }
                   }
@@ -3842,7 +3846,7 @@
           },
           {
             "name": "id",
-            "in": "formData",
+            "in": "header",
             "type": "string",
             "required": true,
             "description": "群組ID",
@@ -3882,6 +3886,10 @@
                       "url": {
                         "type": "string",
                         "example": "9xe72aqx"
+                      },
+                      "discount": {
+                        "type": "string",
+                        "example": "[]"
                       }
                     }
                   }
