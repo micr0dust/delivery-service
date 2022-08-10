@@ -28,7 +28,7 @@ module.exports = async function deleteAction(id, data) {
         if (memberResult["phone"][0] === '0')
             memberResult["phone"].split('0')[1];
         if (phoneNumber[0] === '0')
-            phoneNumber = phoneNumber.split('0')[1];
+            phoneNumber = phoneNumber.substr(1, phoneNumber.length - 1);
         let phoneVerify = createNum();
         const updateResult = await member.updateOne({ _id: ObjectId(id) }, {
             $set: {
@@ -42,22 +42,13 @@ module.exports = async function deleteAction(id, data) {
             }
         });
 
-        const callback = twilio.messages
+        const messages = await twilio.messages
             .create({
                 body: `你的 Fordon 驗證碼為 ${phoneVerify}`,
                 from: '+18644818728',
-                to: '+886' + phoneNumber
-            }, function(error, message) {
-
-                if (error) return error.message
-                    // console.log('Success! The SID for this SMS message is:');
-                    // console.log(message.sid);
-
-                // console.log('Message sent on:');
-                // console.log(message.dateCreated);
+                to: '+886444' + phoneNumber
             });
-
-        return callback || `還剩 ${maxTryPerDay-times} 次簡訊發送機會`;
+        return messages.sid ? `還剩 ${maxTryPerDay-times} 次簡訊發送機會` : messages;
     } catch (err) {
         throw err;
     } finally {
