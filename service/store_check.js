@@ -67,4 +67,9 @@ module.exports = class CheckStore {
         }
         return true;
     }
+
+    checkPlace(data) {
+        const acceptPlace = ["未設定", "校門口", "力行宿舍", "恩慈良善宿舍"];
+        return acceptPlace.find(opt => opt === data);
+    }
 }

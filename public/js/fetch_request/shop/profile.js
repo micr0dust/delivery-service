@@ -35,8 +35,25 @@ function getInfoFn() {
         data = JSON.parse(data);
         document.getElementById('loader').classList.remove('is-active');
         if (data.code) {
+            console.log(data)
             if (data.result.name) document.getElementById('name').innerText = data.result.name;
             if (data.result.address) document.getElementById('address').value = data.result.address;
+            if (data.result.place) document.getElementById('place').value = data.result.place;
+            if (data.result.timeEstimate) document.getElementById('timeEstimate').value = data.result.timeEstimate;
+            if (data.result.businessTime) {
+                const schedule = document.getElementById('schedule');
+                const line = schedule.querySelectorAll('[name="line"]');
+                const businessTime = data.result.businessTime;
+                for (let i = 1; i < line.length; i++) {
+                    const time = line[i].querySelectorAll('[name="dateCheck"]');
+                    for (let j = 0; j < time.length; j++) {
+                        time[j].checked = Boolean(businessTime[i - 1][j]);
+                        time[j].checked ?
+                            time[j].parentNode.classList.add('bg-warning') :
+                            time[j].parentNode.classList.remove('bg-warning');
+                    }
+                }
+            }
             if (data.result.create_date) document.getElementById('create').value = new Date(data.result.create_date).toLocaleString();
             if (data.result.last_login) document.getElementById('update').value = new Date(data.result.last_login).toLocaleString();
             if (data.result.url) await getProductFn(data.result.url);
@@ -51,6 +68,5 @@ function getInfoFn() {
                 window.location.href = '/admin/login';
             }
         });
-        console.log(data);
     })
 }

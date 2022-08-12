@@ -15,6 +15,7 @@ module.exports = async function getProduct() {
                     name: storeResult[i].name,
                     address: storeResult[i].address,
                     id: storeResult[i].url,
+                    place: storeResult[i].place,
                     discount: storeResult[i].allDiscount || "[]"
                 }
             }

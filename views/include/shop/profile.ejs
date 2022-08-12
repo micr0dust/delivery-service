@@ -21,24 +21,35 @@
                     </div>
                     <select class="form-control" id="place" disabled>
                         <option class="d-none">未設定</option>
-                        <option>校門口</option>
-                        <option>力行宿舍</option>
-                        <option>恩慈良善宿舍</option>
+                        <option value="校門口">校門口</option>
+                        <option value="力行宿舍">力行宿舍</option>
+                        <option value="恩慈良善宿舍">恩慈良善宿舍</option>
                     </select>
+                </div>
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">預估備餐時間</span>
+                    </div>
+                    <input type="number" id="timeEstimate" class="form-control" placeholder="預估備餐時間" name="timeEstimate" disabled>
+                    <div class="input-group-append">
+                        <span class="input-group-text">分鐘</span>
+                    </div>
                 </div>
                 <div class="input-group mb-2">
                     <div class="input-group-prepend">
                         <span class="input-group-text">創建時間</span>
                     </div>
-                    <input type="text" id="create" class="form-control" placeholder="創建時間" name="create" disabled>
+                    <input type="text" id="create" class="form-control" placeholder="創建時間" name="create" data-cantChange disabled>
                 </div>
                 <div class="input-group mb-2">
                     <div class="input-group-prepend">
                         <span class="input-group-text">上次更新</span>
                     </div>
-                    <input type="text" id="update" class="form-control" placeholder="上次更新" name="update" disabled>
+                    <input type="text" id="update" class="form-control" placeholder="上次更新" name="update" data-cantChange disabled>
                 </div>
-                <button name="edit" class="btn btn-primary ml-3 mt-1" onclick="edit(true)">+</button>
+                <button id="edit" class="btn btn-primary mt-1" onclick="edit(true)">編輯</button>
+                <button id="unedit" class="btn btn-danger mt-1 d-none" onclick="edit(false)">取消</button>
+                <button id="submit" class="btn btn-success ml-3 mt-1 d-none" onclick="submitUpdate()">儲存</button>
             </div>
         </div>
     </div>
@@ -55,7 +66,7 @@
             </div>
         </template>
         <template id="date-Line">
-            <div class="d-flex justify-content-around">
+            <div class="d-flex justify-content-around" name="line">
                 <div class="col-2 text-center user-select-none" name="time">/</div>
             </div>
         </template>
@@ -82,13 +93,29 @@
 <script src="/js/fetch_request/shop/profile.js"></script>
 <script src="/js/fetch_request/shop/deleteProduct.js"></script>
 <script src="/js/fetch_request/shop/addProduct.js"></script>
+<script src="/js/fetch_request/shop/update.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/range.js/1.1.0/range.min.js" integrity="sha512-7vSmKY5RtRf6RrH4bEymyGGl2hNhNha2lkgDkpcsKxT8wMK/4vjuQ+dfnNii9gfQiSTjLQO7wXRsZpmX7hIuBg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <script>
     function edit(able) {
+        const edit = document.getElementById('edit');
+        const unedit = document.getElementById('unedit');
+        const submit = document.getElementById('submit');
+        if (able) {
+            edit.classList.add('d-none');
+            unedit.classList.remove('d-none');
+            submit.classList.remove('d-none');
+        } else {
+            unedit.classList.add('d-none');
+            submit.classList.add('d-none');
+            edit.classList.remove('d-none');
+        }
         const input = document.getElementsByTagName('input');
+        const select = document.getElementsByTagName('select');
         for (let i = 0; i < input.length; i++)
-            input[i].disabled = able ? false : true;
+            input[i].disabled = able && !input[i].hasAttribute("data-cantChange") ? false : true;
+        for (let i = 0; i < select.length; i++)
+            select[i].disabled = able && !select[i].hasAttribute("data-cantChange") ? false : true;
     }
 
     function createFormTitle() {
@@ -97,7 +124,7 @@
         for (let day = 0; day < 7; day++) {
             const block = document.getElementById('date-block').cloneNode(true);
             block.content.querySelector('div > label').innerText = "星期" + week[day];
-            block.content.querySelector('div > input').name = "day";
+            block.content.querySelector('div > input').remove();
             const newBlock = document.importNode(block.content, true);
             line.content.querySelector('div').appendChild(newBlock);
         }
@@ -116,6 +143,13 @@
                     event.currentTarget.parentNode.classList.remove('bg-warning');
             });
         }
+    }
+
+    function checksColorAlt(checked) {
+        if (checked)
+            event.currentTarget.parentNode.classList.add('bg-warning');
+        else
+            event.currentTarget.parentNode.classList.remove('bg-warning');
     }
 
     function createDateGrid() {
@@ -140,4 +174,31 @@
         bindEventToForm();
     }
     createDateGrid();
+
+    function submitUpdate() {
+        document.getElementById('loader').classList.add('is-active');
+        const address = document.getElementById('address');
+        const place = document.getElementById('place');
+        const timeEstimate = document.getElementById('timeEstimate');
+
+        const schedule = document.getElementById('schedule');
+        const line = schedule.querySelectorAll('[name="line"]');
+        let businessTime = [];
+        for (let i = 1; i < line.length; i++) {
+            let hour = [];
+            const time = line[i].querySelectorAll('[name="dateCheck"]');
+            for (let j = 0; j < time.length; j++)
+                hour.push(time[j].checked);
+            businessTime.push(hour);
+        }
+
+        const data = {
+            address: address.value,
+            place: place.value,
+            timeEstimate: timeEstimate.value,
+            businessTime: JSON.stringify(businessTime)
+        };
+
+        updateSubmit(data);
+    }
 </script>

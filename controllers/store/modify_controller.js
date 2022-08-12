@@ -285,8 +285,10 @@ module.exports = class Store {
             id: req.headers['token'],
             name: req.body.name,
             address: req.body.address,
+            place: req.body.place,
             allDiscount: req.body.discount,
-            timeEstimate: req.body.timeEstimate
+            timeEstimate: req.body.timeEstimate,
+            businessTime: req.body.businessTime
         };
         for (let prop in data)
             if (!data[prop]) delete data[prop];
@@ -316,6 +318,13 @@ module.exports = class Store {
                 status: '新增失敗',
                 code: false,
                 result: '預估時間格式錯誤'
+            })
+        }
+        if (data.place && !check.checkPlace(data.place)) {
+            return res.status(400).send({
+                status: '新增失敗',
+                code: false,
+                result: '無效的取餐位置'
             })
         }
         storeUpdate(data).then(result => {
