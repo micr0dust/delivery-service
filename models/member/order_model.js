@@ -56,14 +56,14 @@ module.exports = async function order(data, finalOrder) {
             if (productResult[i].belong != productOwner._id.toString())
                 throw new Error('無法跨店家購買：' + productResult[i].id);
         for (let i = 0; i < orderList.length; i++) {
-            if (!productResult.some(item => item._id.toString() == orderList[i].id))
+            if (!productResult.some(item => item._id.toString() === orderList[i].id))
                 throw new Error(
                     '在提交的訂單中找不到關於 ' +
                     orderList[i].id +
                     ' 商品的資料'
                 );
             let product = productResult.filter(
-                function(item) { return (item._id.toString() == orderList[i].id); }
+                function(item) { return (item._id.toString() === orderList[i].id); }
             )[0];
             let newPrice, newOptions;
             //選項處理
@@ -73,9 +73,9 @@ module.exports = async function order(data, finalOrder) {
                 let optionData = [];
                 let price = parseFloat(product.price);
                 for (let j = 0; j < arrOptions.length; j++) {
-                    const found = orderOptions.find(opt => opt['title'] == arrOptions[j]['title']);
+                    const found = orderOptions.find(opt => opt['title'] === arrOptions[j]['title']);
                     if (found) {
-                        if (arrOptions[j]['multiple'] == true) {
+                        if (arrOptions[j]['multiple'] === true) {
                             if (!Array.isArray(found['option'])) throw new Error(
                                 `商品 ${orderList[i].id} 中，的選項 ${arrOptions[j]['title']} 為複選，需用 List 處理`
                             );
@@ -144,11 +144,11 @@ module.exports = async function order(data, finalOrder) {
             const allDiscount = JSON.parse(productOwner.allDiscount);
             for (let i = 0; i < allDiscount.length; i++) {
                 let discountMessage = null;
-                if (allDiscount[i].method == "exceedPriceDiscount" && sum >= parseInt(allDiscount[i].goal)) {
+                if (allDiscount[i].method === "exceedPriceDiscount" && sum >= parseInt(allDiscount[i].goal)) {
                     allDiscountSum += (parseInt(allDiscount[i].discount) >= 1) ? parseInt(allDiscount[i].discount) : sum * (1 - parseFloat(allDiscount[i].discount));
                     discountMessage = (parseInt(allDiscount[i].discount) >= 1) ? `滿${parseInt(allDiscount[i].goal)}元，現省${parseInt(allDiscount[i].discount)}元` : `滿${parseInt(allDiscount[i].goal)}元，打${parseFloat(allDiscount[i].discount)*10}折`;
                 }
-                if (allDiscount[i].method == "exceedCountDiscount") {
+                if (allDiscount[i].method === "exceedCountDiscount") {
                     allDiscountSum += discount.exceedCountDiscount(finalRecord, allDiscount[i]);
                     discountMessage = (parseInt(allDiscount[i].discount) >= 1) ? `滿${parseInt(allDiscount[i].goal)}件商品，現省${parseInt(allDiscount[i].discount)}元` : `滿${parseInt(allDiscount[i].goal)}件商品，打${parseFloat(allDiscount[i].discount)*10}折`;
                 }
