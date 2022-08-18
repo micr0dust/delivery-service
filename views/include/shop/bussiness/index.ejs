@@ -1,3 +1,20 @@
+<style>
+    html,
+    body {
+        overflow-y: hidden;
+    }
+    
+    #unaccept {
+        height: 90vh;
+        overflow-y: scroll;
+    }
+    
+    #accepted {
+        height: 90vh;
+        overflow-y: scroll;
+    }
+</style>
+
 <template id="optionTemplate">
     <li name="option"></li>
 </template>
@@ -8,38 +25,64 @@
     </li>
 </template>
 <template id="orderTemplate">
-<div class="card col-12 mt-2" name="order">
-    <div class="input-group mb-2 mt-2">
-        <div class="input-group-prepend">
-            <span class="input-group-text">訂單編號</span>
+    <div class="card col-12 mt-2" name="order">
+        <div class="input-group mb-2 mt-2">
+            <div class="input-group-prepend">
+                <span class="input-group-text">訂單編號</span>
+            </div>
+            <input type="text" class="form-control" placeholder="訂單編號" name="_id" disabled>
         </div>
-        <input type="text" class="form-control" placeholder="訂單編號" name="_id" disabled>
-    </div>
-    <div class="input-group mb-2">
-        <div class="input-group-prepend">
-            <span class="input-group-text">免洗餐具</span>
+        <div class="input-group mb-2">
+            <div class="input-group-prepend">
+                <span class="input-group-text">免洗餐具</span>
+            </div>
+            <input type="text" class="form-control" placeholder="免洗餐具" name="tableware" disabled>
         </div>
-        <input type="text" class="form-control" placeholder="免洗餐具" name="tableware" disabled>
-    </div>
-    <div class="input-group mb-2">
-        <div class="input-group-prepend">
-            <span class="input-group-text">總金額</span>
+        <div class="input-group mb-2">
+            <div class="input-group-prepend">
+                <span class="input-group-text">總金額</span>
+            </div>
+            <input type="text" class="form-control" placeholder="總金額" name="total" disabled>
         </div>
-        <input type="text" class="form-control" placeholder="總金額" name="total" disabled>
-    </div>
-    <ul name="product-detail">
+        <ul name="product-detail">
 
-    </ul>
-</div>
+        </ul>
+    </div>
+</template>
+<template id="unacceptBtnsTemplate">
+    <div name="action" class="row mt-3 mb-3 mr-3 justify-content-end align-items-center">
+        <button class="btn btn-danger mr-3" onclick="changeListen(complete,this)">拒絕</button>
+        <button class="btn btn-success" onclick="changeListen(accept,this)">接受</button>
+    </div>
+</template>
+<template id="acceptedBtnsTemplate">
+    <div name="action" class="row mt-3 mb-3 mr-3 justify-content-end align-items-center">
+        <button class="btn btn-warning" onclick="changeListen(complete,this)">標示為完成</button>
+    </div>
+</template>
+<template id="loadingTemplate">
+    <span class="spinner-border spinner-border-sm"></span>
 </template>
 
-<div class="container">
+<div id="orderList" class="container-fluid">
     <div id="orderList" class="row mt-5">
-        <div id="unaccept" class="col-6">
-            <div class="p-2 bg-info flex-fill text-white  text-center">新訂單</div>
+        <div class="col-md-6 col-sm-12 p-0" id="unaccept-body">
+            <div class="d-flex m-0">
+                <div class="p-2 bg-info flex-fill text-white text-center">新訂單</div>
+                <div class="p-2 bg-success text-center d-md-none">
+                    <a class="text-white" href="javascript:switchPanel('accepted-body')">⮩</a>
+                </div>
+            </div>
+            <div id="unaccept"></div>
         </div>
-        <div id="accepted" class="col-6">
-            <div class="p-2 bg-success flex-fill text-white  text-center">已接受的訂單</div>
+        <div id="accepted-body" class="col-md-6 col-sm-12 p-0">
+            <div class="d-flex m-0">
+                <div class="p-2 bg-info text-center d-md-none">
+                    <a class="text-white" href="javascript:switchPanel('unaccept-body')">⮨</a>
+                </div>
+                <div class="p-2 bg-success flex-fill text-white  text-center">已接受的訂單</div>
+            </div>
+            <div id="accepted"></div>
         </div>
     </div>
 </div>
@@ -47,8 +90,29 @@
 <script src="/js/fetch_request/shop/login.js"></script>
 <script src="/js/fetch_request/shop/bussiness/getOrder.js"></script>
 <script src="/js/fetch_request/shop/bussiness/token.js"></script>
+<script src="/js/fetch_request/shop/bussiness/accept.js"></script>
+<script src="/js/fetch_request/shop/bussiness/complete.js"></script>
+
 <script>
     orderListGenerate();
+
+    async function changeListen(fun, element) {
+        const wholeCard = element.parentNode.children;
+        for (let i = 0; i < wholeCard.length; i++)
+            wholeCard[i].setAttribute("disabled", "disabled");
+
+        const loadingTemplate = document.getElementById('loadingTemplate');
+        const loading = document.importNode(loadingTemplate.content, true);
+        element.prepend(loading);
+        const result = await fun(element.parentNode.parentNode.id);
+        if (result.code) orderListGenerate();
+    }
+
+    function switchPanel(method) {
+        document.getElementById('accepted-body').style.display = 'none';
+        document.getElementById('unaccept-body').style.display = 'none';
+        document.getElementById(method).style.display = 'block';
+    }
 
     function optionDetail(element, options) {
         const data = JSON.parse(options);
@@ -83,15 +147,24 @@
     async function orderListGenerate() {
         const data = await getOrder();
         const order = data['result'];
-        console.log(order);
         const unaccept = document.getElementById('unaccept');
         const accepted = document.getElementById('accepted');
+        const unacceptBtnsTemplate = document.getElementById('unacceptBtnsTemplate');
+        const acceptedBtnsTemplate = document.getElementById('acceptedBtnsTemplate');
+        unaccept.innerHTML = '';
+        accepted.innerHTML = '';
+
         for (let i = 0; i < order.length; i++) {
             const orderTemplate = document.getElementById('orderTemplate').cloneNode(true);
+            const unacceptBtns = document.importNode(unacceptBtnsTemplate.content, true);
+            const acceptedBtns = document.importNode(acceptedBtnsTemplate.content, true);
+
             poductDetail(orderTemplate.content.querySelector('[name="product-detail"]'), order[i]['order']);
             orderTemplate.content.querySelector('[name="_id"]').value = order[i]['_id'];
+            orderTemplate.content.querySelector('[name="order"]').id = order[i]['_id'];
             orderTemplate.content.querySelector('[name="tableware"]').value = order[i]['tableware'] ? '是' : '否';
             orderTemplate.content.querySelector('[name="total"]').value = order[i]['total'];
+            orderTemplate.content.querySelector('[name="order"]').appendChild(order[i]['accept'] ? acceptedBtns : unacceptBtns);
             const newOrder = document.importNode(orderTemplate.content, true);
             const container = order[i]['accept'] ? accepted : unaccept;
             container.appendChild(newOrder);

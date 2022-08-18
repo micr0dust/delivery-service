@@ -3,21 +3,18 @@ async function getToken() {
         "Accept": "*/*",
         "refresh_token": localStorage.refresh_token,
         "Content-Type": "application/x-www-form-urlencoded"
-    }
-
-    await fetch("/member/user/token", {
+    };
+    console.log('$')
+    return await fetch("/member/user/token", {
         method: "GET",
         headers: headersList
-    }).then(function(response) {
+    }).then(async function(response) {
         if (response.status === 200) {
             localStorage.setItem('acesstoken', response.headers.get('token'));
-        } else if ((response.status === 403)) {
-            localStorage.removeItem('acesstoken');
-            localStorage.removeItem('refresh_token');
-            location.href = '/admin/login';
+            return await response.text();
+        } else if (response.status === 403) {
+            localStorage.clear();
+            location.href = '/admin/login?redirct=' + location.pathname;
         }
-        return response.text();
-    }).then(function(data) {
-        //console.log(data);
-    })
+    });
 }

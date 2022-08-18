@@ -30,10 +30,20 @@ document.getElementById("submit").addEventListener("click", function(e) {
         method: "POST",
         body: "name=" + username + "&email=" + email + "&password=" + password,
         headers: headersList
-    }).then(function(response) {
-        if (response.status === 200)
+    }).then(async function(response) {
+        document.getElementById('loader').classList.remove('is-active');
+        if (response.status === 200) {
             localStorage.setItem('acesstoken', response.headers.get('token'));
-        else {
+            const result = await response.text();
+            const data = JSON.parse(result);
+            if (data.code)
+                window.location.href = '/auth/mail';
+            else Swal.fire({
+                icon: 'error',
+                title: data.status,
+                text: data.result
+            })
+        } else {
             console.log('error: ' + response);
             Swal.fire({
                 icon: 'error',
@@ -41,20 +51,7 @@ document.getElementById("submit").addEventListener("click", function(e) {
                 text: response.status
             })
         }
-        document.getElementById('loader').classList.remove('is-active');
-        return response.text();
-    }).then(function(data) {
-        data = JSON.parse(data);
-        if (data.code)
-            window.location.href = '/auth/mail';
-        else Swal.fire({
-            icon: 'error',
-            title: data.status,
-            text: data.result
-        })
-
-        //console.log(data);
-    })
+    });
 });
 
 function onSignIn(googleUser) {
