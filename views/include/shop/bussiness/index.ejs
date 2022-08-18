@@ -1,0 +1,102 @@
+<template id="optionTemplate">
+    <li name="option"></li>
+</template>
+<template id="productTemplate">
+    <li name="product">
+        <h5 name="name"></h5>
+        <ul name="options"></ul>
+    </li>
+</template>
+<template id="orderTemplate">
+<div class="card col-12 mt-2" name="order">
+    <div class="input-group mb-2 mt-2">
+        <div class="input-group-prepend">
+            <span class="input-group-text">訂單編號</span>
+        </div>
+        <input type="text" class="form-control" placeholder="訂單編號" name="_id" disabled>
+    </div>
+    <div class="input-group mb-2">
+        <div class="input-group-prepend">
+            <span class="input-group-text">免洗餐具</span>
+        </div>
+        <input type="text" class="form-control" placeholder="免洗餐具" name="tableware" disabled>
+    </div>
+    <div class="input-group mb-2">
+        <div class="input-group-prepend">
+            <span class="input-group-text">總金額</span>
+        </div>
+        <input type="text" class="form-control" placeholder="總金額" name="total" disabled>
+    </div>
+    <ul name="product-detail">
+
+    </ul>
+</div>
+</template>
+
+<div class="container">
+    <div id="orderList" class="row mt-5">
+        <div id="unaccept" class="col-6">
+            <div class="p-2 bg-info flex-fill text-white  text-center">新訂單</div>
+        </div>
+        <div id="accepted" class="col-6">
+            <div class="p-2 bg-success flex-fill text-white  text-center">已接受的訂單</div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/fetch_request/shop/login.js"></script>
+<script src="/js/fetch_request/shop/bussiness/getOrder.js"></script>
+<script src="/js/fetch_request/shop/bussiness/token.js"></script>
+<script>
+    orderListGenerate();
+
+    function optionDetail(element, options) {
+        const data = JSON.parse(options);
+        for (let i = 0; i < data.length; i++) {
+            const optionTemplate = document.getElementById('optionTemplate').cloneNode(true);
+            const optionTxt = (option) => {
+                let result = "";
+                if (typeof option == Array)
+                    for (let j = 0; j < option.length; j++)
+                        result += `${option}${j < option.length - 1 ? "," : ""}`;
+                else return option;
+                return result;
+            }
+            optionTemplate.content.querySelector('[name="option"]').innerText = `${data[i]['title']}：${optionTxt(data[i]['option'])}`;
+            const newOption = document.importNode(optionTemplate.content, true);
+            element.appendChild(newOption);
+        }
+    }
+
+    function poductDetail(element, order) {
+        const data = JSON.parse(order);
+        for (let i = 0; i < data.length; i++) {
+            const productTemplate = document.getElementById('productTemplate').cloneNode(true);
+            optionDetail(productTemplate.content.querySelector('[name="options"]'), data[i]['options']);
+            productTemplate.content.querySelector('[name="name"]').innerText = data[i]['name'];
+            productTemplate.content.querySelector('[name="product"]').id = data[i]['_id'];
+            const newProduct = document.importNode(productTemplate.content, true);
+            element.appendChild(newProduct);
+        }
+    }
+
+    async function orderListGenerate() {
+        const data = await getOrder();
+        const order = data['result'];
+        console.log(order);
+        const unaccept = document.getElementById('unaccept');
+        const accepted = document.getElementById('accepted');
+        for (let i = 0; i < order.length; i++) {
+            const orderTemplate = document.getElementById('orderTemplate').cloneNode(true);
+            poductDetail(orderTemplate.content.querySelector('[name="product-detail"]'), order[i]['order']);
+            orderTemplate.content.querySelector('[name="_id"]').value = order[i]['_id'];
+            orderTemplate.content.querySelector('[name="tableware"]').value = order[i]['tableware'] ? '是' : '否';
+            orderTemplate.content.querySelector('[name="total"]').value = order[i]['total'];
+            const newOrder = document.importNode(orderTemplate.content, true);
+            const container = order[i]['accept'] ? accepted : unaccept;
+            container.appendChild(newOrder);
+        }
+    }
+</script>
+<script>
+</script>

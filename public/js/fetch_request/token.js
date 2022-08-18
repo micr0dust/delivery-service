@@ -11,8 +11,10 @@ async function getToken() {
     }).then(function(response) {
         if (response.status === 200) {
             localStorage.setItem('acesstoken', response.headers.get('token'));
-        } else {
+        } else if ((response.status === 403)) {
+            localStorage.removeItem('acesstoken');
             localStorage.removeItem('refresh_token');
+            location.href = '/admin/login';
         }
         return response.text();
     }).then(function(data) {
