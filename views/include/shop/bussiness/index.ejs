@@ -94,11 +94,26 @@
 <script src="/js/fetch_request/shop/bussiness/complete.js"></script>
 
 <script>
+    let lastLength = -1;
     orderListGenerate();
 
-    setInterval(() => {
-        orderListGenerate();
+    setInterval(function() {
+        refresh();
     }, 1000 * 60);
+
+    async function refresh() {
+        const nowLength = await orderListGenerate();
+        console.log(nowLength, lastLength);
+        if (nowLength != lastLength && ~lastLength) playAudio();
+        lastLength = nowLength;
+    }
+
+
+    function playAudio() {
+        const audio = document.createElement("audio");
+        audio.src = "/sounds/happyBell.wav";
+        audio.play();
+    }
 
     async function changeListen(fun, element) {
         //const wholeCard = element.parentNode.children;
@@ -110,7 +125,7 @@
         const loading = document.importNode(loadingTemplate.content, true);
         element.prepend(loading);
         const result = await fun(element.parentNode.parentNode.id);
-        if (result.code) orderListGenerate();
+        if (result.code) lastLength = await orderListGenerate();
     }
 
     function switchPanel(method) {
@@ -174,6 +189,7 @@
             const container = order[i]['accept'] ? accepted : unaccept;
             container.appendChild(newOrder);
         }
+        return order.length;
     }
 </script>
 <script>
