@@ -96,10 +96,15 @@
 <script>
     orderListGenerate();
 
+    setInterval(() => {
+        orderListGenerate();
+    }, 1000 * 60);
+
     async function changeListen(fun, element) {
-        const wholeCard = element.parentNode.children;
-        for (let i = 0; i < wholeCard.length; i++)
-            wholeCard[i].setAttribute("disabled", "disabled");
+        //const wholeCard = element.parentNode.children;
+        const allButton = document.getElementsByTagName('button');
+        for (let i = 0; i < allButton.length; i++)
+            allButton[i].setAttribute("disabled", "disabled");
 
         const loadingTemplate = document.getElementById('loadingTemplate');
         const loading = document.importNode(loadingTemplate.content, true);
@@ -137,7 +142,7 @@
         for (let i = 0; i < data.length; i++) {
             const productTemplate = document.getElementById('productTemplate').cloneNode(true);
             optionDetail(productTemplate.content.querySelector('[name="options"]'), data[i]['options']);
-            productTemplate.content.querySelector('[name="name"]').innerText = data[i]['name'];
+            productTemplate.content.querySelector('[name="name"]').innerText = `${data[i]['name']} X${data[i]['count']}`;
             productTemplate.content.querySelector('[name="product"]').id = data[i]['_id'];
             const newProduct = document.importNode(productTemplate.content, true);
             element.appendChild(newProduct);

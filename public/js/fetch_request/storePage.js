@@ -14,8 +14,8 @@ async function getProductFn(url) {
             document.getElementById('loader').classList.remove('is-active');
             if (response.status === 200);
             else if (response.status === 403 && localStorage.refresh_token) {
-                await getToken()
-                return submitFn()
+                await getToken();
+                return submitFn();
             } else {
                 console.log('error: ' + response)
                 Swal.fire({
@@ -54,7 +54,7 @@ async function getProductFn(url) {
                     if (data.result === '請重新登入') {
                         localStorage.removeItem('acesstoken');
                         localStorage.removeItem('refresh_token');
-                        window.location.href = '/admin/login'
+                        window.location.href = '/admin/login?redirct=' + location.pathname;
                     } else window.location.href = '/auth'
                 })
         })

@@ -16,6 +16,7 @@ module.exports = async function order(data, finalOrder) {
     const store = db.collection(config.mongo.store);
     const product = db.collection(config.mongo.product);
     const order = db.collection(config.mongo.order);
+
     try {
         const memberResult = await member.findOne({ _id: ObjectId(data.id) });
         if (!memberResult) throw new Error('查無帳號，請重新登入');
@@ -46,7 +47,8 @@ module.exports = async function order(data, finalOrder) {
             };
         }
 
-        let finalRecord = [];
+        let testRecords = []
+        let finalRecords = [];
         let products = [];
         for (let i = 0; i < orderList.length; i++)
             products.push(ObjectId(orderList[i].id));
@@ -103,7 +105,7 @@ module.exports = async function order(data, finalOrder) {
                 newOptions = JSON.stringify(optionData);
             }
 
-            const record = {
+            const testRecord = {
                 _id: product._id.toString(),
                 name: product.name,
                 price: newPrice,
@@ -112,33 +114,44 @@ module.exports = async function order(data, finalOrder) {
                 note: orderList[i].note,
                 options: newOptions
             };
+            const record = {
+                _id: product._id.toString(),
+                name: product.name,
+                price: newPrice,
+                type: product.type,
+                discount: (product.discount) ? product.discount : null,
+                note: orderList[i].note,
+                options: newOptions,
+                count: orderList[i].count
+            };
             for (let j = 0; j < orderList[i].count; j++)
-                finalRecord.push(record);
+                testRecords.push(testRecord);
+            finalRecords.push(record);
         }
 
         //折扣處理
         let discountSum = 0;
         if (productOwner.productDiscount) {
             let hadDiscount = new Set();
-            for (let i = 0; i < finalRecord.length; i++) {
-                if (!finalRecord[i].discount) continue;
-                for (let tag in finalRecord[i].discount) {
-                    if (hadDiscount.has(finalRecord[i].discount[tag])) continue;
-                    const discounter = productOwner.productDiscount[finalRecord[i].discount[tag]];
-                    const discounts = finalRecord.filter(
+            for (let i = 0; i < testRecords.length; i++) {
+                if (!testRecords[i].discount) continue;
+                for (let tag in testRecords[i].discount) {
+                    if (hadDiscount.has(testRecords[i].discount[tag])) continue;
+                    const discounter = productOwner.productDiscount[testRecords[i].discount[tag]];
+                    const discounts = testRecords.filter(
                         function(item) { return (item.discount[tag]); }
                     );
                     if (discounter.method = "exceedPriceDiscount") discountSum += discount.exceedPriceDiscount(discounts, discounter);
                     if (discounter.method = "exceedCountDiscount") discountSum += discount.exceedCountDiscount(discounts, discounter);
-                    hadDiscount.add(finalRecord[tag]);
+                    hadDiscount.add(testRecords[tag]);
                 }
             }
         }
         let sum = 0;
         let allDiscountSum = 0;
         let discountList = [];
-        for (let i = 0; i < finalRecord.length; i++)
-            sum += finalRecord[i].price;
+        for (let i = 0; i < testRecords.length; i++)
+            sum += testRecords[i].price;
         sum = (sum - discountSum > 0) ? sum - discountSum : 0;
         if (productOwner.allDiscount) {
             const allDiscount = JSON.parse(productOwner.allDiscount);
@@ -149,14 +162,14 @@ module.exports = async function order(data, finalOrder) {
                     discountMessage = (parseInt(allDiscount[i].discount) >= 1) ? `滿${parseInt(allDiscount[i].goal)}元，現省${parseInt(allDiscount[i].discount)}元` : `滿${parseInt(allDiscount[i].goal)}元，打${parseFloat(allDiscount[i].discount)*10}折`;
                 }
                 if (allDiscount[i].method === "exceedCountDiscount") {
-                    allDiscountSum += discount.exceedCountDiscount(finalRecord, allDiscount[i]);
+                    allDiscountSum += discount.exceedCountDiscount(testRecords, allDiscount[i]);
                     discountMessage = (parseInt(allDiscount[i].discount) >= 1) ? `滿${parseInt(allDiscount[i].goal)}件商品，現省${parseInt(allDiscount[i].discount)}元` : `滿${parseInt(allDiscount[i].goal)}件商品，打${parseFloat(allDiscount[i].discount)*10}折`;
                 }
                 if (discountMessage) discountList.push(discountMessage);
             }
         }
         data.tableware = orderData.tableware;
-        data.order = JSON.stringify(finalRecord);
+        data.order = JSON.stringify(finalRecords);
         data.total = sum - allDiscountSum;
         data.discount = JSON.stringify(discountList);
         data.complete = false;
