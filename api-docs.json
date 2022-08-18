@@ -3975,33 +3975,38 @@
     "order": {
       "type": "object",
       "properties": {
+        "order": {
+          "type": "string",
+          "example": "[{\"_id\":\"62e34a28167d90df4ef71efc\",\"name\":\"超大漢堡\",\"price\":159,\"type\":\"漢堡\",\"discount\":null,\"note\":\"\",\"options\":\"[{\\\"title\\\":\\\"肉種\\\",\\\"option\\\":\\\"牛肉\\\"},{\\\"title\\\":\\\"加料\\\",\\\"option\\\":[\\\"雙層肉\\\"]}]\",\"count\":1}]"
+        },
+        "total": {
+          "type": "number",
+          "example": 144
+        },
+        "store": {
+          "type": "string",
+          "example": "8y3un9ka"
+        },
+        "store_info": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "example": "友朋小吃"
+            },
+            "address": {
+              "type": "string",
+              "example": "台灣台北市中山區民權東路三段榮星花園"
+            }
+          }
+        },
+        "discount": {
+          "type": "string",
+          "example": "[\"滿100元，現省15元\"]"
+        },
         "tableware": {
           "type": "boolean",
           "example": true
-        },
-        "orders": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "string",
-                "example": "62e34a28167d90df4ef71efc"
-              },
-              "count": {
-                "type": "number",
-                "example": 1
-              },
-              "note": {
-                "type": "string",
-                "example": ""
-              },
-              "options": {
-                "type": "string",
-                "example": "[{\"title\":\"肉種\",\"option\":\"牛肉\"},{\"title\":\"加料\",\"option\":[\"雙層肉\",\"2倍起司\"]}]"
-              }
-            }
-          }
         }
       }
     },
