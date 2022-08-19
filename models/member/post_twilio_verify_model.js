@@ -22,7 +22,7 @@ module.exports = async function mailEmit(id, data) {
         if (exp > 1000 * (60) * (10))
             throw new Error("驗證碼超時");
         if (memberResult["phoneVerify"]["verified"] === true)
-            throw new Error("此信箱已被驗證過");
+            throw new Error("此手機號碼已被驗證過");
         if (data["code"] === memberResult["phoneVerify"]["code"]) {
             const updateResult = await member.updateOne({ _id: ObjectId(id) }, {
                 $set: {
@@ -50,7 +50,7 @@ module.exports = async function mailEmit(id, data) {
                 }
             });
             if (!updateResult) new Error("資料庫更新失敗");
-            return `驗證碼錯誤，還剩 ${tryTimes-memberResult["phoneVerify"]["tryTimes"]-1} 次嘗試機會`;
+            throw new Error(`驗證碼錯誤，還剩 ${tryTimes-memberResult["phoneVerify"]["tryTimes"]-1} 次嘗試機會`);
         }
 
     } catch (err) {

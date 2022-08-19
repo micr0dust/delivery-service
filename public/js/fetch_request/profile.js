@@ -1,6 +1,6 @@
 function checkInputFn(email, phone) {
-    let oemail = document.getElementById('email').value;
-    let ophone = document.getElementById('phone').value;
+    const oemail = document.getElementById('email').value;
+    const ophone = document.getElementById('phone').value;
     if (oemail) validFn('email', email);
     if (ophone) validFn('phone', phone);
 }
@@ -15,11 +15,12 @@ async function getInfoFn() {
                 localStorage.setItem('refresh_token', urlparm.split('&')[0].split('=')[1]);
     }
 
-    let headersList = {
+    const headersList = {
         "Accept": "*/*",
         "token": localStorage.acesstoken,
         "Content-Type": "application/x-www-form-urlencoded"
-    }
+    };
+
     return await fetch("/member/user/info", {
         method: "GET",
         headers: headersList
@@ -44,26 +45,27 @@ async function getInfoFn() {
                 if (data.result.birthday) document.getElementById('birthday').value = data.result.birthday;
                 if (data.result.create) document.getElementById('create').innerText = "創建時間：" + data.result.create;
                 if (data.result.update) document.getElementById('update').innerText = "上次更新：" + data.result.update;
-                checkInputFn(data.result.verityCode, false);
+                checkInputFn(data.result['verityCode'], data.result['phoneVerify']);
             } else Swal.fire({
                 icon: 'error',
                 title: data.status,
                 text: data.result
-            }).then(() => {
-                if (data.result === "請重新登入") {
-                    localStorage.clear;
-                    window.location.href = '/admin/login?redirct=' + location.pathname;
-                }
             });
-        } else if (response.status === 403 && localStorage.refresh_token) {
-            await getToken();
-            return getInfoFn();
+        } else if (response.status === 403) {
+            if (localStorage.refresh_token) {
+                await getToken();
+                return getInfoFn();
+            } else {
+                localStorage.clear();
+                window.location.href = '/admin/login?redirct=' + location.pathname;
+            }
         } else {
-            console.log('error: ' + response);
+            const result = await response.text();
+            const data = JSON.parse(result);
             Swal.fire({
                 icon: 'error',
-                title: '發生錯誤',
-                text: response.status
+                title: data.status,
+                text: data.result
             });
         }
     });

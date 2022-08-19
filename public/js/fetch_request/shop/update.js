@@ -1,4 +1,4 @@
-function updateSubmit(data) {
+async function updateSubmit(data) {
     const headersList = {
         "Accept": "*/*",
         "token": localStorage.acesstoken,
@@ -12,39 +12,33 @@ function updateSubmit(data) {
     if (data['businessTime']) bodyContent += `businessTime=${data['businessTime']}&`;
     if (data['place']) bodyContent += `place=${data['place']}&`;
 
-    fetch("/store", {
+    return await fetch("/store", {
         method: "PUT",
         headers: headersList,
         body: bodyContent
     }).then(async function(response) {
-        if (response.status === 200)
+        document.getElementById('loader').classList.remove('is-active');
+        if (response.status === 200) {
             edit(false);
-        else if (response.status === 403 && localStorage.refresh_token) {
-            await getToken();
-            return updateSubmit(data);
+            const result = await response.text();
+            const data = JSON.parse(result);
+            return data;
+        } else if (response.status === 403) {
+            if (localStorage.refresh_token) {
+                await getToken();
+                return updateSubmit(data);
+            } else {
+                localStorage.clear();
+                window.location.href = '/admin/login?redirct=' + location.pathname;
+            }
         } else {
-            console.log('error: ' + response);
+            const result = await response.text();
+            const data = JSON.parse(result);
             Swal.fire({
                 icon: 'error',
-                title: '發生錯誤',
-                text: response.status
+                title: data.status,
+                text: data.result
             });
         }
-        return response.text();
-    }).then(async function(data) {
-        data = JSON.parse(data);
-        document.getElementById('loader').classList.remove('is-active');
-        if (data.code) {} else Swal.fire({
-            icon: 'error',
-            title: data.status,
-            text: data.result
-        }).then(() => {
-            if (data.result === "請重新登入") {
-                localStorage.removeItem('acesstoken');
-                localStorage.removeItem('refresh_token');
-                window.location.href = '/admin/login';
-            }
-        });
-        console.log(data);
-    })
+    });
 }

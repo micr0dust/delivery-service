@@ -1,6 +1,6 @@
 getInfoFn();
 
-function getInfoFn() {
+async function getInfoFn() {
     let urlparm = window.location.href;
     if (window.location.href.split('?')[1]) {
         urlparm = window.location.href.split('?')[1];
@@ -9,12 +9,12 @@ function getInfoFn() {
                 localStorage.setItem('refresh_token', urlparm.split('&')[0].split('=')[1]);
     }
 
-    let headersList = {
+    const headersList = {
         "Accept": "*/*",
         "token": localStorage.acesstoken,
         "Content-Type": "application/x-www-form-urlencoded"
-    }
-    fetch("/store", {
+    };
+    return await fetch("/store", {
         method: "GET",
         headers: headersList
     }).then(async function(response) {
@@ -54,18 +54,21 @@ function getInfoFn() {
                     window.location.href = '/admin/login?redirct=' + location.pathname;
                 }
             });
-        } else if (response.status === 403 && localStorage.refresh_token) {
-            await getToken();
-            return getInfoFn();
         } else if (response.status === 403) {
-            await getToken();
-            return submitFn();
+            if (localStorage.refresh_token) {
+                await getToken();
+                return getInfoFn();
+            } else {
+                await getToken();
+                return submitFn();
+            }
         } else {
-            console.log('error: ' + response);
+            const result = await response.text();
+            const data = JSON.parse(result);
             Swal.fire({
                 icon: 'error',
-                title: '發生錯誤',
-                text: response.status
+                title: data.status,
+                text: data.result
             });
         }
     });

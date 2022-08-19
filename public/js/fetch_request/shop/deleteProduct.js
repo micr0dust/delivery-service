@@ -36,22 +36,36 @@ window.addEventListener('hashchange', function() {
 
 async function delProduct(productID) {
     if (!productID) return false;
-    let headersList = {
+    const headersList = {
         Accept: '*/*',
         token: localStorage.acesstoken,
         'Content-Type': 'application/x-www-form-urlencoded'
-    }
-    await fetch('/store/product', {
+    };
+    return await fetch('/store/product', {
             method: 'DELETE',
             body: `product=${productID}`,
             headers: headersList
         })
         .then(async function(response) {
-            if (response.status === 200);
-            else if (response.status === 403 && localStorage.refresh_token) {
-                await getToken();
-                return getInfoFn();
-            } else throw new Error(response.status);
+            if (response.status === 200)
+                return await response.text();
+            else if (response.status === 403) {
+                if (localStorage.refresh_token) {
+                    await getToken();
+                    return getInfoFn();
+                } else {
+                    localStorage.clear();
+                    window.location.href = '/admin/login?redirct=' + location.pathname;
+                }
+            } else {
+                const result = await response.text();
+                const data = JSON.parse(result);
+                Swal.fire({
+                    icon: 'error',
+                    title: data.status,
+                    text: data.result
+                });
+            }
         }).catch(error => {
             Swal.showValidationMessage(
                 `發生錯誤：: ${error}`

@@ -46,7 +46,7 @@ module.exports = async function deleteAction(id, data) {
             .create({
                 body: `你的 Fordon 驗證碼為 ${phoneVerify}`,
                 from: '+18644818728',
-                to: '+886444' + phoneNumber
+                to: '+886' + phoneNumber
             });
         return messages.sid ? `還剩 ${maxTryPerDay-times} 次簡訊發送機會` : messages;
     } catch (err) {

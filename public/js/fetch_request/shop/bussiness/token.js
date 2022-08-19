@@ -1,5 +1,5 @@
 async function getBussinessToken() {
-    let headersList = {
+    const headersList = {
         "Accept": "*/*",
         "refresh_token": localStorage.bussiness_refresh_token,
         "Content-Type": "application/x-www-form-urlencoded"
@@ -13,8 +13,21 @@ async function getBussinessToken() {
             localStorage.setItem('bussiness_acesstoken', response.headers.get('token'));
             return await response.text();
         } else if (response.status === 403) {
-            localStorage.clear();
-            location.href = '/admin/login?redirct=' + location.pathname;
+            if (localStorage.acesstoken)
+                await bussinessLogin();
+            else {
+                localStorage.clear();
+                location.href = '/admin/login?redirct=' + location.pathname;
+            }
+            return getBussinessToken();
+        } else {
+            const result = await response.text();
+            const data = JSON.parse(result);
+            Swal.fire({
+                icon: 'error',
+                title: data.status,
+                text: data.result
+            });
         }
     });
 }

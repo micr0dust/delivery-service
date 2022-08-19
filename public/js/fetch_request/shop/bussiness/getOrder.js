@@ -1,5 +1,5 @@
 async function getOrder() {
-    let headersList = {
+    const headersList = {
         "Accept": "*/*",
         "token": localStorage.bussiness_acesstoken,
         "Content-Type": "application/x-www-form-urlencoded"
@@ -8,8 +8,8 @@ async function getOrder() {
         method: "GET",
         headers: headersList
     }).then(async function(response) {
+        document.getElementById('loader').classList.remove('is-active');
         if (response.status === 200) {
-            document.getElementById('loader').classList.remove('is-active');
             const result = await response.text();
             const data = JSON.parse(result);
             if (data.code) {
@@ -26,11 +26,12 @@ async function getOrder() {
                 await bussinessLogin();
             return getOrder();
         } else {
-            console.log('error: ' + response);
+            const result = await response.text();
+            const data = JSON.parse(result);
             Swal.fire({
                 icon: 'error',
-                title: '發生錯誤',
-                text: response.status
+                title: data.status,
+                text: data.result
             });
         }
     });

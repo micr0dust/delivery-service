@@ -28,7 +28,7 @@ function imeditFn() {
     document.getElementById('submit').classList.remove('is-invalid');
 }
 
-document.getElementById("submit").addEventListener("click", (function submitFn(e) {
+document.getElementById("submit").addEventListener("click", (async function submitFn(e) {
     e.preventDefault();
     let name = document.getElementById('name').innerText;
     let phone = document.getElementById('phone').value;
@@ -42,13 +42,13 @@ document.getElementById("submit").addEventListener("click", (function submitFn(e
     if (!change) return validFn('submit', false);
     document.getElementById('loader').classList.add('is-active');
 
-    let headersList = {
+    const headersList = {
         "Accept": "*/*",
         "token": localStorage.acesstoken,
         "Content-Type": "application/x-www-form-urlencoded",
-    }
+    };
 
-    fetch("/member/", {
+    return await fetch("/member/", {
         method: "PUT",
         body: "name=" + name + "&phone=" + phone + "&gender=" + gender + "&birthday=" + birthday + "",
         headers: headersList
@@ -56,7 +56,7 @@ document.getElementById("submit").addEventListener("click", (function submitFn(e
         document.getElementById('loader').classList.remove('is-active');
 
         if (response.status === 200) {
-            const result = response.text();
+            const result = await response.text();
             const data = JSON.parse(result);
             if (data.code) window.location.href = '/auth';
             else Swal.fire({
@@ -64,13 +64,22 @@ document.getElementById("submit").addEventListener("click", (function submitFn(e
                 title: data.status,
                 text: data.result
             });
-        } else if (response.status === 403 && localStorage.refresh_token) {
-            await getToken();
-            return submitFn();
+        } else if (response.status === 403) {
+            if (localStorage.refresh_token) {
+                await getToken();
+                return submitFn();
+            } else {
+                localStorage.clear();
+                window.location.href = '/admin/login?redirct=' + location.pathname;
+            }
         } else {
-            console.log('error: ' + response);
-            localStorage.clear();
-            window.location.href = '/admin/login?redirct=' + location.pathname;
+            const result = await response.text();
+            const data = JSON.parse(result);
+            Swal.fire({
+                icon: 'error',
+                title: data.status,
+                text: data.result
+            });
         }
     });
 }));

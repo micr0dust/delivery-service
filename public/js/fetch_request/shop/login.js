@@ -1,9 +1,9 @@
 async function bussinessLogin() {
-    let headersList = {
+    const headersList = {
         "Accept": "*/*",
         "token": localStorage.acesstoken,
         "Content-Type": "application/x-www-form-urlencoded"
-    }
+    };
     return await fetch("/store/login", {
         method: "POST",
         headers: headersList
@@ -12,18 +12,21 @@ async function bussinessLogin() {
             localStorage.setItem('bussiness_acesstoken', response.headers.get('token'));
             localStorage.setItem('bussiness_refresh_token', response.headers.get('refresh_token'));
             return await response.text();
-        } else if (response.status === 403 && localStorage.refresh_token) {
-            await getToken();
-            return await bussinessLogin();
         } else if (response.status === 403) {
-            localStorage.clear();
-            location.href = '/admin/login?redirct=' + location.pathname;
+            if (localStorage.refresh_token) {
+                await getToken();
+                return await bussinessLogin();
+            } else {
+                localStorage.clear();
+                location.href = '/admin/login?redirct=' + location.pathname;
+            }
         } else {
-            console.log('error: ' + response);
+            const result = await response.text();
+            const data = JSON.parse(result);
             Swal.fire({
                 icon: 'error',
-                title: '發生錯誤',
-                text: response.status
+                title: data.status,
+                text: data.result
             });
         }
     });

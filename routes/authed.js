@@ -20,5 +20,8 @@ router.get('/wall', function(req, res, next) {
 router.get('/storepage', function(req, res, next) {
     res.render('posts', { title: 'Hello中原', part: 'storePage' });
 });
+router.get('/verify/phone', function(req, res, next) {
+    res.render('form', { title: 'Hello中原-手機驗證', part: 'phone_message' });
+});
 
 module.exports = router;

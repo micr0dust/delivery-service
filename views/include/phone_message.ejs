@@ -3,20 +3,31 @@
         <div class="col-sm-6 col-md-6">
             <div class="account-wall">
                 <img class="profile-img" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120" alt="">
-                <form class="form-signin" autocomplete="off">
+                <div class="form-signin" autocomplete="off">
                     <p>已發送驗證碼簡訊至您的行動電話</p>
-                    <button class="btn btn-lg btn-primary btn-block" onclick="reSend()">重新請求驗證碼</button>
-                </form>
-                <a href="/admin/register" class="text-right new-account mr-4">註冊新帳號</a>
+                    <div class="form-group">
+                        <input type="text" id="pin" class="form-control" placeholder="驗證碼" maxlength="8" pattern="\d{8}" required>
+                        <div class="invalid-feedback">驗證碼錯誤</div>
+                    </div>
+                    <button class="btn btn-lg btn-primary btn-block" onclick="verify()">驗證</button>
+                    <a href="javascript:reSend()">重新請求驗證碼</a>
+                </div>
             </div>
         </div>
     </div>
 </div>
-<script src="/js/fetch_request/mail.js"></script>
+<script src="/js/fetch_request/verify.js"></script>
+<script src="/js/fetch_request/phone_message.js"></script>
 <script>
-    requestMail();
+    requestPhoneMessage();
 
     function reSend() {
         location.reload();
+    }
+
+    function verify() {
+        const pin = document.getElementById('pin');
+        if (pin.value)
+            pinSubmit(pin.value);
     }
 </script>

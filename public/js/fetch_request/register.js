@@ -37,24 +37,25 @@ document.getElementById("submit").addEventListener("click", function(e) {
             const result = await response.text();
             const data = JSON.parse(result);
             if (data.code)
-                window.location.href = '/auth/mail?redirct=' + location.pathname;
+                window.location.href = '/auth/mail';
             else Swal.fire({
                 icon: 'error',
                 title: data.status,
                 text: data.result
             })
         } else {
-            console.log('error: ' + response);
+            const result = await response.text();
+            const data = JSON.parse(result);
             Swal.fire({
                 icon: 'error',
-                title: '發生錯誤',
-                text: response.status
-            })
+                title: data.status,
+                text: data.result
+            });
         }
     });
 });
 
-function onSignIn(googleUser) {
+async function onSignIn(googleUser) {
     // Useful data for your client-side scripts:
     // var profile = googleUser.getBasicProfile();
     // console.log("ID: " + profile.getId());
@@ -67,12 +68,12 @@ function onSignIn(googleUser) {
     var id_token = googleUser.getAuthResponse().id_token;
 
     document.getElementById('loader').classList.add('is-active');
-    let headersList = {
+    const headersList = {
         "Accept": "*/*",
         "Content-Type": "application/x-www-form-urlencoded"
-    }
+    };
 
-    fetch("/member/google-register", {
+    return await fetch("/member/google-register", {
         method: "GET",
         body: "accesstoken=" + id_token,
         headers: headersList
@@ -81,7 +82,7 @@ function onSignIn(googleUser) {
 
         if (response.status === 200) {
             localStorage.setItem('acesstoken', response.headers.get('token'));
-            const result = response.text();
+            const result = await response.text();
             const data = JSON.parse(result);
             if (data.code)
                 console.log(data);
@@ -91,12 +92,13 @@ function onSignIn(googleUser) {
                 text: data.result
             });
         } else {
-            console.log('error: ' + response);
+            const result = await response.text();
+            const data = JSON.parse(result);
             Swal.fire({
                 icon: 'error',
-                title: '發生錯誤',
-                text: response.status
-            })
+                title: data.status,
+                text: data.result
+            });
         }
     });
 }

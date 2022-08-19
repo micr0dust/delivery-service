@@ -12,16 +12,18 @@ function checkInputFn() {
 document.getElementById("submit").addEventListener("click", function(e) {
     e.preventDefault();
     if (!checkInputFn(submited = true)) return;
-    let url = window.location.href;
+    const url = window.location.href;
     let redirct;
     if ((url.indexOf('?redirct=') + 1)) redirct = url.toString().split('?redirct=')[1];
-    let email = document.getElementById('email').value;
-    let password = document.getElementById('password').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
     document.getElementById('loader').classList.add('is-active');
-    let headersList = {
+
+    const headersList = {
         "Accept": "*/*",
         "Content-Type": "application/x-www-form-urlencoded"
-    }
+    };
+
     fetch("/member/login", {
         method: "POST",
         body: "email=" + email + "&password=" + password,
@@ -31,38 +33,36 @@ document.getElementById("submit").addEventListener("click", function(e) {
         if (response.status === 200) {
             localStorage.setItem('acesstoken', response.headers.get('token'));
             localStorage.setItem('refresh_token', response.headers.get('refresh_token'));
+            const result = await response.text();
+            const data = JSON.parse(result);
+            if (data.code) {
+                if (data.result.role) localStorage.setItem('role', JSON.stringify(data.result.role));
+                window.location.href = (redirct) ? redirct : '/auth';
+            } else Swal.fire({
+                icon: 'error',
+                title: data.status,
+                text: data.result
+            });
         } else {
-            console.log('error: ' + response);
+            const result = await response.text();
+            const data = JSON.parse(result);
             Swal.fire({
                 icon: 'error',
-                title: '發生錯誤',
-                text: response.status
-            })
+                title: data.status,
+                text: data.result
+            });
         }
-        return response.text();
-    }).then(function(data) {
-        data = JSON.parse(data);
-        if (data.code) {
-            if (data.result.role) localStorage.setItem('role', JSON.stringify(data.result.role));
-            window.location.href = (redirct) ? redirct : '/auth';
-        } else Swal.fire({
-            icon: 'error',
-            title: data.status,
-            text: data.result
-        });
-    })
+    });
 });
 
 function googleLogin() {
-    let url = window.location.href;
-    let redirct;
-    if ((url.indexOf('?redirct=') + 1)) redirct = url.toString().split('?redirct=')[1];
-
     document.getElementById('loader').classList.add('is-active');
-    let headersList = {
+
+    const headersList = {
         "Accept": "*/*",
         "Content-Type": "application/x-www-form-urlencoded"
-    }
+    };
+
     fetch("/member/google/login", {
         method: "GET",
         headers: headersList
@@ -71,27 +71,23 @@ function googleLogin() {
         if (response.status === 200) {
             localStorage.setItem('acesstoken', response.headers.get('token'));
             localStorage.setItem('refresh_token', response.headers.get('refresh_token'));
+            const result = await response.text();
+            const data = JSON.parse(result);
+            if (data) {
+                if (data.result.role) localStorage.setItem('role', JSON.stringify(data.result.role));
+                else location.reload();
+                window.location.href = data.redirect_url;
+            }
         } else {
-            console.log('error: ' + response);
+            const result = await response.text();
+            const data = JSON.parse(result);
             Swal.fire({
                 icon: 'error',
-                title: '發生錯誤',
-                text: response.status
-            })
+                title: data.status,
+                text: data.result
+            });
         }
-        return response.text();
-    }).then(function(data) {
-        data = JSON.parse(data);
-        if (data) {
-            try {
-                if (data.result.role) localStorage.setItem('role', JSON.stringify(data.result.role));
-            } catch (error) {
-
-            }
-            window.location.href = data.redirect_url;
-        }
-        //console.log(data);
-    })
+    });
 }
 
 function onSignIn(googleUser) {
@@ -105,18 +101,16 @@ function onSignIn(googleUser) {
     // console.log("Email: " + profile.getEmail());
 
     // The ID token you need to pass to your backend:
-    var id_token = googleUser.getAuthResponse().id_token;
-    let url = window.location.href;
-    let redirct;
-    console.log(id_token);
-    if ((url.indexOf('?redirct=') + 1)) redirct = url.toString().split('?redirct=')[1];
+    const id_token = googleUser.getAuthResponse().id_token;
 
     document.getElementById('loader').classList.add('is-active');
-    let headersList = {
+
+    const headersList = {
         "Accept": "*/*",
         "id": profile.getId(),
         "Content-Type": "application/x-www-form-urlencoded"
-    }
+    };
+
     fetch("/member/google/login", {
         method: "GET",
         headers: headersList
@@ -125,19 +119,20 @@ function onSignIn(googleUser) {
         if (response.status === 200) {
             localStorage.setItem('acesstoken', response.headers.get('token'));
             localStorage.setItem('refresh_token', response.headers.get('refresh_token'));
-            const result = response.text();
-            const data = JSON.parse(data);
+            const result = await response.text();
+            const data = JSON.parse(result);
             if (data) {
                 if (data.result.role) localStorage.setItem('role', JSON.stringify(data.result.role));
                 else location.reload();
                 window.location.href = data.redirect_url;
             }
         } else {
-            console.log('error: ' + response);
+            const result = await response.text();
+            const data = JSON.parse(result);
             Swal.fire({
                 icon: 'error',
-                title: '發生錯誤',
-                text: response.status
+                title: data.status,
+                text: data.result
             });
         }
     });
