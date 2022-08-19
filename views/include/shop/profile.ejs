@@ -199,6 +199,152 @@
             businessTime: JSON.stringify(businessTime)
         };
 
-        updateSubmit(data);
+        putStore(data);
+    }
+
+    window.addEventListener('hashchange', function() {
+        if (!location.hash.split('#')[1]) return;
+        let selected = document.getElementById(location.hash.split('#')[1]);
+        let name = selected.querySelector('a > div.card-footer.justify-content-between > span:nth-child(1)').textContent;
+        Swal.fire({
+            title: '刪除商品',
+            html: `在下方輸入 <span class="font-weight-bold text-danger">${name}</span> 以確認刪除`,
+            input: 'text',
+            inputAttributes: {
+                autocapitalize: 'off'
+            },
+            showCancelButton: true,
+            confirmButtonColor: '#bf0d0d',
+            cancelButtonColor: '#808080',
+            confirmButtonText: '刪除',
+            showLoaderOnConfirm: true,
+            preConfirm: (confirm) => {
+                if (confirm == name) return delProduct(selected.id);
+                else Swal.showValidationMessage(
+                    '輸入錯誤'
+                );
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            history.replaceState(null, null, ' ');
+            if (result.isConfirmed) {
+                getProductFn();
+                Swal.fire(
+                    '刪除成功',
+                    `${name} 已經被刪除`,
+                    'success'
+                );
+            }
+        })
+    }, false);
+
+    async function getProductFn(url) {
+        if (url) localStorage.setItem('url', url);
+
+        const result = await getStoreProduct();
+        const data = JSON.parse(result);
+        let products = document.getElementById('product');
+        while (products.hasChildNodes())
+            products.removeChild(products.lastChild);
+        let productList = document.getElementById('product');
+        for (let i = 0; i < data.result.length; i++) {
+            const product = data.result[i];
+            const newProduct = document.getElementById('productTemplate');
+            newProduct.content.querySelector('div > a > .card-footer > span:nth-child(1)').textContent = product.name;
+            newProduct.content.querySelector('div').id = product.id;
+            newProduct.content.querySelector('div > a > .card-footer > span:nth-child(2)').textContent = "NT$" + product.price;
+            newProduct.content.querySelector('div > a').href = `#${product.id}`;
+            const card = document.importNode(newProduct.content, true);
+            productList.appendChild(card);
+        }
+    }
+
+    async function getInfoFn() {
+        let urlparm = window.location.href;
+        if (window.location.href.split('?')[1]) {
+            urlparm = window.location.href.split('?')[1];
+            if (urlparm.split('&')[0].split('=')[0] == "refresh_token")
+                if (urlparm.split('&')[0].split('=')[1] != "")
+                    localStorage.setItem('refresh_token', urlparm.split('&')[0].split('=')[1]);
+        }
+
+        const result = await getStore();
+        const data = JSON.parse(result);
+        if (data.result.name) document.getElementById('name').innerText = data.result.name;
+        if (data.result.address) document.getElementById('address').value = data.result.address;
+        if (data.result.place) document.getElementById('place').value = data.result.place;
+        if (data.result.timeEstimate) document.getElementById('timeEstimate').value = data.result.timeEstimate;
+        if (data.result.businessTime) {
+            const schedule = document.getElementById('schedule');
+            const line = schedule.querySelectorAll('[name="line"]');
+            const businessTime = data.result.businessTime;
+            for (let i = 1; i < line.length; i++) {
+                const time = line[i].querySelectorAll('[name="dateCheck"]');
+                for (let j = 0; j < time.length; j++) {
+                    time[j].checked = Boolean(businessTime[i - 1][j]);
+                    time[j].checked ?
+                        time[j].parentNode.classList.add('bg-warning') :
+                        time[j].parentNode.classList.remove('bg-warning');
+                }
+            }
+        }
+        if (data.result.create_date) document.getElementById('create').value = new Date(data.result.create_date).toLocaleString();
+        if (data.result.last_login) document.getElementById('update').value = new Date(data.result.last_login).toLocaleString();
+        if (data.result.url) await getProductFn(data.result.url);
+
+    }
+    getInfoFn();
+
+    function addProductForm() {
+        Swal.fire({
+            title: '新增商品',
+            html: `<input type="text" id="product" class="swal2-input" placeholder="商品名稱" autocomplete="off">
+        <input type="text" id="describe" class="swal2-input" placeholder="敘述"autocomplete="off">
+        <input type="text" id="tag" class="swal2-input" placeholder="標籤" autocomplete="off">
+        <input type="number" id="price" class="swal2-input" min="1" max="9999" placeholder="商品價格" autocomplete="off">
+        <div id="options"></div>`,
+            inputAttributes: {
+                autocapitalize: 'off'
+            },
+            showCancelButton: true,
+            showDenyButton: true,
+            denyButtonText: '進階選項',
+            denyButtonColor: '#00AAAA',
+            cancelButtonColor: '#808080',
+            confirmButtonText: '建立',
+            showLoaderOnConfirm: true,
+            preConfirm: () => {
+                const name = Swal.getPopup().querySelector('#product').value;
+                const describe = Swal.getPopup().querySelector('#describe').value;
+                const tag = Swal.getPopup().querySelector('#tag').value;
+                const price = Swal.getPopup().querySelector('#price').value;
+                const oProduct = {
+                    name: name,
+                    describe: describe,
+                    tag: tag,
+                    price: price
+                };
+                if (name && price) return addProduct(oProduct);
+                else Swal.showValidationMessage(
+                    '商品名稱和價格為必填選項'
+                );
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            if (result.isConfirmed) {
+                getProductFn();
+                Swal.fire(
+                    '建立成功',
+                    '',
+                    'success'
+                );
+            } else if (result.isDenied) {
+                const product = Swal.getPopup().querySelector('#product').value;
+                const describe = Swal.getPopup().querySelector('#describe').value;
+                const tag = Swal.getPopup().querySelector('#tag').value;
+                const price = Swal.getPopup().querySelector('#price').value;
+                location.href = `/shop/add?product=${product}&describe=${describe}&tag=${tag}&price=${price}`;
+            }
+        })
     }
 </script>

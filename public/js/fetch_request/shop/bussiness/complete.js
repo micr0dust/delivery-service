@@ -9,7 +9,7 @@ async function complete(_id) {
         method: "PUT",
         headers: headersList,
         body: `id=${_id}`
-    }).then(function(response) {
+    }).then(async function(response) {
         document.getElementById('loader').classList.remove('is-active');
         if (response.status === 200) {
             const result = await response.text();

@@ -1,4 +1,4 @@
-async function updateSubmit(data) {
+async function putStore(data) {
     const headersList = {
         "Accept": "*/*",
         "token": localStorage.acesstoken,
@@ -26,7 +26,7 @@ async function updateSubmit(data) {
         } else if (response.status === 403) {
             if (localStorage.refresh_token) {
                 await getToken();
-                return updateSubmit(data);
+                return putStore(data);
             } else {
                 localStorage.clear();
                 window.location.href = '/admin/login?redirct=' + location.pathname;

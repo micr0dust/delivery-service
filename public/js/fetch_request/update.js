@@ -1,47 +1,5 @@
-var fname;
-var fphone;
-var fgender;
-var fbirthday;
-
-function editFn() {
-    document.getElementById('phone').disabled = false;
-    document.getElementById('gender').disabled = false;
-    document.getElementById('birthday').disabled = false;
-    document.getElementById('edit').classList.add('d-none');
-    document.getElementById('updata').classList.remove('d-none');
-    fname = document.getElementById('name').innerText;
-    fphone = document.getElementById('phone').value;
-    fgender = document.getElementById('gender').value;
-    fbirthday = document.getElementById('birthday').value;
-}
-
-function imeditFn() {
-    document.getElementById('phone').disabled = true;
-    document.getElementById('gender').disabled = true;
-    document.getElementById('birthday').disabled = true;
-    document.getElementById('edit').classList.remove('d-none');
-    document.getElementById('updata').classList.add('d-none');
-    document.getElementById('name').innerText = fname;
-    document.getElementById('phone').value = fphone;
-    document.getElementById('gender').value = fgender;
-    document.getElementById('birthday').value = fbirthday;
-    document.getElementById('submit').classList.remove('is-invalid');
-}
-
-document.getElementById("submit").addEventListener("click", (async function submitFn(e) {
-    e.preventDefault();
-    let name = document.getElementById('name').innerText;
-    let phone = document.getElementById('phone').value;
-    let gender = document.getElementById('gender').value;
-    let birthday = document.getElementById('birthday').value;
-    let change = 4;
-    if (name === fname) change--;
-    if (phone === fphone) change--;
-    if (gender === fgender) change--;
-    if (birthday === fbirthday) change--;
-    if (!change) return validFn('submit', false);
+async function putMember(data) {
     document.getElementById('loader').classList.add('is-active');
-
     const headersList = {
         "Accept": "*/*",
         "token": localStorage.acesstoken,
@@ -50,20 +8,13 @@ document.getElementById("submit").addEventListener("click", (async function subm
 
     return await fetch("/member/", {
         method: "PUT",
-        body: "name=" + name + "&phone=" + phone + "&gender=" + gender + "&birthday=" + birthday + "",
+        body: "name=" + data.name + "&phone=" + data.phone + "&gender=" + data.gender + "&birthday=" + data.birthday + "",
         headers: headersList
     }).then(async function(response) {
         document.getElementById('loader').classList.remove('is-active');
 
         if (response.status === 200) {
-            const result = await response.text();
-            const data = JSON.parse(result);
-            if (data.code) window.location.href = '/auth';
-            else Swal.fire({
-                icon: 'error',
-                title: data.status,
-                text: data.result
-            });
+            return await response.text();
         } else if (response.status === 403) {
             if (localStorage.refresh_token) {
                 await getToken();
@@ -82,4 +33,4 @@ document.getElementById("submit").addEventListener("click", (async function subm
             });
         }
     });
-}));
+}
