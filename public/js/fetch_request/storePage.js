@@ -23,7 +23,8 @@ async function getProductFn(url) {
                     title: '發生錯誤',
                     text: response.status
                 }).then(() => {
-                    window.location.href = '/auth'
+                    localStorage.clear();
+                    window.location.href = '/admin/login?redirct=' + location.pathname;
                 })
             }
             return response.text()
@@ -51,11 +52,8 @@ async function getProductFn(url) {
                     title: data.status,
                     text: data.result
                 }).then(() => {
-                    if (data.result === '請重新登入') {
-                        localStorage.removeItem('acesstoken');
-                        localStorage.removeItem('refresh_token');
-                        window.location.href = '/admin/login?redirct=' + location.pathname;
-                    } else window.location.href = '/auth'
-                })
+                    localStorage.clear();
+                    window.location.href = '/admin/login?redirct=' + location.pathname;
+                });
         })
 }

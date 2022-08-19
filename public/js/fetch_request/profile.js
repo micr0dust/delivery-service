@@ -52,7 +52,7 @@ async function getInfoFn() {
             }).then(() => {
                 if (data.result === "請重新登入") {
                     localStorage.clear;
-                    window.location.href = '/admin/login';
+                    window.location.href = '/admin/login?redirct=' + location.pathname;
                 }
             });
         } else if (response.status === 403 && localStorage.refresh_token) {

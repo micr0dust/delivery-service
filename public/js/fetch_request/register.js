@@ -37,7 +37,7 @@ document.getElementById("submit").addEventListener("click", function(e) {
             const result = await response.text();
             const data = JSON.parse(result);
             if (data.code)
-                window.location.href = '/auth/mail';
+                window.location.href = '/auth/mail?redirct=' + location.pathname;
             else Swal.fire({
                 icon: 'error',
                 title: data.status,

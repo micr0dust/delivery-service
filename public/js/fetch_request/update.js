@@ -78,7 +78,7 @@ document.getElementById("submit").addEventListener("click", (function submitFn(e
             if (data.result === "請重新登入") {
                 localStorage.removeItem('acesstoken');
                 localStorage.removeItem('refresh_token');
-                window.location.href = '/admin/login';
+                window.location.href = '/admin/login?redirct=' + location.pathname;
             }
         });
         console.log(data);

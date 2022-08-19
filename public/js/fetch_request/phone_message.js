@@ -1,11 +1,11 @@
-function requestMail() {
+function requestPhoneMessage() {
     let headersList = {
         "Accept": "*/*",
         "token": localStorage.acesstoken,
         "Content-Type": "application/x-www-form-urlencoded"
-    }
+    };
 
-    fetch("/member/email/send", {
+    fetch("/member/twilio/send", {
         method: "PUT",
         headers: headersList
     }).then(async function(response) {
@@ -27,8 +27,7 @@ function requestMail() {
         if (data.code) {
             Swal.fire({
                 icon: 'success',
-                title: "已重新發送新的驗證碼",
-                text: "請確認發送的郵件是否被歸類為垃圾郵件"
+                title: "已重新發送新的驗證碼"
             });
         } else Swal.fire({
             icon: 'error',
@@ -36,8 +35,7 @@ function requestMail() {
             text: data.result
         }).then(() => {
             if (data.result === "請重新登入") {
-                localStorage.removeItem('acesstoken');
-                localStorage.removeItem('refresh_token');
+                localStorage.clear()
                 window.location.href = '/admin/login?redirct=' + location.pathname;
             }
         });

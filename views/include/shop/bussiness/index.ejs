@@ -103,7 +103,6 @@
 
     async function refresh() {
         const nowLength = await orderListGenerate();
-        console.log(nowLength, lastLength);
         if (nowLength != lastLength && ~lastLength) playAudio();
         lastLength = nowLength;
     }
