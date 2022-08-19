@@ -45,9 +45,9 @@
   integrity sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ==
 
 "@types/node@*":
-  version "18.7.3"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.7.3.tgz#432c89796eab539b7a30b7b8801a727b585238a4"
-  integrity sha512-LJgzOEwWuMTBxHzgBR/fhhBOWrvBjvO+zPteUgbbuQi80rYIZHrk1mNbRUqPZqSLP2H7Rwt1EFLL/tNLD1Xx/w==
+  version "18.7.6"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.7.6.tgz#31743bc5772b6ac223845e18c3fc26f042713c83"
+  integrity sha512-EdxgKRXgYsNITy5mjjXjVE/CS8YENSdhiagGrLqjG0pvA2owgJ6i4l7wy/PFZGC0B1/H20lWKN7ONVDNYDZm7A==
 
 "@types/webidl-conversions@*":
   version "6.1.1"
@@ -274,9 +274,9 @@ braces@~3.0.2:
     fill-range "^7.0.1"
 
 bson@^4.6.2:
-  version "4.6.5"
-  resolved "https://registry.yarnpkg.com/bson/-/bson-4.6.5.tgz#1a410148c20eef4e40d484878a037a7036e840fb"
-  integrity sha512-uqrgcjyOaZsHfz7ea8zLRCLe1u+QGUSzMZmvXqO24CDW7DWoW1qiN9folSwa7hSneTSgM2ykDIzF5kcQQ8cwNw==
+  version "4.7.0"
+  resolved "https://registry.yarnpkg.com/bson/-/bson-4.7.0.tgz#7874a60091ffc7a45c5dd2973b5cad7cded9718a"
+  integrity sha512-VrlEE4vuiO1WTpfof4VmaVolCVYkYTgB9iWgYNOrVlnifpME/06fhFRmONgBhClD5pFC1t9ZWqFUQEQAzY43bA==
   dependencies:
     buffer "^5.6.0"
 
@@ -693,7 +693,7 @@ gaxios@^4.0.0:
     is-stream "^2.0.0"
     node-fetch "^2.6.7"
 
-gaxios@^5.0.0:
+gaxios@^5.0.0, gaxios@^5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/gaxios/-/gaxios-5.0.1.tgz#50fc76a2d04bc1700ed8c3ff1561e52255dfc6e0"
   integrity sha512-keK47BGKHyyOVQxgcUaSaFvr3ehZYAlvhvpHXy0YB2itzZef+GqZR8TBsfVRWghdwlKrYsn+8L8i3eblF7Oviw==
@@ -782,9 +782,9 @@ google-auth-library@^7.0.2, google-auth-library@^7.14.0:
     lru-cache "^6.0.0"
 
 google-auth-library@^8.0.2:
-  version "8.1.1"
-  resolved "https://registry.yarnpkg.com/google-auth-library/-/google-auth-library-8.1.1.tgz#4068d2b1512b812d3d3dfbdc848452a0d5a550de"
-  integrity sha512-eG3pCfrLgVJe19KhAeZwW0m1LplNEo0FX1GboWf3hu18zD2jq8TUH2K8900AB2YRAuJ7A+1aSXDp1BODjwwRzg==
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/google-auth-library/-/google-auth-library-8.2.0.tgz#36d93e42f9bc8856ac2e69778b2b7a1e2aa16217"
+  integrity sha512-wCWs44jLT3cbzONVk2NKK1sfWaKCqzR21cudG3r9tV53/DC/wImxEr7HK5OBlEU5Q1iepZsrdFOxvzmC0M/YRQ==
   dependencies:
     arrify "^2.0.0"
     base64-js "^1.3.0"
@@ -840,11 +840,11 @@ gtoken@^5.0.4:
     jws "^4.0.0"
 
 gtoken@^6.0.0:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/gtoken/-/gtoken-6.1.0.tgz#62938c679b364662ce21077858e0db3cfe025363"
-  integrity sha512-WPZcFw34wh2LUvbCUWI70GDhOlO7qHpSvFHFqq7d3Wvsf8dIJedE0lnUdOmsKuC0NgflKmF0LxIF38vsGeHHiQ==
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/gtoken/-/gtoken-6.1.1.tgz#29ebf3e6893719176d180f5694f1cad525ce3c04"
+  integrity sha512-HPM4VzzPEGxjQ7T2xLrdSYBs+h1c0yHAUiN+8RHPDoiZbndlpg9Sx3SjWcrTt9+N3FHsSABEpjvdQVan5AAuZQ==
   dependencies:
-    gaxios "^4.0.0"
+    gaxios "^5.0.1"
     google-p12-pem "^4.0.0"
     jws "^4.0.0"
 
@@ -1695,9 +1695,9 @@ swagger-parser@10.0.2:
     "@apidevtools/swagger-parser" "10.0.2"
 
 swagger-ui-dist@>=4.11.0:
-  version "4.13.2"
-  resolved "https://registry.yarnpkg.com/swagger-ui-dist/-/swagger-ui-dist-4.13.2.tgz#fb814efd51bf06aa8630c0a0af6e3caa48ac6552"
-  integrity sha512-jHL6UyIYpvEI7NsuWd0R3hJaPQTg6Oo4qSBo+oVfOEkv6rrQm/475RGSMmZgV6ajp+Sgrp9CqrDjQYAgQqiv1A==
+  version "4.14.0"
+  resolved "https://registry.yarnpkg.com/swagger-ui-dist/-/swagger-ui-dist-4.14.0.tgz#e34d807464eb84578c43902e393084a1a6fbda52"
+  integrity sha512-TBzhheU15s+o54Cgk9qxuYcZMiqSm/SkvKnapoGHOF66kz0Y5aGjpzj5BT/vpBbn6rTPJ9tUYXQxuDWfsjiGMw==
 
 swagger-ui-express@^4.3.0:
   version "4.5.0"
