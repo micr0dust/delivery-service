@@ -125,25 +125,20 @@ function onSignIn(googleUser) {
         if (response.status === 200) {
             localStorage.setItem('acesstoken', response.headers.get('token'));
             localStorage.setItem('refresh_token', response.headers.get('refresh_token'));
+            const result = response.text();
+            const data = JSON.parse(data);
+            if (data) {
+                if (data.result.role) localStorage.setItem('role', JSON.stringify(data.result.role));
+                else location.reload();
+                window.location.href = data.redirect_url;
+            }
         } else {
             console.log('error: ' + response);
             Swal.fire({
                 icon: 'error',
                 title: '發生錯誤',
                 text: response.status
-            })
+            });
         }
-        return response.text();
-    }).then(function(data) {
-        data = JSON.parse(data);
-        if (data) {
-            try {
-                if (data.result.role) localStorage.setItem('role', JSON.stringify(data.result.role));
-            } catch (error) {
-
-            }
-            window.location.href = data.redirect_url;
-        }
-        //console.log(data);
-    })
+    });
 }

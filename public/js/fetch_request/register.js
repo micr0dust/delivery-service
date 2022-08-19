@@ -77,9 +77,20 @@ function onSignIn(googleUser) {
         body: "accesstoken=" + id_token,
         headers: headersList
     }).then(function(response) {
-        if (response.status === 200)
+        document.getElementById('loader').classList.remove('is-active');
+
+        if (response.status === 200) {
             localStorage.setItem('acesstoken', response.headers.get('token'));
-        else {
+            const result = response.text();
+            const data = JSON.parse(result);
+            if (data.code)
+                console.log(data);
+            else Swal.fire({
+                icon: 'error',
+                title: data.status,
+                text: data.result
+            });
+        } else {
             console.log('error: ' + response);
             Swal.fire({
                 icon: 'error',
@@ -87,19 +98,5 @@ function onSignIn(googleUser) {
                 text: response.status
             })
         }
-        document.getElementById('loader').classList.remove('is-active');
-        return response.text();
-    }).then(function(data) {
-        data = JSON.parse(data);
-        if (data.code)
-            console.log(data);
-        //window.location.href = '/auth/mail';
-        else Swal.fire({
-            icon: 'error',
-            title: data.status,
-            text: data.result
-        })
-
-        //console.log(data);
-    })
+    });
 }

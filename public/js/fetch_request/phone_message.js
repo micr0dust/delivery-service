@@ -9,36 +9,26 @@ function requestPhoneMessage() {
         method: "PUT",
         headers: headersList
     }).then(async function(response) {
-        if (response.status === 200);
-        else if (response.status === 403 && localStorage.refresh_token) {
+        if (response.status === 200) {
+            const result = response.text();
+            const data = JSON.parse(result);
+            if (data.code) {
+                Swal.fire({
+                    icon: 'success',
+                    title: "已重新發送新的驗證碼"
+                });
+            } else Swal.fire({
+                icon: 'error',
+                title: data.status,
+                text: data.result
+            });
+        } else if (response.status === 403 && localStorage.refresh_token) {
             await getToken();
             return requestMail();
         } else {
             console.log('error: ' + response);
-            Swal.fire({
-                icon: 'error',
-                title: '發生錯誤',
-                text: response.status
-            })
+            localStorage.clear();
+            window.location.href = '/admin/login?redirct=' + location.pathname;
         }
-        return response.text();
-    }).then(function(data) {
-        data = JSON.parse(data);
-        if (data.code) {
-            Swal.fire({
-                icon: 'success',
-                title: "已重新發送新的驗證碼"
-            });
-        } else Swal.fire({
-            icon: 'error',
-            title: data.status,
-            text: data.result
-        }).then(() => {
-            if (data.result === "請重新登入") {
-                localStorage.clear()
-                window.location.href = '/admin/login?redirct=' + location.pathname;
-            }
-        });
-        //console.log(data);
-    })
+    });
 }

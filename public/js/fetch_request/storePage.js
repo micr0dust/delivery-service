@@ -12,48 +12,37 @@ async function getProductFn(url) {
         })
         .then(async function(response) {
             document.getElementById('loader').classList.remove('is-active');
-            if (response.status === 200);
-            else if (response.status === 403 && localStorage.refresh_token) {
+            if (response.status === 200) {
+                const result = response.text();
+                const data = JSON.parse(result);
+                if (data.code) {
+                    let products = document.getElementById('product');
+                    while (products.hasChildNodes())
+                        products.removeChild(products.lastChild);
+                    let productList = document.getElementById('product');
+                    for (let i = 0; i < data.result.length; i++) {
+                        const product = data.result[i];
+                        let newProduct = document.getElementById('productTemplate');
+                        newProduct.content.querySelector('div > a > .card-footer > span:nth-child(1)').textContent = product.name;
+                        newProduct.content.querySelector('div').id = product.id;
+                        newProduct.content.querySelector('div > a > .card-footer > span:nth-child(2)').textContent = "NT$" + product.price;
+                        newProduct.content.querySelector('div > a').href = `#${product.id}`;
+                        let card = document.importNode(newProduct.content, true);
+                        productList.appendChild(card);
+                    }
+                } else
+                    Swal.fire({
+                        icon: 'error',
+                        title: data.status,
+                        text: data.result
+                    });
+            } else if (response.status === 403 && localStorage.refresh_token) {
                 await getToken();
                 return submitFn();
             } else {
                 console.log('error: ' + response)
-                Swal.fire({
-                    icon: 'error',
-                    title: '發生錯誤',
-                    text: response.status
-                }).then(() => {
-                    localStorage.clear();
-                    window.location.href = '/admin/login?redirct=' + location.pathname;
-                })
+                localStorage.clear();
+                window.location.href = '/admin/login?redirct=' + location.pathname;
             }
-            return response.text()
-        })
-        .then(function(data) {
-            data = JSON.parse(data);
-            if (data.code) {
-                let products = document.getElementById('product');
-                while (products.hasChildNodes())
-                    products.removeChild(products.lastChild);
-                let productList = document.getElementById('product');
-                for (let i = 0; i < data.result.length; i++) {
-                    const product = data.result[i];
-                    let newProduct = document.getElementById('productTemplate');
-                    newProduct.content.querySelector('div > a > .card-footer > span:nth-child(1)').textContent = product.name;
-                    newProduct.content.querySelector('div').id = product.id;
-                    newProduct.content.querySelector('div > a > .card-footer > span:nth-child(2)').textContent = "NT$" + product.price;
-                    newProduct.content.querySelector('div > a').href = `#${product.id}`;
-                    let card = document.importNode(newProduct.content, true);
-                    productList.appendChild(card);
-                }
-            } else
-                Swal.fire({
-                    icon: 'error',
-                    title: data.status,
-                    text: data.result
-                }).then(() => {
-                    localStorage.clear();
-                    window.location.href = '/admin/login?redirct=' + location.pathname;
-                });
         })
 }

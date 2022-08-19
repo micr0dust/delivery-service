@@ -53,34 +53,24 @@ document.getElementById("submit").addEventListener("click", (function submitFn(e
         body: "name=" + name + "&phone=" + phone + "&gender=" + gender + "&birthday=" + birthday + "",
         headers: headersList
     }).then(async function(response) {
-        if (response.status === 200);
-        else if (response.status === 403 && localStorage.refresh_token) {
+        document.getElementById('loader').classList.remove('is-active');
+
+        if (response.status === 200) {
+            const result = response.text();
+            const data = JSON.parse(result);
+            if (data.code) window.location.href = '/auth';
+            else Swal.fire({
+                icon: 'error',
+                title: data.status,
+                text: data.result
+            });
+        } else if (response.status === 403 && localStorage.refresh_token) {
             await getToken();
             return submitFn();
         } else {
             console.log('error: ' + response);
-            Swal.fire({
-                icon: 'error',
-                title: '發生錯誤',
-                text: response.status
-            })
+            localStorage.clear();
+            window.location.href = '/admin/login?redirct=' + location.pathname;
         }
-        document.getElementById('loader').classList.remove('is-active');
-        return response.text();
-    }).then(function(data) {
-        data = JSON.parse(data);
-        if (data.code) window.location.href = '/auth';
-        else Swal.fire({
-            icon: 'error',
-            title: data.status,
-            text: data.result
-        }).then(() => {
-            if (data.result === "請重新登入") {
-                localStorage.removeItem('acesstoken');
-                localStorage.removeItem('refresh_token');
-                window.location.href = '/admin/login?redirct=' + location.pathname;
-            }
-        });
-        console.log(data);
-    })
+    });
 }));
