@@ -32,10 +32,13 @@ const doc = {
         redirect_url: { 'redirect_url': 'https://accounts.google.com/o/oauth2/v2/auth?scope=email%20profile&redirect_uri=http://localhost:3000/member/google/callback&response_type=code&client_id=1047494292997-3ph1u638fcq835lnt2dgfmntj8.apps.googleusercontent.com' },
         token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhbGdvcml0aG0iOiJIUzI1NiIsImV4cCI6MTY1MDEyMTc1MCwiZGF0YSI6IjYyNWFkMDE2NzI0MGNhMzgzOWZlYmQwNSIsImlhdCI6MTY1MDExOTk1MH0.zK_jiJATx4W1INvg1yJsWnn_cnXjD2oc38DaRVTTx8k",
         order: {
-            "id": "62e34a28167d90df4ef71efc",
-            "count": 1,
-            "note": "",
-            "options": "[{\"title\":\"肉種\",\"option\":\"牛肉\"},{\"title\":\"加料\",\"option\":[\"雙層肉\",\"2倍起司\"]}]"
+            "tableware": true,
+            "orders": [{
+                "id": "62e34a28167d90df4ef71efc",
+                "count": 1,
+                "note": "",
+                "options": "[{\"title\":\"肉種\",\"option\":\"牛肉\"},{\"title\":\"加料\",\"option\":[\"雙層肉\",\"2倍起司\"]}]"
+            }]
         },
         orderStr: "[{\"_id\":\"62e34a28167d90df4ef71efc\",\"name\":\"超大漢堡\",\"price\":169,\"type\":\"漢堡\",\"discount\":null,\"note\":\"\",\"options\":\"[{\\\"title\\\":\\\"肉種\\\",\\\"option\\\":\\\"牛肉\\\"},{\\\"title\\\":\\\"加料\\\",\\\"option\\\":[\\\"雙層肉\\\",\\\"2倍起司\\\"]}]\"}]",
         discountStr: "[\"滿100元，現省15元\"]",

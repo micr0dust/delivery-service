@@ -3975,21 +3975,33 @@
     "order": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "string",
-          "example": "62e34a28167d90df4ef71efc"
+        "tableware": {
+          "type": "boolean",
+          "example": true
         },
-        "count": {
-          "type": "number",
-          "example": 1
-        },
-        "note": {
-          "type": "string",
-          "example": ""
-        },
-        "options": {
-          "type": "string",
-          "example": "[{\"title\":\"肉種\",\"option\":\"牛肉\"},{\"title\":\"加料\",\"option\":[\"雙層肉\",\"2倍起司\"]}]"
+        "orders": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "example": "62e34a28167d90df4ef71efc"
+              },
+              "count": {
+                "type": "number",
+                "example": 1
+              },
+              "note": {
+                "type": "string",
+                "example": ""
+              },
+              "options": {
+                "type": "string",
+                "example": "[{\"title\":\"肉種\",\"option\":\"牛肉\"},{\"title\":\"加料\",\"option\":[\"雙層肉\",\"2倍起司\"]}]"
+              }
+            }
+          }
         }
       }
     },
