@@ -66,6 +66,14 @@
     var fgender;
     var fbirthday;
 
+    let urlparm = window.location.href;
+    if (window.location.href.split('?')[1]) {
+        urlparm = window.location.href.split('?')[1];
+        if (urlparm.split('&')[0].split('=')[0] == "refresh_token")
+            if (urlparm.split('&')[0].split('=')[1] != "")
+                localStorage.setItem('refresh_token', urlparm.split('&')[0].split('=')[1]);
+    }
+
     function editFn() {
         document.getElementById('phone').disabled = false;
         document.getElementById('gender').disabled = false;
@@ -125,13 +133,6 @@
     }
 
     async function getInfoFn() {
-        let urlparm = window.location.href;
-        if (window.location.href.split('?')[1]) {
-            urlparm = window.location.href.split('?')[1];
-            if (urlparm.split('&')[0].split('=')[0] == "refresh_token")
-                if (urlparm.split('&')[0].split('=')[1] != "")
-                    localStorage.setItem('refresh_token', urlparm.split('&')[0].split('=')[1]);
-        }
         const result = await getMember();
         const data = JSON.parse(result);
         if (!data.result.picture) {
@@ -151,7 +152,11 @@
         if (data.result.update) document.getElementById('update').innerText = "上次更新：" + data.result.update;
         checkInputFn(data.result['verityCode'], data.result['phoneVerify']);
     }
-    getInfoFn();
+
+    if (localStorage.redirct) {
+        localStorage.removeItem('redirct');
+        location.href = localStorage.redirct;
+    } else getInfoFn();
 
     function random(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
