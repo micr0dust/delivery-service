@@ -950,25 +950,30 @@
                       "type": "string",
                       "example": "usermail123@gmail.com"
                     },
-                    "create_date": {
+                    "locale": {
                       "type": "string",
-                      "example": "2022-04-16 22:17:56"
+                      "example": "zh-TW"
                     },
-                    "update_date": {
+                    "picture": {
                       "type": "string",
-                      "example": "2022-04-16 22:56:18"
+                      "example": "https://lh3.googleusercontent.com/a/xxxxxxxxxxxx"
+                    },
+                    "role": {
+                      "type": "array",
+                      "example": [
+                        "user"
+                      ],
+                      "items": {
+                        "type": "string"
+                      }
                     },
                     "verityCode": {
                       "type": "boolean",
                       "example": true
                     },
-                    "phone": {
-                      "type": "string",
-                      "example": "0987654321"
-                    },
-                    "birthday": {
-                      "type": "string",
-                      "example": "2022-11-06"
+                    "phoneVerify": {
+                      "type": "boolean",
+                      "example": false
                     }
                   }
                 }

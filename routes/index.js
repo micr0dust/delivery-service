@@ -374,13 +374,15 @@ router.get('/user/info', middleWave, memberModifyMethod.getUserInfo, () => {
                     status: '成功獲取使用者資料',
                     code: true,
                     result: {
-                        name:"吳玼芢",
-                        email:"usermail123@gmail.com",
-                        create_date:"2022-04-16 22:17:56",
-                        update_date:"2022-04-16 22:56:18",
-                        verityCode: true,
-                        phone:"0987654321",
-                        birthday:"2022-11-06",
+                        "name": "吳玼芢",
+                        "email": "usermail123@gmail.com",
+                        "locale": "zh-TW",
+                        "picture": "https://lh3.googleusercontent.com/a/xxxxxxxxxxxx",
+                        "role": [
+                        "user"
+                        ],
+                        "verityCode": true,
+                        "phoneVerify": false
                     }
                 }
             }
