@@ -79,7 +79,7 @@ function onSignIn(googleUser) {
                 icon: 'error',
                 title: '發生錯誤',
                 text: response.status
-            })
+            });
         }
         return response.text();
     }).then(function(data) {

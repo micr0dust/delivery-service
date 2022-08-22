@@ -17,14 +17,19 @@ module.exports = async function storeUpdate(data) {
 
 
         // 更新資料庫資料
-        let putData = {};
-        if (data.name) putData.name = data.name;
-        if (data.address) putData.address = data.address;
-        if (data.place) putData.place = data.place;
-        if (data.allDiscount) putData.allDiscount = data.allDiscount;
-        if (data.timeEstimate) putData.timeEstimate = data.timeEstimate;
-        if (data.businessTime) {
-            const businessTime = JSON.parse(data.businessTime);
+        const putData = {
+            name: data.name,
+            address: data.address,
+            place: data.place,
+            allDiscount: data.allDiscount,
+            timeEstimate: data.timeEstimate,
+            businessTime: data.businessTime
+        };
+
+        Object.keys(putData).forEach((key) => !putData[key] && delete putData[key]);
+
+        if (putData.businessTime) {
+            const businessTime = JSON.parse(putData.businessTime);
             if (!(businessTime[0].constructor === Array))
                 throw new Error("營業時間為 24x7 的二維陣列");
             for (let i = 0; i < 24; i++)
@@ -34,16 +39,12 @@ module.exports = async function storeUpdate(data) {
                     else if (typeof businessTime[i][j] != 'boolean')
                         throw new Error(`營業時間陣列[${i}][${j}] 須為 boolean`);
                 }
-
             putData.businessTime = JSON.parse(data.businessTime);
         }
 
-        for (key in putData)
-            await store.updateOne({ _id: ObjectId(storeID) }, {
-                $set: {
-                    [key]: putData[key]
-                }
-            });
+        await store.updateOne({ _id: ObjectId(storeID) }, {
+            $set: putData
+        });
         return putData;
     } catch (err) {
         throw err;

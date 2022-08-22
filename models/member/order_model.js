@@ -8,8 +8,8 @@ let check = new Check();
 let discount = new Discount();
 
 module.exports = async function order(data, finalOrder) {
-    let orderData = JSON.parse(data.order);
-    let orderList = orderData['orders'];
+    const orderData = JSON.parse(data.order);
+    const orderList = orderData['orders'];
     await client.connect();
     const db = client.db(config.mongo.database);
     const member = db.collection(config.mongo.member);
@@ -18,7 +18,9 @@ module.exports = async function order(data, finalOrder) {
     const order = db.collection(config.mongo.order);
 
     try {
-        const memberResult = await member.findOne({ _id: ObjectId(data.id) });
+        if (!data.id) throw new Error('id 為必填內容');
+        const userID = data.id;
+        const memberResult = await member.findOne({ _id: ObjectId(userID) });
         if (!memberResult) throw new Error('查無帳號，請重新登入');
         if (!memberResult['phoneVerify']['verified']) throw new Error('未通過手機驗證，無法訂餐');
 
@@ -27,64 +29,63 @@ module.exports = async function order(data, finalOrder) {
 
         const productOwner = await store.findOne({ _id: ObjectId(firestProduct.belong) });
         if (!productOwner) throw new Error('查無商品商家');
-        data.store = productOwner.url;
-        data.store_info = {
-            name: productOwner.name,
-            address: productOwner.address
-        };
 
         // Json 格式檢查
         if (typeof orderData.tableware != "boolean") throw new Error("tableware 型別必須是 boolean");
+
+        let checked = [];
         for (let i = 0; i < orderList.length; i++) {
             if (!check.checkHexStringId(orderList[i].id)) throw new Error("Json格式錯誤-> 'id':'" + orderList[i].id + "' ");
             if (!check.checkCount(orderList[i].count)) throw new Error("Json格式錯誤-> 'count':'" + orderList[i].count + "' ");
             if (!check.checkDescribe(orderList[i].note)) throw new Error("Json格式錯誤-> 'note':'" + orderList[i].note + "' ");
-            orderList[i] = {
+            checked.push({
                 id: orderList[i].id,
                 count: orderList[i].count,
                 note: orderList[i].note,
                 options: orderList[i].options
-            };
+            });
         }
 
-        let testRecords = []
-        let finalRecords = [];
-        let products = [];
-        for (let i = 0; i < orderList.length; i++)
-            products.push(ObjectId(orderList[i].id));
+        const testRecords = [];
+        const finalRecords = [];
+        const products = [];
+        const checkedOrder = checked;
+        for (let i = 0; i < checkedOrder.length; i++)
+            products.push(ObjectId(checkedOrder[i].id));
         const productResult = await product.find({ _id: { $in: products } }).toArray();
         if (!productResult) throw new Error('查無商品');
         for (let i = 0; i < productResult.length; i++)
             if (productResult[i].belong != productOwner._id.toString())
                 throw new Error('無法跨店家購買：' + productResult[i].id);
-        for (let i = 0; i < orderList.length; i++) {
-            if (!productResult.some(item => item._id.toString() === orderList[i].id))
+        for (let i = 0; i < checkedOrder.length; i++) {
+            if (!productResult.some(item => item._id.toString() === checkedOrder[i].id))
                 throw new Error(
                     '在提交的訂單中找不到關於 ' +
-                    orderList[i].id +
+                    checkedOrder[i].id +
                     ' 商品的資料'
                 );
-            let product = productResult.filter(
-                function(item) { return (item._id.toString() === orderList[i].id); }
+            const aProduct = productResult.filter(
+                function(item) { return (item._id.toString() === checkedOrder[i].id); }
             )[0];
-            let newPrice, newOptions;
+
             //選項處理
-            if (product.options) {
-                let arrOptions = JSON.parse(product.options);
-                let orderOptions = JSON.parse(orderList[i].options);
+            let newPrice, newOptions;
+            if (aProduct.options) {
+                let arrOptions = JSON.parse(aProduct.options);
+                let orderOptions = JSON.parse(checkedOrder[i].options);
                 let optionData = [];
-                let price = parseFloat(product.price);
+                let price = parseFloat(aProduct.price);
                 for (let j = 0; j < arrOptions.length; j++) {
                     const found = orderOptions.find(opt => opt['title'] === arrOptions[j]['title']);
                     if (found) {
                         if (arrOptions[j]['multiple'] === true) {
                             if (!Array.isArray(found['option'])) throw new Error(
-                                `商品 ${orderList[i].id} 中，的選項 ${arrOptions[j]['title']} 為複選，需用 List 處理`
+                                `商品 ${checkedOrder[i].id} 中，的選項 ${arrOptions[j]['title']} 為複選，需用 List 處理`
                             );
                             for (let k = 0; k < found['option'].length; k++) {
                                 const optData = (arrOptions[j]['option']).find(opt => opt['name'] === found['option'][k]);
                                 if (!optData) throw new Error(
-                                    `商品 ${orderList[i].id} 中的選項 ${arrOptions[j]['title']}，查無子選項 ${found['option'][k]}`
+                                    `商品 ${checkedOrder[i].id} 中的選項 ${arrOptions[j]['title']}，查無子選項 ${found['option'][k]}`
                                 );
                                 price += parseFloat(optData.cost);
                             }
@@ -92,41 +93,40 @@ module.exports = async function order(data, finalOrder) {
                         } else {
                             const optData = (arrOptions[j]['option']).find(opt => opt['name'] === found['option']);
                             if (!optData) throw new Error(
-                                `商品 ${orderList[i].id} 中的選項 ${arrOptions[j]['title']}，查無子選項 ${found['option']}`
+                                `商品 ${checkedOrder[i].id} 中的選項 ${arrOptions[j]['title']}，查無子選項 ${found['option']}`
                             );
                             price += parseFloat(optData.cost);
                             optionData.push(found);
                         }
                     } else if (arrOptions[j]['require']) throw new Error(
-                        `商品 ${orderList[i].id} 中，的選項 ${arrOptions[j]['name']} 為必選`
+                        `商品 ${checkedOrder[i].id} 中，的選項 ${arrOptions[j]['name']} 為必選`
                     );
                 }
                 newPrice = price;
                 newOptions = JSON.stringify(optionData);
             }
 
-            const testRecord = {
-                _id: product._id.toString(),
-                name: product.name,
+            for (let j = 0; j < checkedOrder[i].count; j++)
+                testRecords.push({
+                    _id: aProduct._id.toString(),
+                    name: aProduct.name,
+                    price: newPrice,
+                    type: aProduct.type,
+                    discount: (aProduct.discount) ? aProduct.discount : null,
+                    note: checkedOrder[i].note,
+                    options: newOptions
+                });
+
+            finalRecords.push({
+                _id: aProduct._id.toString(),
+                name: aProduct.name,
                 price: newPrice,
-                type: product.type,
-                discount: (product.discount) ? product.discount : null,
-                note: orderList[i].note,
-                options: newOptions
-            };
-            const record = {
-                _id: product._id.toString(),
-                name: product.name,
-                price: newPrice,
-                type: product.type,
-                discount: (product.discount) ? product.discount : null,
-                note: orderList[i].note,
+                type: aProduct.type,
+                discount: (aProduct.discount) ? aProduct.discount : null,
+                note: checkedOrder[i].note,
                 options: newOptions,
-                count: orderList[i].count
-            };
-            for (let j = 0; j < orderList[i].count; j++)
-                testRecords.push(testRecord);
-            finalRecords.push(record);
+                count: checkedOrder[i].count
+            });
         }
 
         //折扣處理
@@ -141,15 +141,17 @@ module.exports = async function order(data, finalOrder) {
                     const discounts = testRecords.filter(
                         function(item) { return (item.discount[tag]); }
                     );
-                    if (discounter.method = "exceedPriceDiscount") discountSum += discount.exceedPriceDiscount(discounts, discounter);
-                    if (discounter.method = "exceedCountDiscount") discountSum += discount.exceedCountDiscount(discounts, discounter);
+                    if (discounter.method = "exceedPriceDiscount")
+                        discountSum += discount.exceedPriceDiscount(discounts, discounter);
+                    if (discounter.method = "exceedCountDiscount")
+                        discountSum += discount.exceedCountDiscount(discounts, discounter);
                     hadDiscount.add(testRecords[tag]);
                 }
             }
         }
         let sum = 0;
         let allDiscountSum = 0;
-        let discountList = [];
+        const discountList = [];
         for (let i = 0; i < testRecords.length; i++)
             sum += testRecords[i].price;
         sum = (sum - discountSum > 0) ? sum - discountSum : 0;
@@ -158,47 +160,57 @@ module.exports = async function order(data, finalOrder) {
             for (let i = 0; i < allDiscount.length; i++) {
                 let discountMessage = null;
                 if (allDiscount[i].method === "exceedPriceDiscount" && sum >= parseInt(allDiscount[i].goal)) {
-                    allDiscountSum += (parseInt(allDiscount[i].discount) >= 1) ? parseInt(allDiscount[i].discount) : sum * (1 - parseFloat(allDiscount[i].discount));
-                    discountMessage = (parseInt(allDiscount[i].discount) >= 1) ? `滿${parseInt(allDiscount[i].goal)}元，現省${parseInt(allDiscount[i].discount)}元` : `滿${parseInt(allDiscount[i].goal)}元，打${parseFloat(allDiscount[i].discount)*10}折`;
+                    allDiscountSum += (parseInt(allDiscount[i].discount) >= 1) ?
+                        parseInt(allDiscount[i].discount) :
+                        sum * (1 - parseFloat(allDiscount[i].discount));
+                    discountMessage = (parseInt(allDiscount[i].discount) >= 1) ?
+                        `滿${parseInt(allDiscount[i].goal)}元，現省${parseInt(allDiscount[i].discount)}元` :
+                        `滿${parseInt(allDiscount[i].goal)}元，打${parseFloat(allDiscount[i].discount)*10}折`;
                 }
                 if (allDiscount[i].method === "exceedCountDiscount") {
                     allDiscountSum += discount.exceedCountDiscount(testRecords, allDiscount[i]);
-                    discountMessage = (parseInt(allDiscount[i].discount) >= 1) ? `滿${parseInt(allDiscount[i].goal)}件商品，現省${parseInt(allDiscount[i].discount)}元` : `滿${parseInt(allDiscount[i].goal)}件商品，打${parseFloat(allDiscount[i].discount)*10}折`;
+                    discountMessage = (parseInt(allDiscount[i].discount) >= 1) ?
+                        `滿${parseInt(allDiscount[i].goal)}件商品，現省${parseInt(allDiscount[i].discount)}元` :
+                        `滿${parseInt(allDiscount[i].goal)}件商品，打${parseFloat(allDiscount[i].discount)*10}折`;
                 }
                 if (discountMessage) discountList.push(discountMessage);
             }
         }
-        data.tableware = orderData.tableware;
-        data.order = JSON.stringify(finalRecords);
-        data.total = sum - allDiscountSum;
-        data.discount = JSON.stringify(discountList);
-        data.complete = false;
-        data.accept = false;
+
+        const final = {
+            id: userID,
+            store: productOwner.url,
+            store_info: {
+                name: productOwner.name,
+                address: productOwner.address
+            },
+            tableware: orderData.tableware,
+            order: JSON.stringify(finalRecords),
+            total: sum - allDiscountSum,
+            discount: JSON.stringify(discountList),
+            complete: false,
+            accept: false
+        };
 
         // 將資料寫入資料庫
-        let result;
-        if (finalOrder)
-            try {
-                const insertOrder = await order.insertOne(data);
-                if (!insertOrder) throw new Error('資料庫訂單寫入失敗');
-                const expire = order.createIndex({ DATE: 1 }, { expireAfterSeconds: 86400 * 60 });
-                if (!expire) throw new Error('資料庫訂單時效寫入失敗');
-                result = await order.findOne({ _id: insertOrder.insertedId });
-                if (!result) throw new Error('資料庫中查無寫入的訂單');
-            } catch (err) {
-                throw err;
-            }
-        else result = data;
+        if (finalOrder) {
+            const insertOrder = await order.insertOne(final);
+            if (!insertOrder) throw new Error('資料庫訂單寫入失敗');
+            const expire = order.createIndex({ DATE: 1 }, { expireAfterSeconds: 86400 * 60 });
+            if (!expire) throw new Error('資料庫訂單時效寫入失敗');
+            const result = await order.findOne({ _id: insertOrder.insertedId });
+            if (!result) throw new Error('資料庫中查無寫入的訂單');
+        }
 
-        let finalData = {
-            order: result.order,
-            total: result.total,
-            store: result.store,
-            store_info: result.store_info,
-            discount: result.discount,
-            tableware: result.tableware
+        const finalData = {
+            order: final.order,
+            total: final.total,
+            store: final.store,
+            store_info: final.store_info,
+            discount: final.discount,
+            tableware: final.tableware
         };
-        if (data.sale) finalData.sale = data.sale
+
         return finalData;
     } catch (err) {
         throw err;

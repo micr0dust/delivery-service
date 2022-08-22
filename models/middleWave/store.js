@@ -1,7 +1,7 @@
 const verify = require('../store/verification_model');
 const Check = require('../../service/store_check');
 const config = require('../../config/development_config');
-let check = new Check();
+const check = new Check();
 
 module.exports = (req, res, next) => {
     //var token = req.body.token || req.query.token || req.headers['token'];
@@ -17,8 +17,10 @@ module.exports = (req, res, next) => {
                 }
             }
     } */
-    let token = req.headers['token'];
-    let refresh_token = req.headers['refresh_token'];
+
+    const token = req.headers['token'];
+    const refresh_token = req.headers['refresh_token'];
+
     if (refresh_token) {
         if (check.checkNull(refresh_token)) return res.status(403).send({
             status: "token錯誤",

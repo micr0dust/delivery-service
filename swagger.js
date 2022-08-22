@@ -5,7 +5,7 @@ const options = {
     //autoHeaders: true, // Enable/Disable automatic headers capture. By default is true
     //autoQuery: true, // Enable/Disable automatic query capture. By default is true
     //autoBody: true // Enable/Disable automatic body capture. By default is true
-}
+};
 const swaggerAutogen = require('swagger-autogen')(options);
 
 const doc = {
@@ -45,9 +45,9 @@ const doc = {
         discount: '[{"method":"exceedPriceDiscount","goal":100,"discount":15}]',
         options: '[{"_id":"62e34a28167d90df4ef71efc","name":"超大漢堡","price":169,"type":"漢堡","discount":null,"note":"","options":"[{\"title\":\"肉種\",\"option\":\"牛肉\"},{\"title\":\"加料\",\"option\":[\"雙層肉\",\"2倍起司\"]}]","count":1}]'
     }
-}
+};
 
-const outputFile = './api-docs.json'
-const endpointsFiles = ['./app.js']
+const outputFile = './api-docs.json';
+const endpointsFiles = ['./app.js'];
 
 swaggerAutogen(outputFile, endpointsFiles, doc);

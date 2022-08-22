@@ -86,38 +86,51 @@ module.exports = class Member {
                         result: err.message
                     });
                 });
-        };
+        }
     }
 
     //登入
     postLogin(req, res, next) {
         // 進行加密
-        const password = encryption(req.body.password);
+        const password = req.body.password ? encryption(req.body.password) : null;
 
-        // 獲取client端資料
-        const memberData = {
+        if (!password) {
+            return res.status(400).send({
+                status: '登入失敗',
+                code: false,
+                result: '必須輸入密碼'
+            });
+        } else if (!check.checkPassword(req.body.password)) {
+            return res.status(400).send({
+                status: '登入失敗',
+                code: false,
+                result: '密碼必須由8個以上的大小寫字母和數字組成'
+            });
+        }
+
+        const data = {
             email: req.body.email,
             password: password
         };
 
-        loginAction(memberData)
-            .then(rows => {
-                if (check.checkNull(rows) === true) {
+        loginAction(data)
+            .then(result => {
+                if (check.checkNull(result) === true) {
                     res.status(400).send({
                         status: '登入失敗',
                         code: false,
                         result: '請輸入正確的帳號或密碼'
                     })
-                } else if (check.checkNull(rows) === false) {
-                    const token = getTokenFn(rows._id.toString(), 30, config.secret);
+                } else if (check.checkNull(result) === false) {
+                    const token = getTokenFn(result._id.toString(), 30, config.secret);
                     res.setHeader('token', token);
-                    res.setHeader('refresh_token', rows.refresh_token);
+                    res.setHeader('refresh_token', result.refresh_token);
                     res.json({
                         status: '登入成功',
                         code: true,
                         result: {
-                            name: rows.name,
-                            role: rows.role
+                            name: result.name,
+                            role: result.role
                         }
                     });
                 }
@@ -133,8 +146,7 @@ module.exports = class Member {
 
     //資料更新
     putUpdate(req, res, next) {
-        let password = null;
-        if (req.body.password) password = encryption(req.body.password);
+        const password = req.body.password ? encryption(req.body.password) : null;
 
         if (password && !check.checkPassword(req.body.password)) {
             return res.status(400).send({
@@ -143,7 +155,8 @@ module.exports = class Member {
                 result: '密碼必須由8個以上的大小寫字母和數字組成'
             });
         };
-        const memberUpdateData = {
+
+        const data = {
             update_date: onTime(),
             name: req.body.name,
             phone: req.body.phone,
@@ -151,49 +164,49 @@ module.exports = class Member {
             birthday: req.body.birthday,
             password: password
         };
-        for (let prop in memberUpdateData)
-            if (!memberUpdateData[prop]) delete memberUpdateData[prop];
-        if (memberUpdateData.name && !check.checkName(memberUpdateData.name)) {
+
+        Object.keys(data).forEach((key) => !data[key] && delete data[key]);
+
+        if (data.name && !check.checkName(data.name)) {
             return res.status(400).send({
                 status: '更改失敗',
                 code: false,
                 result: '姓名必須介於 1~20 字元'
             });
         }
-        if (memberUpdateData.email && !check.checkEmail(memberUpdateData.email)) {
+        if (data.email && !check.checkEmail(data.email)) {
             return res.status(400).send({
                 status: '更改失敗',
                 code: false,
                 result: '請輸入正確的Eamil格式 (如format24@gmail.com)'
             });
         }
-        if (memberUpdateData.phone && !check.checkPhone(memberUpdateData.phone)) {
+        if (data.phone && !check.checkPhone(data.phone)) {
             return res.status(400).send({
                 status: '更改失敗',
                 code: false,
                 result: '請輸入正確的台灣行動電話號碼'
             });
         }
-        if (memberUpdateData.gender && !check.checkGender(memberUpdateData.gender)) {
+        if (data.gender && !check.checkGender(data.gender)) {
             return res.status(400).send({
                 status: '更改失敗',
                 code: false,
                 result: '請輸入正確的性別'
             });
         }
-        if (memberUpdateData.birthday && !check.checkBirthday(memberUpdateData.birthday)) {
+        if (data.birthday && !check.checkBirthday(data.birthday)) {
             return res.status(400).send({
                 status: '更改失敗',
                 code: false,
                 result: '請輸入正確的生日格式 (yyyy-mm-dd)'
             });
         }
-        updateAction(req.headers['token'], memberUpdateData).then(
-            result => {
+        updateAction(req.headers['token'], data).then(result => {
                 res.json({
                     status: '更改成功',
                     code: true,
-                    result: '資料更改成功'
+                    result: result
                 });
             },
             err => {
@@ -208,8 +221,7 @@ module.exports = class Member {
 
     //刪除帳號
     deleteAccount(req, res, next) {
-        let password = null;
-        if (req.body.password) password = encryption(req.body.password);
+        const password = req.body.password ? encryption(req.body.password) : null;
         if (password && !check.checkPassword(req.body.password)) {
             return res.status(400).send({
                 status: '刪除失敗',
@@ -236,8 +248,7 @@ module.exports = class Member {
                     code: false,
                     result: err.message
                 });
-            }
-        );
+            });
     }
 
     //驗證碼寄出
@@ -256,8 +267,7 @@ module.exports = class Member {
                     code: false,
                     result: err.message
                 });
-            }
-        );
+            });
     }
 
     //驗證 Email 驗證碼
@@ -275,29 +285,28 @@ module.exports = class Member {
                     code: false,
                     result: "驗證碼錯誤"
                 });
-            } else {
-                const data = {
-                    id: req.headers['token'],
-                    verityCode: req.body.verityCode,
-                    time: onTime()
-                };
-                emailVerify(data).then(
-                    result => {
-                        res.json({
-                            status: '驗證成功',
-                            code: true,
-                            result: result
-                        });
-                    },
-                    err => {
-                        res.status(400).send({
-                            status: '驗證失敗',
-                            code: false,
-                            result: err.message
-                        });
-                    }
-                );
             }
+            const data = {
+                id: req.headers['token'],
+                verityCode: req.body.verityCode,
+                time: onTime()
+            };
+
+            emailVerify(data).then(
+                result => {
+                    res.json({
+                        status: '驗證成功',
+                        code: true,
+                        result: result
+                    });
+                },
+                err => {
+                    res.status(400).send({
+                        status: '驗證失敗',
+                        code: false,
+                        result: err.message
+                    });
+                });
         });
     }
 
@@ -317,15 +326,15 @@ module.exports = class Member {
                     code: false,
                     result: err.message
                 });
-            }
-        );
+            });
     }
 
     //取得商品資料
     getProductInfo(req, res, next) {
-        let data = {
+        const data = {
             url: req.headers['id']
         };
+
         getProduct(data).then(
             result => {
                 res.json({
@@ -340,8 +349,7 @@ module.exports = class Member {
                     code: false,
                     result: err.message
                 });
-            }
-        );
+            });
     }
 
     //取得所有店家
@@ -360,8 +368,7 @@ module.exports = class Member {
                     code: false,
                     result: err.message
                 });
-            }
-        );
+            });
     }
 
     //訂單寄出
@@ -371,13 +378,14 @@ module.exports = class Member {
             order: JSON.stringify(req.body),
             DATE: new Date()
         };
+
         orderAction(data, true).then(
             result => {
                 res.status(201).json({
                     status: '點餐成功',
                     code: true,
                     result: result
-                })
+                });
             },
             err => {
                 res.status(500).send({
@@ -396,6 +404,7 @@ module.exports = class Member {
             order: JSON.stringify(req.body),
             DATE: new Date()
         };
+
         orderAction(data, false).then(
             result => {
                 res.status(201).json({
@@ -416,9 +425,10 @@ module.exports = class Member {
 
     //取得歷史訂單
     getOrder(req, res, next) {
-        let data = {
+        const data = {
             id: req.headers['token']
         };
+
         getOrder(data).then(
             result => {
                 res.json({
@@ -433,8 +443,7 @@ module.exports = class Member {
                     code: false,
                     result: err.message
                 });
-            }
-        );
+            });
     }
 
     //取得使用者 token
@@ -471,8 +480,8 @@ module.exports = class Member {
 
     //googleCallback
     googleCallback(req, res, next) {
-        var code = req.query.code;
-        var token_option = {
+        const code = req.query.code;
+        const token_option = {
             url: "https://www.googleapis.com/oauth2/v4/token",
             method: "POST",
             headers: {
@@ -535,89 +544,16 @@ module.exports = class Member {
                             result: err.message
                         });
                     });
-                //res.send(body);
             });
-        })
+        });
     }
 
-    //googleMobileLogin
-    // googleMobileLogin(req, res, next) {
-    //     async function verify() {
-    //         const ticket = await client.verifyIdToken({
-    //             idToken: req.headers['google_token'],
-    //             audience: "1047924292997-pd5hliq9cpgbdomqhlq3j9986e8crost.apps.googleusercontent.com", // Specify the CLIENT_ID of the app that accesses the backend
-    //             // Or, if multiple clients access the backend:
-    //             //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
-    //         });
-    //         const payload = ticket.getPayload();
-    //         const userid = payload['sub'];
-    //         console.log(userid);
-    //         // If request specified a G Suite domain:
-    //         // const domain = payload['hd'];
-    //     }
-    //     verify().catch(err => {
-    //         res.status(400).send({
-    //             status: '登入失敗',
-    //             code: false,
-    //             result: err.message
-    //         });
-    //     });
-    //     let info_option = {
-    //         url: "https://oauth2.googleapis.com/tokeninfo?" + "id_token=" + req.headers['google_token'],
-    //         method: "GET",
-    //     };
-    //     request(info_option, function(err, response, body) {
-    //         if (err) {
-    //             res.status(500).send(err);
-    //         }
-    //         console.log(body)
-    //         googleLogin(body, onTime).then(rows => {
-    //                 if (check.checkNull(rows) === true) {
-    //                     res.status(400).send({
-    //                         status: '登入失敗',
-    //                         code: true,
-    //                         result: "需要存取帳戶的權限"
-    //                     });
-    //                     return;
-    //                 }
-    //                 if (check.checkNull(rows) === false) {
-    //                     const token = getTokenFn(rows._id.toString(), 30, config.secret);
-    //                     res.setHeader('token', token);
-    //                     res.setHeader('refresh_token', rows.refresh_token);
-    //                     res.json({
-    //                         status: '登入成功',
-    //                         code: true,
-    //                         result: {
-    //                             name: rows.name,
-    //                             email: rows.email,
-    //                             verityCode: rows.verityCode,
-    //                             locale: rows.locale,
-    //                             picture: rows.picture,
-    //                             update_date: rows.update_date,
-    //                             create_date: rows.create_date,
-    //                             role: rows.role
-    //                         }
-    //                     });
-    //                 }
-    //             })
-    //             .catch(err => {
-    //                 res.status(400).send({
-    //                     status: '登入失敗',
-    //                     code: false,
-    //                     result: err.message
-    //                 });
-    //             });
-    //         //res.send(body);
-    //     });
-    // }
-
-    //googleMobileLogin
-
     googleMobileLogin(req, res, next) {
-        let info_option = {
+        const info_option = {
             url: "https://www.googleapis.com/oauth2/v1/userinfo?" + "access_token=" + req.headers['google_token'],
             method: "GET",
         };
+
         request(info_option, function(err, response, body) {
             if (err) {
                 res.send(err);
@@ -658,7 +594,6 @@ module.exports = class Member {
                         result: err.message
                     });
                 });
-            //res.send(body);
         });
     }
 
@@ -667,6 +602,7 @@ module.exports = class Member {
         const data = {
             time: onTime()
         };
+
         postTwilioSend(req.headers['token'], data).then(
             result => {
                 res.json({
@@ -681,8 +617,7 @@ module.exports = class Member {
                     code: false,
                     result: err.message
                 });
-            }
-        );
+            });
     }
 
     // 驗證簡訊驗證碼

@@ -9,27 +9,25 @@ module.exports = async function getUser(id) {
     const collection = db.collection(config.mongo.member);
 
     try {
-        try {
-            const findResult = await collection.findOne({ _id: ObjectId(id) });
-            if (!findResult) throw new Error("查無帳號，請重新登入");
-            let result = {}
-            if (findResult.name) result.name = findResult.name;
-            if (findResult.email) result.email = findResult.email;
-            if (findResult.phone) result.phone = findResult.phone;
-            if (findResult.birthday) result.birthday = findResult.birthday;
-            if (findResult.gender) result.gender = findResult.gender;
-            if (findResult.locale) result.locale = findResult.locale;
-            if (findResult.picture) result.picture = findResult.picture;
-            if (findResult.store_id) result.store_id = findResult.store_id;
-            if (findResult.role) result.role = findResult.role;
-            result.verityCode = (findResult.verityCode === true);
-            if (findResult.update_date) result.update_date = findResult.update_date;
-            if (findResult.create_date) result.create_date = findResult.create_date;
-            if (findResult.phoneVerify) result.phoneVerify = findResult.phoneVerify.verified;
-            return result;
-        } catch (err) {
-            throw err;
-        }
+        const findResult = await collection.findOne({ _id: ObjectId(id) });
+        if (!findResult) throw new Error("查無帳號，請重新登入");
+        const data = {
+            name: findResult.name || null,
+            email: findResult.email || null,
+            phone: findResult.phone || null,
+            birthday: findResult.birthday || null,
+            gender: findResult.gender || null,
+            locale: findResult.locale || null,
+            picture: findResult.picture || null,
+            store_id: findResult.store_id || null,
+            role: findResult.role || null,
+            verityCode: findResult.verityCode === true,
+            update_date: findResult.update_date || null,
+            create_date: findResult.create_date || null,
+            phoneVerify: findResult.phoneVerify.verified || null
+        };
+        Object.keys(data).forEach((key) => !data[key] && delete data[key]);
+        return data;
     } catch (err) {
         throw err;
     } finally {

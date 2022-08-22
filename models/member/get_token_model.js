@@ -9,13 +9,9 @@ module.exports = async function getToken(id) {
     const collection = db.collection(config.mongo.member);
 
     try {
-        try {
-            const findResult = await collection.findOne({ _id: ObjectId(id) });
-            if (findResult) return id;
-            throw new Error("查無帳號，請重新登入");
-        } catch (err) {
-            throw err;
-        }
+        const findResult = await collection.findOne({ _id: ObjectId(id) });
+        if (findResult) return id;
+        throw new Error("查無帳號，請重新登入");
     } catch (err) {
         throw err;
     } finally {

@@ -7,22 +7,18 @@ module.exports = async function getProduct() {
     const store = db.collection(config.mongo.store);
 
     try {
-        try {
-            const storeResult = await store.find({}).toArray();
-            if (!storeResult) throw new Error("查無商家");
-            for (let i = 0; i < storeResult.length; i++) {
-                storeResult[i] = {
-                    name: storeResult[i].name,
-                    address: storeResult[i].address,
-                    id: storeResult[i].url,
-                    place: storeResult[i].place,
-                    discount: storeResult[i].allDiscount || "[]"
-                }
+        const storeResult = await store.find({}).toArray();
+        if (!storeResult) throw new Error("查無商家");
+        for (let i = 0; i < storeResult.length; i++) {
+            storeResult[i] = {
+                name: storeResult[i].name,
+                address: storeResult[i].address,
+                id: storeResult[i].url,
+                place: storeResult[i].place,
+                discount: storeResult[i].allDiscount || "[]"
             }
-            if (storeResult) return storeResult;
-        } catch (err) {
-            throw err;
         }
+        if (storeResult) return storeResult;
     } catch (err) {
         throw err;
     } finally {

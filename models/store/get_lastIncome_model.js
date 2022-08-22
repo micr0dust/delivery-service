@@ -27,8 +27,6 @@ module.exports = async function income(id) {
             dateEnd.setMonth(dateEnd.getMonth());
             dateStart.setDate(1);
             dateEnd.setDate(1);
-            //console.log(dateStart.toISOString())
-            //console.log(dateEnd.toISOString())
             const findResult = await order.find({
                 store: storeUrl,
                 DATE: {
@@ -38,7 +36,6 @@ module.exports = async function income(id) {
             }).toArray();
             if (!findResult) throw new Error("查無訂單");
             if (findResult) {
-                //console.log(findResult)
                 let sum = 0;
                 findResult.forEach(order => {
                     sum += order.total;

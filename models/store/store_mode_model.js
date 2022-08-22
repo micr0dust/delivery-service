@@ -5,21 +5,16 @@ const jwt = require('jsonwebtoken');
 var ObjectId = require('mongodb').ObjectId;
 
 module.exports = async function loginAction(data) {
-    let storeData = null;
     await client.connect();
     const db = client.db(config.mongo.database);
     const store = db.collection(config.mongo.store);
     const member = db.collection(config.mongo.member);
     try {
-        try {
-            const memberResult = await member.findOne({ _id: ObjectId(data.id) });
-            if (!memberResult) throw new Error("請確認登入狀態");
-            const storeResult = await store.findOne({ _id: ObjectId(memberResult.store_id) });
-            if (!storeResult) throw new Error("查無店家帳號，請建立店家");
-            storeData = storeResult;
-        } catch (err) {
-            throw err;
-        }
+        const memberResult = await member.findOne({ _id: ObjectId(data.id) });
+        if (!memberResult) throw new Error("請確認登入狀態");
+        const storeResult = await store.findOne({ _id: ObjectId(memberResult.store_id) });
+        if (!storeResult) throw new Error("查無店家帳號，請建立店家");
+        let storeData = storeResult;
 
         storeData.refresh_token = jwt.sign({
                 algorithm: 'HS256',
@@ -30,18 +25,15 @@ module.exports = async function loginAction(data) {
         );
 
         // 更新refresh_token
-        try {
-            const refreshToken = await store.updateOne({ _id: storeData._id }, {
-                $set: {
-                    last_login: data.time,
-                    refresh_token: storeData.refresh_token
-                }
-            });
-            if (!refreshToken) throw new Error("refresh_token 更新發生錯誤");
-            return storeData;
-        } catch (err) {
-            throw err;
-        }
+        const refreshToken = await store.updateOne({ _id: storeData._id }, {
+            $set: {
+                last_login: data.time,
+                refresh_token: storeData.refresh_token
+            }
+        });
+        if (!refreshToken) throw new Error("refresh_token 更新發生錯誤");
+
+        return storeData;
     } catch (err) {
         throw err;
     } finally {

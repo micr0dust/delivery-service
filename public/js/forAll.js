@@ -40,7 +40,7 @@ async function redirect() {
 function validFn(id, valid) {
     let element = document.getElementById(id);
     if (valid) {
-        element.classList.remove('is-invalid')
+        element.classList.remove('is-invalid');
         element.classList.add('is-valid');
     } else {
         element.classList.remove('is-valid')

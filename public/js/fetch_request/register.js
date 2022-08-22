@@ -42,7 +42,7 @@ document.getElementById("submit").addEventListener("click", function(e) {
                 icon: 'error',
                 title: data.status,
                 text: data.result
-            })
+            });
         } else {
             const result = await response.text();
             const data = JSON.parse(result);

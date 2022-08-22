@@ -13,9 +13,9 @@ module.exports = async function mailEmit(id, data) {
         if (!memberResult)
             throw new Error("查無帳號，請重新登入");
 
-        let now = new Date(data.time);
-        let past = new Date(memberResult.time);
-        let exp = now - past;
+        const now = new Date(data.time);
+        const past = new Date(memberResult.time);
+        const exp = now - past;
 
         if (memberResult["phoneVerify"]["tryTimes"] >= tryTimes)
             throw new Error("超過驗證嘗試次數，請請求新驗證碼");

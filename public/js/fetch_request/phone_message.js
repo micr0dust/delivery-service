@@ -68,7 +68,7 @@ async function pinSubmit(pin) {
                         title: data.status,
                         text: data.result
                     }).then(() => {
-                        window.location.href = '/auth'
+                        window.location.href = '/auth';
                     });
                 else
                     Swal.fire({

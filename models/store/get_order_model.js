@@ -10,23 +10,16 @@ module.exports = async function getOrder(id) {
     const store = db.collection(config.mongo.store);
 
     try {
-        let storeUrl;
-        try {
-            const storeResult = await store.findOne({ belong: id });
-            if (!storeResult) throw new Error("查無店家");
-            if (storeResult) storeUrl = storeResult.url;
-        } catch (err) {
-            throw err;
-        }
-        try {
-            const findResult = await order.find({
-                store: storeUrl
-            }).toArray();
-            if (!findResult) throw new Error("查無訂單");
-            if (findResult) return findResult;
-        } catch (err) {
-            throw err;
-        }
+        const storeResult = await store.findOne({ belong: id });
+        if (!storeResult) throw new Error("查無店家");
+        const storeUrl = storeResult.url;
+
+        const findResult = await order.find({
+            store: storeUrl
+        }).toArray();
+        if (!findResult) throw new Error("查無訂單");
+
+        return findResult;
     } catch (err) {
         throw err;
     } finally {
