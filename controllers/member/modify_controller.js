@@ -496,45 +496,29 @@ module.exports = class Member {
             }
         };
         request(token_option, function(err, resposne, body) {
-            //console.log(JSON.parse(body))
-            let access_token = JSON.parse(body).access_token;
-            console.log(access_token);
-            let info_option = {
+            const access_token = JSON.parse(body).access_token;
+            const info_option = {
                 url: "https://www.googleapis.com/oauth2/v1/userinfo?" + "access_token=" + access_token,
                 method: "GET",
             };
+
             request(info_option, function(err, response, body) {
                 if (err) {
                     res.send(err);
                 }
-                googleLogin(body, onTime).then(rows => {
-                        if (check.checkNull(rows) === true) {
-                            res.status(400).send({
+                googleLogin(body, onTime).then(result => {
+                        if (check.checkNull(result) === true) {
+                            return res.status(400).send({
                                 status: '登入失敗',
                                 code: true,
                                 result: "需要存取帳戶的權限"
                             });
-                            return;
                         }
-                        if (check.checkNull(rows) === false) {
-                            const token = getTokenFn(rows._id.toString(), 30, config.secret);
+                        if (check.checkNull(result) === false) {
+                            const token = getTokenFn(result._id.toString(), 30, config.secret);
                             //res.setHeader('token', token);
-                            res.setHeader('refresh_token', rows.refresh_token);
-                            res.redirect('/auth?refresh_token=' + rows.refresh_token);
-                            // res.json({
-                            //     status: '登入成功',
-                            //     code: true,
-                            //     result: {
-                            //         name: rows.name,
-                            //         email: rows.email,
-                            //         verityCode: rows.verityCode,
-                            //         locale: rows.locale,
-                            //         picture: rows.picture,
-                            //         update_date: rows.update_date,
-                            //         create_date: rows.create_date,
-                            //         role: rows.role
-                            //     }
-                            // });
+                            res.setHeader('refresh_token', result.refresh_token);
+                            res.redirect('/auth?refresh_token=' + result.refresh_token);
                         }
                     })
                     .catch(err => {

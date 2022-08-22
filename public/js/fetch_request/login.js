@@ -27,14 +27,10 @@ function googleLogin() {
             })
         }
         return response.text();
-    }).then(function(data) {
-        data = JSON.parse(data);
+    }).then(function(res) {
+        const data = JSON.parse(res);
         if (data) {
-            try {
-                if (data.result.role) localStorage.setItem('role', JSON.stringify(data.result.role));
-            } catch (error) {
-
-            }
+            if (data.result && data.result.role) localStorage.setItem('role', JSON.stringify(data.result.role));
             window.location.href = data.redirect_url;
         }
         //console.log(data);
@@ -60,11 +56,11 @@ function onSignIn(googleUser) {
     }
 
     document.getElementById('loader').classList.add('is-active');
-    let headersList = {
+    const headersList = {
         "Accept": "*/*",
         "id": profile.getId(),
         "Content-Type": "application/x-www-form-urlencoded"
-    }
+    };
     fetch("/member/google/login", {
         method: "GET",
         headers: headersList
@@ -82,14 +78,10 @@ function onSignIn(googleUser) {
             });
         }
         return response.text();
-    }).then(function(data) {
-        data = JSON.parse(data);
+    }).then(function(res) {
+        const data = JSON.parse(res);
         if (data) {
-            try {
-                if (data.result.role) localStorage.setItem('role', JSON.stringify(data.result.role));
-            } catch (error) {
-
-            }
+            if (data.result && data.result.role) localStorage.setItem('role', JSON.stringify(data.result.role));
             window.location.href = data.redirect_url;
         }
         //console.log(data);

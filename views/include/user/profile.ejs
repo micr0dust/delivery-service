@@ -154,8 +154,8 @@
     }
 
     if (localStorage.redirct) {
-        localStorage.removeItem('redirct');
         location.href = localStorage.redirct;
+        localStorage.removeItem('redirct');
     } else getInfoFn();
 
     function random(min, max) {
