@@ -178,6 +178,7 @@ module.exports = async function order(data, finalOrder) {
         }
 
         const final = {
+            DATE: data.DATE,
             id: userID,
             store: productOwner.url,
             store_info: {
@@ -203,6 +204,7 @@ module.exports = async function order(data, finalOrder) {
         }
 
         const finalData = {
+            DATE: data.DATE,
             order: final.order,
             total: final.total,
             store: final.store,
