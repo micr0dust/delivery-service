@@ -1,5 +1,5 @@
 # 外送系統 API 文件
 
-網站位址：<https://hello-cycu-delivery-service.herokuapp.com>
+網站位址：<https://foodone.glitch.me>
 
-API 文件：<https://hello-cycu-delivery-service.herokuapp.com/api-docs>
+API 文件：<https://foodone.glitch.me/api-docs>
