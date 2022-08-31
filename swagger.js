@@ -43,7 +43,7 @@ const doc = {
         orderStr: "[{\"_id\":\"62e34a28167d90df4ef71efc\",\"name\":\"超大漢堡\",\"price\":169,\"type\":\"漢堡\",\"discount\":null,\"note\":\"\",\"options\":\"[{\\\"title\\\":\\\"肉種\\\",\\\"option\\\":\\\"牛肉\\\"},{\\\"title\\\":\\\"加料\\\",\\\"option\\\":[\\\"雙層肉\\\",\\\"2倍起司\\\"]}]\"}]",
         discountStr: "[\"滿100元，現省15元\"]",
         discount: '[{"method":"exceedPriceDiscount","goal":100,"discount":15}]',
-        options: '[{"_id":"62e34a28167d90df4ef71efc","name":"超大漢堡","price":169,"type":"漢堡","discount":null,"note":"","options":"[{\"title\":\"肉種\",\"option\":\"牛肉\"},{\"title\":\"加料\",\"option\":[\"雙層肉\",\"2倍起司\"]}]","count":1}]'
+        options: '[{"title":"肉種","multiple":false,"requires":true,"option":[{"name":"牛肉","cost":"0"},{"name":"雞肉","cost":"0"},{"name":"豬肉","cost":"0"},{"name":"魚肉","cost":"0"}]},{"title":"加料","multiple":true,"requires":false,"option":[{"name":"雙層肉","cost":"20"},{"name":"2倍起司","cost":"10"}]}]'
     }
 };
 

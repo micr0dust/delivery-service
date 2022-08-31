@@ -2990,6 +2990,227 @@
           }
         ]
       },
+      "put": {
+        "tags": [
+          "store"
+        ],
+        "summary": "新增商品",
+        "description": "以 token 和商品資料請求，建立商品",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "required": true,
+            "description": "member access token",
+            "schema": {
+              "$ref": "#/definitions/token"
+            }
+          },
+          {
+            "name": "id",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "description": "商品ID",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          {
+            "name": "name",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "description": "商品名稱",
+            "schema": {
+              "type": "string",
+              "example": "超大漢堡"
+            }
+          },
+          {
+            "name": "price",
+            "in": "formData",
+            "type": "integer",
+            "required": true,
+            "description": "價格",
+            "schema": {
+              "type": "number",
+              "example": 139
+            }
+          },
+          {
+            "name": "describe",
+            "in": "formData",
+            "type": "string",
+            "required": false,
+            "description": "簡介",
+            "schema": {
+              "type": "string",
+              "example": "漢堡超大"
+            }
+          },
+          {
+            "name": "type",
+            "in": "formData",
+            "type": "string",
+            "required": false,
+            "description": "類別",
+            "schema": {
+              "type": "string",
+              "example": "漢堡"
+            }
+          },
+          {
+            "name": "options",
+            "in": "formData",
+            "type": "string",
+            "required": false,
+            "description": "進階選項",
+            "schema": {
+              "$ref": "#/definitions/options"
+            }
+          },
+          {
+            "name": "discount",
+            "in": "formData",
+            "type": "string",
+            "required": false,
+            "description": "折價",
+            "schema": {
+              "$ref": "#/definitions/discount"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "新增成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "新增成功"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "result": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "example": "超大漢堡"
+                    },
+                    "price": {
+                      "type": "string",
+                      "example": "139"
+                    },
+                    "describe": {
+                      "type": "string",
+                      "example": "漢堡超大"
+                    },
+                    "type": {
+                      "type": "string",
+                      "example": "漢堡"
+                    },
+                    "options": {
+                      "$ref": "#/definitions/options"
+                    },
+                    "discount": {
+                      "$ref": "#/definitions/discount"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "因格式資料錯誤導致新增失敗",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "新增失敗"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "403": {
+            "description": "token錯誤",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "token錯誤"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "result": {
+                  "type": "string",
+                  "example": "請重新登入"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "description": "因伺服器錯誤導致新增失敗",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "新增失敗"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
       "delete": {
         "tags": [
           "store"
@@ -4024,7 +4245,7 @@
     },
     "options": {
       "type": "string",
-      "example": "[{\"_id\":\"62e34a28167d90df4ef71efc\",\"name\":\"超大漢堡\",\"price\":169,\"type\":\"漢堡\",\"discount\":null,\"note\":\"\",\"options\":\"[{\"title\":\"肉種\",\"option\":\"牛肉\"},{\"title\":\"加料\",\"option\":[\"雙層肉\",\"2倍起司\"]}]\",\"count\":1}]"
+      "example": "[{\"title\":\"肉種\",\"multiple\":false,\"requires\":true,\"option\":[{\"name\":\"牛肉\",\"cost\":\"0\"},{\"name\":\"雞肉\",\"cost\":\"0\"},{\"name\":\"豬肉\",\"cost\":\"0\"},{\"name\":\"魚肉\",\"cost\":\"0\"}]},{\"title\":\"加料\",\"multiple\":true,\"requires\":false,\"option\":[{\"name\":\"雙層肉\",\"cost\":\"20\"},{\"name\":\"2倍起司\",\"cost\":\"10\"}]}]"
     }
   }
 }

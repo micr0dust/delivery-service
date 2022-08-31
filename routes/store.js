@@ -351,6 +351,107 @@ router.post('/product', middleWave, storeModifyMethod.postProduct, () => {
              }
      */
 });
+router.put('/product', middleWave, storeModifyMethod.putProduct, () => {
+    //  #swagger.summary  = '新增商品'
+    //  #swagger.description = '以 token 和商品資料請求，建立商品'
+    /*  #swagger.consumes = ['application/x-www-form-urlencoded']*/
+    /*  #swagger.parameters['token'] = {
+                in: 'header',
+                type: 'string',
+                required: 'true',
+                description: 'member access token',
+                schema: { $ref: '#/definitions/token' }
+    }
+    */
+    /*  
+        #swagger.parameters['id'] = {
+                 in: 'formData',
+                 type: 'string',
+                 required: 'true',
+                 description: '商品ID',
+                 schema: { $ref: '#/definitions/id' }
+        }
+        #swagger.parameters['name'] = {
+                 in: 'formData',
+                 type: 'string',
+                 required: 'true',
+                 description: '商品名稱',
+                 schema: "超大漢堡"
+        }
+        #swagger.parameters['price'] = {
+                 in: 'formData',
+                 type: 'integer',
+                 required: 'true',
+                 description: '價格',
+                 schema: 139
+        }
+        #swagger.parameters['describe'] = {
+                 in: 'formData',
+                 type: 'string',
+                 required: 'false',
+                 description: '簡介',
+                 schema: "漢堡超大"
+        }
+        #swagger.parameters['type'] = {
+                 in: 'formData',
+                 type: 'string',
+                 required: 'false',
+                 description: '類別',
+                 schema: "漢堡"
+        }
+        #swagger.parameters['options'] = {
+                 in: 'formData',
+                 type: 'string',
+                 required: 'false',
+                 description: '進階選項',
+                 schema: { $ref: '#/definitions/options' }
+        }
+        #swagger.parameters['discount'] = {
+                 in: 'formData',
+                 type: 'string',
+                 required: 'false',
+                 description: '折價',
+                 schema: { $ref: '#/definitions/discount' }
+        }
+    */
+
+    /*  #swagger.responses[201] = {
+                description: '新增成功',
+                schema: {
+                    status: '新增成功',
+                    code: true,
+                    result: {
+                        "name": "超大漢堡",
+                        "price": "139",
+                        "describe": "漢堡超大",
+                        "type": "漢堡",
+                        "options":{ $ref: '#/definitions/options' },
+                        "discount":{ $ref: '#/definitions/discount' }
+                    }
+                }
+            }
+    } */
+    /*
+        #swagger.responses[400] = {
+                description: '因格式資料錯誤導致新增失敗',
+                schema: {
+                    status: '新增失敗',
+                    code: false,
+                    result: 'error message'
+                }
+            }
+    */
+    /*
+         #swagger.responses[500] = {
+                 description: '因伺服器錯誤導致新增失敗',
+                 schema: {
+                     status: '新增失敗',
+                     code: false,
+                     result: 'error message'
+                 }
+             }
+     */
+});
 router.delete('/product', middleWave, storeModifyMethod.deleteProduct, () => {
     //  #swagger.summary  = '刪除商品'
     //  #swagger.description = '以 token 和商品id請求，刪除商品'

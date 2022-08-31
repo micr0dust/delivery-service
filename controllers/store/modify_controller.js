@@ -4,6 +4,7 @@ const storeData = require('../../models/store/get_store_model');
 const orderData = require('../../models/store/get_order_model');
 const loginAction = require('../../models/store/store_mode_model');
 const addProduct = require('../../models/store/add_product_model');
+const updateProduct = require('../../models/store/put_product_model');
 const delProduct = require('../../models/store/delete_product_model');
 const storeUpdate = require('../../models/store/put_store_model');
 const getIncome = require('../../models/store/get_lastIncome_model');
@@ -195,6 +196,81 @@ module.exports = class Store {
             .catch(err => {
                 res.status(500).send({
                     status: '新增失敗',
+                    code: false,
+                    result: err.message
+                });
+            });
+    }
+
+    // 店家更新商品
+    putProduct(req, res, next) {
+        const data = {
+            id: req.body.id,
+            name: req.body.name,
+            price: req.body.price,
+            describe: req.body.describe,
+            type: req.body.type,
+            discount: req.body.discount ? req.body.discount : null,
+            options: req.body.options ? req.body.options : null,
+            create_date: onTime()
+        };
+
+        Object.keys(data).forEach((key) => !data[key] && delete data[key]);
+
+        if (data.name && !check.checkName(data.name)) {
+            return res.status(400).send({
+                status: '更新失敗',
+                code: false,
+                result: '商品名必須介於1~30字'
+            });
+        }
+        if (data.address && !check.checkAddress(data.address)) {
+            return res.status(400).send({
+                status: '更新失敗',
+                code: false,
+                result: '地址必須介於1~200字'
+            });
+        }
+        if (data.price && !check.checkPrice(data.price)) {
+            return res.status(400).send({
+                status: '更新失敗',
+                code: false,
+                result: '金額必須為大於0的整數'
+            });
+        }
+        if (data.describe && !check.checkDescribe(data.describe)) {
+            return res.status(400).send({
+                status: '更新失敗',
+                code: false,
+                result: '描述必須介於0~30字'
+            });
+        }
+        if (data.type && !check.checkType(data.type)) {
+            return res.status(400).send({
+                status: '更新失敗',
+                code: false,
+                result: '類別名稱必須介於0~10字'
+            });
+        }
+        // insert to database
+        updateProduct(req.headers['token'], data).then(result => {
+                // respon successful
+                res.status(201).json({
+                    status: '更新成功',
+                    code: true,
+                    result: {
+                        name: result.name,
+                        price: result.price,
+                        describe: result.describe,
+                        type: result.type,
+                        discount: result.discount,
+                        options: result.options
+                    }
+                });
+            })
+            .catch(err => {
+                res.status(500).send({
+                    status: '更新失敗',
                     code: false,
                     result: err.message
                 });
