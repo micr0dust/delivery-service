@@ -19,7 +19,10 @@ module.exports = async function putComplete(data) {
         if (findResult.store != storeUrl) throw new Error("該訂單屬於其他店家");
         if (findResult.complete === true) throw new Error("訂單已經標記為完成");
         const putResult = await order.updateOne({ _id: ObjectId(data.orderID) }, {
-            $set: { complete: true }
+            $set: {
+                complete: true,
+                comments: data.comments
+            }
         });
         if (!putResult) throw new Error("嘗試標記訂單為完成時發生錯誤");
         return true;

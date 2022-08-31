@@ -352,7 +352,7 @@ router.post('/product', middleWave, storeModifyMethod.postProduct, () => {
      */
 });
 router.put('/product', middleWave, storeModifyMethod.putProduct, () => {
-    //  #swagger.summary  = '新增商品'
+    //  #swagger.summary  = '更新商品'
     //  #swagger.description = '以 token 和商品資料請求，建立商品'
     /*  #swagger.consumes = ['application/x-www-form-urlencoded']*/
     /*  #swagger.parameters['token'] = {
@@ -369,7 +369,7 @@ router.put('/product', middleWave, storeModifyMethod.putProduct, () => {
                  type: 'string',
                  required: 'true',
                  description: '商品ID',
-                 schema: { $ref: '#/definitions/id' }
+                 schema: "62bfabae55036d765d2adfbf"
         }
         #swagger.parameters['name'] = {
                  in: 'formData',

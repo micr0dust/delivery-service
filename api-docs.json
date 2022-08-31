@@ -2994,7 +2994,7 @@
         "tags": [
           "store"
         ],
-        "summary": "新增商品",
+        "summary": "更新商品",
         "description": "以 token 和商品資料請求，建立商品",
         "consumes": [
           "application/x-www-form-urlencoded"
@@ -3017,7 +3017,8 @@
             "required": true,
             "description": "商品ID",
             "schema": {
-              "$ref": "#/definitions/id"
+              "type": "string",
+              "example": "62bfabae55036d765d2adfbf"
             }
           },
           {
@@ -3941,6 +3942,28 @@
             "description": "store access token",
             "schema": {
               "$ref": "#/definitions/token"
+            }
+          },
+          {
+            "name": "id",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "description": "訂單 id",
+            "schema": {
+              "type": "string",
+              "example": "62bfabae55036d765d2adfbf"
+            }
+          },
+          {
+            "name": "comments",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "description": "註解，通常為拒絕訂單原因",
+            "schema": {
+              "type": "string",
+              "example": "人手不足"
             }
           }
         ],

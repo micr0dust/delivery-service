@@ -83,13 +83,21 @@ module.exports = class Store {
     putComplete(req, res, next) {
         const data = {
             id: req.headers['token'],
-            orderID: req.body.id
+            orderID: req.body.id,
+            comments: req.body.comments || null
         };
-        if (!check.check_id(data.orderID)) return res.status(401).send({
-            status: "無法接受",
-            code: false,
-            result: "id 格式錯誤"
-        });
+        if (!check.check_id(data.orderID))
+            return res.status(401).send({
+                status: "無法標記",
+                code: false,
+                result: "id 格式錯誤"
+            });
+        if (data.comments && !check.checkDescribe(data.comments))
+            return res.status(401).send({
+                status: "無法標記",
+                code: false,
+                result: "註解需少於 30 字"
+            });
         putComplete(data).then(result => {
             res.json({
                 status: "成功更改訂單狀態為已完成",
