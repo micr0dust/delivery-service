@@ -154,12 +154,12 @@ router.delete('/', middleWave, storeModifyMethod.deleteStore, () => {
                 schema: { $ref: '#/definitions/token' }
     }
     */
-    /*  #swagger.parameters['password'] = {
+    /*  #swagger.parameters['name'] = {
                 in: 'formData',
                 type: 'string',
                 required: 'true',
-                description: '密碼',
-                schema: 'Aaaaaaa1'
+                description: '商家名稱',
+                schema: '有朋小吃'
     }
     */
 

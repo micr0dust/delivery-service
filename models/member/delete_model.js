@@ -13,7 +13,7 @@ module.exports = async function deleteAction(data) {
     try {
         const memberResult = await member.findOne({ _id: ObjectId(data.id) });
         if (!memberResult) throw new Error("查無帳號，請重新登入");
-        if (memberResult.name != data.name) throw new Error("密碼錯誤");
+        if (memberResult.name != data.name) throw new Error("使用者名稱錯誤");
         const storeResult = await store.findOne({ _id: ObjectId(memberResult.store_id) });
 
         // 商家product刪除

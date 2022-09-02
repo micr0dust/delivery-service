@@ -229,7 +229,7 @@ module.exports = class Member {
             res.status(400).send({
                 status: '帳號刪除失敗',
                 code: false,
-                result: '必須輸入正確名稱才能刪除帳號'
+                result: '必須輸入正確使用者名稱才能刪除帳號'
             });
 
         deleteAction(data).then(

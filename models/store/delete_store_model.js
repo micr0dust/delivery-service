@@ -13,9 +13,9 @@ module.exports = async function delStore(data) {
     try {
         const memberResult = await member.findOne({ _id: ObjectId(data.id) });
         if (!memberResult) throw new Error("查無帳號，請重新登入");
-        if (memberResult.password != data.password) throw new Error("密碼錯誤");
         const storeResult = await store.findOne({ _id: ObjectId(memberResult.store_id) });
         if (!storeResult) throw new Error("查無商家，請確認該帳號確實擁有店家身分");
+        if (storeResult.name != data.name) throw new Error("店名錯誤");
 
         // 商家 product 刪除
         if (storeResult.product) {
