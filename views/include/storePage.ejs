@@ -1,15 +1,29 @@
+<style>
+    .blur {
+        filter: grayscale(10%) brightness(50%) blur(2px);
+    }
+    
+    .overlay-text {
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 1.5rem;
+    }
+</style>
 <div class="container h-100">
     <div id="product" class="row mt-5 h-100 justify-content-start align-items-center"></div>
 </div>
 <template id="productTemplate">
         <div class="card col-sm-6 col-md-3 mt-3 mr-3">
             <a class="text-decoration-none">
-            <img class="img-fluid" src="/images/background.jpg">
-            <div class="card-footer justify-content-between">
-                <span>name</span>
-                <span>price</span>
-            </div>
+                <img class="img-fluid" src="/images/background.jpg">
+                <div class="card-footer justify-content-between">
+                    <span>name</span>
+                    <span>price</span>
+                </div>
             </a>
+            <div class="overlay-text text-light"></div>
         </div>
 </template>
 <script src="/js/fetch_request/storePage.js"></script>
@@ -27,6 +41,10 @@
         for (let i = 0; i < data.result.length; i++) {
             const product = data.result[i];
             const newProduct = document.getElementById('productTemplate');
+            if (product.pause) {
+                newProduct.content.querySelector('div > a > img').classList.add('blur');
+                newProduct.content.querySelector('div > .overlay-text').textContent = "暫時下架";
+            }
             newProduct.content.querySelector('div > a > .card-footer > span:nth-child(1)').textContent = product.name;
             newProduct.content.querySelector('div').id = product.id;
             newProduct.content.querySelector('div > a > .card-footer > span:nth-child(2)').textContent = "NT$" + product.price;

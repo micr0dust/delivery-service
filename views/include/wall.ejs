@@ -1,3 +1,16 @@
+<style>
+    .blur {
+        filter: grayscale(10%) brightness(50%) blur(2px);
+    }
+    
+    .overlay-text {
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 1.5rem;
+    }
+</style>
 <div class="container h-100">
     <div class="row h-100 justify-content-center align-items-center">
         <div id="wall" class="col-sm-6 col-md-6  mt-5"></div>
@@ -13,3 +26,19 @@
     </div>
 </template>
 <script src="/js/fetch_request/wall.js"></script>
+<script>
+    async function getStore() {
+        const data = await getStoreFn();
+        const wall = document.getElementById('wall');
+        for (let i = 0; i < data.result.length; i++) {
+            const store = data.result[i];
+            let newStore = document.getElementById('storeTemplate');
+            newStore.content.querySelector('a > .card-header').textContent = store.name;
+            newStore.content.querySelector('a > .card-footer').textContent = store.address;
+            newStore.content.querySelector('a').href = location.href.split("/wall")[0] + "/storepage?" + store.id;
+            let card = document.importNode(newStore.content, true);
+            wall.appendChild(card);
+        }
+    }
+    getStore();
+</script>

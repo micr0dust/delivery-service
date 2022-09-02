@@ -18,17 +18,17 @@ module.exports = async function getProduct(_id, storeData) {
 
         const responData = [];
         for (let i = 0; i < productResult.length; i++) {
-            if (isOwner || !productResult[i].pause)
-                responData.push({
-                    id: productResult[i]._id.toString(),
-                    name: productResult[i].name,
-                    price: productResult[i].price,
-                    describe: productResult[i].describe,
-                    type: productResult[i].type,
-                    discount: productResult[i].discount,
-                    options: productResult[i].options,
-                    pause: productResult[i].pause
-                });
+            //if (isOwner || !productResult[i].pause)
+            responData.push({
+                id: productResult[i]._id.toString(),
+                name: productResult[i].name,
+                price: productResult[i].price,
+                describe: productResult[i].describe,
+                type: productResult[i].type,
+                discount: productResult[i].discount,
+                options: productResult[i].options,
+                pause: productResult[i].pause
+            });
         }
         if (responData) return responData;
     } catch (err) {
