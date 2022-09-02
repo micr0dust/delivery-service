@@ -1,7 +1,7 @@
 const client = require('../connection_db');
 const config = require('../../config/development_config');
 
-module.exports = async function getProduct(storeData) {
+module.exports = async function getProduct(_id, storeData) {
     await client.connect();
     const db = client.db(config.mongo.database);
     const store = db.collection(config.mongo.store);
@@ -11,20 +11,26 @@ module.exports = async function getProduct(storeData) {
         const storeResult = await store.findOne({ url: storeData.url });
         if (!storeResult) throw new Error("查無店家，請確認 id 是否正確");
         if (!storeResult.product) return [];
+
+        const isOwner = storeResult.belong === _id;
         const productResult = await product.find({ _id: { $in: storeResult.product } }).toArray();
         if (!productResult) throw new Error("查無此商家商品");
+
+        const responData = [];
         for (let i = 0; i < productResult.length; i++) {
-            productResult[i] = {
-                id: productResult[i]._id.toString(),
-                name: productResult[i].name,
-                price: productResult[i].price,
-                describe: productResult[i].describe,
-                type: productResult[i].type,
-                discount: productResult[i].discount,
-                options: productResult[i].options
-            };
+            if (isOwner || !productResult[i].pause)
+                responData.push({
+                    id: productResult[i]._id.toString(),
+                    name: productResult[i].name,
+                    price: productResult[i].price,
+                    describe: productResult[i].describe,
+                    type: productResult[i].type,
+                    discount: productResult[i].discount,
+                    options: productResult[i].options,
+                    pause: productResult[i].pause
+                });
         }
-        if (productResult) return productResult;
+        if (responData) return responData;
     } catch (err) {
         throw err;
     } finally {

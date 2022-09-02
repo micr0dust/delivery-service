@@ -452,6 +452,66 @@ router.put('/product', middleWave, storeModifyMethod.putProduct, () => {
              }
      */
 });
+router.put('/product/pause', middleWave, storeModifyMethod.switchProductStatue, () => {
+    //  #swagger.summary  = '臨時上下架商品'
+    //  #swagger.description = '以 token 和商品 ID 請求，標註商品狀態為 true / false'
+    /*  #swagger.consumes = ['application/x-www-form-urlencoded']*/
+    /*  #swagger.parameters['token'] = {
+                in: 'header',
+                type: 'string',
+                required: 'true',
+                description: 'member access token',
+                schema: { $ref: '#/definitions/token' }
+    }
+    */
+    /*  
+        #swagger.parameters['productID'] = {
+                 in: 'formData',
+                 type: 'string',
+                 required: 'true',
+                 description: '商品ID',
+                 schema: "62bfabae55036d765d2adfbf"
+        }
+    */
+
+    /*  #swagger.responses[201] = {
+                description: '狀態更新成功',
+                schema: {
+                    status: '狀態更新成功',
+                    code: true,
+                    result: {
+                        "name": "超大漢堡",
+                        "price": "139",
+                        "describe": "漢堡超大",
+                        "type": "漢堡",
+                        "options":{ $ref: '#/definitions/options' },
+                        "discount":{ $ref: '#/definitions/discount' },
+                        "pause": true
+                    }
+                }
+            }
+    } */
+    /*
+        #swagger.responses[400] = {
+                description: '格式錯誤',
+                schema: {
+                    status: '格式錯誤',
+                    code: false,
+                    result: 'error message'
+                }
+            }
+    */
+    /*
+         #swagger.responses[500] = {
+                 description: '狀態更新失敗',
+                 schema: {
+                     status: '狀態更新失敗',
+                     code: false,
+                     result: 'error message'
+                 }
+             }
+     */
+});
 router.delete('/product', middleWave, storeModifyMethod.deleteProduct, () => {
     //  #swagger.summary  = '刪除商品'
     //  #swagger.description = '以 token 和商品id請求，刪除商品'

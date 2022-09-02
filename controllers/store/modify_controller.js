@@ -8,6 +8,7 @@ const updateProduct = require('../../models/store/put_product_model');
 const delProduct = require('../../models/store/delete_product_model');
 const storeUpdate = require('../../models/store/put_store_model');
 const getIncome = require('../../models/store/get_lastIncome_model');
+const pauseProduct = require('../../models/store/switch_product_pause');
 
 const Check = require('../../service/store_check');
 const encryption = require('../../models/encryption');
@@ -138,6 +139,7 @@ module.exports = class Store {
             type: req.body.type,
             discount: req.body.discount ? req.body.discount : null,
             options: req.body.options ? req.body.options : null,
+            pause: false,
             create_date: onTime()
         };
 
@@ -254,7 +256,7 @@ module.exports = class Store {
         // insert to database
         updateProduct(req.headers['token'], data).then(result => {
                 // respon successful
-                res.status(201).json({
+                return res.status(200).json({
                     status: '更新成功',
                     code: true,
                     result: {
@@ -263,13 +265,51 @@ module.exports = class Store {
                         describe: result.describe,
                         type: result.type,
                         discount: result.discount,
-                        options: result.options
+                        options: result.options,
+                        pause: result.pause
                     }
                 });
             })
             .catch(err => {
-                res.status(500).send({
+                return res.status(500).send({
                     status: '更新失敗',
+                    code: false,
+                    result: err.message
+                });
+            });
+    }
+
+    // 店家更新商品上下架狀態
+    switchProductStatue(req, res, next) {
+        const data = {
+            productID: req.body.productID
+        };
+
+        if (!check.check_id(data.productID))
+            return res.status(400).send({
+                status: '格式錯誤',
+                code: false,
+                result: '必須輸入正確 ID 格式'
+            });
+
+        pauseProduct(req.headers['token'], data).then(result => {
+                return res.status(200).json({
+                    status: '狀態更新成功',
+                    code: true,
+                    result: {
+                        name: result.name,
+                        price: result.price,
+                        describe: result.describe,
+                        type: result.type,
+                        discount: result.discount,
+                        options: result.options,
+                        pause: result.pause
+                    }
+                });
+            })
+            .catch(err => {
+                return res.status(500).send({
+                    status: '狀態更新失敗',
                     code: false,
                     result: err.message
                 });

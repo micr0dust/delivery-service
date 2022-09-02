@@ -1,3 +1,16 @@
+<style>
+    .blur {
+        filter: grayscale(10%) brightness(50%) blur(2px);
+    }
+    
+    .overlay-text {
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 1.5rem;
+    }
+</style>
 <div class="container">
     <div class="row">
         <div class="card col-md-6 col-sm-12 mt-5">
@@ -64,6 +77,7 @@
                         <span>price</span>
                     </div>
                 </a>
+                <div class="overlay-text text-light display-5"></div>
             </div>
         </template>
         <template id="date-Line">
@@ -250,6 +264,10 @@
         for (let i = 0; i < data.result.length; i++) {
             const product = data.result[i];
             const newProduct = document.getElementById('productTemplate');
+            if (product.pause) {
+                newProduct.content.querySelector('div > a > img').classList.add('blur');
+                newProduct.content.querySelector('div > .overlay-text').textContent = "暫時下架";
+            }
             newProduct.content.querySelector('div > a > .card-footer > span:nth-child(1)').textContent = product.name;
             newProduct.content.querySelector('div').id = product.id;
             newProduct.content.querySelector('div > a > .card-footer > span:nth-child(2)').textContent = "NT$" + product.price;

@@ -334,7 +334,7 @@ module.exports = class Member {
             url: req.headers['id']
         };
 
-        getProduct(data).then(
+        getProduct(req.headers['token'], data).then(
             result => {
                 res.json({
                     status: '成功獲取商品資料',
@@ -405,7 +405,7 @@ module.exports = class Member {
             res.status(400).send({
                 status: '訂單撤回失敗',
                 code: false,
-                result: '必須輸入正確訂單ID'
+                result: '必須輸入正確 ID 格式'
             });
 
         deleteOrder(req.headers['token'], data).then(

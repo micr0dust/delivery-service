@@ -3426,6 +3426,170 @@
         ]
       }
     },
+    "/store/product/pause": {
+      "put": {
+        "tags": [
+          "store"
+        ],
+        "summary": "臨時上下架商品",
+        "description": "以 token 和商品 ID 請求，標註商品狀態為 true / false",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "required": true,
+            "description": "member access token",
+            "schema": {
+              "$ref": "#/definitions/token"
+            }
+          },
+          {
+            "name": "productID",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "description": "商品ID",
+            "schema": {
+              "type": "string",
+              "example": "62bfabae55036d765d2adfbf"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "狀態更新成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "狀態更新成功"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "result": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "example": "超大漢堡"
+                    },
+                    "price": {
+                      "type": "string",
+                      "example": "139"
+                    },
+                    "describe": {
+                      "type": "string",
+                      "example": "漢堡超大"
+                    },
+                    "type": {
+                      "type": "string",
+                      "example": "漢堡"
+                    },
+                    "options": {
+                      "$ref": "#/definitions/options"
+                    },
+                    "discount": {
+                      "$ref": "#/definitions/discount"
+                    },
+                    "pause": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "格式錯誤",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "格式錯誤"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "403": {
+            "description": "token錯誤",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "token錯誤"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "result": {
+                  "type": "string",
+                  "example": "請重新登入"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "description": "狀態更新失敗",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "狀態更新失敗"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
     "/store/order": {
       "get": {
         "tags": [
