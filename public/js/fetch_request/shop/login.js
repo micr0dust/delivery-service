@@ -8,6 +8,7 @@ async function bussinessLogin() {
         method: "POST",
         headers: headersList
     }).then(async function(response) {
+        document.getElementById('loader').classList.remove('is-active');
         if (response.status === 200) {
             localStorage.setItem('bussiness_acesstoken', response.headers.get('token'));
             localStorage.setItem('bussiness_refresh_token', response.headers.get('refresh_token'));

@@ -13,10 +13,13 @@ module.exports = async function addProduct(id, productData) {
     try {
         if (productData.options) {
             const optionsData = JSON.parse(productData.options);
+            const repeatCheak = new Set();
             optionsData.forEach(element => {
                 if (typeof element.requires != "boolean") throw new Error("requires 須為 boolean 型別");
                 if (typeof element.multiple != "boolean") throw new Error("multiple 須為 boolean 型別");
                 if (!/^.{0,15}$/.test(element.title)) throw new Error("標題應為0~15字");
+                if (repeatCheak.has(element.title)) throw new Error(`標題不應重複-> ${element.title}`);
+                repeatCheak.add(element.title);
                 element.option.forEach(opt => {
                     if (!/^.{0,10}$/.test(opt.name)) throw new Error("選項應為0~10字");
                     if (!/^-?\d+/.test(opt.cost)) throw new Error("選項金額格式錯誤");

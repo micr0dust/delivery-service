@@ -11,6 +11,7 @@ async function delProduct(productID) {
             headers: headersList
         })
         .then(async function(response) {
+            document.getElementById('loader').classList.remove('is-active');
             if (response.status === 200)
                 return await response.text();
             else if (response.status === 403) {
