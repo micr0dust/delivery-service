@@ -45,6 +45,8 @@
                 newProduct.content.querySelector('div > a > img').classList.add('blur');
                 newProduct.content.querySelector('div > .overlay-text').textContent = "暫時下架";
             }
+            for (const key in product)
+                newProduct.content.querySelector('div').dataset[key] = product[key];
             newProduct.content.querySelector('div > a > .card-footer > span:nth-child(1)').textContent = product.name;
             newProduct.content.querySelector('div').id = product.id;
             newProduct.content.querySelector('div > a > .card-footer > span:nth-child(2)').textContent = "NT$" + product.price;
