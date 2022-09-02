@@ -532,7 +532,7 @@ router.post('/user/order/preview', jsonParser, middleWave, memberModifyMethod.po
             }
     */
 });
-router.get('/user/order', jsonParser, middleWave, memberModifyMethod.getOrder, () => {
+router.get('/user/order', middleWave, memberModifyMethod.getOrder, () => {
     //  #swagger.summary  = '獲取歷史訂單'
     //  #swagger.description = '以使用者 token 請求，獲取其歷史訂單。'
     /*  #swagger.consumes = ['application/x-www-form-urlencoded']*/
@@ -572,6 +572,38 @@ router.get('/user/order', jsonParser, middleWave, memberModifyMethod.getOrder, (
                 description: '無法獲取歷史訂單資料',
                 schema: {
                     status: '無法獲取歷史訂單資料',
+                    code: false,
+                    result: 'error message'
+                }
+            }
+    */
+});
+router.delete('/user/order', middleWave, memberModifyMethod.deleteOrder, () => {
+    //  #swagger.summary  = '撤回訂單'
+    //  #swagger.description = '以使用者 token 和商品 ID 請求，撤回尚未被店家接受的訂單。'
+    /*  #swagger.consumes = ['application/x-www-form-urlencoded']*/
+    /*  #swagger.parameters['token'] = {
+            in: 'header',
+            type: 'string',
+            required: 'true',
+            description: 'member access token',
+            schema: { $ref: '#/definitions/token' }
+    }*/
+
+    /*  #swagger.responses[200] = {
+                description: '成功撤回訂單',
+                schema: {
+                    "status": "訂單已成功撤回",
+                    "code": true,
+                    "result": "成功撤回訂單"
+                }
+            }
+    } */
+    /*
+        #swagger.responses[500] = {
+                description: '訂單無法撤回',
+                schema: {
+                    status: '訂單無法撤回',
                     code: false,
                     result: 'error message'
                 }

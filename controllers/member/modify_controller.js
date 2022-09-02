@@ -11,6 +11,7 @@ const getUser = require('../../models/member/getUser_model');
 const getProduct = require('../../models/member/get_product_model');
 const getStore = require('../../models/member/get_stores_model');
 const orderAction = require('../../models/member/order_model');
+const deleteOrder = require('../../models/member/delete_order');
 const getOrder = require('../../models/member/get_order_model');
 const postTwilioSend = require('../../models/member/post_twilio_model');
 const postTwilioVerify = require('../../models/member/post_twilio_verify_model');
@@ -393,6 +394,35 @@ module.exports = class Member {
                 });
             }
         );
+    }
+
+    //訂單撤回
+    deleteOrder(req, res, next) {
+        const data = {
+            orderID: req.body.orderID
+        };
+        if (!check.checkHexStringId(data.orderID))
+            res.status(400).send({
+                status: '訂單撤回失敗',
+                code: false,
+                result: '必須輸入正確訂單ID'
+            });
+
+        deleteOrder(req.headers['token'], data).then(
+            result => {
+                res.json({
+                    status: '訂單已成功撤回',
+                    code: true,
+                    result: result
+                });
+            },
+            err => {
+                res.status(500).send({
+                    status: '訂單無法撤回',
+                    code: false,
+                    result: err.message
+                });
+            });
     }
 
     //訂單結果預覽

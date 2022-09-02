@@ -18,6 +18,7 @@ module.exports = async function putAccept(data) {
         if (!findResult) throw new Error("查無訂單");
         if (findResult.store != storeUrl) throw new Error("該訂單屬於其他店家");
         if (findResult.accept === true) throw new Error("已經接受過該訂單");
+        if (findResult.complete === true) throw new Error("訂單已被撤回");
         const putResult = await order.updateOne({ _id: ObjectId(data.orderID) }, {
             $set: { accept: true }
         });
