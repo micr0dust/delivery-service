@@ -1,13 +1,13 @@
-async function delProduct(productID) {
+async function putPauseProduct(productID) {
     if (!productID) return false;
     const headersList = {
         Accept: '*/*',
         token: localStorage.acesstoken,
         'Content-Type': 'application/x-www-form-urlencoded'
     };
-    return await fetch('/store/product', {
-            method: 'DELETE',
-            body: `product=${productID}`,
+    return await fetch('/store/product/pause', {
+            method: 'PUT',
+            body: `productID=${productID}`,
             headers: headersList
         })
         .then(async function(response) {
@@ -17,7 +17,7 @@ async function delProduct(productID) {
             else if (response.status === 403) {
                 if (localStorage.refresh_token) {
                     await getToken();
-                    return delProduct(productID);
+                    return putPauseProduct(productID);
                 } else {
                     localStorage.clear();
                     window.location.href = '/admin/login?redirct=' + location.pathname;

@@ -133,8 +133,8 @@
                 <div name="btns" class="input-group d-flex mb-2">
                     <button name="del" class="btn btn-danger mt-1">刪除</button>
                     <div class="ml-auto">
-                        <button name="unpause" class="btn btn-secondary mt-1 d-none" onclick="pause()">重新上架</button>
-                        <button name="pause" class="btn btn-warning mt-1 d-none" onclick="pause()">暫時下架</button>
+                        <button name="unpause" class="btn btn-success mt-1 d-none" onclick="pause()">重新上架</button>
+                        <button name="pause" class="btn btn-secondary mt-1 d-none" onclick="pause()">暫時下架</button>
                         <button name="update" class="btn btn-primary mt-1" onclick="update()">編輯</button>
                     </div>
                 </div>
@@ -158,6 +158,7 @@
 <script src="/js/fetch_request/shop/profile.js"></script>
 <script src="/js/fetch_request/storePage.js"></script>
 <script src="/js/fetch_request/shop/deleteProduct.js"></script>
+<script src="/js/fetch_request/shop/pauseProduct.js"></script>
 <script src="/js/fetch_request/shop/addProduct.js"></script>
 <script src="/js/fetch_request/shop/update.js"></script>
 
@@ -267,8 +268,10 @@
         putStore(data);
     }
 
-    const deleteProduct = (id) => {
-        const data = document.getElementById(id).dataset;
+    const getData = (id) => {
+        return document.getElementById(id).dataset;
+    };
+    const deleteProduct = (data) => {
         Swal.fire({
             title: '刪除商品',
             html: `在下方輸入 <span class="font-weight-bold text-danger">${data.name}</span> 以確認刪除`,
@@ -282,7 +285,7 @@
             confirmButtonText: '刪除',
             showLoaderOnConfirm: true,
             preConfirm: (confirm) => {
-                if (confirm == data.name) return delProduct(selected.id);
+                if (confirm == data.name) return delProduct(data.id);
                 else Swal.showValidationMessage(
                     '輸入錯誤'
                 );
@@ -299,22 +302,23 @@
             }
         });
     };
-    const pauseProduct = (id) => {
-        const data = document.getElementById(id).dataset;
+    const pauseProduct = (data) => {
+        const pause = (data.pause === "true");
+        const actionStr = pause ? "重新上架" : "暫時下架";
         Swal.fire({
             title: `${actionStr}商品`,
-            html: `在下方輸入 <span class="font-weight-bold text-danger">${data.name}</span> 以確認${actionStr}`,
+            html: `在下方輸入 <span class="font-weight-bold text-${pause?'success':'secondary'}">${data.name}</span> 以確認${actionStr}`,
             input: 'text',
             inputAttributes: {
                 autocapitalize: 'off'
             },
             showCancelButton: true,
-            confirmButtonColor: '#bf0d0d',
+            confirmButtonColor: pause ? '#198754' : '#000',
             cancelButtonColor: '#808080',
             confirmButtonText: actionStr,
             showLoaderOnConfirm: true,
             preConfirm: (confirm) => {
-                if (confirm == data.name) return delProduct(selected.id);
+                if (confirm == data.name) return putPauseProduct(data.id);
                 else Swal.showValidationMessage(
                     '輸入錯誤'
                 );
@@ -339,11 +343,11 @@
         popupTemplate.content.querySelector('[name="describe"]').value = data.describe;
         popupTemplate.content.querySelector('[name="price"]').value = data.price;
         popupTemplate.content.querySelector('[name="type"]').value = data.type;
-        popupTemplate.content.querySelector('[name="del"]').setAttribute("onClick", `deleteProduct("${data.id}")`);
-        popupTemplate.content.querySelector('[name="pause"]').setAttribute("onClick", `deleteProduct("${data.id}")`);
-        popupTemplate.content.querySelector('[name="unpause"]').setAttribute("onClick", `deleteProduct("${data.id}"")`);
+        popupTemplate.content.querySelector('[name="del"]').setAttribute("onClick", `deleteProduct(getData("${data.id}"))`);
+        popupTemplate.content.querySelector('[name="pause"]').setAttribute("onClick", `pauseProduct(getData("${data.id}"))`);
+        popupTemplate.content.querySelector('[name="unpause"]').setAttribute("onClick", `pauseProduct(getData("${data.id}"))`);
 
-        if (data.pause) popupTemplate.content.querySelector('[name="unpause"]').classList.remove('d-none');
+        if (data.pause === "true") popupTemplate.content.querySelector('[name="unpause"]').classList.remove('d-none');
         else popupTemplate.content.querySelector('[name="pause"]').classList.remove('d-none');
 
         const newTitle = document.createElement("h4");
@@ -392,7 +396,6 @@
             }
             for (const key in product)
                 newProduct.content.querySelector('div').dataset[key] = product[key];
-            console.log(newProduct.content.querySelector('div').dataset)
             newProduct.content.querySelector('div > a > .card-footer > span:nth-child(1)').textContent = product.name;
             newProduct.content.querySelector('div').id = product.id;
             newProduct.content.querySelector('div > a > .card-footer > span:nth-child(2)').textContent = "NT$" + product.price;
