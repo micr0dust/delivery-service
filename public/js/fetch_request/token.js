@@ -8,6 +8,7 @@ async function getToken() {
         method: "GET",
         headers: headersList
     }).then(async function(response) {
+        document.getElementById('loader').classList.remove('is-active');
         if (response.status === 200) {
             localStorage.setItem('acesstoken', response.headers.get('token'));
             return await response.text();

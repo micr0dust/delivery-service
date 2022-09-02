@@ -9,8 +9,8 @@ async function getMember() {
         method: "GET",
         headers: headersList
     }).then(async function(response) {
+        document.getElementById('loader').classList.remove('is-active');
         if (response.status === 200) {
-            document.getElementById('loader').classList.remove('is-active');
             const result = await response.text();
             return result;
         } else if (response.status === 403) {
@@ -19,7 +19,7 @@ async function getMember() {
                 return getMember();
             } else {
                 localStorage.clear();
-                window.location.href = '/admin/login?redirct=' + location.pathname;
+                window.location.href = '/admin/login';
             }
         } else {
             const result = await response.text();

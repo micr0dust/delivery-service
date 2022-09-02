@@ -572,14 +572,14 @@
             }
           },
           {
-            "name": "password",
+            "name": "name",
             "in": "formData",
             "type": "string",
             "required": true,
-            "description": "密碼",
+            "description": "使用者名稱",
             "schema": {
               "type": "string",
-              "example": "Aaaaaaa1"
+              "example": "吳玼芢"
             }
           }
         ],

@@ -221,18 +221,16 @@ module.exports = class Member {
 
     //刪除帳號
     deleteAccount(req, res, next) {
-        const password = req.body.password ? encryption(req.body.password) : null;
-        if (password && !check.checkPassword(req.body.password)) {
-            return res.status(400).send({
-                status: '刪除失敗',
-                code: false,
-                result: '必須輸入密碼以刪除帳號'
-            });
-        };
         const data = {
             id: req.headers['token'],
-            password: password
+            name: req.body.name
         };
+        if (!check.checkName(data.name))
+            res.status(400).send({
+                status: '帳號刪除失敗',
+                code: false,
+                result: '必須輸入正確名稱才能刪除帳號'
+            });
 
         deleteAction(data).then(
             result => {

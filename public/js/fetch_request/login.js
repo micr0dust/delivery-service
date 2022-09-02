@@ -6,10 +6,10 @@ function googleLogin() {
     }
 
     document.getElementById('loader').classList.add('is-active');
-    let headersList = {
+    const headersList = {
         "Accept": "*/*",
         "Content-Type": "application/x-www-form-urlencoded"
-    }
+    };
     fetch("/member/google/login", {
         method: "GET",
         headers: headersList
@@ -24,7 +24,7 @@ function googleLogin() {
                 icon: 'error',
                 title: '發生錯誤',
                 text: response.status
-            })
+            });
         }
         return response.text();
     }).then(function(res) {

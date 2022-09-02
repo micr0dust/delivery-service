@@ -245,12 +245,12 @@ router.delete('/', middleWave, memberModifyMethod.deleteAccount, () => {
                 description: 'member access token',
                 schema: { $ref: '#/definitions/token' }
     }*/
-    /*  #swagger.parameters['password'] = {
+    /*  #swagger.parameters['name'] = {
                 in: 'formData',
                 type: 'string',
                 required: 'true',
-                description: '密碼',
-                schema: "Aaaaaaa1"
+                description: '使用者名稱',
+                schema: "吳玼芢"
     } */
 
     /*  #swagger.responses[200] = {
