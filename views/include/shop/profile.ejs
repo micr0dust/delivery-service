@@ -343,10 +343,10 @@
     function productClick(element) {
         const data = element.dataset;
         const popupTemplate = document.getElementById('productCardTemplate').cloneNode(true);
-        popupTemplate.content.querySelector('[name="title"]').value = data.name;
-        popupTemplate.content.querySelector('[name="describe"]').value = data.describe;
-        popupTemplate.content.querySelector('[name="price"]').value = data.price;
-        popupTemplate.content.querySelector('[name="type"]').value = data.type;
+        popupTemplate.content.querySelector('[name="title"]').value = data.name === "null" ? "" : data.name;
+        popupTemplate.content.querySelector('[name="describe"]').value = data.describe === "null" ? "" : data.describe;
+        popupTemplate.content.querySelector('[name="price"]').value = data.price === "null" ? "" : data.price;
+        popupTemplate.content.querySelector('[name="type"]').value = data.type === "null" ? "" : data.type;
         popupTemplate.content.querySelector('[name="del"]').setAttribute("onClick", `deleteProduct(getData("${data.id}"))`);
         popupTemplate.content.querySelector('[name="pause"]').setAttribute("onClick", `pauseProduct(getData("${data.id}"))`);
         popupTemplate.content.querySelector('[name="unpause"]').setAttribute("onClick", `pauseProduct(getData("${data.id}"))`);
@@ -355,25 +355,26 @@
         if (data.pause === "true") popupTemplate.content.querySelector('[name="unpause"]').classList.remove('d-none');
         else popupTemplate.content.querySelector('[name="pause"]').classList.remove('d-none');
 
-        const newTitle = document.createElement("h4");
-        newTitle.textContent = "選項";
-        const optionDiv = popupTemplate.content.querySelector('[name="options"]');
-        popupTemplate.content.querySelector('div').insertBefore(newTitle, optionDiv);
-
-        const options = JSON.parse(data.options);
-        for (let i = 0; i < options.length; i++) {
-            const newProductOptions = document.getElementById('productOptionsTemplate').cloneNode(true);
-            newProductOptions.content.querySelector('[name="title"]').textContent = options[i].title;
-            newProductOptions.content.querySelector('[name="multiple"]').textContent = options[i].multiple ? `多選` : `單選`;
-            const option = options[i]['option'];
-            for (let j = 0; j < option.length; j++) {
-                const newProductOption = document.getElementById('optionTemplate').cloneNode(true);
-                newProductOption.content.querySelector('[name="option"]').textContent = `${option[j].name} ${parseInt(option[j].cost)?("NT$ "+option[j].cost):""}`;
-                const ProductOption = document.importNode(newProductOption.content, true);
-                newProductOptions.content.querySelector('div > select').appendChild(ProductOption);
+        if (data.options != "null") {
+            const newTitle = document.createElement("h4");
+            newTitle.textContent = "選項";
+            const optionDiv = popupTemplate.content.querySelector('[name="options"]');
+            popupTemplate.content.querySelector('div').insertBefore(newTitle, optionDiv);
+            const options = JSON.parse(data.options);
+            for (let i = 0; i < options.length; i++) {
+                const newProductOptions = document.getElementById('productOptionsTemplate').cloneNode(true);
+                newProductOptions.content.querySelector('[name="title"]').textContent = options[i].title;
+                newProductOptions.content.querySelector('[name="multiple"]').textContent = options[i].multiple ? `多選` : `單選`;
+                const option = options[i]['option'];
+                for (let j = 0; j < option.length; j++) {
+                    const newProductOption = document.getElementById('optionTemplate').cloneNode(true);
+                    newProductOption.content.querySelector('[name="option"]').textContent = `${option[j].name} ${parseInt(option[j].cost)?("NT$ "+option[j].cost):""}`;
+                    const ProductOption = document.importNode(newProductOption.content, true);
+                    newProductOptions.content.querySelector('div > select').appendChild(ProductOption);
+                }
+                const productOptions = document.importNode(newProductOptions.content, true);
+                popupTemplate.content.querySelector('div').insertBefore(productOptions, optionDiv);
             }
-            const productOptions = document.importNode(newProductOptions.content, true);
-            popupTemplate.content.querySelector('div').insertBefore(productOptions, optionDiv);
         }
         const card = document.importNode(popupTemplate.content, true);
 
