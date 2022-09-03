@@ -124,6 +124,9 @@
                         <span class="input-group-text">價錢</span>
                     </div>
                     <input type="text" name="price" class="form-control" disabled>
+                    <div class="input-group-append">
+                        <span class="input-group-text">NT$</span>
+                    </div>
                 </div>
                 <div class="input-group mb-2">
                     <div class="input-group-prepend">
@@ -404,7 +407,7 @@
                 newProduct.content.querySelector('div').dataset[key] = product[key];
             newProduct.content.querySelector('div > a > .card-footer > span:nth-child(1)').textContent = product.name;
             newProduct.content.querySelector('div').id = product.id;
-            newProduct.content.querySelector('div > a > .card-footer > span:nth-child(2)').textContent = "NT$" + product.price;
+            newProduct.content.querySelector('div > a > .card-footer > span:nth-child(2)').textContent = "NT$ " + product.price;
             newProduct.content.querySelector('div > a').href = `#${product.id}`;
             const card = document.importNode(newProduct.content, true);
             productList.appendChild(card);
