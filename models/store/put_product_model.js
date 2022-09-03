@@ -35,8 +35,8 @@ module.exports = async function addProduct(id, productData) {
         const storeResult = await store.findOne({ _id: ObjectId(memberResult.store_id) });
         if (!storeResult) throw new Error('查無商家，請確認該帳號確實擁有店家身分');
         const productResult = await product.findOne({ _id: ObjectId(queryID) });
-        if (productResult.belong != memberResult.store_id) throw new Error(`此商品不屬於商店 ${id}`);
         if (!productResult) throw new Error(`查無商品 ID：${queryID}`);
+        if (productResult.belong != memberResult.store_id) throw new Error(`此商品不屬於商店 ${id}`);
         const updateProduct = await product.updateOne({ _id: ObjectId(queryID) }, {
             $set: productData
         });

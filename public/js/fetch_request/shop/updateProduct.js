@@ -1,6 +1,7 @@
-async function addProduct(oProduct) {
+async function putProduct(oProduct) {
     let formData = "";
-    if (oProduct.name) formData += `name=${oProduct.name}`;
+    formData += `id=${oProduct.id}`;
+    if (oProduct.name) formData += `&name=${oProduct.name}`;
     if (oProduct.price) formData += `&price=${oProduct.price}`;
     if (oProduct.describe) formData += `&describe=${oProduct.describe}`;
     if (oProduct.tag) formData += `&type=${oProduct.tag}`;
@@ -12,17 +13,17 @@ async function addProduct(oProduct) {
         "Content-Type": "application/x-www-form-urlencoded"
     };
     return await fetch("/store/product", {
-        method: "POST",
+        method: "PUT",
         body: formData,
         headers: headersList
     }).then(async function(response) {
         document.getElementById('loader').classList.remove('is-active');
-        if (response.status === 201)
+        if (response.status === 200)
             location.href = "/shop";
         else if (response.status === 403) {
             if (localStorage.refresh_token) {
                 await getToken();
-                return addProduct(oProduct);
+                return putProduct(oProduct);
             } else {
                 localStorage.clear();
                 window.location.href = '/admin/login?redirct=' + location.pathname;

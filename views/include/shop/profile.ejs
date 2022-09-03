@@ -105,7 +105,11 @@
         <template id="productCardTemplate">
             <div class="card-body">
                 <div class="input-group mb-2">
-                    <h4 name="title" class="ml-auto"></h4>
+                    <!-- <h4 name="title" class="ml-auto"></h4> -->
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">名稱</span>
+                    </div>
+                    <input type="text" name="title" class="form-control" disabled>
                     <button class="btn ml-auto" tabindex="-1" onclick="swal.close()">X</button>
                 </div>
                 
@@ -133,9 +137,9 @@
                 <div name="btns" class="input-group d-flex mb-2">
                     <button name="del" class="btn btn-danger mt-1">刪除</button>
                     <div class="ml-auto">
-                        <button name="unpause" class="btn btn-success mt-1 d-none" onclick="pause()">重新上架</button>
-                        <button name="pause" class="btn btn-secondary mt-1 d-none" onclick="pause()">暫時下架</button>
-                        <button name="update" class="btn btn-primary mt-1" onclick="update()">編輯</button>
+                        <button name="unpause" class="btn btn-success mt-1 d-none">重新上架</button>
+                        <button name="pause" class="btn btn-secondary mt-1 d-none" >暫時下架</button>
+                        <button name="update" class="btn btn-primary mt-1">編輯</button>
                     </div>
                 </div>
             </div>
@@ -339,13 +343,14 @@
     function productClick(element) {
         const data = element.dataset;
         const popupTemplate = document.getElementById('productCardTemplate').cloneNode(true);
-        popupTemplate.content.querySelector('[name="title"]').textContent = data.name;
+        popupTemplate.content.querySelector('[name="title"]').value = data.name;
         popupTemplate.content.querySelector('[name="describe"]').value = data.describe;
         popupTemplate.content.querySelector('[name="price"]').value = data.price;
         popupTemplate.content.querySelector('[name="type"]').value = data.type;
         popupTemplate.content.querySelector('[name="del"]').setAttribute("onClick", `deleteProduct(getData("${data.id}"))`);
         popupTemplate.content.querySelector('[name="pause"]').setAttribute("onClick", `pauseProduct(getData("${data.id}"))`);
         popupTemplate.content.querySelector('[name="unpause"]').setAttribute("onClick", `pauseProduct(getData("${data.id}"))`);
+        popupTemplate.content.querySelector('[name="update"]').setAttribute("onClick", `location.href="/shop/update?${data.id}"`);
 
         if (data.pause === "true") popupTemplate.content.querySelector('[name="unpause"]').classList.remove('d-none');
         else popupTemplate.content.querySelector('[name="pause"]').classList.remove('d-none');

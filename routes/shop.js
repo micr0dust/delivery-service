@@ -7,6 +7,9 @@ router.get('/', function(req, res, next) {
 router.get('/add', function(req, res, next) {
     res.render('console', { title: 'Hello中原-新增商品', part: 'shop/add' });
 });
+router.get('/update', function(req, res, next) {
+    res.render('console', { title: 'Hello中原-更新商品', part: 'shop/update' });
+});
 router.get('/bussiness', function(req, res, next) {
     res.render('console', { title: 'Hello中原-營業中', part: 'shop/bussiness/index' });
 });

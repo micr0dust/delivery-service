@@ -6,6 +6,7 @@ const loginAction = require('../../models/store/store_mode_model');
 const addProduct = require('../../models/store/add_product_model');
 const updateProduct = require('../../models/store/put_product_model');
 const delProduct = require('../../models/store/delete_product_model');
+const getOneProduct = require('../../models/store/get_one_product');
 const storeUpdate = require('../../models/store/put_store_model');
 const getIncome = require('../../models/store/get_lastIncome_model');
 const pauseProduct = require('../../models/store/switch_product_pause');
@@ -277,6 +278,33 @@ module.exports = class Store {
                     result: err.message
                 });
             });
+    }
+
+    // 取得特定單一商品
+    oneProduct(req, res, next) {
+        const data = {
+            productID: req.headers.productid
+        };
+
+        if (!check.check_id(data.productID))
+            return res.status(400).send({
+                status: '格式錯誤',
+                code: false,
+                result: '必須輸入正確 ID 格式'
+            });
+        getOneProduct(req.headers['token'], data).then(result => {
+            res.json({
+                status: "成功獲取商品資料",
+                code: true,
+                result: result
+            });
+        }, (err) => {
+            res.status(500).json({
+                status: "無法獲取商品資料",
+                code: false,
+                result: err.message
+            });
+        });
     }
 
     // 店家更新商品上下架狀態

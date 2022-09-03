@@ -553,6 +553,57 @@ router.delete('/product', middleWave, storeModifyMethod.deleteProduct, () => {
              }
      */
 });
+router.get('/product/one', middleWave, storeModifyMethod.oneProduct, () => {
+    //  #swagger.summary  = '商家獲取特定單一商品'
+    //  #swagger.description = '以 token 和商品 ID 請求，返回屬於店家的特定單一商品'
+    /*  #swagger.consumes = ['application/x-www-form-urlencoded']*/
+    /*  #swagger.parameters['token'] = {
+                in: 'header',
+                type: 'string',
+                required: 'true',
+                description: 'access token',
+                schema: { $ref: '#/definitions/token' }
+    }
+        #swagger.parameters['productID'] = {
+                  in: 'header',
+                  type: 'string',
+                  required: 'true',
+                  description: '商品ID',
+                  schema: "62bfabae55036d765d2adfbf"
+         }
+     */
+
+    /*  #swagger.responses[200] = {
+                description: '成功獲取商品資料',
+                schema: {
+                    status: '成功獲取商品資料',
+                    code: true,
+                    result: {
+                        "_id": "62e34a28167d90df4ef71efc",
+                        "name": "超小漢堡",
+                        "price": "1395",
+                        "describe": "嫌貴就不要買啊",
+                        "type": "漢堡",
+                        "discount": "[{\"method\":\"exceedPriceDiscount\",\"goal\":100,\"discount\":15}]",
+                        "options": "[{\"title\":\"肉種\",\"multiple\":false,\"requires\":true,\"option\":[{\"name\":\"牛肉\",\"cost\":\"0\"},{\"name\":\"雞肉\",\"cost\":\"0\"},{\"name\":\"豬肉\",\"cost\":\"0\"},{\"name\":\"魚肉\",\"cost\":\"0\"}]},{\"title\":\"加料\",\"multiple\":true,\"requires\":false,\"option\":[{\"name\":\"雙層肉\",\"cost\":\"20\"},{\"name\":\"2倍起司\",\"cost\":\"10\"}]}]",
+                        "create_date": "2022-08-31 16:09:13",
+                        "belong": "62062d8d136e8a533bb22e48",
+                        "pause": false
+                    }
+                }
+            }
+    } */
+    /*
+        #swagger.responses[500] = {
+                description: '無法獲取商品資料',
+                schema: {
+                    status: '無法獲取商品資料',
+                    code: false,
+                    result: 'error message'
+                }
+            }
+    */
+});
 router.get('/order', middleWave, storeModifyMethod.getOrder, () => {
     //  #swagger.summary  = '商家獲取訂單'
     //  #swagger.description = '以 token 請求，返回此商家所有的訂單'

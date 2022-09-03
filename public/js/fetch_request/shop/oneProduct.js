@@ -1,31 +1,21 @@
-async function putStore(data) {
+async function getOneProduct(productID) {
     const headersList = {
         "Accept": "*/*",
         "token": localStorage.acesstoken,
+        "productID": productID,
         "Content-Type": "application/x-www-form-urlencoded"
     };
-    let bodyContent = "";
-    if (data['name']) bodyContent += `name=${data['name']}&`;
-    if (data['address']) bodyContent += `address=${data['address']}&`;
-    if (data['discount']) bodyContent += `discount=${data['discount']}&`;
-    if (data['timeEstimate']) bodyContent += `timeEstimate=${data['timeEstimate']}&`;
-    if (data['businessTime']) bodyContent += `businessTime=${data['businessTime']}&`;
-    if (data['place']) bodyContent += `place=${data['place']}&`;
-
-    return await fetch("/store", {
-        method: "PUT",
-        headers: headersList,
-        body: bodyContent
+    return await fetch("/store/product/one", {
+        method: "GET",
+        headers: headersList
     }).then(async function(response) {
         document.getElementById('loader').classList.remove('is-active');
         if (response.status === 200) {
-            const result = await response.text();
-            const data = JSON.parse(result);
-            return data;
+            return await response.text();
         } else if (response.status === 403) {
             if (localStorage.refresh_token) {
                 await getToken();
-                return putStore(data);
+                return getOneProduct();
             } else {
                 localStorage.clear();
                 window.location.href = '/admin/login?redirct=' + location.pathname;

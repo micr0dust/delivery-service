@@ -15,7 +15,7 @@ module.exports = class CheckCustomer {
 
     //判斷name格式
     checkName(name) {
-        const filt = /^.{1,20}$/;
+        const filt = /^.{1,30}$/;
         const result = filt.test(name);
         return result;
     }
