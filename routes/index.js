@@ -580,7 +580,7 @@ router.get('/user/order', middleWave, memberModifyMethod.getOrder, () => {
 });
 router.delete('/user/order', middleWave, memberModifyMethod.deleteOrder, () => {
     //  #swagger.summary  = '撤回訂單'
-    //  #swagger.description = '以使用者 token 和商品 ID 請求，撤回尚未被店家接受的訂單。'
+    //  #swagger.description = '以使用者 token 和訂單 ID 請求，撤回尚未被店家接受的訂單。'
     /*  #swagger.consumes = ['application/x-www-form-urlencoded']*/
     /*  #swagger.parameters['token'] = {
             in: 'header',
@@ -589,6 +589,15 @@ router.delete('/user/order', middleWave, memberModifyMethod.deleteOrder, () => {
             description: 'member access token',
             schema: { $ref: '#/definitions/token' }
     }*/
+    /*
+        #swagger.parameters['orderID'] = {
+                in: 'formData',
+                type: 'string',
+                required: 'true',
+                description: '訂單 ID',
+                schema: "6218bc479bd8bbdaa3036906"
+        }
+    */
 
     /*  #swagger.responses[200] = {
                 description: '成功撤回訂單',
@@ -599,6 +608,7 @@ router.delete('/user/order', middleWave, memberModifyMethod.deleteOrder, () => {
                 }
             }
     } */
+
     /*
         #swagger.responses[500] = {
                 description: '訂單無法撤回',

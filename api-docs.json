@@ -1440,7 +1440,7 @@
           "member"
         ],
         "summary": "撤回訂單",
-        "description": "以使用者 token 和商品 ID 請求，撤回尚未被店家接受的訂單。",
+        "description": "以使用者 token 和訂單 ID 請求，撤回尚未被店家接受的訂單。",
         "consumes": [
           "application/x-www-form-urlencoded"
         ],
@@ -1453,6 +1453,17 @@
             "description": "member access token",
             "schema": {
               "$ref": "#/definitions/token"
+            }
+          },
+          {
+            "name": "orderID",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "description": "訂單 ID",
+            "schema": {
+              "type": "string",
+              "example": "6218bc479bd8bbdaa3036906"
             }
           }
         ],
