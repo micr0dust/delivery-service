@@ -399,7 +399,7 @@ module.exports = class Member {
     //訂單撤回
     deleteOrder(req, res, next) {
         const data = {
-            orderID: req.body.orderID
+            orderID: req.body.orderid
         };
         if (!check.checkHexStringId(data.orderID))
             res.status(400).send({

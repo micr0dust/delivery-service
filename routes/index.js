@@ -590,7 +590,7 @@ router.delete('/user/order', middleWave, memberModifyMethod.deleteOrder, () => {
             schema: { $ref: '#/definitions/token' }
     }*/
     /*
-        #swagger.parameters['orderID'] = {
+        #swagger.parameters['orderid'] = {
                 in: 'formData',
                 type: 'string',
                 required: 'true',
