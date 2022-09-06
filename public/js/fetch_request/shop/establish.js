@@ -1,21 +1,24 @@
-async function getStore() {
+function establish(data) {
     const headersList = {
         "Accept": "*/*",
         "token": localStorage.acesstoken,
         "Content-Type": "application/x-www-form-urlencoded"
     };
-    return await fetch("/store", {
-        method: "GET",
+
+    fetch("/store/establish", {
+        method: "POST",
+        body: "name=" + data.name + "&address=" + data.address,
         headers: headersList
     }).then(async function(response) {
         document.getElementById('loader').classList.remove('is-active');
-        if (response.status === 200) {
-            if (response.redirected) window.location.href = response.url;
-            return await response.text();
+        if (response.status === 201) {
+            const result = await response.text();
+            const data = JSON.parse(result);
+            window.location.href = '/store';
         } else if (response.status === 403) {
             if (localStorage.refresh_token) {
                 await getToken();
-                return getStore();
+                return establish(data);
             } else {
                 localStorage.clear();
                 window.location.href = '/admin/login?redirct=' + location.pathname;

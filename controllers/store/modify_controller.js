@@ -56,7 +56,6 @@ module.exports = class Store {
                     });
                 })
                 .catch(err => {
-                    // respon error
                     res.status(500).send({
                         status: '註冊失敗',
                         code: false,
@@ -386,7 +385,9 @@ module.exports = class Store {
     // 取得店家資料
     getStoreInfo(req, res, next) {
         storeData(req.headers['token']).then(result => {
-            res.json({
+            if (result === "查無此帳號擁有的商店")
+                return res.redirect('/shop/establish');
+            return res.json({
                 status: "成功獲取店家資料",
                 code: true,
                 result: result

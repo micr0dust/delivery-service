@@ -39,7 +39,7 @@ router.post('/role/add', middleWave, adminModifyMethod.postAddRole, () => {
                 schema: {
                     status: '成功新增身分',
                     code: true,
-                    result: "成功新增身分 ${data.role} 至帳號"
+                    result: "成功新增身分 store 至帳號 吳玼仁"
                 }
             }
     } */
@@ -98,7 +98,7 @@ router.post('/role/remove', middleWave, adminModifyMethod.deleteRole, () => {
                 schema: {
                     status: '成功移除身分',
                     code: true,
-                    result: "成功移除身分 ${data.role} 至帳號"
+                    result: "成功從帳號 吳玼仁 移除身分 store"
                 }
             }
     } */

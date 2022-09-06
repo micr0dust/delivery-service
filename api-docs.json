@@ -4697,7 +4697,7 @@
                 },
                 "result": {
                   "type": "string",
-                  "example": "成功新增身分 ${data.role} 至帳號"
+                  "example": "成功新增身分 store 至帳號 吳玼仁"
                 }
               },
               "xml": {
@@ -4845,7 +4845,7 @@
                 },
                 "result": {
                   "type": "string",
-                  "example": "成功移除身分 ${data.role} 至帳號"
+                  "example": "成功從帳號 吳玼仁 移除身分 store"
                 }
               },
               "xml": {

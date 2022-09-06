@@ -151,6 +151,7 @@
         if (data.result.create) document.getElementById('create').innerText = "創建時間：" + data.result.create;
         if (data.result.update) document.getElementById('update').innerText = "上次更新：" + data.result.update;
         checkInputFn(data.result['verityCode'], data.result['phoneVerify']);
+        display();
     }
 
     if (localStorage.redirct) {

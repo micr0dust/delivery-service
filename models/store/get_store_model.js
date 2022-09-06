@@ -10,9 +10,10 @@ module.exports = async function storeData(id) {
     const store = db.collection(config.mongo.store);
     try {
         const memberResult = await member.findOne({ _id: ObjectId(id) });
-        if (!memberResult) throw new Error("查無帳號，請重新登入")
+        if (!memberResult) throw new Error("查無帳號，請重新登入");
+        if (!(~memberResult.role.indexOf("store"))) throw new Error("查無店家身分");
         const findResult = await store.findOne({ belong: memberResult._id.toString() });
-        if (!findResult) throw new Error("查無此帳號擁有的商店");
+        if (!findResult) return "查無此帳號擁有的商店";
         return {
             name: findResult.name,
             address: findResult.address,
