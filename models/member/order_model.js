@@ -82,6 +82,12 @@ module.exports = async function order(data, finalOrder) {
                             if (!Array.isArray(found['option'])) throw new Error(
                                 `商品 ${checkedOrder[i].id} 中，的選項 ${arrOptions[j]['title']} 為複選，需用 List 處理`
                             );
+                            if (arrOptions[j]['min'] && found['option'].length < parseInt(arrOptions[j]['min'])) throw new Error(
+                                `商品 ${checkedOrder[i].id} 中的選項 ${arrOptions[j]['title']}，最少限制為 ${arrOptions[j]['min']} 項`
+                            );
+                            if (arrOptions[j]['max'] && found['option'].length > parseInt(arrOptions[j]['max'])) throw new Error(
+                                `商品 ${checkedOrder[i].id} 中的選項 ${arrOptions[j]['title']}，最大限制為 ${arrOptions[j]['max']} 項`
+                            );
                             for (let k = 0; k < found['option'].length; k++) {
                                 const optData = (arrOptions[j]['option']).find(opt => opt['name'] === found['option'][k]);
                                 if (!optData) throw new Error(

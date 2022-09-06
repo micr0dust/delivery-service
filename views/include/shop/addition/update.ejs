@@ -1,0 +1,52 @@
+<script src="/js/fetch_request/shop/oneProduct.js"></script>
+<script src="/js/fetch_request/shop/updateProduct.js"></script>
+<script>
+    document.getElementById('submit').innerText = "更新";
+    const id = decodeURI(location.href.split('?')[1]);
+    const testID = /^[a-f\d]{24}$/i.test(id);
+    if (testID)
+        getProduct(id);
+
+    async function getProduct(id) {
+        const unparse = await getOneProduct(id);
+        const parse = JSON.parse(unparse);
+        const data = parse.result;
+        document.getElementById('product').value = data.name;
+        document.getElementById('price').value = data.price;
+        document.getElementById('describe').value = data.describe;
+        document.getElementById('tag').value = data.type;
+
+        const options = JSON.parse(data.options);
+        for (let i = 0; i < options.length; i++) {
+            const optionTemplate = document.getElementById('optionTemplate').cloneNode(true);
+            optionTemplate.content.querySelector('[name="title"]').value = options[i].title;
+            for (let j = 0; j < options[i]['option'].length; j++)
+                addChildOption(optionTemplate.content.querySelector('[name="child-options-add"]'), options[i]['option'][j]);
+            optionTemplate.content.querySelector('[name="child-options-remove"]').style.visibility = 'hidden';
+            optionTemplate.content.querySelector('[name="multiple"]').value = (options[i].multiple ? "true" : "false");
+            optionTemplate.content.querySelector('[name="required"]').value = (options[i].requires ? "true" : "false");
+            if (options[i].multiple) {
+                optionTemplate.content.querySelector('[name="limit"]').classList.remove('d-none');
+                optionTemplate.content.querySelector('[name="min"]').value = options[i].min;
+                optionTemplate.content.querySelector('[name="max"]').value = options[i].max;
+            }
+            const newOption = document.importNode(optionTemplate.content, true);
+            const insertPos = document.getElementById('options');
+            insertPos.insertBefore(newOption, insertPos.lastElementChild);
+            const allNodes = insertPos.children;
+            if (allNodes.length > 1) {
+                allNodes[allNodes.length - 2].querySelector('[name="multiple"]').value = (options[i].multiple ? "true" : "false");
+                allNodes[allNodes.length - 2].querySelector('[name="required"]').value = (options[i].requires ? "true" : "false");
+            }
+        }
+    }
+
+    function submitProduct() {
+        document.getElementById('loader').classList.add('is-active');
+        putProduct(
+            getForm({
+                id: id
+            })
+        );
+    }
+</script>

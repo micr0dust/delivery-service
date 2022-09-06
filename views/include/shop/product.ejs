@@ -32,7 +32,8 @@
                         <input type="number" id="price" class="form-control" placeholder="價格" name="price">
                     </div>
                 </form>
-                <button class="btn btn-primary" onclick="submitProduct()">建立</button>
+                <button id="submit" class="btn btn-primary" onclick="submitProduct()">建立</button>
+                <button class="btn btn-secondary" onclick="cancel()">取消</button>
             </div>
         </div>
     </div>
@@ -50,7 +51,7 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text">選項</span>
                 </div>
-                <select class="form-control" name="multiple">
+                <select class="form-control" name="multiple" onchange="multipleOnChange(this)">
                                 <option value="false">單選</option>
                                 <option value="true">複選</option>
                             </select>
@@ -63,6 +64,13 @@
                                 <option value="true">是</option>
                                 <option value="false">否</option>
                             </select>
+            </div>
+            <div class="input-group mb-2 d-none" name="limit">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">限制 (非必填)</span>
+                </div>
+                <input type="number" class="form-control" placeholder="最少選幾項" name="min" autocomplete="off">
+                <input type="number" class="form-control" placeholder="最多選幾項" name="max" autocomplete="off">
             </div>
             <ul name="child-options">
                 <li><p>子選項</p></li>
@@ -90,17 +98,34 @@
     <script src="/js/fetch_request/storePage.js"></script>
 </div>
 <script>
-    const dataStr = decodeURI(location.href.split('?')[1]);
-    if (dataStr) {
-        const data = dataStr.split('&');
-        for (let i = 0; i < data.length; i++)
-            if (document.getElementById(data[i].split('=')[0]))
-                document.getElementById(data[i].split('=')[0]).value = data[i].split('=')[1];
+    function cancel() {
+        Swal.fire({
+            title: '確定要取消？',
+            text: "取消後將不會保存你編輯的內容",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#adb5bd',
+            confirmButtonText: '是',
+            cancelButtonText: '否'
+        }).then((result) => {
+            if (result.isConfirmed) location.href = '/shop';
+        })
     }
-    document.getElementById('loader').classList.remove('is-active');
 
-    function addChildOption(element) {
-        const childOptionTemplate = document.getElementById('childOptionTemplate');
+    function multipleOnChange(element) {
+        if (element.value === "true")
+            element.parentNode.parentNode.querySelector('[name="limit"]').classList.remove('d-none');
+        else
+            element.parentNode.parentNode.querySelector('[name="limit"]').classList.add('d-none');
+    }
+
+    function addChildOption(element, data) {
+        const childOptionTemplate = document.getElementById('childOptionTemplate').cloneNode(true);
+        if (data) {
+            childOptionTemplate.content.querySelector('[name="child-title"]').value = data.name;
+            childOptionTemplate.content.querySelector('[name="child-cost"]').value = data.cost;
+        }
         const newChildOption = document.importNode(childOptionTemplate.content, true);
         element.parentNode.insertBefore(newChildOption, element);
     }
@@ -113,7 +138,7 @@
         element.parentNode.insertBefore(newOption, element);
     }
 
-    function submitProduct() {
+    function getForm(addition) {
         const name = document.getElementById('product');
         const describe = document.getElementById('describe');
         const tag = document.getElementById('tag');
@@ -129,6 +154,8 @@
             const required = arrOptions[i].querySelector('[name="required"]');
             const childOptions = arrOptions[i].querySelector('[name="child-options"]');
             const arrChildOptions = childOptions.querySelectorAll('[name="child-option"]');
+            const min = arrOptions[i].querySelector('[name="min"]').value || null;
+            const max = arrOptions[i].querySelector('[name="max"]').value || null;
             let childOptionsData = [];
             for (let j = 0; j < arrChildOptions.length; j++) {
                 const childTitle = arrChildOptions[j].querySelector('[name="child-title"]');
@@ -140,22 +167,24 @@
             }
             optionData.push({
                 title: title.value,
-                multiple: multiple.value == "true" ? true : false,
-                requires: required.value == "true" ? true : false,
+                multiple: multiple.value === "true",
+                requires: required.value === "true",
+                min: multiple.value === "true" ? min : null,
+                max: multiple.value === "true" ? max : null,
                 option: childOptionsData
             });
         }
 
-        let oProduct = {
+        const oProduct = {
             name: name.value,
             describe: describe.value,
             tag: tag.value,
             price: price.value,
             options: JSON.stringify(optionData),
         };
-        addProduct(oProduct);
-        document.getElementById('loader').classList.add('is-active');
+        for (const key in addition)
+            oProduct[key] = addition[key];
+
+        return oProduct;
     }
 </script>
-<script src="/js/fetch_request/shop/deleteProduct.js"></script>
-<script src="/js/fetch_request/shop/addProduct.js"></script>

@@ -367,7 +367,18 @@
             for (let i = 0; i < options.length; i++) {
                 const newProductOptions = document.getElementById('productOptionsTemplate').cloneNode(true);
                 newProductOptions.content.querySelector('[name="title"]').textContent = options[i].title;
-                newProductOptions.content.querySelector('[name="multiple"]').textContent = options[i].multiple ? `多選` : `單選`;
+                const optionStr = () => {
+                    if (options[i].multiple) {
+                        if (options[i].min && options[i].max)
+                            return `多選 (最少 ${options[i].min} 項，最多 ${options[i].max} 項)`;
+                        else if (options[i].min)
+                            return `多選 (至少選 ${options[i].min} 項)`;
+                        else if (options[i].max)
+                            return `多選 (最多選 ${options[i].max} 項)`;
+                    }
+                    return `單選`;
+                }
+                newProductOptions.content.querySelector('[name="multiple"]').textContent = optionStr();
                 const option = options[i]['option'];
                 for (let j = 0; j < option.length; j++) {
                     const newProductOption = document.getElementById('optionTemplate').cloneNode(true);

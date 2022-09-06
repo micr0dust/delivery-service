@@ -17,6 +17,10 @@ module.exports = async function addProduct(id, productData) {
             optionsData.forEach(element => {
                 if (typeof element.requires != "boolean") throw new Error("requires 須為 boolean 型別");
                 if (typeof element.multiple != "boolean") throw new Error("multiple 須為 boolean 型別");
+                if (element.min && !/^[1-9]\d*$/.test(element.min)) throw new Error("min 須為大於 1 的整數字串");
+                if (element.max && !/^[1-9]\d*$/.test(element.max)) throw new Error("max 須為大於 1 的整數字串");
+                if (element.max && parseInt(element.max) > element.option.length) throw new Error("max 不能大於選項數量");
+                if (element.max && element.min && parseInt(element.min) >= parseInt(element.max)) throw new Error("min 須小於 max");
                 if (!/^.{0,15}$/.test(element.title)) throw new Error("標題應為0~15字");
                 if (repeatCheak.has(element.title)) throw new Error(`標題不應重複-> ${element.title}`);
                 repeatCheak.add(element.title);
