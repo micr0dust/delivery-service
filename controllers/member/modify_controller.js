@@ -1,7 +1,6 @@
 const toRegister = require('../../models/member/register_model');
 const loginAction = require('../../models/member/login_model');
 const googleLogin = require('../../models/member/google_login_model');
-const googleGetRefreshToken = require('../../models/member/google_refreshToken_model');
 const getToken = require('../../models/member/get_token_model');
 const updateAction = require('../../models/member/update_model');
 const deleteAction = require('../../models/member/delete_model');
@@ -21,7 +20,6 @@ const Check = require('../../service/member_check');
 const encryption = require('../../models/encryption');
 const config = require('../../config/development_config');
 const jwt = require('jsonwebtoken');
-const { token } = require('morgan');
 let check = new Check();
 const { OAuth2Client } = require('google-auth-library');
 const request = require("request");

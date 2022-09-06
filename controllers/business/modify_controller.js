@@ -3,14 +3,10 @@ const getOrder = require('../../models/business/get_order_model');
 const putAccept = require('../../models/business/put_accept_model');
 const putComplete = require('../../models/business/put_complete_model');
 
-const verify = require('../../models/store/verification_model');
 const Check = require('../../service/store_check');
-const encryption = require('../../models/encryption');
 const config = require('../../config/development_config');
 
 const jwt = require('jsonwebtoken');
-const { token } = require('morgan');
-const req = require('express/lib/request');
 
 let check = new Check();
 

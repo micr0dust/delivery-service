@@ -9,11 +9,12 @@ module.exports = {
         user: process.env.DATABASE_USER,
         password: process.env.DATABASE_PASSWORD,
         database: process.env.DATABASE,
-        member: process.env.COLLECTION_MEMBER,
-        product: process.env.COLLECTION_PRODUCT,
-        store: process.env.COLLECTION_STORE,
-        order: process.env.COLLECTION_ORDER,
-        group: process.env.COLLECTION_GROUP
+        member: "member",
+        product: "product",
+        store: "store",
+        order: "order",
+        group: "group",
+        log: "log"
     },
     mail: {
         account: process.env.MAIL,

@@ -14,7 +14,8 @@ const groupRouter = require('./routes/group');
 const templatesRouter = require('./routes/templates');
 const authedRouter = require('./routes/authed');
 const shopRouter = require('./routes/shop');
-const adminRouter = require('./routes/admin');
+const homeRouter = require('./routes/home');
+const backendRouter = require('./routes/admin');
 const usersRouter = require('./routes/users');
 const rateLimiterMiddleware = require('./models/middleWave/rateLimite');
 
@@ -43,7 +44,7 @@ app.use('/auth', authedRouter
 app.use('/shop', shopRouter
     // #swagger.ignore = true
 );
-app.use('/admin', adminRouter
+app.use('/admin', homeRouter
     // #swagger.ignore = true
 );
 app.get('/', function(req, res, next) {
@@ -62,6 +63,9 @@ app.use('/business', businessRouter
 );
 app.use('/group', groupRouter
     // #swagger.tags = ['group']
+);
+app.use('/backend', backendRouter
+    // #swagger.tags = ['backend']
 );
 app.use('/users', usersRouter
     // #swagger.ignore = true
