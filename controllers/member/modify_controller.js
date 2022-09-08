@@ -373,7 +373,8 @@ module.exports = class Member {
         const data = {
             id: req.headers['token'],
             order: JSON.stringify(req.body),
-            DATE: new Date()
+            DATE: new Date(),
+            time: onTime()
         };
 
         orderAction(data, true).then(

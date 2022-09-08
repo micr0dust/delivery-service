@@ -456,16 +456,17 @@ router.post('/user/order', jsonParser, middleWave, memberModifyMethod.postOrder,
                     "status": "點餐成功",
                     "code": true,
                     "result": {
+                        "DATE": "2022-09-08T07:10:53.786Z",
+                        "seqence": 0,
                         "order": { $ref: '#/definitions/orderStr' },
-                        "DATE": "2022-07-11T08:17:32.616Z",
+                        "total": 129,
+                        "store": "8y3un9ka",
                         "store_info": {
-                            "name": "友朋小吃",
-                            "address": "桃園市中壢區OO街OO號"
+                            "name": "有朋小吃",
+                            "address": "台灣台北市中山區民權東路三段榮星花園"
                         },
-                        "total": 154,
-                        "discount": '["滿100元，現省15元"]',
-                        "complete": false,
-                        "accept": false
+                        "discount": "[\"滿100元，現省15元\"]",
+                        "tableware": false
                     }
                 }
             }
@@ -507,16 +508,17 @@ router.post('/user/order/preview', jsonParser, middleWave, memberModifyMethod.po
                     "status": "訂單結果預覽請求成功",
                     "code": true,
                     "result": {
+                        "DATE": "2022-09-08T07:10:53.786Z",
+                        "seqence": 0,
                         "order": { $ref: '#/definitions/orderStr' },
-                        "DATE": "2022-07-11T08:17:32.616Z",
+                        "total": 129,
+                        "store": "8y3un9ka",
                         "store_info": {
-                            "name": "友朋小吃",
-                            "address": "桃園市中壢區OO街OO號"
+                            "name": "有朋小吃",
+                            "address": "台灣台北市中山區民權東路三段榮星花園"
                         },
-                        "total": 154,
-                        "discount": '["滿100元，現省15元"]',
-                        "complete": false,
-                        "accept": false
+                        "discount": "[\"滿100元，現省15元\"]",
+                        "tableware": false
                     }
                 }
             }

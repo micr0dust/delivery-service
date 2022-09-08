@@ -183,9 +183,24 @@ module.exports = async function order(data, finalOrder) {
             }
         }
 
+
+        const today = () => {
+            const date = data.DATE;
+            const mm = date.getMonth() + 1;
+            const dd = date.getDate();
+
+            return [
+                date.getFullYear(),
+                '-' + (mm > 9 ? '' : '0') + mm,
+                '-' + (dd > 9 ? '' : '0') + dd
+            ].join('');
+        };
+        const orderResult = await order.find({ store: productOwner.url, DATE: { $gte: new Date(today()) } }).toArray();
+
         const final = {
             DATE: data.DATE,
             id: userID,
+            seqence: orderResult.length,
             store: productOwner.url,
             store_info: {
                 name: productOwner.name,
@@ -210,7 +225,8 @@ module.exports = async function order(data, finalOrder) {
         }
 
         const finalData = {
-            DATE: data.DATE,
+            DATE: final.DATE,
+            seqence: final.seqence,
             order: final.order,
             total: final.total,
             store: final.store,
