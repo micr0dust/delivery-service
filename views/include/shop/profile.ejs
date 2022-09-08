@@ -445,7 +445,6 @@
 
         const result = await getStore();
         const data = JSON.parse(result);
-        console.log(data.result)
         if (data.result.name) document.getElementById('name').innerText = data.result.name;
         if (data.result.describe) document.getElementById('describe').innerText = data.result.describe;
         if (data.result.address) document.getElementById('address').value = data.result.address;
