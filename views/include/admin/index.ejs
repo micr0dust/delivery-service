@@ -1,0 +1,44 @@
+<div class="container">
+    <div class="row">
+        <div class="card col-12 mt-5 mb-2"></div>
+        <div class="card col-12 mt-5" id="role">
+            <div class="input-group mb-2 mt-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">身分</span>
+                </div>
+                <select class="form-control" name="role">
+                    <option value="user">一般使用者</option>
+                    <option value="store">店家</option>
+                    <option value="dev">開發人員</option>
+                    <option value="admin">管理員</option>
+                </select>
+            </div>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">使用者</span>
+                </div>
+                <input type="text" class="form-control" placeholder="ID" name="id">
+            </div>
+            <div class="input-group mb-2">
+                <button class="btn btn-danger mt-1" onclick="delRole(getRoleData())">刪除</button>
+                <button class="btn btn-success mt-1 ml-3" onclick="addRole(getRoleData())">增加</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/fetch_request/admin/verify.js"></script>
+<script src="/js/fetch_request/admin/addRole.js"></script>
+<script src="/js/fetch_request/admin/deleteRole.js"></script>
+<script>
+    verify();
+
+    function getRoleData() {
+        const rolePart = document.getElementById('role');
+        const role = rolePart.querySelector('[name="role"]');
+        const id = rolePart.querySelector('[name="id"]');
+        return {
+            id: id.value,
+            role: role.value
+        };
+    }
+</script>

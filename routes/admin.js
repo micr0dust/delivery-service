@@ -6,6 +6,50 @@ const middleWave = require('../models/middleWave/member');
 
 let adminModifyMethod = new AdminModifyMethod();
 
+router.post('/verify', middleWave, adminModifyMethod.postAdminVerify, () => {
+    //  #swagger.summary = '管理員身分驗證'
+    //  #swagger.description = '以 token 請求，對該帳號進行管理員身分驗證'
+    /*  #swagger.consumes = ['application/x-www-form-urlencoded']*/
+    /*  #swagger.parameters['token'] = {
+                in: 'header',
+                type: 'string',
+                required: 'true',
+                description: 'member access token',
+                schema: { $ref: '#/definitions/token' }
+    }
+    */
+
+    /*  #swagger.responses[200] = {
+                description: '成功驗證管理員身分',
+                schema: {
+                    status: '成功驗證管理員身分',
+                    code: true,
+                    result: "成功驗證管理員身分"
+                }
+            }
+    } */
+    /*
+        #swagger.responses[400] = {
+                description: '無法驗證管理員身分',
+                schema: {
+                    status: '無法驗證管理員身分',
+                    code: false,
+                    result: 'error message'
+                }
+            }
+    */
+    /*
+         #swagger.responses[500] = {
+                 description: '無法移除身分',
+                 schema: {
+                     status: '無法移除身分',
+                     code: false,
+                     result: 'error message'
+                 }
+             }
+     */
+});
+
 router.post('/role/add', middleWave, adminModifyMethod.postAddRole, () => {
     //  #swagger.summary  = '對特定帳號新增身分'
     //  #swagger.description = '以 token、欲加身分和目標 ID 請求，對該帳號新增身分'

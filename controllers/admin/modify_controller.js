@@ -1,5 +1,6 @@
 const addRole = require('../../models/admin/add_role');
 const removeRole = require('../../models/admin/delete_role');
+const adminVerify = require('../../models/admin/verify');
 
 const Check = require('../../service/admin_check');
 const config = require('../../config/development_config');
@@ -9,6 +10,24 @@ const jwt = require('jsonwebtoken');
 let check = new Check();
 
 module.exports = class Admin {
+    // 管理員身分驗證
+    postAdminVerify(req, res, next) {
+        adminVerify(req.headers['token']).then(result => {
+            if (result === 403) return res.redirect('/auth');
+            return res.json({
+                status: "成功驗證管理員身分",
+                code: true,
+                result: result
+            });
+        }, (err) => {
+            return res.status(500).json({
+                status: "無法驗證管理員身分",
+                code: false,
+                result: err.message
+            });
+        });
+    }
+
     // 賦予特定使用者特定身分
     postAddRole(req, res, next) {
         const data = {
@@ -22,14 +41,15 @@ module.exports = class Admin {
                 result: `沒有名為 ${data.role} 的身分`
             });
         addRole(req.headers['token'], data).then(result => {
-                res.json({
+                if (result === 403) return res.redirect('/auth');
+                return res.json({
                     status: '成功新增身分',
                     code: true,
                     result: result
                 });
             },
             err => {
-                res.status(500).send({
+                return res.status(500).send({
                     status: '無法新增身分',
                     code: false,
                     result: err.message
@@ -51,6 +71,7 @@ module.exports = class Admin {
                 result: `沒有名為 ${data.role} 的身分`
             });
         removeRole(req.headers['token'], data).then(result => {
+            if (result === 403) return res.redirect('/auth');
             return res.json({
                 status: "成功移除身分",
                 code: true,
