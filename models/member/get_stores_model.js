@@ -24,7 +24,9 @@ module.exports = async function getProduct() {
                 address: storeResult[i].address,
                 id: storeResult[i].url,
                 place: storeResult[i].place,
+                describe: storeResult[i].describe || "",
                 discount: storeResult[i].allDiscount || "[]",
+                timeEstimate: storeResult[i].timeEstimate || null,
                 businessTime: today
             }
         }
