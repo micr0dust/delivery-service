@@ -11,6 +11,7 @@ async function putStore(data) {
     if (data['timeEstimate']) bodyContent += `timeEstimate=${data['timeEstimate']}&`;
     if (data['businessTime']) bodyContent += `businessTime=${data['businessTime']}&`;
     if (data['place']) bodyContent += `place=${data['place']}&`;
+    if (data['describe']) bodyContent += `describe=${data['describe']}&`;
 
     return await fetch("/store", {
         method: "PUT",

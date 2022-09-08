@@ -425,12 +425,13 @@ module.exports = class Store {
             id: req.headers['token'],
             name: req.body.name,
             address: req.body.address,
+            describe: req.body.describe,
             place: req.body.place,
             allDiscount: req.body.discount,
             timeEstimate: req.body.timeEstimate,
             businessTime: req.body.businessTime
         };
-
+        Object.keys(data).forEach((key) => !data[key] && delete data[key]);
         for (let prop in data)
             if (!data[prop]) delete data[prop];
         if (data.name && !check.checkName(data.name)) {
@@ -466,6 +467,13 @@ module.exports = class Store {
                 status: '新增失敗',
                 code: false,
                 result: '無效的取餐位置'
+            });
+        }
+        if (data.describe && !check.checkDescribe(data.describe)) {
+            return res.status(400).send({
+                status: '格式錯誤',
+                code: false,
+                result: '敘述上限為100字'
             });
         }
         storeUpdate(data).then(result => {

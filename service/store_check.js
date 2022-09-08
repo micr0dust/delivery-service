@@ -23,7 +23,7 @@ module.exports = class CheckStore {
 
     //判斷describe格式
     checkDescribe(describe) {
-        const filt = /^.{0,30}$/;
+        const filt = /^.{0,100}$/;
         const result = filt.test(describe);
         return result;
     }

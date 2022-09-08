@@ -17,7 +17,10 @@
             <img class="card-img-top" id="img" src="/images/background.jpg" alt="Card image" style="width:100%">
             <div class="card-body justify-content-between">
                 <h4 id="name" class="card-title d-inline-block"></h4>
-                <button id="edit" class="btn btn-warning float-right" onclick="location.href='/shop/bussiness'">開始營業</button>
+                <button id="begin" class="btn btn-warning float-right" onclick="location.href='/shop/bussiness'">開始營業</button>
+            </div>
+            <div class="form-group">
+                <textarea class="form-control" rows="3" id="describe" placeholder="最多 100 字" name="describe" disabled></textarea>
             </div>
         </div>
         <div class="card col-md-6 col-sm-12">
@@ -185,10 +188,13 @@
         }
         const input = document.getElementsByTagName('input');
         const select = document.getElementsByTagName('select');
+        const textarea = document.getElementsByTagName('textarea');
         for (let i = 0; i < input.length; i++)
             input[i].disabled = able && !input[i].hasAttribute("data-cantChange") ? false : true;
         for (let i = 0; i < select.length; i++)
             select[i].disabled = able && !select[i].hasAttribute("data-cantChange") ? false : true;
+        for (let i = 0; i < textarea.length; i++)
+            textarea[i].disabled = able && !textarea[i].hasAttribute("data-cantChange") ? false : true;
     }
 
     function createFormTitle() {
@@ -249,10 +255,12 @@
     createDateGrid();
 
     function submitUpdate() {
+        edit(false);
         document.getElementById('loader').classList.add('is-active');
         const address = document.getElementById('address');
         const place = document.getElementById('place');
         const timeEstimate = document.getElementById('timeEstimate');
+        const describe = document.getElementById('describe');
 
         const schedule = document.getElementById('schedule');
         const line = schedule.querySelectorAll('[name="line"]');
@@ -269,6 +277,7 @@
             address: address.value,
             place: place.value,
             timeEstimate: timeEstimate.value,
+            describe: describe.value,
             businessTime: JSON.stringify(businessTime)
         };
 
@@ -436,7 +445,9 @@
 
         const result = await getStore();
         const data = JSON.parse(result);
+        console.log(data.result)
         if (data.result.name) document.getElementById('name').innerText = data.result.name;
+        if (data.result.describe) document.getElementById('describe').innerText = data.result.describe;
         if (data.result.address) document.getElementById('address').value = data.result.address;
         if (data.result.place) document.getElementById('place').value = data.result.place;
         if (data.result.timeEstimate) document.getElementById('timeEstimate').value = data.result.timeEstimate;

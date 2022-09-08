@@ -24,7 +24,8 @@ module.exports = async function storeData(id) {
             place: findResult.place || null,
             allDiscount: findResult.allDiscount || null,
             timeEstimate: findResult.timeEstimate || null,
-            businessTime: findResult.businessTime || null
+            businessTime: findResult.businessTime || null,
+            describe: findResult.describe || ""
         };
     } catch (err) {
         throw err;
