@@ -35,15 +35,15 @@ module.exports = async function order(data, finalOrder) {
         if (!(/^(0[0-9]|1[0-9]|2[0-3]):([0-5][0-9]:?)$/.test(orderData.reservation))) throw new Error("reservation 格式必須是 HH:MM");
 
         // 時間檢查
-        const hourData = parseInt(orderData.reservation.split(':')[0]);
-        const minData = parseInt(orderData.reservation.split(':')[1]);
-        const tomorrow = orderData.reservation.length - 5;
-        const hourNow = data.DATE.getHours();
-        const minNow = data.DATE.getMinutes();
-        if (!Boolean(tomorrow) &&
-            !(hourData * 60 + minData > hourNow * 60 + minNow +
-                ((productOwner.timeEstimate) ? parseInt(productOwner.timeEstimate) : 0)))
-            throw new Error((productOwner.timeEstimate) ? `請提早${productOwner.timeEstimate}分鐘預約` : "預約時間已超過");
+        // const hourData = parseInt(orderData.reservation.split(':')[0]);
+        // const minData = parseInt(orderData.reservation.split(':')[1]);
+        // const tomorrow = orderData.reservation.length - 5;
+        // const hourNow = data.DATE.getHours();
+        // const minNow = data.DATE.getMinutes();
+        // if (!Boolean(tomorrow) &&
+        //     !(hourData * 60 + minData > hourNow * 60 + minNow +
+        //         ((productOwner.timeEstimate) ? parseInt(productOwner.timeEstimate) : 0)))
+        //     throw new Error((productOwner.timeEstimate) ? `請提早${productOwner.timeEstimate}分鐘預約` : "預約時間已超過");
 
 
         let checked = [];
