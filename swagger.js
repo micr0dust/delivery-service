@@ -33,6 +33,7 @@ const doc = {
         token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhbGdvcml0aG0iOiJIUzI1NiIsImV4cCI6MTY1MDEyMTc1MCwiZGF0YSI6IjYyNWFkMDE2NzI0MGNhMzgzOWZlYmQwNSIsImlhdCI6MTY1MDExOTk1MH0.zK_jiJATx4W1INvg1yJsWnn_cnXjD2oc38DaRVTTx8k",
         order: {
             "tableware": true,
+            "reservation": "21:25",
             "orders": [{
                 "id": "62e34a28167d90df4ef71efc",
                 "count": 1,

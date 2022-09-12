@@ -5089,6 +5089,10 @@
           "type": "boolean",
           "example": true
         },
+        "reservation": {
+          "type": "string",
+          "example": "21:25"
+        },
         "orders": {
           "type": "array",
           "items": {
