@@ -112,7 +112,15 @@ router.put('/order/accept', middleWave, businessModifyMethod.putAccept, () => {
                  required: 'true',
                  description: '訂單 id',
                  schema: "62bfabae55036d765d2adfbf"
-     } */
+     }
+     #swagger.parameters['comments'] = {
+                    in: 'formData',
+                    type: 'string',
+                    required: 'true',
+                    description: '註解/留言',
+                    schema: "下次請勾要加的料，不要用備註的"
+        }
+    */
 
     /*  #swagger.responses[200] = {
                 description: '成功獲取訂單',

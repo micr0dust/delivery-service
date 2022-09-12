@@ -4255,6 +4255,17 @@
               "type": "string",
               "example": "62bfabae55036d765d2adfbf"
             }
+          },
+          {
+            "name": "comments",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "description": "註解/留言",
+            "schema": {
+              "type": "string",
+              "example": "下次請勾要加的料，不要用備註的"
+            }
           }
         ],
         "responses": {

@@ -21,7 +21,7 @@ module.exports = async function putAccept(data) {
         if (findResult.complete === true) throw new Error("訂單已被撤回");
         const putResult = await order.updateOne({ _id: ObjectId(data.orderID) }, {
             $set: {
-                complete: true,
+                accept: true,
                 comments: data.comments
             }
         });

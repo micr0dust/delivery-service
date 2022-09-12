@@ -1,4 +1,4 @@
-async function complete(_id, comments) {
+async function complete(data) {
     const headersList = {
         "Accept": "*/*",
         "token": localStorage.bussiness_acesstoken,
@@ -8,7 +8,7 @@ async function complete(_id, comments) {
     return await fetch("/business/order/complete", {
         method: "PUT",
         headers: headersList,
-        body: `id=${_id}&comments=${comments}`
+        body: `id=${data._id}&comments=${data.comments}`
     }).then(async function(response) {
         document.getElementById('loader').classList.remove('is-active');
         if (response.status === 200) {
@@ -20,7 +20,7 @@ async function complete(_id, comments) {
                 await getBussinessToken();
             else
                 await bussinessLogin();
-            return complete(_id);
+            return complete(data);
         } else {
             const result = await response.text();
             const data = JSON.parse(result);
