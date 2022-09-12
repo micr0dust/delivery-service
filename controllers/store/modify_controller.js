@@ -425,7 +425,7 @@ module.exports = class Store {
             id: req.headers['token'],
             name: req.body.name,
             address: req.body.address,
-            describe: req.body.describe || "",
+            describe: req.body.describe || " ",
             place: req.body.place,
             allDiscount: req.body.discount,
             timeEstimate: req.body.timeEstimate,

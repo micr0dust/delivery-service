@@ -20,7 +20,10 @@ module.exports = async function putAccept(data) {
         if (findResult.accept === true) throw new Error("已經接受過該訂單");
         if (findResult.complete === true) throw new Error("訂單已被撤回");
         const putResult = await order.updateOne({ _id: ObjectId(data.orderID) }, {
-            $set: { accept: true }
+            $set: {
+                complete: true,
+                comments: data.comments
+            }
         });
         if (!putResult) throw new Error("接受訂單時發生錯誤");
         return true;

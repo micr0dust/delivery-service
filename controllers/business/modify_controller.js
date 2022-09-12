@@ -53,7 +53,8 @@ module.exports = class Store {
     putAccept(req, res, next) {
         const data = {
             id: req.headers['token'],
-            orderID: req.body.id
+            orderID: req.body.id,
+            comments: req.body.comments || ""
         };
         if (!check.check_id(data.orderID)) return res.status(401).send({
             status: "無法接受",
@@ -80,7 +81,7 @@ module.exports = class Store {
         const data = {
             id: req.headers['token'],
             orderID: req.body.id,
-            comments: req.body.comments || null
+            comments: req.body.comments || ""
         };
         if (!check.check_id(data.orderID))
             return res.status(401).send({

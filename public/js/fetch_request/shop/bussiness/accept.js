@@ -1,4 +1,4 @@
-async function accept(_id) {
+async function accept(_id, comments) {
     const headersList = {
         "Accept": "*/*",
         "token": localStorage.bussiness_acesstoken,
@@ -8,7 +8,7 @@ async function accept(_id) {
     return await fetch("/business/order/accept", {
         method: "PUT",
         headers: headersList,
-        body: `id=${_id}`
+        body: `id=${_id}&comments=${comments}`
     }).then(async function(response) {
         document.getElementById('loader').classList.remove('is-active');
         if (response.status === 200) {
