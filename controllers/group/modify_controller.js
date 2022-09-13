@@ -27,12 +27,12 @@ module.exports = class Group {
 }
 
 const onTime = () => {
-    const date = new Date()
-    const mm = date.getMonth() + 1
-    const dd = date.getDate()
-    const hh = date.getHours()
-    const mi = date.getMinutes()
-    const ss = date.getSeconds()
+    const date = new Date();
+    const mm = date.getMonth() + 1;
+    const dd = date.getDate();
+    const hh = date.getHours();
+    const mi = date.getMinutes();
+    const ss = date.getSeconds();
 
     return [
         date.getFullYear(),

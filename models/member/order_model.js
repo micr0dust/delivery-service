@@ -38,12 +38,26 @@ module.exports = async function order(data, finalOrder) {
         const hourData = parseInt(orderData.reservation.split(':')[0]);
         const minData = parseInt(orderData.reservation.split(':')[1]);
         //const tomorrow = orderData.reservation.length - 5;
-        const hourNow = data.DATE.getHours();
-        const minNow = data.DATE.getMinutes();
+        const UTC8Time = new Date(
+            Date.UTC(
+                data.DATE.getFullYear(),
+                data.DATE.getMonth(),
+                data.DATE.getDate(),
+                data.DATE.getHours(),
+                data.DATE.getMinutes()
+            ) + data.DATE.getTimezoneOffset() * 60 * 1000
+        );
+        const hourNow = UTC8Time.getHours();
+        const minNow = UTC8Time.getMinutes();
+        const dayNow = UTC8Time.getDay();
+        //console.log(UTC8Time, hourNow, minNow, dayNow);
         if (!(hourData * 60 + minData > hourNow * 60 + minNow +
                 ((productOwner.timeEstimate) ? parseInt(productOwner.timeEstimate) : 0)))
             throw new Error((productOwner.timeEstimate) ? `請提早${productOwner.timeEstimate}分鐘預約` : "預約時間已超過");
-
+        if (!productOwner['businessTime'][hourNow][dayNow])
+            throw new Error("店家現在未營業，所以無法預約");
+        if (!productOwner['businessTime'][hourData][dayNow])
+            throw new Error("店家未在要求時段營業，所以無法預約");
 
         let checked = [];
         for (let i = 0; i < orderList.length; i++) {
