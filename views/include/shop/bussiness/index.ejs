@@ -76,7 +76,7 @@
             </div>
             <div id="unaccept"></div>
         </div>
-        <div id="accepted-body" class="col-md-6 col-sm-12 p-0">
+        <div id="accepted-body" class="col-md-6 col-sm-12 p-0 d-none d-md-block">
             <div class="d-flex m-0">
                 <div class="p-2 bg-info text-center d-md-none">
                     <a class="text-white" href="javascript:switchPanel('unaccept-body')">⮨</a>
@@ -108,7 +108,6 @@
         lastLength = nowLength;
     }
 
-
     function playAudio() {
         const audio = document.createElement("audio");
         audio.src = "/sounds/happyBell.wav";
@@ -134,9 +133,9 @@
     }
 
     function switchPanel(method) {
-        document.getElementById('accepted-body').style.display = 'none';
-        document.getElementById('unaccept-body').style.display = 'none';
-        document.getElementById(method).style.display = 'block';
+        document.getElementById('accepted-body').classList.add('d-none');
+        document.getElementById('unaccept-body').classList.add('d-none');
+        document.getElementById(method).classList.remove('d-none');
     }
 
     function optionDetail(element, options) {
@@ -194,6 +193,12 @@
             const container = order[i]['accept'] ? accepted : unaccept;
             container.appendChild(newOrder);
         }
+        const unacceptDiv = document.createElement("div");
+        unacceptDiv.classList.add('mt-5');
+        unaccept.appendChild(unacceptDiv);
+        const acceptedDiv = document.createElement("div");
+        acceptedDiv.classList.add('mt-5');
+        accepted.appendChild(acceptedDiv);
         return order.length;
     }
 </script>
