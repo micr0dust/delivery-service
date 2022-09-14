@@ -37,14 +37,12 @@ module.exports = async function order(data, finalOrder) {
         // 時間檢查
         const hourData = parseInt(orderData.reservation.split(':')[0]);
         const minData = parseInt(orderData.reservation.split(':')[1]);
-        //const tomorrow = orderData.reservation.length - 5;
         const UTC8Time = new Date(
             data.DATE.getTime() + (8 * 60 + data.DATE.getTimezoneOffset()) * 60 * 1000
         );
         const hourNow = UTC8Time.getHours();
         const minNow = UTC8Time.getMinutes();
         const dayNow = UTC8Time.getDay();
-        console.log(UTC8Time, (480 - data.DATE.getTimezoneOffset()));
         if (!(hourData * 60 + minData > hourNow * 60 + minNow +
                 ((productOwner.timeEstimate) ? parseInt(productOwner.timeEstimate) : 0)))
             throw new Error((productOwner.timeEstimate) ? `請提早${productOwner.timeEstimate}分鐘預約` : "預約時間已超過");
@@ -254,9 +252,7 @@ module.exports = async function order(data, finalOrder) {
             store_info: final.store_info,
             discount: final.discount,
             tableware: final.tableware,
-            reservation: final.reservation,
-            UTC8Time: UTC8Time,
-            TimezoneOffset: data.DATE.getTimezoneOffset()
+            reservation: final.reservation
         };
 
         return finalData;
