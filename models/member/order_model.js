@@ -260,7 +260,8 @@ module.exports = async function order(data, finalOrder) {
             store_info: final.store_info,
             discount: final.discount,
             tableware: final.tableware,
-            reservation: final.reservation
+            reservation: final.reservation,
+            UTC8Time: UTC8Time
         };
 
         return finalData;
