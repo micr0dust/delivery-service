@@ -39,13 +39,7 @@ module.exports = async function order(data, finalOrder) {
         const minData = parseInt(orderData.reservation.split(':')[1]);
         //const tomorrow = orderData.reservation.length - 5;
         const UTC8Time = new Date(
-            Date.UTC(
-                data.DATE.getFullYear(),
-                data.DATE.getMonth(),
-                data.DATE.getDate(),
-                data.DATE.getHours(),
-                data.DATE.getMinutes()
-            ) + (8 * 60 + data.DATE.getTimezoneOffset()) * 60 * 1000
+            data.DATE.getTime() + (8 * 60 + data.DATE.getTimezoneOffset()) * 60 * 1000
         );
         const hourNow = UTC8Time.getHours();
         const minNow = UTC8Time.getMinutes();
