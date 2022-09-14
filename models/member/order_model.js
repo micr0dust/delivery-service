@@ -261,7 +261,8 @@ module.exports = async function order(data, finalOrder) {
             discount: final.discount,
             tableware: final.tableware,
             reservation: final.reservation,
-            UTC8Time: UTC8Time
+            UTC8Time: UTC8Time,
+            TimezoneOffset: data.DATE.getTimezoneOffset()
         };
 
         return finalData;
