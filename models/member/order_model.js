@@ -45,12 +45,12 @@ module.exports = async function order(data, finalOrder) {
                 data.DATE.getDate(),
                 data.DATE.getHours(),
                 data.DATE.getMinutes()
-            ) + data.DATE.getTimezoneOffset() * 60 * 1000
+            ) - (480 + data.DATE.getTimezoneOffset()) * 60 * 1000
         );
         const hourNow = UTC8Time.getHours();
         const minNow = UTC8Time.getMinutes();
         const dayNow = UTC8Time.getDay();
-        console.log(UTC8Time, hourNow, minNow, dayNow);
+        console.log(UTC8Time, (480 - data.DATE.getTimezoneOffset()));
         if (!(hourData * 60 + minData > hourNow * 60 + minNow +
                 ((productOwner.timeEstimate) ? parseInt(productOwner.timeEstimate) : 0)))
             throw new Error((productOwner.timeEstimate) ? `請提早${productOwner.timeEstimate}分鐘預約` : "預約時間已超過");
