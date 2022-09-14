@@ -45,7 +45,7 @@ module.exports = async function order(data, finalOrder) {
                 data.DATE.getDate(),
                 data.DATE.getHours(),
                 data.DATE.getMinutes()
-            ) - (480 + data.DATE.getTimezoneOffset()) * 60 * 1000
+            ) + (8 * 60 + data.DATE.getTimezoneOffset()) * 60 * 1000
         );
         const hourNow = UTC8Time.getHours();
         const minNow = UTC8Time.getMinutes();
