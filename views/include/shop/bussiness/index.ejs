@@ -27,10 +27,16 @@
 <template id="orderTemplate">
     <div class="card col-12 mt-2" name="order">
         <div class="input-group mb-2 mt-2">
-            <div class="input-group-prepend">
+            <div class="input-group-prepend d-none">
                 <span class="input-group-text">訂單編號</span>
             </div>
             <input type="text" class="form-control" placeholder="訂單編號" name="_id" disabled>
+        </div>
+        <div class="input-group mb-2 mt-2">
+            <div class="input-group-prepend">
+                <span class="input-group-text">預約時間</span>
+            </div>
+            <input type="text" class="form-control" placeholder="預約時間" name="reservation" disabled>
         </div>
         <div class="input-group mb-2">
             <div class="input-group-prepend">
@@ -186,6 +192,7 @@
             poductDetail(orderTemplate.content.querySelector('[name="product-detail"]'), order[i]['order']);
             orderTemplate.content.querySelector('[name="_id"]').value = order[i]['_id'];
             orderTemplate.content.querySelector('[name="order"]').id = order[i]['_id'];
+            orderTemplate.content.querySelector('[name="reservation"]').value = order[i]['reservation'] || "即時";
             orderTemplate.content.querySelector('[name="tableware"]').value = order[i]['tableware'] ? '是' : '否';
             orderTemplate.content.querySelector('[name="total"]').value = order[i]['total'];
             orderTemplate.content.querySelector('[name="order"]').appendChild(order[i]['accept'] ? acceptedBtns : unacceptBtns);

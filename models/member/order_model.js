@@ -32,24 +32,29 @@ module.exports = async function order(data, finalOrder) {
 
         // Json 格式檢查
         if (typeof orderData.tableware != "boolean") throw new Error("tableware 型別必須是 boolean");
-        if (!(/^(0[0-9]|1[0-9]|2[0-3]):([0-5][0-9]:?)$/.test(orderData.reservation))) throw new Error("reservation 格式必須是 HH:MM");
+        if (orderData.reservation != null && !(/^(0[0-9]|1[0-9]|2[0-3]):([0-5][0-9]:?)$/.test(orderData.reservation))) throw new Error("reservation 格式必須是 HH:MM 或 null");
 
         // 時間檢查
-        const hourData = parseInt(orderData.reservation.split(':')[0]);
-        const minData = parseInt(orderData.reservation.split(':')[1]);
-        const UTC8Time = new Date(
-            data.DATE.getTime() + (8 * 60 + data.DATE.getTimezoneOffset()) * 60 * 1000
-        );
-        const hourNow = UTC8Time.getHours();
-        const minNow = UTC8Time.getMinutes();
-        const dayNow = UTC8Time.getDay();
-        if (!(hourData * 60 + minData > hourNow * 60 + minNow +
-                ((productOwner.timeEstimate) ? parseInt(productOwner.timeEstimate) : 0)))
-            throw new Error((productOwner.timeEstimate) ? `請提早${productOwner.timeEstimate}分鐘預約` : "預約時間已超過");
-        if (!productOwner['businessTime'][hourNow][dayNow])
-            throw new Error("店家現在未營業，所以無法預約");
-        if (!productOwner['businessTime'][hourData][dayNow])
-            throw new Error("店家未在要求時段營業，所以無法預約");
+        if (orderData.reservation) {
+            const hourData = parseInt(orderData.reservation.split(':')[0]);
+            const minData = parseInt(orderData.reservation.split(':')[1]);
+            const UTC8Time = new Date(
+                data.DATE.getTime() + (8 * 60 + data.DATE.getTimezoneOffset()) * 60 * 1000
+            );
+            const hourNow = UTC8Time.getHours();
+            const minNow = UTC8Time.getMinutes();
+            const dayNow = UTC8Time.getDay();
+            // if (!(hourData * 60 + minData > hourNow * 60 + minNow +
+            //         ((productOwner.timeEstimate) ? parseInt(productOwner.timeEstimate) : 0)))
+            //     throw new Error((productOwner.timeEstimate) ? `請提早${productOwner.timeEstimate}分鐘預約` : "預約時間已超過");
+            if (!(hourData * 60 + minData > hourNow * 60 + minNow))
+                throw new Error("預約時間已超過");
+            if (!productOwner['businessTime'][hourNow][dayNow])
+                throw new Error("店家現在未營業，所以無法預約");
+            if (!productOwner['businessTime'][hourData][dayNow])
+                throw new Error("店家未在要求時段營業，所以無法預約");
+        } else if (orderData.reservation != null)
+            throw new Error("預約時間為必填，即時單請填 null");
 
         let checked = [];
         for (let i = 0; i < orderList.length; i++) {
