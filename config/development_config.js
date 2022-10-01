@@ -28,6 +28,10 @@ module.exports = {
         id: process.env.TWILIO_ID,
         token: process.env.TWILIO_TOKEN
     },
+    onesignal: {
+        id: process.env.ONESIGNAL_ID,
+        key: process.env.ONESIGNAL_KEY
+    },
     secret: process.env.MY_SECRET,
     fresh_secret: process.env.FRESH_SECRET,
     verify_secret: process.env.VERIFY_SECRET

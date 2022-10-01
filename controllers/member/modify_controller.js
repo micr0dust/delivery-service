@@ -14,6 +14,7 @@ const deleteOrder = require('../../models/member/delete_order');
 const getOrder = require('../../models/member/get_order_model');
 const postTwilioSend = require('../../models/member/post_twilio_model');
 const postTwilioVerify = require('../../models/member/post_twilio_verify_model');
+const putSubscribe = require('../../models/member/put_subscribe');
 
 const verify = require('../../models/member/verification_model');
 const Check = require('../../service/member_check');
@@ -659,6 +660,33 @@ module.exports = class Member {
         );
     }
 
+    // 訂閱通知
+    putSubscribe(req, res, next) {
+        const data = {
+            user_id: req.body.user_id
+        };
+        // if (!check.checkCode(data.code)) return res.status(400).send({
+        //     status: "驗證碼格式錯誤",
+        //     code: false,
+        //     result: "驗證碼為八位整數"
+        // });
+        putSubscribe(req.headers['token'], data).then(
+            result => {
+                res.json({
+                    status: '成功訂閱通知',
+                    code: true,
+                    result: result
+                });
+            },
+            err => {
+                res.status(500).send({
+                    status: '訂閱通知失敗',
+                    code: false,
+                    result: err.message
+                });
+            }
+        );
+    }
 }
 
 function getTokenFn(id, minutes, secret) {

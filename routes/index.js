@@ -796,5 +796,45 @@ router.post('/twilio/verify', middleWave, memberModifyMethod.postTwilioVerify, (
             }
     */
 });
+router.post('/onesignal/subscribe', middleWave, memberModifyMethod.putSubscribe, () => {
+    //  #swagger.summary  = '訂閱 OneSignal 通知'
+    //  #swagger.description = '以使用者 token 和 OneSignal 的 user_id 訂閱通知'
+    /*  #swagger.consumes = ['application/x-www-form-urlencoded']*/
+    /*  #swagger.parameters['token'] = {
+                in: 'header',
+                type: 'string',
+                required: 'true',
+                description: 'member access token',
+                schema: { $ref: '#/definitions/token' }
+    }*/
+
+    /*  #swagger.parameters['user_id'] = {
+                in: 'formData',
+                type: 'string',
+                required: 'true',
+                description: '驗證碼',
+                schema: "Fe556b02-4ea7-885f-72cdae35d683"
+    } */
+
+    /*  #swagger.responses[200] = {
+                description: '成功訂閱通知',
+                schema: {
+                    status: '成功訂閱通知',
+                    code: true,
+                    result: "測試通知已發送，請確認有無收到通知"
+                }
+            }
+    } */
+    /*
+        #swagger.responses[500] = {
+                description: '訂閱通知失敗',
+                schema: {
+                    status: '訂閱通知失敗',
+                    code: false,
+                    result: 'error message'
+                }
+            }
+    */
+});
 
 module.exports = router;
