@@ -21,7 +21,7 @@ module.exports = async function subscribeNotification(id, data) {
 
         const message = {
             app_id: config.onesignal.id,
-            contents: { en: "success" },
+            contents: { "zh-Hant": "通知訂閱成功" },
             included_segments: ["included_player_ids"],
             include_player_ids: [data.user_id],
             content_availabe: true,

@@ -34,20 +34,20 @@ module.exports = async function putAccept(data) {
         if (!memberResult[device]) throw new Error("無法通知消費者");
         const message = {
             app_id: config.onesignal.id,
-            contents: { en: data.orderID },
-            include_segments: ["included_player_ids"],
-            include_players_ids: [memberResult[notify_id]],
+            contents: { "zh-Hant": "店家已經接受訂單" },
+            included_segments: ["included_player_ids"],
+            include_player_ids: [memberResult[notify_id]],
             content_availabe: true,
             small_icon: "ic_notification_icon",
             data: {
-                PushTitle: "店家已經接受訂單"
+                PushTitle: data.orderID
             },
         };
 
         notifyPush.sendNotification(message, (error, result) => {
             if (error) throw error;
-            return "成功接受訂單並通知消費者";
         });
+        return "成功接受訂單";
     } catch (err) {
         throw err;
     } finally {
