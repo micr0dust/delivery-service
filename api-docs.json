@@ -2213,6 +2213,120 @@
         ]
       }
     },
+    "/member/onesignal/subscribe": {
+      "post": {
+        "tags": [
+          "member"
+        ],
+        "summary": "訂閱 OneSignal 通知",
+        "description": "以使用者 token 和 OneSignal 的 user_id 訂閱通知",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "required": true,
+            "description": "member access token",
+            "schema": {
+              "$ref": "#/definitions/token"
+            }
+          },
+          {
+            "name": "user_id",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "description": "驗證碼",
+            "schema": {
+              "type": "string",
+              "example": "Fe556b02-4ea7-885f-72cdae35d683"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功訂閱通知",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "成功訂閱通知"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "result": {
+                  "type": "string",
+                  "example": "測試通知已發送，請確認有無收到通知"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "403": {
+            "description": "token錯誤",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "token錯誤"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "result": {
+                  "type": "string",
+                  "example": "請重新登入"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "description": "訂閱通知失敗",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "訂閱通知失敗"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
     "/store/": {
       "get": {
         "tags": [
