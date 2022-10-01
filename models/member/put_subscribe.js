@@ -21,9 +21,9 @@ module.exports = async function subscribeNotification(id, data) {
 
         const message = {
             app_id: config.onesignal.id,
-            contents: { en: "看到這則通知表示你已訂閱成功" },
-            include_segments: ["included_player_ids"],
-            include_players_ids: [data.user_id],
+            contents: { en: "success" },
+            included_segments: ["included_player_ids"],
+            include_player_ids: [data.user_id],
             content_availabe: true,
             small_icon: "ic_notification_icon",
             data: {
@@ -33,8 +33,9 @@ module.exports = async function subscribeNotification(id, data) {
 
         notifyPush.sendNotification(message, (error, result) => {
             if (error) throw error;
-            return "測試通知已發送，請確認有無收到通知";
+            console.log(result);
         });
+        return "測試通知已發送，請確認有無收到通知";
     } catch (err) {
         throw err;
     } finally {

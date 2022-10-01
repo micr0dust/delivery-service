@@ -2,7 +2,7 @@ const config = require('../config/development_config');
 
 async function sendNotification(data, callback) {
     const headers = {
-        "Content-Type": "application/json charset=utf-8",
+        "Content-Type": "application/json; charset=utf-8",
         "Authorization": "Basic " + config.onesignal.key
     };
     const options = {
@@ -12,10 +12,10 @@ async function sendNotification(data, callback) {
         method: "POST",
         headers: headers
     };
-    const http = require('http');
+    const http = require('https');
+    http.use_ssl = true;
     let req = http.request(options, function(res) {
         res.on("data", function(data) {
-            console.log(JSON.parse(data));
             return callback(null, JSON.parse(data));
         });
     });
