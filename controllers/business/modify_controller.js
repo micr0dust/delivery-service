@@ -2,6 +2,7 @@ const getToken = require('../../models/business/get_token_model');
 const getOrder = require('../../models/business/get_order_model');
 const putAccept = require('../../models/business/put_accept_model');
 const putComplete = require('../../models/business/put_complete_model');
+const putFinish = require('../../models/business/put_finish_model');
 
 const Check = require('../../service/store_check');
 const config = require('../../config/development_config');
@@ -77,6 +78,40 @@ module.exports = class Store {
     }
 
     // 營業店家完成訂單
+    putFinish(req, res, next) {
+        const data = {
+            id: req.headers['token'],
+            orderID: req.body.id,
+            comments: req.body.comments || ""
+        };
+        if (!check.check_id(data.orderID))
+            return res.status(401).send({
+                status: "無法標記",
+                code: false,
+                result: "id 格式錯誤"
+            });
+        if (data.comments && !check.checkDescribe(data.comments))
+            return res.status(401).send({
+                status: "無法標記",
+                code: false,
+                result: "註解需少於 30 字"
+            });
+        putFinish(data).then(result => {
+            res.json({
+                status: "成功更改訂單狀態為已完成",
+                code: true,
+                result: result
+            });
+        }, (err) => {
+            res.status(500).json({
+                status: "無法更改訂單狀態為已完成",
+                code: false,
+                result: err.message
+            });
+        })
+    }
+
+    // 營業店家結束訂單
     putComplete(req, res, next) {
         const data = {
             id: req.headers['token'],

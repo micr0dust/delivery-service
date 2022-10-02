@@ -4487,7 +4487,7 @@
         ]
       }
     },
-    "/business/order/complete": {
+    "/business/order/finish": {
       "put": {
         "tags": [
           "business"
@@ -4529,6 +4529,152 @@
               "type": "string",
               "example": "人手不足"
             }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功獲取訂單",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "成功獲取訂單"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "result": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "DATE": {
+                        "type": "string",
+                        "example": "2022-02-20T06:43:44.598Z"
+                      },
+                      "id": {
+                        "type": "string",
+                        "example": "61c9774137e1ba4becbbe1c7"
+                      },
+                      "_id": {
+                        "type": "string",
+                        "example": "6211e32327e60f21cc93d7a9"
+                      },
+                      "order": {
+                        "type": "string",
+                        "example": "[{\"id\":\"6211e1afb27988329badd497\",\"count\":\"1\"},]"
+                      },
+                      "store": {
+                        "type": "string",
+                        "example": "62062d8d136e8a533bb22e48"
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "403": {
+            "description": "token錯誤",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "token錯誤"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "result": {
+                  "type": "string",
+                  "example": "請重新登入"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "description": "無法獲取訂單",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "無法獲取訂單"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/business/order/complete": {
+      "put": {
+        "tags": [
+          "business"
+        ],
+        "summary": "營業中商家將訂單標記為已結帳",
+        "description": "以商家營業模式的 token 和訂單 id 請求，將訂單標記為已結帳",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "required": true,
+            "description": "store access token",
+            "schema": {
+              "$ref": "#/definitions/token"
+            }
+          },
+          {
+            "name": "id",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "description": "訂單 id",
+            "schema": {
+              "type": "string",
+              "example": "62bfabae55036d765d2adfbf"
+            }
+          },
+          {
+            "name": "comments",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "description": "註解",
+            "schema": ""
           }
         ],
         "responses": {

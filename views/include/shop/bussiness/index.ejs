@@ -64,7 +64,12 @@
 </template>
 <template id="acceptedBtnsTemplate">
     <div name="action" class="row mt-3 mb-3 mr-3 justify-content-end align-items-center">
-        <button class="btn btn-warning" onclick="changeListen(complete,this)">標示為完成</button>
+        <button class="btn btn-warning" name="finish" onclick="changeListen(finish,this)">標示為完成</button>
+    </div>
+</template>
+<template id="finishedBtnsTemplate">
+    <div name="action" class="row mt-3 mb-3 mr-3 justify-content-end align-items-center">
+        <button class="btn btn-danger" name="complete" onclick="changeListen(complete,this)">標示為結單</button>
     </div>
 </template>
 <template id="loadingTemplate">
@@ -98,6 +103,7 @@
 <script src="/js/fetch_request/shop/bussiness/getOrder.js"></script>
 <script src="/js/fetch_request/shop/bussiness/token.js"></script>
 <script src="/js/fetch_request/shop/bussiness/accept.js"></script>
+<script src="/js/fetch_request/shop/bussiness/finish.js"></script>
 <script src="/js/fetch_request/shop/bussiness/complete.js"></script>
 
 <script>
@@ -181,6 +187,7 @@
         const accepted = document.getElementById('accepted');
         const unacceptBtnsTemplate = document.getElementById('unacceptBtnsTemplate');
         const acceptedBtnsTemplate = document.getElementById('acceptedBtnsTemplate');
+        const finishedBtnsTemplate = document.getElementById('finishedBtnsTemplate');
         unaccept.innerHTML = '';
         accepted.innerHTML = '';
 
@@ -188,6 +195,7 @@
             const orderTemplate = document.getElementById('orderTemplate').cloneNode(true);
             const unacceptBtns = document.importNode(unacceptBtnsTemplate.content, true);
             const acceptedBtns = document.importNode(acceptedBtnsTemplate.content, true);
+            const finishedBtns = document.importNode(finishedBtnsTemplate.content, true);
 
             poductDetail(orderTemplate.content.querySelector('[name="product-detail"]'), order[i]['order']);
             orderTemplate.content.querySelector('[name="_id"]').value = order[i]['_id'];
@@ -195,7 +203,7 @@
             orderTemplate.content.querySelector('[name="reservation"]').value = order[i]['reservation'] || "即時";
             orderTemplate.content.querySelector('[name="tableware"]').value = order[i]['tableware'] ? '是' : '否';
             orderTemplate.content.querySelector('[name="total"]').value = order[i]['total'];
-            orderTemplate.content.querySelector('[name="order"]').appendChild(order[i]['accept'] ? acceptedBtns : unacceptBtns);
+            orderTemplate.content.querySelector('[name="order"]').appendChild(order[i]['accept'] ? (order[i]['finish'] ? finishedBtns : acceptedBtns) : unacceptBtns);
             const newOrder = document.importNode(orderTemplate.content, true);
             const container = order[i]['accept'] ? accepted : unaccept;
             container.appendChild(newOrder);

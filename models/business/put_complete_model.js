@@ -17,14 +17,14 @@ module.exports = async function putComplete(data) {
         const findResult = await order.findOne({ _id: ObjectId(data.orderID) });
         if (!findResult) throw new Error("查無訂單");
         if (findResult.store != storeUrl) throw new Error("該訂單屬於其他店家");
-        if (findResult.complete === true) throw new Error("訂單已經標記為完成");
+        if (findResult.complete === true) throw new Error("訂單已經標記為結單");
         const putResult = await order.updateOne({ _id: ObjectId(data.orderID) }, {
             $set: {
                 complete: true,
                 comments: data.comments
             }
         });
-        if (!putResult) throw new Error("嘗試標記訂單為完成時發生錯誤");
+        if (!putResult) throw new Error("嘗試標記訂單為結單時發生錯誤");
         return true;
     } catch (err) {
         throw err;
