@@ -34,7 +34,7 @@ module.exports = async function putAccept(data) {
         if (memberResult['notify_id']) {
             const message = {
                 app_id: config.onesignal.id,
-                contents: { "zh-Hant": "店家已經接受訂單" },
+                contents: { "zh-Hant": "店家已經接受訂單", "en": "order accepted" },
                 included_segments: ["included_player_ids"],
                 include_player_ids: [memberResult['notify_id']],
                 content_availabe: true,

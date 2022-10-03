@@ -33,7 +33,7 @@ module.exports = async function putFinish(data) {
         if (memberResult['notify_id']) {
             const message = {
                 app_id: config.onesignal.id,
-                contents: { "zh-Hant": "店家已經完成訂單" },
+                contents: { "zh-Hant": "店家已經完成訂單", "en": "order finished" },
                 included_segments: ["included_player_ids"],
                 include_player_ids: [memberResult['notify_id']],
                 content_availabe: true,
