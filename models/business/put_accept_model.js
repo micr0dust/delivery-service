@@ -40,7 +40,9 @@ module.exports = async function putAccept(data) {
                 content_availabe: true,
                 small_icon: "ic_notification_icon",
                 data: {
-                    PushTitle: data.orderID
+                    method: "accept",
+                    orderID: data.orderID,
+                    comments: data.comments || ""
                 },
             };
 

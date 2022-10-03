@@ -25,6 +25,28 @@ module.exports = async function putComplete(data) {
             }
         });
         if (!putResult) throw new Error("嘗試標記訂單為結單時發生錯誤");
+
+        const memberResult = await member.findOne({ _id: ObjectId(findResult.id) });
+        if (!memberResult) throw new Error("查無消費者帳號");
+        if (memberResult['notify_id'] && !findResult['finish']) {
+            const message = {
+                app_id: config.onesignal.id,
+                contents: { "zh-Hant": "店家已拒絕訂單", "en": "order refused" },
+                included_segments: ["included_player_ids"],
+                include_player_ids: [memberResult['notify_id']],
+                content_availabe: true,
+                small_icon: "ic_notification_icon",
+                data: {
+                    method: "refuse",
+                    orderID: data.orderID,
+                    comments: data.comments || ""
+                },
+            };
+
+            notifyPush.sendNotification(message, (error, result) => {
+                if (error) throw error;
+            });
+        }
         return true;
     } catch (err) {
         throw err;

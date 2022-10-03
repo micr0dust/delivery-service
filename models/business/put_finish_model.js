@@ -39,7 +39,9 @@ module.exports = async function putFinish(data) {
                 content_availabe: true,
                 small_icon: "ic_notification_icon",
                 data: {
-                    PushTitle: data.orderID
+                    method: "finish",
+                    orderID: data.orderID,
+                    comments: data.comments || ""
                 },
             };
 

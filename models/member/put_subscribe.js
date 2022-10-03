@@ -27,7 +27,7 @@ module.exports = async function subscribeNotification(id, data) {
             content_availabe: true,
             small_icon: "ic_notification_icon",
             data: {
-                PushTitle: "測試通知"
+                method: "test"
             },
         };
 
