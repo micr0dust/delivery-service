@@ -16,7 +16,11 @@ module.exports = async function getProduct() {
         if (!storeResult) throw new Error("查無商家");
         for (let i = 0; i < storeResult.length; i++) {
             const today = [];
-            const day = new Date().getDay();
+            const now = new Date();
+            const UTC8Time = new Date(
+                now.getTime() + (8 * 60 + now.getTimezoneOffset()) * 60 * 1000
+            );
+            const day = UTC8Time.getDay();
             for (let j = 0; j < storeResult[i].businessTime.length; j++)
                 today.push(storeResult[i].businessTime[j][day]);
             storeResult[i] = {
