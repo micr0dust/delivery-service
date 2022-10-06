@@ -8,6 +8,7 @@ module.exports = async function putComplete(data) {
     const db = client.db(config.mongo.database);
     const order = db.collection(config.mongo.order);
     const store = db.collection(config.mongo.store);
+    const member = db.collection(config.mongo.member);
 
     try {
         const storeResult = await store.findOne({ _id: ObjectId(data.id) });
