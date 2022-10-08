@@ -14,6 +14,7 @@ module.exports = async function getOrder(data) {
         for (const child in findResult) {
             delete findResult[child]["id"];
             delete findResult[child]["store"];
+            Object.keys(findResult[child]).forEach((key) => !findResult[child][key] && delete findResult[child][key]);
         }
         return findResult;
     } catch (err) {

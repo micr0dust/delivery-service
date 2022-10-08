@@ -55,7 +55,7 @@ module.exports = class Store {
         const data = {
             id: req.headers['token'],
             orderID: req.body.id,
-            comments: req.body.comments || ""
+            comments: req.body.comments || null
         };
         if (!check.check_id(data.orderID)) return res.status(401).send({
             status: "無法接受",
@@ -82,7 +82,7 @@ module.exports = class Store {
         const data = {
             id: req.headers['token'],
             orderID: req.body.id,
-            comments: req.body.comments || ""
+            comments: req.body.comments || null
         };
         if (!check.check_id(data.orderID))
             return res.status(401).send({
@@ -116,7 +116,7 @@ module.exports = class Store {
         const data = {
             id: req.headers['token'],
             orderID: req.body.id,
-            comments: req.body.comments || ""
+            comments: req.body.comments || null
         };
         if (!check.check_id(data.orderID))
             return res.status(401).send({

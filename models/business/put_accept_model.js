@@ -42,7 +42,7 @@ module.exports = async function putAccept(data) {
                 data: {
                     method: "accept",
                     orderID: data.orderID,
-                    comments: data.comments || ""
+                    comments: data.comments
                 },
             };
 
