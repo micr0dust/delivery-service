@@ -13,7 +13,6 @@ module.exports = async function getOrder(data) {
         if (!findResult) throw new Error("查無訂單");
         for (const child in findResult) {
             delete findResult[child]["id"];
-            delete findResult[child]["store"];
             Object.keys(findResult[child]).forEach((key) => !findResult[child][key] && delete findResult[child][key]);
         }
         return findResult;
