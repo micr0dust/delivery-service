@@ -223,7 +223,7 @@ module.exports = async function order(data, finalOrder) {
         const final = {
             DATE: data.DATE,
             id: userID,
-            sequence: orderResult.length,
+            sequence: orderResult.length || 0,
             store: productOwner.url,
             store_info: {
                 name: productOwner.name,
