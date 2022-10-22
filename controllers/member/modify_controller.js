@@ -8,7 +8,8 @@ const emailSend = require('../../models/member/email_send_model');
 const emailVerify = require('../../models/member/mail_verify_model');
 const getUser = require('../../models/member/getUser_model');
 const getProduct = require('../../models/member/get_product_model');
-const getStore = require('../../models/member/get_stores_model');
+const getStoreAll = require('../../models/member/get_stores_model');
+const getStore = require('../../models/member/get_store_model');
 const orderAction = require('../../models/member/order_model');
 const deleteOrder = require('../../models/member/delete_order');
 const getOrder = require('../../models/member/get_order_model');
@@ -350,9 +351,32 @@ module.exports = class Member {
             });
     }
 
+    //取得店家詳細資料
+    getStore(req, res, next) {
+        const data = {
+            url: req.body['id']
+        };
+
+        getStore(req.headers['token'], data).then(
+            result => {
+                res.json({
+                    status: '成功獲取商品資料',
+                    code: true,
+                    result: result
+                });
+            },
+            err => {
+                res.status(500).send({
+                    status: '無法獲取商品資料',
+                    code: false,
+                    result: err.message
+                });
+            });
+    }
+
     //取得所有店家
     getStoreInfo(req, res, next) {
-        getStore().then(
+        getStoreAll().then(
             result => {
                 res.json({
                     status: '成功獲取商家列表',

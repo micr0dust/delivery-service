@@ -663,6 +663,46 @@ router.get('/store', middleWave, memberModifyMethod.getStoreInfo, () => {
             }
     */
 });
+router.post('/store/detail', middleWave, memberModifyMethod.getStore, () => {
+    //  #swagger.summary  = '獲取商家詳細資料'
+    //  #swagger.description = '以使用者 token 請求，返回特定商家詳細資料'
+    /*  #swagger.consumes = ['application/x-www-form-urlencoded']*/
+    /*  #swagger.parameters['token'] = {
+                in: 'header',
+                type: 'string',
+                required: 'true',
+                description: 'member access token',
+                schema: { $ref: '#/definitions/token' }
+    }*/
+
+    /*  #swagger.responses[200] = {
+                description: '成功獲取商家列表',
+                schema: {
+                    status: '成功獲取商家列表',
+                    code: true,
+                    "result": [
+                            {
+                                "name": "友朋小吃",
+                                "address": "桃園市中壢區OO街OO號",
+                                "id": "8y3un9ka",
+                                "discount": "[]"
+                            }
+                        ]
+                    }
+                }
+            }
+    } */
+    /*
+        #swagger.responses[500] = {
+                description: '無法獲取商家列表',
+                schema: {
+                    status: '無法獲取商家列表',
+                    code: false,
+                    result: 'error message'
+                }
+            }
+    */
+});
 router.get('/store/product', middleWave, memberModifyMethod.getProductInfo, () => {
     //  #swagger.summary  = '獲取特定商家所有商品'
     //  #swagger.description = '以使用者 token 請求，返回商家列表'

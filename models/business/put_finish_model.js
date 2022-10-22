@@ -38,6 +38,7 @@ module.exports = async function putFinish(data) {
                 include_player_ids: [memberResult['notify_id']],
                 content_availabe: true,
                 small_icon: "ic_notification_icon",
+                priority: 10,
                 data: {
                     method: "finish",
                     orderID: data.orderID,

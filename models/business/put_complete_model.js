@@ -37,6 +37,7 @@ module.exports = async function putComplete(data) {
                 include_player_ids: [memberResult['notify_id']],
                 content_availabe: true,
                 small_icon: "ic_notification_icon",
+                priority: 10,
                 data: {
                     method: "refuse",
                     orderID: data.orderID,
