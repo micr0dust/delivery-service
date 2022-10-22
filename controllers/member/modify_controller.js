@@ -16,6 +16,7 @@ const getOrder = require('../../models/member/get_order_model');
 const postTwilioSend = require('../../models/member/post_twilio_model');
 const postTwilioVerify = require('../../models/member/post_twilio_verify_model');
 const putSubscribe = require('../../models/member/put_subscribe');
+const getAd = require("../../models/member/get_ad_model");
 
 const verify = require('../../models/member/verification_model');
 const Check = require('../../service/member_check');
@@ -360,14 +361,14 @@ module.exports = class Member {
         getStore(req.headers['token'], data).then(
             result => {
                 res.json({
-                    status: '成功獲取商品資料',
+                    status: '成功獲取店家資料',
                     code: true,
                     result: result
                 });
             },
             err => {
                 res.status(500).send({
-                    status: '無法獲取商品資料',
+                    status: '無法獲取店家資料',
                     code: false,
                     result: err.message
                 });
@@ -387,6 +388,25 @@ module.exports = class Member {
             err => {
                 res.status(500).send({
                     status: '無法獲取商家列表',
+                    code: false,
+                    result: err.message
+                });
+            });
+    }
+
+    //取得廣告
+    getAd(req, res, next) {
+        getAd().then(
+            result => {
+                res.json({
+                    status: '成功獲取廣告',
+                    code: true,
+                    result: result
+                });
+            },
+            err => {
+                res.status(500).send({
+                    status: '無法獲取廣告',
                     code: false,
                     result: err.message
                 });

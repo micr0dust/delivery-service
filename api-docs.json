@@ -1857,32 +1857,55 @@
               "properties": {
                 "status": {
                   "type": "string",
-                  "example": "成功獲取商家列表"
+                  "example": "成功獲取商品資料"
                 },
                 "code": {
                   "type": "boolean",
                   "example": true
                 },
                 "result": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "name": {
-                        "type": "string",
-                        "example": "友朋小吃"
-                      },
-                      "address": {
-                        "type": "string",
-                        "example": "桃園市中壢區OO街OO號"
-                      },
-                      "id": {
-                        "type": "string",
-                        "example": "8y3un9ka"
-                      },
-                      "discount": {
-                        "type": "string",
-                        "example": "[]"
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "example": "燒肉飯店"
+                    },
+                    "address": {
+                      "type": "string",
+                      "example": "台灣台北市中山區新生北路二段31巷3號"
+                    },
+                    "url": {
+                      "type": "string",
+                      "example": "9xe72aqx"
+                    },
+                    "timeEstimate": {
+                      "type": "string",
+                      "example": "21"
+                    },
+                    "businessTime": {
+                      "type": "array",
+                      "example": [
+                        ""
+                      ],
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "place": {
+                      "type": "string",
+                      "example": "力行宿舍"
+                    },
+                    "describe": {
+                      "type": "string",
+                      "example": "這裡是燒肉飯店"
+                    },
+                    "product": {
+                      "type": "array",
+                      "example": [
+                        ""
+                      ],
+                      "items": {
+                        "type": "string"
                       }
                     }
                   }
@@ -1920,13 +1943,13 @@
             "description": "Too Many Requests"
           },
           "500": {
-            "description": "無法獲取商家列表",
+            "description": "無法獲取商品資料",
             "schema": {
               "type": "object",
               "properties": {
                 "status": {
                   "type": "string",
-                  "example": "無法獲取商家列表"
+                  "example": "無法獲取商品資料"
                 },
                 "code": {
                   "type": "boolean",
@@ -2427,6 +2450,133 @@
                 "status": {
                   "type": "string",
                   "example": "訂閱通知失敗"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/member/ad": {
+      "get": {
+        "tags": [
+          "member"
+        ],
+        "summary": "獲取廣告",
+        "description": "以使用者 token 請求，返回商家列表",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "required": true,
+            "description": "member access token",
+            "schema": {
+              "$ref": "#/definitions/token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功獲取廣告",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "成功獲取廣告"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "result": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "string",
+                        "example": "6353e8d93b6a7cf4eebdcd87"
+                      },
+                      "title": {
+                        "type": "string",
+                        "example": "測試廣告"
+                      },
+                      "subtitle": {
+                        "type": "string",
+                        "example": "測試廣告的文字敘述"
+                      },
+                      "image": {
+                        "type": "string",
+                        "example": "https://foodone.glitch.me/images/background.jpg"
+                      },
+                      "url": {
+                        "type": "string",
+                        "example": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "403": {
+            "description": "token錯誤",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "token錯誤"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "result": {
+                  "type": "string",
+                  "example": "請重新登入"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "description": "無法獲取廣告",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "無法獲取廣告"
                 },
                 "code": {
                   "type": "boolean",

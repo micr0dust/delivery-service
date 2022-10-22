@@ -678,25 +678,25 @@ router.post('/store/detail', middleWave, memberModifyMethod.getStore, () => {
     /*  #swagger.responses[200] = {
                 description: '成功獲取商家列表',
                 schema: {
-                    status: '成功獲取商家列表',
-                    code: true,
-                    "result": [
-                            {
-                                "name": "友朋小吃",
-                                "address": "桃園市中壢區OO街OO號",
-                                "id": "8y3un9ka",
-                                "discount": "[]"
-                            }
-                        ]
+                    "status": "成功獲取商品資料",
+                    "code": true,
+                    "result": {
+                        "name": "燒肉飯店",
+                        "address": "台灣台北市中山區新生北路二段31巷3號",
+                        "url": "9xe72aqx",
+                        "timeEstimate": "21",
+                        "businessTime": [""],
+                        "place": "力行宿舍",
+                        "describe": "這裡是燒肉飯店",
+                        "product": [""]
                     }
                 }
-            }
     } */
     /*
         #swagger.responses[500] = {
-                description: '無法獲取商家列表',
+                description: '無法獲取商品資料',
                 schema: {
-                    status: '無法獲取商家列表',
+                    status: '無法獲取商品資料',
                     code: false,
                     result: 'error message'
                 }
@@ -870,6 +870,47 @@ router.post('/onesignal/subscribe', middleWave, memberModifyMethod.putSubscribe,
                 description: '訂閱通知失敗',
                 schema: {
                     status: '訂閱通知失敗',
+                    code: false,
+                    result: 'error message'
+                }
+            }
+    */
+});
+
+router.get('/ad', middleWave, memberModifyMethod.getAd, () => {
+    //  #swagger.summary  = '獲取廣告'
+    //  #swagger.description = '以使用者 token 請求，返回商家列表'
+    /*  #swagger.consumes = ['application/x-www-form-urlencoded']*/
+    /*  #swagger.parameters['token'] = {
+                in: 'header',
+                type: 'string',
+                required: 'true',
+                description: 'member access token',
+                schema: { $ref: '#/definitions/token' }
+    }*/
+
+    /*  #swagger.responses[200] = {
+                description: '成功獲取廣告',
+                schema: {
+                    "status": "成功獲取廣告",
+                    "code": true,
+                    "result": [
+                        {
+                        "_id": "6353e8d93b6a7cf4eebdcd87",
+                        "title": "測試廣告",
+                        "subtitle": "測試廣告的文字敘述",
+                        "image": "https://foodone.glitch.me/images/background.jpg",
+                        "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+                        }
+                    ]
+                }
+            }
+    } */
+    /*
+        #swagger.responses[500] = {
+                description: '無法獲取廣告',
+                schema: {
+                    status: '無法獲取廣告',
                     code: false,
                     result: 'error message'
                 }
