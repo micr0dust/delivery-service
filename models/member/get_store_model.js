@@ -25,7 +25,7 @@ module.exports = async function getStore(_id, storeData) {
                 price: productResult[i].price,
                 describe: productResult[i].describe,
                 type: productResult[i].type,
-                discount: productResult[i].discount,
+                discount: productResult[i].discount || "[]",
                 options: productResult[i].options,
                 pause: productResult[i].pause
             });
