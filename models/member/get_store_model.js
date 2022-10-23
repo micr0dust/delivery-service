@@ -12,34 +12,39 @@ module.exports = async function getStore(_id, storeData) {
         if (!storeResult) throw new Error("查無店家，請確認 id 是否正確");
         if (!storeResult.product) return [];
 
-        const isOwner = storeResult.belong === _id;
         const productResult = await product.find({ _id: { $in: storeResult.product } }).toArray();
         if (!productResult) throw new Error("查無此商家商品");
 
         const productData = [];
         for (let i = 0; i < productResult.length; i++) {
-            //if (isOwner || !productResult[i].pause)
             productData.push({
                 id: productResult[i]._id.toString(),
                 name: productResult[i].name,
                 price: productResult[i].price,
                 describe: productResult[i].describe,
                 type: productResult[i].type,
-                discount: productResult[i].allDiscount || "[]",
+                discount: productResult[i].discount || "[]",
                 options: productResult[i].options,
                 pause: productResult[i].pause
             });
         }
+        const today = [];
+        const now = new Date();
+        const UTC8Time = new Date(
+            now.getTime() + (8 * 60 + now.getTimezoneOffset()) * 60 * 1000
+        );
+        const day = UTC8Time.getDay();
+        for (let i = 0; i < storeResult.businessTime.length; i++)
+            today.push(storeResult.businessTime[i][day]);
         const result = {
             name: storeResult.name,
             address: storeResult.address,
             url: storeResult.url,
-            allDiscount: storeResult.allDiscount,
             timeEstimate: storeResult.timeEstimate,
-            businessTime: storeResult.businessTime,
+            businessTime: today,
             place: storeResult.place,
             describe: storeResult.describe,
-            allDiscount: storeResult.allDiscount,
+            discount: storeResult.allDiscount || "[]",
             product: productData
         };
 
