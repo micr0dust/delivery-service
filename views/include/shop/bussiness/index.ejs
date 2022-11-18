@@ -27,10 +27,14 @@
 <template id="orderTemplate">
     <div class="card col-12 mt-2" name="order">
         <div class="input-group mb-2 mt-2">
-            <div class="input-group-prepend d-none">
-                <span class="input-group-text">訂單編號</span>
+            <div class="input-group-prepend">
+                <span class="input-group-text">訂餐人</span>
             </div>
-            <input type="text" class="form-control" placeholder="訂單編號" name="_id" disabled>
+            <input type="text" class="form-control" placeholder="訂餐人" name="name" disabled>
+            <div class="input-group-prepend ml-3">
+                <span class="input-group-text">編號</span>
+            </div>
+            <input type="text" class="form-control" placeholder="編號" name="sequence" disabled>
         </div>
         <div class="input-group mb-2 mt-2">
             <div class="input-group-prepend">
@@ -198,7 +202,8 @@
             const finishedBtns = document.importNode(finishedBtnsTemplate.content, true);
 
             poductDetail(orderTemplate.content.querySelector('[name="product-detail"]'), order[i]['order']);
-            orderTemplate.content.querySelector('[name="_id"]').value = order[i]['_id'];
+            orderTemplate.content.querySelector('[name="name"]').value = order[i]['name'];
+            orderTemplate.content.querySelector('[name="sequence"]').value = order[i]['sequence'];
             orderTemplate.content.querySelector('[name="order"]').id = order[i]['_id'];
             orderTemplate.content.querySelector('[name="reservation"]').value = order[i]['reservation'] || "即時";
             orderTemplate.content.querySelector('[name="tableware"]').value = order[i]['tableware'] ? '是' : '否';

@@ -223,6 +223,7 @@ module.exports = async function order(data, finalOrder) {
         const final = {
             DATE: data.DATE,
             id: userID,
+            name: memberResult.name,
             sequence: orderResult.length || 0,
             store: productOwner.url,
             store_info: {
@@ -251,6 +252,7 @@ module.exports = async function order(data, finalOrder) {
         const finalData = {
             DATE: final.DATE,
             sequence: final.sequence,
+            name: final.name,
             order: final.order,
             total: final.total,
             store: final.store,
