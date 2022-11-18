@@ -224,14 +224,14 @@ module.exports = async function order(data, finalOrder) {
             DATE: data.DATE,
             id: userID,
             name: memberResult.name,
-            sequence: orderResult.length || 0,
+            sequence: orderResult.length ? orderResult.length : 0,
             store: productOwner.url,
             store_info: {
                 name: productOwner.name,
                 address: productOwner.address
             },
             tableware: orderData.tableware,
-            reservation: orderData.reservation || null,
+            reservation: orderData.reservation ? orderData.reservation : null,
             order: JSON.stringify(finalRecords),
             total: sum - allDiscountSum,
             discount: JSON.stringify(discountList),
