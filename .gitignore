@@ -3,3 +3,5 @@ node_modules
 api-docs.md
 api-docs.json
 command.txt
+nginx.conf
+ecosystem.config.js

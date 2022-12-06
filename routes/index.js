@@ -398,7 +398,7 @@ router.get('/user/info', middleWave, memberModifyMethod.getUserInfo, () => {
             }
     */
 });
-router.get('/user/token', middleWave, memberModifyMethod.getUserToken, () => {
+router.post('/user/token', middleWave, memberModifyMethod.getUserToken, () => {
     //  #swagger.summary  = '請求新令牌 (token)'
     //  #swagger.description = '以使用者 refresh_token 請求，返回一個新的 token'
     /*  #swagger.consumes = ['application/x-www-form-urlencoded']*/
