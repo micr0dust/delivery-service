@@ -5,7 +5,7 @@ async function getToken() {
         "Content-Type": "application/x-www-form-urlencoded"
     };
     return await fetch("/member/user/token", {
-        method: "POST",
+        method: "GET",
         headers: headersList
     }).then(async function(response) {
         document.getElementById('loader').classList.remove('is-active');
