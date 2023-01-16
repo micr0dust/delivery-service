@@ -7,7 +7,8 @@ function establish(data) {
 
     fetch("/store/establish", {
         method: "POST",
-        body: "name=" + data.name + "&address=" + data.address,
+        //body: "name=" + data.name + "&address=" + data.address,
+        body: "name=" + data.name,
         headers: headersList
     }).then(async function(response) {
         document.getElementById('loader').classList.remove('is-active');

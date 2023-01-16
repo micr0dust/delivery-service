@@ -692,5 +692,47 @@ router.get('/income', middleWave, storeModifyMethod.getIncome, () => {
             }
     */
 });
+router.post('/addressInfo', middleWave, storeModifyMethod.addressInfo, () => {
+    //  #swagger.summary  = '取得地址資料'
+    //  #swagger.description = '以 token 和地址請求，取得地址相關資料'
+    /*  #swagger.consumes = ['application/x-www-form-urlencoded']*/
+    /*  
+        #swagger.parameters['token'] = {
+            in: 'header',
+            type: 'string',
+            required: 'true',
+            description: 'access token',
+            schema: { $ref: '#/definitions/token' }
+        }
+    */
 
+    /*  #swagger.parameters['address'] = {
+                 in: 'formData',
+                 type: 'string',
+                 required: 'true',
+                 description: '地址',
+                 schema: "台北市中壢區OO街OO號"
+        }
+    */
+
+    /*  #swagger.responses[200] = {
+                description: '成功請求地址資料',
+                schema: {
+                    status: '成功請求地址資料',
+                    code: true,
+                    result: "result"
+                }
+            }
+    } */
+    /*
+         #swagger.responses[500] = {
+                 description: '請求地址資料失敗',
+                 schema: {
+                     status: '請求地址資料失敗',
+                     code: false,
+                     result: 'error message'
+                 }
+             }
+     */
+});
 module.exports = router;

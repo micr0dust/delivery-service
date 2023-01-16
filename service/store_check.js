@@ -35,6 +35,10 @@ module.exports = class CheckStore {
         return result;
     }
 
+    isFloat(n) {
+        return Number(n) === n && n % 1 !== 0;
+    }
+
     //判斷price格式
     checkPrice(price) {
         const filt = /^[1-9]\d*$/;

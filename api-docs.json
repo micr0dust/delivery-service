@@ -4381,6 +4381,120 @@
         ]
       }
     },
+    "/store/addressInfo": {
+      "post": {
+        "tags": [
+          "store"
+        ],
+        "summary": "取得地址資料",
+        "description": "以 token 和地址請求，取得地址相關資料",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "required": true,
+            "description": "access token",
+            "schema": {
+              "$ref": "#/definitions/token"
+            }
+          },
+          {
+            "name": "address",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "description": "地址",
+            "schema": {
+              "type": "string",
+              "example": "台北市中壢區OO街OO號"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功請求地址資料",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "成功請求地址資料"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "result": {
+                  "type": "string",
+                  "example": "result"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "403": {
+            "description": "token錯誤",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "token錯誤"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "result": {
+                  "type": "string",
+                  "example": "請重新登入"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "description": "請求地址資料失敗",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "請求地址資料失敗"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
     "/business/token": {
       "get": {
         "tags": [

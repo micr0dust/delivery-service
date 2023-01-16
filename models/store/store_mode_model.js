@@ -14,6 +14,7 @@ module.exports = async function loginAction(data) {
         if (!memberResult) throw new Error("請確認登入狀態");
         const storeResult = await store.findOne({ _id: ObjectId(memberResult.store_id) });
         if (!storeResult) throw new Error("查無店家帳號，請建立店家");
+        if (!storeResult['address']) throw new Error("尚未填寫地址");
         let storeData = storeResult;
 
         storeData.refresh_token = jwt.sign({

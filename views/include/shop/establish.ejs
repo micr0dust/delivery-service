@@ -8,10 +8,10 @@
                         <input type="text" id="name" class="form-control" placeholder="店名" onfocusout="checkInputFn()" required autofocus>
                         <div class="invalid-feedback">由 1~30 個字組成</div>
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <input type="text" id="address" class="form-control" placeholder="地址" onfocusout="checkInputFn()" required autofocus>
-                        <div class="invalid-feedback">請輸入正確的Eamil格式</div>
-                    </div>
+                        <div class="invalid-feedback">請輸入正確的地址格式</div>
+                    </div> -->
                     <button class="btn btn-primary btn-block" id="submit">註冊</button>
                     <div class="row justify-content-around align-items-center">
                         <label class="form-check-label form-group mt-1">
@@ -34,7 +34,7 @@
         const username = document.getElementById('name').value;
         const address = document.getElementById('address').value;
         if (!validFn('name', /^.{1,30}$/.test(username))) allcorrect = false;
-        if (!validFn('address', /^.{1,200}$/.test(address))) allcorrect = false;
+        //if (!validFn('address', /^.{1,200}$/.test(address))) allcorrect = false;
         if (!validFn('policy', document.getElementById('policy').checked)) allcorrect = false;
         return allcorrect;
     }
@@ -44,10 +44,10 @@
         if (!checkInputFn(submited = true)) return;
         document.getElementById('loader').classList.add('is-active');
         const name = document.getElementById('name').value;
-        const address = document.getElementById('address').value;
+        //const address = document.getElementById('address').value;
         const data = {
             name: name,
-            address: address
+            //address: address
         };
         establish(data);
     });

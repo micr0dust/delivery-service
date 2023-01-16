@@ -32,6 +32,9 @@ module.exports = {
         id: process.env.ONESIGNAL_ID,
         key: process.env.ONESIGNAL_KEY
     },
+    googleMap: {
+        key: process.env.GOOGLE_MAP_KEY
+    },
     secret: process.env.MY_SECRET,
     fresh_secret: process.env.FRESH_SECRET,
     verify_secret: process.env.VERIFY_SECRET

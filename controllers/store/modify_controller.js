@@ -10,6 +10,7 @@ const getOneProduct = require('../../models/store/get_one_product');
 const storeUpdate = require('../../models/store/put_store_model');
 const getIncome = require('../../models/store/get_lastIncome_model');
 const pauseProduct = require('../../models/store/switch_product_pause');
+const geocoder = require('../../models/store/addressInfo');
 
 const Check = require('../../service/store_check');
 const encryption = require('../../models/encryption');
@@ -25,7 +26,8 @@ module.exports = class Store {
         const data = {
             belong: req.headers['token'],
             name: req.body.name,
-            address: req.body.address,
+            //address: req.body.address,
+            address: null,
             url: ((new Date().getTime() - 1637560475159) * 100 + parseInt(createNum())).toString(36),
             create_date: onTime()
         };
@@ -34,14 +36,14 @@ module.exports = class Store {
             res.status(400).send({
                 status: '註冊失敗',
                 code: false,
-                result: '店名必須介於1~30字'
+                result: '店名必須介於 1~30 字'
             });
-        } else if (!check.checkAddress(data.address)) {
-            res.status(400).send({
-                status: '註冊失敗',
-                code: false,
-                result: '地址必須介於1~200字'
-            });
+            // } else if (!check.checkAddress(data.address)) {
+            //     res.status(400).send({
+            //         status: '註冊失敗',
+            //         code: false,
+            //         result: '地址必須介於1~200字'
+            //     });
         } else {
             toEstablish(data).then(result => {
                     const token = getTokenFn(result._id.toString(), 30, config.secret);
@@ -424,7 +426,12 @@ module.exports = class Store {
         const data = {
             id: req.headers['token'],
             name: req.body.name,
-            address: req.body.address,
+            address: {
+                address: req.body.address,
+                lat: req.body.lat,
+                lng: req.body.lng,
+                verified: false
+            },
             describe: req.body.describe || " ",
             place: req.body.place,
             allDiscount: req.body.discount,
@@ -438,14 +445,21 @@ module.exports = class Store {
             return res.status(400).send({
                 status: '資料更新失敗',
                 code: false,
-                result: '店名必須介於1~30字'
+                result: '店名必須介於 1~30 字'
             });
         }
         if (data.address && !check.checkAddress(data.address)) {
             return res.status(400).send({
                 status: '資料更新失敗',
                 code: false,
-                result: '地址必須介於1~200字'
+                result: '地址必須介於 1~200 字'
+            });
+        }
+        if (data.address && (!check.isFloat(data.lat) || !check.isFloat(data.lng))) {
+            return res.status(400).send({
+                status: '資料更新失敗',
+                code: false,
+                result: 'lat 和 lng 必須為浮點數'
             });
         }
         if (data.allDiscount && !check.checkDiscount(data.allDiscount)) {
@@ -473,7 +487,7 @@ module.exports = class Store {
             return res.status(400).send({
                 status: '格式錯誤',
                 code: false,
-                result: '敘述上限為100字'
+                result: '敘述上限為 100 字'
             });
         }
         storeUpdate(data).then(result => {
@@ -485,6 +499,27 @@ module.exports = class Store {
         }, (err) => {
             res.status(500).json({
                 status: "無法更新店家資料",
+                code: false,
+                result: err.message
+            });
+        });
+    }
+
+    // 取得地址資料
+    addressInfo(req, res, next) {
+        const data = {
+            id: req.headers['token'],
+            address: req.body.address
+        };
+        geocoder(data).then(result => {
+            res.status(200).json({
+                status: "成功請求地址資料",
+                code: true,
+                result: result
+            });
+        }, (err) => {
+            res.status(500).json({
+                status: "請求地址資料失敗",
                 code: false,
                 result: err.message
             });

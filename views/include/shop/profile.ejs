@@ -14,7 +14,8 @@
 <div class="container">
     <div class="row">
         <div class="card col-md-6 col-sm-12 mt-5">
-            <img class="card-img-top" id="img" src="/images/background.jpg" alt="Card image" style="width:100%">
+            <!-- <img class="card-img-top" id="img" src="/images/background.jpg" alt="Card image" style="width:100%"> -->
+            <div id="map" class="col-10 card-img-top" style="width:100%"></div>
             <div class="card-body justify-content-between">
                 <h4 id="name" class="card-title d-inline-block"></h4>
                 <button id="begin" class="btn btn-warning float-right" onclick="location.href='/shop/bussiness'">開始營業</button>
@@ -171,8 +172,22 @@
 <script src="/js/fetch_request/shop/pauseProduct.js"></script>
 <script src="/js/fetch_request/shop/addProduct.js"></script>
 <script src="/js/fetch_request/shop/update.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAMbmNNct9nSHK4WRT8CDempAeDJmtbLVE&callback=initMap" async defer></script>
 
 <script>
+    var map, geocoder;
+
+    function initMap() {
+        geocoder = new google.maps.Geocoder();
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: {
+                lng: 121.100,
+                lat: 23.600
+            },
+            zoom: 7.5,
+        });
+    }
+
     function edit(able) {
         const edit = document.getElementById('edit');
         const unedit = document.getElementById('unedit');
@@ -255,9 +270,67 @@
     createDateGrid();
 
     function submitUpdate() {
+        const addressCheck = (address) => {
+            Swal.fire({
+                title: '確認地址',
+                html: `請確認我們找到的 <span class="font-weight-bold text-success">${data.address}</span> 是否正確`,
+                showCancelButton: true,
+                confirmButtonColor: '#198754',
+                cancelButtonColor: '#dc3545',
+                confirmButtonText: '正確',
+                cancelButtonText: '不正確',
+                showLoaderOnConfirm: true,
+                preConfirm: (confirm) => {
+                    if (confirm == data.name) return delProduct(data.id);
+                    else Swal.showValidationMessage(
+                        '輸入錯誤'
+                    );
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    getProductFn();
+                    Swal.fire(
+                        '刪除成功',
+                        `${data.name} 已經被刪除`,
+                        'success'
+                    );
+                }
+            });
+        };
+
         edit(false);
         document.getElementById('loader').classList.add('is-active');
         const address = document.getElementById('address');
+
+        function getPosition(address, fn) {
+            geocoder.geocode({
+                'address': address
+            }, function(results, status) {
+                if (status == 'OK') {
+                    fn({
+                        lng: results[0].geometry.location.lng(),
+                        lat: results[0].geometry.location.lat(),
+                    });
+                    map.setCenter(results[0].geometry.location);
+                    var marker = new google.maps.Marker({
+                        map: map,
+                        position: results[0].geometry.location
+                    });
+                } else {
+                    console.log('Geocode was not successful for the following reason: ' + status);
+                }
+            });
+        }
+        let location;
+        getPosition(address.value, (data) => {
+            location = data;
+        });
+
+        console.log(loction);
+        return;
+        if (!loction) return;
+
         const place = document.getElementById('place');
         const timeEstimate = document.getElementById('timeEstimate');
         const describe = document.getElementById('describe');
@@ -281,7 +354,7 @@
             businessTime: JSON.stringify(businessTime)
         };
 
-        putStore(data);
+        //putStore(data);
     }
 
     const getData = (id) => {
