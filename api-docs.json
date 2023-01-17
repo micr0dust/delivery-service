@@ -1907,6 +1907,23 @@
                       "items": {
                         "type": "string"
                       }
+                    },
+                    "location": {
+                      "type": "object",
+                      "properties": {
+                        "lat": {
+                          "type": "string",
+                          "example": "25.0541642"
+                        },
+                        "lng": {
+                          "type": "string",
+                          "example": "121.5282883"
+                        },
+                        "googlePlaceId": {
+                          "type": "string",
+                          "example": "ChIJP4zIp2epQjQRNPL8Eubdr_Q"
+                        }
+                      }
                     }
                   }
                 }
@@ -2663,6 +2680,23 @@
                       ],
                       "items": {
                         "type": "string"
+                      }
+                    },
+                    "location": {
+                      "type": "object",
+                      "properties": {
+                        "lat": {
+                          "type": "string",
+                          "example": "25.0541642"
+                        },
+                        "lng": {
+                          "type": "string",
+                          "example": "121.5282883"
+                        },
+                        "googlePlaceId": {
+                          "type": "string",
+                          "example": "ChIJP4zIp2epQjQRNPL8Eubdr_Q"
+                        }
                       }
                     }
                   }

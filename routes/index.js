@@ -688,7 +688,12 @@ router.post('/store/detail', middleWave, memberModifyMethod.getStore, () => {
                         "businessTime": [""],
                         "place": "力行宿舍",
                         "describe": "這裡是燒肉飯店",
-                        "product": [""]
+                        "product": [""],
+                        "location": {
+                            "lat": "25.0541642",
+                            "lng": "121.5282883",
+                            "googlePlaceId": "ChIJP4zIp2epQjQRNPL8Eubdr_Q"
+                        }
                     }
                 }
     } */

@@ -196,7 +196,6 @@
         </template>
     </div>
 </div>
-<script src="/js/fetch_request/storePage.js"></script>
 <script src="/js/fetch_request/storeDetail.js"></script>
 <script src="/js/fetch_request/shop/locationVerify.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAMbmNNct9nSHK4WRT8CDempAeDJmtbLVE&callback=initMap" async defer></script>
@@ -278,11 +277,10 @@
         return document.getElementById(id).dataset;
     };
 
-    async function getProductFn(url) {
-        if (url) localStorage.setItem('url', url);
-
-        const result = await getStoreProduct();
-        const data = JSON.parse(result);
+    async function getProductFn(product) {
+        const data = {
+            result: product
+        };
         let products = document.getElementById('product');
         while (products.hasChildNodes())
             products.removeChild(products.lastChild);
@@ -337,7 +335,8 @@
         }
         if (data.result.create_date) document.getElementById('create').value = new Date(data.result.create_date).toLocaleString();
         if (data.result.last_login) document.getElementById('update').value = new Date(data.result.last_login).toLocaleString();
-        if (data.result.url) await getProductFn(data.result.url);
+        if (data.result.url) localStorage.setItem('url', data.result.url);
+        await getProductFn(data.result.product);
         return data.result;
     }
 </script>

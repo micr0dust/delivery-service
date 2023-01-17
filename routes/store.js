@@ -32,7 +32,12 @@ router.get('/', middleWave, storeModifyMethod.getStoreInfo, () => {
                         "product": [
                             "6211e1afb27988329badd497",
                             "6211e1d8b27988329badd498"
-                        ]
+                        ],
+                        "location": {
+                            "lat": "25.0541642",
+                            "lng": "121.5282883",
+                            "googlePlaceId": "ChIJP4zIp2epQjQRNPL8Eubdr_Q"
+                        }
                     }
                 }
             }
