@@ -10,37 +10,286 @@
         transform: translate(-50%, -50%);
         font-size: 1.5rem;
     }
+    
+    .map-container {
+        overflow: hidden;
+        padding-bottom: 56.25%;
+        position: relative;
+        height: 0;
+    }
+    
+    #map {
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        position: absolute;
+    }
 </style>
-<div class="container h-100">
-    <div id="product" class="row mt-5 h-100 justify-content-start align-items-center"></div>
-</div>
-<template id="productTemplate">
-        <div class="card col-sm-6 col-md-3 mt-3 mr-3">
-            <a class="text-decoration-none">
-                <img class="img-fluid" src="/images/background.jpg">
-                <div class="card-footer justify-content-between">
-                    <span>name</span>
-                    <span>price</span>
-                </div>
-            </a>
-            <div class="overlay-text text-light"></div>
+<div class="container">
+    <div class="row">
+        <div class="card col-md-6 col-sm-12 mt-5">
+            <img class="card-img-top" id="img" src="/images/background.jpg" alt="Card image" style="width:100%">
+            <div class="form-group">
+                <textarea class="form-control" rows="3" id="describe" placeholder="商家簡介" name="describe" disabled></textarea>
+            </div>
         </div>
-</template>
+        <div class="card col-md-6 col-sm-12">
+            <div class="card-body">
+                <h4 id="name" class="mb-3 mt-5 d-none d-md-block"></h4>
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">地址</span>
+                    </div>
+                    <input type="text" id="address" class="form-control" placeholder="地址" name="address" disabled>
+                </div>
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">供餐位置</span>
+                    </div>
+                    <select class="form-control" id="place" disabled>
+                        <option class="d-none">未設定</option>
+                        <option value="校門口">校門口</option>
+                        <option value="力行宿舍">力行宿舍</option>
+                        <option value="恩慈良善宿舍">恩慈良善宿舍</option>
+                    </select>
+                </div>
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">預估備餐時間</span>
+                    </div>
+                    <input type="number" id="timeEstimate" class="form-control" placeholder="預估備餐時間" name="timeEstimate" disabled>
+                    <div class="input-group-append">
+                        <span class="input-group-text">分鐘</span>
+                    </div>
+                </div>
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">創建時間</span>
+                    </div>
+                    <input type="text" id="create" class="form-control" placeholder="創建時間" name="create" data-cantChange disabled>
+                </div>
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">上次更新</span>
+                    </div>
+                    <input type="text" id="update" class="form-control" placeholder="上次更新" name="update" data-cantChange disabled>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="accordion">
+        <div class="card col-12 mt-3 ">
+            <div class="card-header" id="headingMap">
+                <h3 class="mb-0">
+                    <button class="btn" data-toggle="collapse" data-target="#collapseMap" aria-expanded="true" aria-controls="collapseMap">
+                        商家位置
+                    </button>
+                </h3>
+            </div>
+            <div id="collapseMap" class="collapse" aria-labelledby="headingMap" data-parent="#accordion">
+                <div id="map-container-google-1" class="z-depth-1-half map-container">
+                    <div id="map"></div>
+                </div>
+            </div>
+            <div class="card-header" id="headingSchedule">
+                <h3 class="mb-0">
+                    <button class="btn" data-toggle="collapse" data-target="#collapseSchedule" aria-expanded="true" aria-controls="collapseSchedule">
+                        營業時間
+                    </button>
+                </h3>
+            </div>
+            <div id="collapseSchedule" class="collapse" aria-labelledby="headingSchedule" data-parent="#accordion">
+                <div id="schedule" class="card-body"></div>
+            </div>
+            <div class="card-header" id="headingProduct">
+                <h3 class="mb-0">
+                    <button class="btn" data-toggle="collapse" data-target="#product" aria-expanded="true" aria-controls="product">
+                        商品
+                    </button>
+                </h3>
+            </div>
+            <div id="product" class="collapse show row mt-3 justify-content-start align-items-center" aria-labelledby="headingProduct" data-parent="#accordion"></div>
+        </div>
+    </div>
+    <div class="row">
+        <template id="productTemplate">
+            <div class="card col-sm-6 col-md-3 mt-3 mr-3">
+                <a class="text-decoration-none" onclick="productClick(this.parentNode);return false;">
+                    <img class="img-fluid" src="/images/background.jpg">
+                    <div class="card-footer justify-content-between">
+                        <span>name</span>
+                        <span>price</span>
+                    </div>
+                </a>
+                <div class="overlay-text text-light"></div>
+            </div>
+        </template>
+        <template id="date-Line">
+            <div class="d-flex justify-content-around" name="line">
+                <div class="col-2 text-center user-select-none" name="time">/</div>
+            </div>
+        </template>
+        <template id="date-block">
+            <div class="form-check flex-fill">
+                <input class="form-check-input" type="checkbox" name="dateCheck" disabled>
+                <label class="form-check-label"></label>
+            </div>
+        </template>
+        <template id="productCardTemplate">
+            <div class="card-body">
+                <div class="input-group mb-2">
+                    <!-- <h4 name="title" class="ml-auto"></h4> -->
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">名稱</span>
+                    </div>
+                    <input type="text" name="title" class="form-control" disabled>
+                    <button class="btn ml-auto" tabindex="-1" onclick="swal.close()">X</button>
+                </div>
+                
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">敘述</span>
+                    </div>
+                    <input type="text" name="describe" class="form-control" disabled>
+                </div>
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">價錢</span>
+                    </div>
+                    <input type="text" name="price" class="form-control" disabled>
+                    <div class="input-group-append">
+                        <span class="input-group-text">NT$</span>
+                    </div>
+                </div>
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">標籤</span>
+                    </div>
+                    <input type="text" name="type" class="form-control" disabled>
+                </div>
+                    
+                <div name="options"></div>
+
+                <div name="btns" class="input-group d-flex mb-2">
+                    <button name="del" class="btn btn-danger mt-1">刪除</button>
+                    <div class="ml-auto">
+                        <button name="unpause" class="btn btn-success mt-1 d-none">重新上架</button>
+                        <button name="pause" class="btn btn-secondary mt-1 d-none" >暫時下架</button>
+                        <button name="update" class="btn btn-primary mt-1">編輯</button>
+                    </div>
+                </div>
+            </div>
+        </template>
+        <template id="productOptionsTemplate">
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span name="title" class="input-group-text"></span>
+                </div>
+                <select class="form-control">
+                    <option name="multiple" class="d-none"></option>
+                </select>
+            </div>
+        </template>
+        <template id="optionTemplate">
+            <option name="option"></option>
+        </template>
+    </div>
+</div>
 <script src="/js/fetch_request/storePage.js"></script>
+<script src="/js/fetch_request/storeDetail.js"></script>
+<script src="/js/fetch_request/shop/locationVerify.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAMbmNNct9nSHK4WRT8CDempAeDJmtbLVE&callback=initMap" async defer></script>
+
 <script>
+    var map, geocoder;
+    var originData;
+
+    async function initMap() {
+        const data = await getInfoFn();
+        geocoder = new google.maps.Geocoder();
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: {
+                lng: parseFloat(data.location.lng),
+                lat: parseFloat(data.location.lat)
+            },
+            zoom: 21,
+        });
+    }
+
+    function createFormTitle() {
+        const line = document.getElementById('date-Line').cloneNode(true);
+        const week = ['日', '一', '二', '三', '四', '五', '六'];
+        for (let day = 0; day < 7; day++) {
+            const block = document.getElementById('date-block').cloneNode(true);
+            block.content.querySelector('div > label').innerText = "星期" + week[day];
+            block.content.querySelector('div > input').remove();
+            const newBlock = document.importNode(block.content, true);
+            line.content.querySelector('div').appendChild(newBlock);
+        }
+        const newLine = document.importNode(line.content, true);
+        document.getElementById('schedule').appendChild(newLine);
+    }
+
+    function bindEventToForm() {
+        const schedule = document.getElementById('schedule');
+        const checkboxs = schedule.querySelectorAll('[name="dateCheck"]');
+        for (let i = 0; i < checkboxs.length; i++) {
+            checkboxs[i].addEventListener('change', (event) => {
+                if (event.currentTarget.checked)
+                    event.currentTarget.parentNode.classList.add('bg-warning');
+                else
+                    event.currentTarget.parentNode.classList.remove('bg-warning');
+            });
+        }
+    }
+
+    function checksColorAlt(checked) {
+        if (checked)
+            event.currentTarget.parentNode.classList.add('bg-warning');
+        else
+            event.currentTarget.parentNode.classList.remove('bg-warning');
+    }
+
+    function createDateGrid() {
+        createFormTitle();
+        for (let hour = 0; hour < 24; hour++) {
+            const line = document.getElementById('date-Line').cloneNode(true);
+            const str = `${hour.toString().padStart(2, '0')}:00 ~ ${hour+1>=24?'00':(hour+1).toString().padStart(2, '0')}:00`;
+            line.content.querySelector('[name="time"]').innerText = str;
+            if (hour % 2) {
+                line.content.querySelector('div').classList.add('bg-light');
+                line.content.querySelector('div').classList.add('text-secondary');
+            }
+            for (let day = 0; day < 7; day++) {
+                const block = document.getElementById('date-block').cloneNode(true);
+                //block.content.querySelector('div > label').innerText = hour * 100 + day;
+                const newBlock = document.importNode(block.content, true);
+                line.content.querySelector('div').appendChild(newBlock);
+            }
+            const newLine = document.importNode(line.content, true);
+            document.getElementById('schedule').appendChild(newLine);
+        }
+        bindEventToForm();
+    }
+    createDateGrid();
+
+    const getData = (id) => {
+        return document.getElementById(id).dataset;
+    };
+
     async function getProductFn(url) {
         if (url) localStorage.setItem('url', url);
 
         const result = await getStoreProduct();
         const data = JSON.parse(result);
         let products = document.getElementById('product');
-
         while (products.hasChildNodes())
             products.removeChild(products.lastChild);
         let productList = document.getElementById('product');
         for (let i = 0; i < data.result.length; i++) {
             const product = data.result[i];
-            const newProduct = document.getElementById('productTemplate');
+            const newProduct = document.getElementById('productTemplate').cloneNode(true);
             if (product.pause) {
                 newProduct.content.querySelector('div > a > img').classList.add('blur');
                 newProduct.content.querySelector('div > .overlay-text').textContent = "暫時下架";
@@ -49,11 +298,46 @@
                 newProduct.content.querySelector('div').dataset[key] = product[key];
             newProduct.content.querySelector('div > a > .card-footer > span:nth-child(1)').textContent = product.name;
             newProduct.content.querySelector('div').id = product.id;
-            newProduct.content.querySelector('div > a > .card-footer > span:nth-child(2)').textContent = "NT$" + product.price;
+            newProduct.content.querySelector('div > a > .card-footer > span:nth-child(2)').textContent = "NT$ " + product.price;
             newProduct.content.querySelector('div > a').href = `#${product.id}`;
             const card = document.importNode(newProduct.content, true);
             productList.appendChild(card);
         }
     }
-    getProductFn();
+
+    async function getInfoFn() {
+        let urlparm = window.location.href;
+        if (window.location.href.split('?')[1]) {
+            urlparm = window.location.href.split('?')[1];
+            if (urlparm.split('&')[0].split('=')[0] == "refresh_token")
+                if (urlparm.split('&')[0].split('=')[1] != "")
+                    localStorage.setItem('refresh_token', urlparm.split('&')[0].split('=')[1]);
+        }
+
+        const result = await getStore();
+        const data = JSON.parse(result);
+        if (data.result.name) document.getElementById('name').innerText = data.result.name;
+        if (data.result.describe) document.getElementById('describe').innerText = data.result.describe;
+        if (data.result.address) document.getElementById('address').value = data.result.address;
+        if (data.result.place) document.getElementById('place').value = data.result.place;
+        if (data.result.timeEstimate) document.getElementById('timeEstimate').value = data.result.timeEstimate;
+        if (data.result.businessTime) {
+            const schedule = document.getElementById('schedule');
+            const line = schedule.querySelectorAll('[name="line"]');
+            const businessTime = data.result.businessTime;
+            for (let i = 1; i < line.length; i++) {
+                const time = line[i].querySelectorAll('[name="dateCheck"]');
+                for (let j = 0; j < time.length; j++) {
+                    time[j].checked = Boolean(businessTime[i - 1][j]);
+                    time[j].checked ?
+                        time[j].parentNode.classList.add('bg-warning') :
+                        time[j].parentNode.classList.remove('bg-warning');
+                }
+            }
+        }
+        if (data.result.create_date) document.getElementById('create').value = new Date(data.result.create_date).toLocaleString();
+        if (data.result.last_login) document.getElementById('update').value = new Date(data.result.last_login).toLocaleString();
+        if (data.result.url) await getProductFn(data.result.url);
+        return data.result;
+    }
 </script>

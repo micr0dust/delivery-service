@@ -13,7 +13,7 @@
     
     .map-container {
         overflow: hidden;
-        padding-bottom: 20%;
+        padding-bottom: 56.25%;
         position: relative;
         height: 0;
     }
@@ -85,17 +85,29 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row" id="accordion">
         <div class="card col-12 mt-3 ">
-            <div id="map-container-google-1" class="z-depth-1-half map-container">
-                <div id="map"></div>
+            <div class="card-header" id="headingMap">
+                <h3 class="mb-0">
+                    <button class="btn" data-toggle="collapse" data-target="#collapseMap" aria-expanded="true" aria-controls="collapseMap">
+                        商家位置
+                    </button>
+                </h3>
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="card col-12 mt-3 ">
-            <div id="schedule" class="card-body col-sm-12">
-                <h3>營業時間</h3>
+            <div id="collapseMap" class="collapse" aria-labelledby="headingMap" data-parent="#accordion">
+                <div id="map-container-google-1" class="z-depth-1-half map-container">
+                    <div id="map"></div>
+                </div>
+            </div>
+            <div class="card-header" id="headingSchedule">
+                <h3 class="mb-0">
+                    <button class="btn" data-toggle="collapse" data-target="#collapseSchedule" aria-expanded="true" aria-controls="collapseSchedule">
+                        營業時間
+                    </button>
+                </h3>
+            </div>
+            <div id="collapseSchedule" class="collapse" aria-labelledby="headingSchedule" data-parent="#accordion">
+                <div id="schedule" class="card-body"></div>
             </div>
         </div>
     </div>
@@ -210,7 +222,7 @@
                 lng: parseFloat(data.location.lng),
                 lat: parseFloat(data.location.lat)
             },
-            zoom: 20,
+            zoom: 21,
         });
     }
 

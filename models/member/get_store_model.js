@@ -45,7 +45,8 @@ module.exports = async function getStore(_id, storeData) {
             place: storeResult.place,
             describe: storeResult.describe,
             discount: storeResult.allDiscount || "[]",
-            product: productData
+            product: productData,
+            location: storeResult.location
         };
 
         return result;
