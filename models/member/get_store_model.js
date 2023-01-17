@@ -28,20 +28,20 @@ module.exports = async function getStore(_id, storeData) {
                 pause: productResult[i].pause
             });
         }
-        const today = [];
+        //const today = [];
         const now = new Date();
         const UTC8Time = new Date(
             now.getTime() + (8 * 60 + now.getTimezoneOffset()) * 60 * 1000
         );
         const day = UTC8Time.getDay();
-        for (let i = 0; i < storeResult.businessTime.length; i++)
-            today.push(storeResult.businessTime[i][day]);
+        // for (let i = 0; i < storeResult.businessTime.length; i++)
+        //     today.push(storeResult.businessTime[i][day]);
         const result = {
             name: storeResult.name,
             address: storeResult.address,
             url: storeResult.url,
             timeEstimate: storeResult.timeEstimate,
-            businessTime: today,
+            businessTime: storeResult.businessTime,
             place: storeResult.place,
             describe: storeResult.describe,
             discount: storeResult.allDiscount || "[]",
