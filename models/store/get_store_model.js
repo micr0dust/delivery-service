@@ -25,7 +25,8 @@ module.exports = async function storeData(id) {
             allDiscount: findResult.allDiscount || null,
             timeEstimate: findResult.timeEstimate || null,
             businessTime: findResult.businessTime || null,
-            describe: findResult.describe || ""
+            describe: findResult.describe || "",
+            location: findResult.location
         };
     } catch (err) {
         throw err;

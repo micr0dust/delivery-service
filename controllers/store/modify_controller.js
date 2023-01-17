@@ -26,8 +26,13 @@ module.exports = class Store {
         const data = {
             belong: req.headers['token'],
             name: req.body.name,
-            //address: req.body.address,
-            address: null,
+            address: req.body.address,
+            location: {
+                lat: req.body.lat,
+                lng: req.body.lng,
+                googlePlaceId: req.body.googlePlaceId,
+                verified: false
+            },
             url: ((new Date().getTime() - 1637560475159) * 100 + parseInt(createNum())).toString(36),
             create_date: onTime()
         };
@@ -38,12 +43,24 @@ module.exports = class Store {
                 code: false,
                 result: '店名必須介於 1~30 字'
             });
-            // } else if (!check.checkAddress(data.address)) {
-            //     res.status(400).send({
-            //         status: '註冊失敗',
-            //         code: false,
-            //         result: '地址必須介於1~200字'
-            //     });
+        } else if (!check.checkAddress(data.address)) {
+            res.status(400).send({
+                status: '註冊失敗',
+                code: false,
+                result: '地址必須介於1~200字'
+            });
+        } else if (!(!isNaN(data.location.lat) && ~data.location.lat.toString().indexOf('.'))) {
+            res.status(400).send({
+                status: '註冊失敗',
+                code: false,
+                result: 'lat 必須為 float 字串'
+            });
+        } else if (!(!isNaN(data.location.lng) && ~data.location.lng.toString().indexOf('.'))) {
+            res.status(400).send({
+                status: '註冊失敗',
+                code: false,
+                result: 'lng 必須為 float 字串'
+            });
         } else {
             toEstablish(data).then(result => {
                     const token = getTokenFn(result._id.toString(), 30, config.secret);
@@ -67,7 +84,7 @@ module.exports = class Store {
         }
     }
 
-    // 刪除商家及其商品
+    // 刪除商家、商家身分及其商品
     deleteStore(req, res, next) {
         const data = {
             id: req.headers['token'],
@@ -426,10 +443,11 @@ module.exports = class Store {
         const data = {
             id: req.headers['token'],
             name: req.body.name,
-            address: {
-                address: req.body.address,
+            address: req.body.address,
+            location: {
                 lat: req.body.lat,
                 lng: req.body.lng,
+                googlePlaceId: req.body.googlePlaceId,
                 verified: false
             },
             describe: req.body.describe || " ",
@@ -455,11 +473,18 @@ module.exports = class Store {
                 result: '地址必須介於 1~200 字'
             });
         }
-        if (data.address && (!check.isFloat(data.lat) || !check.isFloat(data.lng))) {
+        if (data.location.lat && !(!isNaN(data.location.lat) && ~data.location.lat.toString().indexOf('.'))) {
             return res.status(400).send({
-                status: '資料更新失敗',
+                status: '註冊失敗',
                 code: false,
-                result: 'lat 和 lng 必須為浮點數'
+                result: 'lat 必須為 float 字串'
+            });
+        }
+        if (data.location.lug && !(!isNaN(data.location.lng) && ~data.location.lng.toString().indexOf('.'))) {
+            return res.status(400).send({
+                status: '註冊失敗',
+                code: false,
+                result: 'lng 必須為 float 字串'
             });
         }
         if (data.allDiscount && !check.checkDiscount(data.allDiscount)) {

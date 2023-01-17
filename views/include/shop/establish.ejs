@@ -8,10 +8,10 @@
                         <input type="text" id="name" class="form-control" placeholder="店名" onfocusout="checkInputFn()" required autofocus>
                         <div class="invalid-feedback">由 1~30 個字組成</div>
                     </div>
-                    <!-- <div class="form-group">
+                    <div class="form-group">
                         <input type="text" id="address" class="form-control" placeholder="地址" onfocusout="checkInputFn()" required autofocus>
                         <div class="invalid-feedback">請輸入正確的地址格式</div>
-                    </div> -->
+                    </div>
                     <button class="btn btn-primary btn-block" id="submit">註冊</button>
                     <div class="row justify-content-around align-items-center">
                         <label class="form-check-label form-group mt-1">
@@ -25,7 +25,26 @@
         </div>
     </div>
 </div>
+<style>
+    .map-container {
+        overflow: hidden;
+        padding-bottom: 20%;
+        position: relative;
+        height: 0;
+    }
+    
+    #map {
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        position: absolute;
+    }
+</style>
+<script src="/js/fetch_request/shop/locationVerify.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAMbmNNct9nSHK4WRT8CDempAeDJmtbLVE&callback=initMap"></script>
 <script>
+    var map, geocoder;
     var submited = false;
 
     function checkInputFn() {
@@ -39,17 +58,41 @@
         return allcorrect;
     }
 
-    document.getElementById("submit").addEventListener("click", function(e) {
+    document.getElementById("submit").addEventListener("click", async function(e) {
         e.preventDefault();
         if (!checkInputFn(submited = true)) return;
-        document.getElementById('loader').classList.add('is-active');
-        const name = document.getElementById('name').value;
-        //const address = document.getElementById('address').value;
-        const data = {
-            name: name,
-            //address: address
-        };
-        establish(data);
+        const address = document.getElementById('address').value;
+        const mapInfo = await getLocationByAddress(address);
+        Swal.fire({
+            width: "50%",
+            title: '確認地址',
+            showCancelButton: true,
+            confirmButtonColor: '#198754',
+            cancelButtonColor: '#dc3545',
+            confirmButtonText: '正確',
+            cancelButtonText: '不正確',
+            html: `
+            請確認我們找到的 <span class="font-weight-bold text-success">${address}</span> 是否正確
+            <div id="map-container-google-1" class="z-depth-1-half map-container" style="height: 500px">
+                <iframe id="map" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAMbmNNct9nSHK4WRT8CDempAeDJmtbLVE&q=place_id:${mapInfo.result[0].extra.googlePlaceId}" id="map" frameborder="0" style="border:0" allowfullscreen></iframe>
+            </div>
+            `,
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('loader').classList.add('is-active');
+                const name = document.getElementById('name').value;
+                const address = document.getElementById('address').value;
+                const data = {
+                    name: name,
+                    address: address,
+                    lat: mapInfo.result[0].latitude,
+                    lng: mapInfo.result[0].longitude,
+                    googlePlaceId: mapInfo.result[0].extra.googlePlaceId
+                };
+                establish(data);
+            }
+        });
     });
 </script>
 <script src="/js/fetch_request/shop/establish.js"></script>

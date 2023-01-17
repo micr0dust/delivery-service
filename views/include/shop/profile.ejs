@@ -10,12 +10,26 @@
         transform: translate(-50%, -50%);
         font-size: 1.5rem;
     }
+    
+    .map-container {
+        overflow: hidden;
+        padding-bottom: 20%;
+        position: relative;
+        height: 0;
+    }
+    
+    #map {
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        position: absolute;
+    }
 </style>
 <div class="container">
     <div class="row">
         <div class="card col-md-6 col-sm-12 mt-5">
-            <!-- <img class="card-img-top" id="img" src="/images/background.jpg" alt="Card image" style="width:100%"> -->
-            <div id="map" class="col-10 card-img-top" style="width:100%"></div>
+            <img class="card-img-top" id="img" src="/images/background.jpg" alt="Card image" style="width:100%">
             <div class="card-body justify-content-between">
                 <h4 id="name" class="card-title d-inline-block"></h4>
                 <button id="begin" class="btn btn-warning float-right" onclick="location.href='/shop/bussiness'">開始營業</button>
@@ -65,9 +79,16 @@
                     </div>
                     <input type="text" id="update" class="form-control" placeholder="上次更新" name="update" data-cantChange disabled>
                 </div>
-                <button id="edit" class="btn btn-primary mt-1" onclick="edit(true)">編輯</button>
+                <button id="edit" class="btn btn-primary mt-1" onclick="edit(true)" disabled>編輯</button>
                 <button id="unedit" class="btn btn-danger mt-1 d-none" onclick="edit(false)">取消</button>
-                <button id="submit" class="btn btn-success ml-3 mt-1 d-none" onclick="submitUpdate()">儲存</button>
+                <button id="submit" class="btn btn-success ml-3 mt-1 d-none" onclick="checkMapBeforeSubmit()">儲存</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="card col-12 mt-3 ">
+            <div id="map-container-google-1" class="z-depth-1-half map-container">
+                <div id="map"></div>
             </div>
         </div>
     </div>
@@ -172,19 +193,24 @@
 <script src="/js/fetch_request/shop/pauseProduct.js"></script>
 <script src="/js/fetch_request/shop/addProduct.js"></script>
 <script src="/js/fetch_request/shop/update.js"></script>
+<script src="/js/fetch_request/shop/locationVerify.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAMbmNNct9nSHK4WRT8CDempAeDJmtbLVE&callback=initMap" async defer></script>
 
 <script>
     var map, geocoder;
+    var originData;
 
-    function initMap() {
+    async function initMap() {
+        const data = await getInfoFn();
+        document.getElementById('edit').disabled = false;
+        originData = data;
         geocoder = new google.maps.Geocoder();
         map = new google.maps.Map(document.getElementById('map'), {
             center: {
-                lng: 121.100,
-                lat: 23.600
+                lng: parseFloat(data.location.lng),
+                lat: parseFloat(data.location.lat)
             },
-            zoom: 7.5,
+            zoom: 20,
         });
     }
 
@@ -269,68 +295,37 @@
     }
     createDateGrid();
 
-    function submitUpdate() {
-        const addressCheck = (address) => {
+    async function checkMapBeforeSubmit() {
+        const address = document.getElementById('address').value;
+        const mapInfo = await getLocationByAddress(address);
+        if (originData.address === address)
+            submitUpdate(null);
+        else
             Swal.fire({
+                width: "50%",
                 title: '確認地址',
-                html: `請確認我們找到的 <span class="font-weight-bold text-success">${data.address}</span> 是否正確`,
                 showCancelButton: true,
                 confirmButtonColor: '#198754',
                 cancelButtonColor: '#dc3545',
                 confirmButtonText: '正確',
                 cancelButtonText: '不正確',
-                showLoaderOnConfirm: true,
-                preConfirm: (confirm) => {
-                    if (confirm == data.name) return delProduct(data.id);
-                    else Swal.showValidationMessage(
-                        '輸入錯誤'
-                    );
-                },
+                html: `
+            請確認我們找到的 <span class="font-weight-bold text-success">${address}</span> 是否正確
+            <div id="map-container-google-1" class="z-depth-1-half map-container" style="height: 500px">
+                <iframe id="map" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAMbmNNct9nSHK4WRT8CDempAeDJmtbLVE&q=place_id:${mapInfo.result[0].extra.googlePlaceId}" id="map" frameborder="0" style="border:0" allowfullscreen></iframe>
+            </div>
+            `,
                 allowOutsideClick: () => !Swal.isLoading()
             }).then((result) => {
-                if (result.isConfirmed) {
-                    getProductFn();
-                    Swal.fire(
-                        '刪除成功',
-                        `${data.name} 已經被刪除`,
-                        'success'
-                    );
-                }
+                if (result.isConfirmed)
+                    submitUpdate(mapInfo);
             });
-        };
+    }
 
+    async function submitUpdate(mapInfo) {
         edit(false);
         document.getElementById('loader').classList.add('is-active');
         const address = document.getElementById('address');
-
-        function getPosition(address, fn) {
-            geocoder.geocode({
-                'address': address
-            }, function(results, status) {
-                if (status == 'OK') {
-                    fn({
-                        lng: results[0].geometry.location.lng(),
-                        lat: results[0].geometry.location.lat(),
-                    });
-                    map.setCenter(results[0].geometry.location);
-                    var marker = new google.maps.Marker({
-                        map: map,
-                        position: results[0].geometry.location
-                    });
-                } else {
-                    console.log('Geocode was not successful for the following reason: ' + status);
-                }
-            });
-        }
-        let location;
-        getPosition(address.value, (data) => {
-            location = data;
-        });
-
-        console.log(loction);
-        return;
-        if (!loction) return;
-
         const place = document.getElementById('place');
         const timeEstimate = document.getElementById('timeEstimate');
         const describe = document.getElementById('describe');
@@ -346,7 +341,7 @@
             businessTime.push(hour);
         }
 
-        const data = {
+        let data = {
             address: address.value,
             place: place.value,
             timeEstimate: timeEstimate.value,
@@ -354,7 +349,14 @@
             businessTime: JSON.stringify(businessTime)
         };
 
-        //putStore(data);
+        if (mapInfo)
+            data.location = {
+                lat: mapInfo.result[0].latitude || originData.location.lat,
+                lng: mapInfo.result[0].longitude || originData.location.lng,
+                googlePlaceId: mapInfo.result[0].extra.googlePlaceId || originData.location.googlePlaceId
+            };
+        await putStore(data);
+        if (data.location) location.reload();
     }
 
     const getData = (id) => {
@@ -540,9 +542,8 @@
         if (data.result.create_date) document.getElementById('create').value = new Date(data.result.create_date).toLocaleString();
         if (data.result.last_login) document.getElementById('update').value = new Date(data.result.last_login).toLocaleString();
         if (data.result.url) await getProductFn(data.result.url);
-
+        return data.result;
     }
-    getInfoFn();
 
     function addProductForm() {
         Swal.fire({

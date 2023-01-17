@@ -1,23 +1,13 @@
-async function putStore(data) {
+async function getLocationByAddress(address) {
     const headersList = {
         "Accept": "*/*",
         "token": localStorage.acesstoken,
         "Content-Type": "application/x-www-form-urlencoded"
     };
-    let bodyContent = "";
-    if (data['name']) bodyContent += `name=${data['name']}&`;
-    if (data['address']) bodyContent += `address=${data['address']}&`;
-    if (data['discount']) bodyContent += `discount=${data['discount']}&`;
-    if (data['timeEstimate']) bodyContent += `timeEstimate=${data['timeEstimate']}&`;
-    if (data['businessTime']) bodyContent += `businessTime=${data['businessTime']}&`;
-    if (data['place']) bodyContent += `place=${data['place']}&`;
-    if (data['describe']) bodyContent += `describe=${data['describe']}&`;
-    if (data['location']) bodyContent += `lng=${data['location']['lng']}&lat=${data['location']['lat']}&googlePlaceId=${data['location']['googlePlaceId']}&`;
-
-    return await fetch("/store", {
-        method: "PUT",
+    return await fetch("/store/addressInfo", {
+        method: "POST",
         headers: headersList,
-        body: bodyContent
+        body: `address=${address}`
     }).then(async function(response) {
         document.getElementById('loader').classList.remove('is-active');
         if (response.status === 200) {
@@ -27,7 +17,7 @@ async function putStore(data) {
         } else if (response.status === 403) {
             if (localStorage.refresh_token) {
                 await getToken();
-                return putStore(data);
+                return getLocationByAddress(address);
             } else {
                 localStorage.clear();
                 window.location.href = '/admin/login?redirct=' + location.pathname;

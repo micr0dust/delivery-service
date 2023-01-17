@@ -15,6 +15,9 @@ module.exports = async function storeUpdate(data) {
         if (!storeResult) throw new Error("查無此帳號擁有的商店");
         const storeID = storeResult._id.toString();
 
+        if (!data.location.lat || !data.location.lng || !data.location.googlePlaceId)
+            delete data['location'];
+
         if (data.businessTime) {
             const businessTime = JSON.parse(data.businessTime);
             if (!(businessTime[0].constructor === Array))

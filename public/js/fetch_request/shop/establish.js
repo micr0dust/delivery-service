@@ -7,15 +7,14 @@ function establish(data) {
 
     fetch("/store/establish", {
         method: "POST",
-        //body: "name=" + data.name + "&address=" + data.address,
-        body: "name=" + data.name,
+        body: `name=${data.name}&address=${data.address}&lat=${data.lat}&lng=${data.lng}&googlePlaceId=${data.googlePlaceId}`,
         headers: headersList
     }).then(async function(response) {
         document.getElementById('loader').classList.remove('is-active');
         if (response.status === 201) {
             const result = await response.text();
             const data = JSON.parse(result);
-            window.location.href = '/store';
+            window.location.href = '/shop';
         } else if (response.status === 403) {
             if (localStorage.refresh_token) {
                 await getToken();
