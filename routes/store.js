@@ -3,6 +3,7 @@ var router = express.Router();
 
 const StoreModifyMethod = require('../controllers/store/modify_controller');
 const middleWave = require('../models/middleWave/store');
+const { profileUpload } = require('../models/middleWave/fileUpload');
 
 let storeModifyMethod = new StoreModifyMethod();
 
@@ -740,4 +741,47 @@ router.post('/addressInfo', middleWave, storeModifyMethod.addressInfo, () => {
              }
      */
 });
+router.post('/upload-img', middleWave, profileUpload.single('img'), storeModifyMethod.uploadImg, () => {
+    //  #swagger.summary  = '上傳圖片'
+    //  #swagger.description = '以 token 獲得許可，上傳圖片'
+    /*  #swagger.consumes = ['multipart/form-data']*/
+    /*  
+        #swagger.parameters['token'] = {
+            in: 'header',
+            type: 'string',
+            required: 'true',
+            description: 'access token',
+            schema: { $ref: '#/definitions/token' }
+        }
+    */
+
+    /*  #swagger.parameters['file'] = {
+                 in: 'formData',
+                 type: 'file',
+                 required: 'true',
+                 description: '檔案'
+        }
+    */
+
+    /*  #swagger.responses[200] = {
+                description: '成功上傳圖片',
+                schema: {
+                    status: '成功上傳圖片',
+                    code: true,
+                    result: "result"
+                }
+            }
+    } */
+    /*
+         #swagger.responses[500] = {
+                 description: '上傳圖片失敗',
+                 schema: {
+                     status: '上傳圖片失敗',
+                     code: false,
+                     result: 'error message'
+                 }
+             }
+     */
+})
+
 module.exports = router;

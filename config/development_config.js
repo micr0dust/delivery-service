@@ -35,6 +35,10 @@ module.exports = {
     googleMap: {
         key: process.env.GOOGLE_MAP_KEY
     },
+    aws: {
+        key: process.env.AWS_KEY,
+        secret: process.env.AWS_SECRET
+    },
     secret: process.env.MY_SECRET,
     fresh_secret: process.env.FRESH_SECRET,
     verify_secret: process.env.VERIFY_SECRET

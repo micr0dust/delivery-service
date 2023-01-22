@@ -11,6 +11,7 @@ const storeUpdate = require('../../models/store/put_store_model');
 const getIncome = require('../../models/store/get_lastIncome_model');
 const pauseProduct = require('../../models/store/switch_product_pause');
 const geocoder = require('../../models/store/addressInfo');
+const uploadImg = require('../../models/store/upload_image');
 
 const Check = require('../../service/store_check');
 const encryption = require('../../models/encryption');
@@ -545,6 +546,27 @@ module.exports = class Store {
         }, (err) => {
             res.status(500).json({
                 status: "請求地址資料失敗",
+                code: false,
+                result: err.message
+            });
+        });
+    }
+
+    // 上傳圖片
+    uploadImg(req, res, next) {
+        const data = {
+            fileName: new Date().getTime().toString(36),
+            file: req.file
+        };
+        uploadImg(data).then(result => {
+            res.status(200).json({
+                status: "成功上傳圖片",
+                code: true,
+                result: result
+            });
+        }, (err) => {
+            res.status(500).json({
+                status: "上傳圖片失敗",
                 code: false,
                 result: err.message
             });
