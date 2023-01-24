@@ -29,7 +29,7 @@
 <div class="container">
     <div class="row">
         <div class="card col-md-6 col-sm-12 mt-5">
-            <img class="card-img-top" id="img" src="/images/background.jpg" alt="Card image" style="width:100%">
+            <img class="card-img-top" id="thumbnail" src="/images/background.jpg" alt="Card image" style="width:100%">
             <div class="form-group">
                 <textarea class="form-control" rows="3" id="describe" placeholder="商家簡介" name="describe" disabled></textarea>
             </div>
@@ -116,7 +116,7 @@
         <template id="productTemplate">
             <div class="card col-sm-6 col-md-3 mt-3 mr-3">
                 <a class="text-decoration-none" onclick="productClick(this.parentNode);return false;">
-                    <img class="img-fluid" src="/images/background.jpg">
+                    <img id="thumbnail" class="img-fluid" src="/images/background.jpg">
                     <div class="card-footer justify-content-between">
                         <span>name</span>
                         <span>price</span>
@@ -277,21 +277,21 @@
         return document.getElementById(id).dataset;
     };
 
-    async function getProductFn(product) {
-        const data = {
-            result: product
-        };
+    async function getProductFn(data) {
         let products = document.getElementById('product');
         while (products.hasChildNodes())
             products.removeChild(products.lastChild);
+        console.log(data);
         let productList = document.getElementById('product');
-        for (let i = 0; i < data.result.length; i++) {
-            const product = data.result[i];
+        for (let i = 0; i < data.products.length; i++) {
+            const product = data.products[i];
             const newProduct = document.getElementById('productTemplate').cloneNode(true);
             if (product.pause) {
                 newProduct.content.querySelector('div > a > img').classList.add('blur');
                 newProduct.content.querySelector('div > .overlay-text').textContent = "暫時下架";
             }
+            if (product.thumbnail)
+                newProduct.content.getElementById('thumbnail').src = `${data.host}/${product.id}`;
             for (const key in product)
                 newProduct.content.querySelector('div').dataset[key] = product[key];
             newProduct.content.querySelector('div > a > .card-footer > span:nth-child(1)').textContent = product.name;
@@ -336,7 +336,12 @@
         if (data.result.create_date) document.getElementById('create').value = new Date(data.result.create_date).toLocaleString();
         if (data.result.last_login) document.getElementById('update').value = new Date(data.result.last_login).toLocaleString();
         if (data.result.url) localStorage.setItem('url', data.result.url);
-        await getProductFn(data.result.product);
+        if (data.result.thumbnail)
+            document.getElementById('thumbnail').src = `${data.result.thumbnail}`;
+        await getProductFn({
+            products: data.result.product,
+            host: data.result.host
+        });
         return data.result;
     }
 </script>

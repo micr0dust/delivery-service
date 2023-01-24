@@ -27,10 +27,11 @@ module.exports = async function getProduct(_id, storeData) {
                 type: productResult[i].type,
                 discount: productResult[i].discount,
                 options: productResult[i].options,
-                pause: productResult[i].pause
+                pause: productResult[i].pause,
+                thumbnail: productResult[i].thumbnail
             });
         }
-        if (responData) return responData;
+        return { products: responData, host: `https://${config.aws.bucket}.s3.amazonaws.com/store/product` };
     } catch (err) {
         throw err;
     } finally {

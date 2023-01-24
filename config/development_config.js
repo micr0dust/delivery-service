@@ -37,7 +37,8 @@ module.exports = {
     },
     aws: {
         key: process.env.AWS_KEY,
-        secret: process.env.AWS_SECRET
+        secret: process.env.AWS_SECRET,
+        bucket: process.env.AWS_BUCKET
     },
     secret: process.env.MY_SECRET,
     fresh_secret: process.env.FRESH_SECRET,

@@ -4529,6 +4529,231 @@
         ]
       }
     },
+    "/store/upload/img": {
+      "post": {
+        "tags": [
+          "store"
+        ],
+        "summary": "上傳店家封面圖片",
+        "description": "以 token 獲得許可，上傳圖片",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "required": true,
+            "description": "access token",
+            "schema": {
+              "$ref": "#/definitions/token"
+            }
+          },
+          {
+            "name": "image",
+            "in": "formData",
+            "type": "file",
+            "required": true,
+            "description": "圖片"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功上傳圖片",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "成功上傳圖片"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "result": {
+                  "type": "string",
+                  "example": "result"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "403": {
+            "description": "token錯誤",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "token錯誤"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "result": {
+                  "type": "string",
+                  "example": "請重新登入"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "description": "上傳圖片失敗",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "上傳圖片失敗"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/store/upload/product/img": {
+      "post": {
+        "tags": [
+          "store"
+        ],
+        "summary": "上傳商品圖片",
+        "description": "以 token 獲得許可，上傳圖片",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "required": true,
+            "description": "access token",
+            "schema": {
+              "$ref": "#/definitions/token"
+            }
+          },
+          {
+            "name": "product",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "description": "商品ID",
+            "schema": {
+              "type": "string",
+              "example": "6218bc479bd8bbdaa3036906"
+            }
+          },
+          {
+            "name": "image",
+            "in": "formData",
+            "type": "file",
+            "required": true,
+            "description": "圖片"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功上傳圖片",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "成功上傳圖片"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "result": {
+                  "type": "string",
+                  "example": "result"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "403": {
+            "description": "token錯誤",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "token錯誤"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "result": {
+                  "type": "string",
+                  "example": "請重新登入"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "description": "上傳圖片失敗",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "上傳圖片失敗"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
     "/business/token": {
       "get": {
         "tags": [

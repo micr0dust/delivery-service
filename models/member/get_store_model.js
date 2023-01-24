@@ -25,7 +25,8 @@ module.exports = async function getStore(_id, storeData) {
                 type: productResult[i].type,
                 discount: productResult[i].discount || "[]",
                 options: productResult[i].options,
-                pause: productResult[i].pause
+                pause: productResult[i].pause,
+                thumbnail: productResult[i].thumbnail
             });
         }
         //const today = [];
@@ -46,7 +47,9 @@ module.exports = async function getStore(_id, storeData) {
             describe: storeResult.describe,
             discount: storeResult.allDiscount || "[]",
             product: productData,
-            location: storeResult.location
+            location: storeResult.location,
+            thumbnail: storeResult.thumbnail,
+            host: `https://${config.aws.bucket}.s3.amazonaws.com/store/product`
         };
 
         return result;

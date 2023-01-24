@@ -11,7 +11,9 @@ const storeUpdate = require('../../models/store/put_store_model');
 const getIncome = require('../../models/store/get_lastIncome_model');
 const pauseProduct = require('../../models/store/switch_product_pause');
 const geocoder = require('../../models/store/addressInfo');
-const uploadImg = require('../../models/store/upload_image');
+const uploadStoreImg = require('../../models/store/upload_store_image');
+const uploadProductImg = require('../../models/store/upload_product_image');
+
 
 const Check = require('../../service/store_check');
 const encryption = require('../../models/encryption');
@@ -157,8 +159,8 @@ module.exports = class Store {
             price: req.body.price,
             describe: req.body.describe,
             type: req.body.type,
-            discount: req.body.discount ? req.body.discount : null,
-            options: req.body.options ? req.body.options : null,
+            discount: req.body.discount || null,
+            options: req.body.options || null,
             pause: false,
             create_date: onTime()
         };
@@ -231,8 +233,8 @@ module.exports = class Store {
             price: req.body.price,
             describe: req.body.describe,
             type: req.body.type,
-            discount: req.body.discount ? req.body.discount : null,
-            options: req.body.options ? req.body.options : null,
+            discount: req.body.discount || null,
+            options: req.body.options || null,
             create_date: onTime()
         };
 
@@ -552,13 +554,35 @@ module.exports = class Store {
         });
     }
 
-    // 上傳圖片
-    uploadImg(req, res, next) {
+    // 上傳店家封面圖片
+    uploadStoreImg(req, res, next) {
         const data = {
-            fileName: new Date().getTime().toString(36),
-            file: req.file
+            id: req.headers['token'],
+            image: req.file
         };
-        uploadImg(data).then(result => {
+        uploadStoreImg(data).then(result => {
+            res.status(200).json({
+                status: "成功上傳圖片",
+                code: true,
+                result: result
+            });
+        }, (err) => {
+            res.status(500).json({
+                status: "上傳圖片失敗",
+                code: false,
+                result: err.message
+            });
+        });
+    }
+
+    // 上傳特定商品縮略圖
+    uploadProductImg(req, res, next) {
+        const data = {
+            id: req.headers['token'],
+            productID: req.body.product,
+            image: req.file
+        };
+        uploadProductImg(data).then(result => {
             res.status(200).json({
                 status: "成功上傳圖片",
                 code: true,

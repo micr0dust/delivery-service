@@ -20,7 +20,7 @@
     <div class="card mt-3">
         <a class="text-decoration-none">
             <div class="card-header">Header</div>
-            <div class="card-body"><img class="img-fluid" src="/images/background.jpg"></div>
+            <div class="card-body"><img id="thumbnail" class="img-fluid" src="/images/background.jpg"></div>
             <div class="card-footer">Footer</div>
         </a>
     </div>
@@ -32,10 +32,12 @@
         const wall = document.getElementById('wall');
         for (let i = 0; i < data.result.length; i++) {
             const store = data.result[i];
-            let newStore = document.getElementById('storeTemplate');
+            let newStore = document.getElementById('storeTemplate').cloneNode(true);
             newStore.content.querySelector('a > .card-header').textContent = store.name;
             newStore.content.querySelector('a > .card-footer').textContent = store.address;
             newStore.content.querySelector('a').href = location.href.split("/wall")[0] + "/storepage?" + store.id;
+            if (store.thumbnail)
+                newStore.content.getElementById('thumbnail').src = `${store.thumbnail}`;
             let card = document.importNode(newStore.content, true);
             wall.appendChild(card);
         }

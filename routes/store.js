@@ -1,4 +1,5 @@
 var express = require('express');
+var multer = require('multer');
 var router = express.Router();
 
 const StoreModifyMethod = require('../controllers/store/modify_controller');
@@ -741,10 +742,10 @@ router.post('/addressInfo', middleWave, storeModifyMethod.addressInfo, () => {
              }
      */
 });
-router.post('/upload-img', middleWave, profileUpload.single('img'), storeModifyMethod.uploadImg, () => {
-    //  #swagger.summary  = '上傳圖片'
+router.post('/upload/img', middleWave, profileUpload.single('image'), storeModifyMethod.uploadStoreImg, () => {
+    //  #swagger.summary  = '上傳店家封面圖片'
     //  #swagger.description = '以 token 獲得許可，上傳圖片'
-    /*  #swagger.consumes = ['multipart/form-data']*/
+
     /*  
         #swagger.parameters['token'] = {
             in: 'header',
@@ -755,11 +756,61 @@ router.post('/upload-img', middleWave, profileUpload.single('img'), storeModifyM
         }
     */
 
-    /*  #swagger.parameters['file'] = {
+    /*  #swagger.parameters['image'] = {
                  in: 'formData',
                  type: 'file',
                  required: 'true',
-                 description: '檔案'
+                 description: '圖片'
+        }
+    */
+
+    /*  #swagger.responses[200] = {
+                description: '成功上傳圖片',
+                schema: {
+                    status: '成功上傳圖片',
+                    code: true,
+                    result: "result"
+                }
+            }
+    } */
+    /*
+         #swagger.responses[500] = {
+                 description: '上傳圖片失敗',
+                 schema: {
+                     status: '上傳圖片失敗',
+                     code: false,
+                     result: 'error message'
+                 }
+             }
+     */
+});
+router.post('/upload/product/img', middleWave, profileUpload.single('image'), storeModifyMethod.uploadProductImg, () => {
+    //  #swagger.summary  = '上傳商品圖片'
+    //  #swagger.description = '以 token 獲得許可，上傳圖片'
+
+    /*  
+        #swagger.parameters['token'] = {
+            in: 'header',
+            type: 'string',
+            required: 'true',
+            description: 'access token',
+            schema: { $ref: '#/definitions/token' }
+        }
+    */
+
+    /*  
+        #swagger.parameters['product'] = {
+                 in: 'formData',
+                 type: 'string',
+                 required: 'true',
+                 description: '商品ID',
+                 schema: "6218bc479bd8bbdaa3036906"
+        }
+        #swagger.parameters['image'] = {
+                 in: 'formData',
+                 type: 'file',
+                 required: 'true',
+                 description: '圖片'
         }
     */
 
