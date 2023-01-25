@@ -334,10 +334,10 @@
             }
         }
         if (data.result.create_date) document.getElementById('create').value = new Date(data.result.create_date).toLocaleString();
-        if (data.result.last_login) document.getElementById('update').value = new Date(data.result.last_login).toLocaleString();
+        if (data.result.last_login) document.getElementById('update').value = new Date(data.result.last_update).toLocaleString();
         if (data.result.url) localStorage.setItem('url', data.result.url);
         if (data.result.thumbnail)
-            document.getElementById('thumbnail').src = `${data.result.thumbnail}`;
+            document.getElementById('thumbnail').src = `${data.result.thumbnail}?${data.result.last_update}`;
         await getProductFn({
             products: data.result.product,
             host: data.result.host

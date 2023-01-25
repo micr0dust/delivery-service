@@ -37,7 +37,7 @@
             newStore.content.querySelector('a > .card-footer').textContent = store.address;
             newStore.content.querySelector('a').href = location.href.split("/wall")[0] + "/storepage?" + store.id;
             if (store.thumbnail)
-                newStore.content.getElementById('thumbnail').src = `${store.thumbnail}`;
+                newStore.content.getElementById('thumbnail').src = `${store.thumbnail}?${store.last_update}`;
             let card = document.importNode(newStore.content, true);
             wall.appendChild(card);
         }

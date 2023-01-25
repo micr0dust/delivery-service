@@ -37,7 +37,8 @@ module.exports = class Store {
                 verified: false
             },
             url: ((new Date().getTime() - 1637560475159) * 100 + parseInt(createNum())).toString(36),
-            create_date: onTime()
+            create_date: onTime(),
+            last_update: onTime()
         };
 
         if (!check.checkName(data.name)) {
@@ -162,7 +163,8 @@ module.exports = class Store {
             discount: req.body.discount || null,
             options: req.body.options || null,
             pause: false,
-            create_date: onTime()
+            create_date: onTime(),
+            last_update: onTime()
         };
 
         if (!check.checkName(data.name)) {
@@ -235,7 +237,7 @@ module.exports = class Store {
             type: req.body.type,
             discount: req.body.discount || null,
             options: req.body.options || null,
-            create_date: onTime()
+            last_update: onTime()
         };
 
         Object.keys(data).forEach((key) => !data[key] && delete data[key]);
@@ -457,7 +459,8 @@ module.exports = class Store {
             place: req.body.place,
             allDiscount: req.body.discount,
             timeEstimate: req.body.timeEstimate,
-            businessTime: req.body.businessTime
+            businessTime: req.body.businessTime,
+            last_update: onTime()
         };
         Object.keys(data).forEach((key) => !data[key] && delete data[key]);
         for (let prop in data)

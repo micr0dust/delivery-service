@@ -32,7 +32,8 @@ module.exports = async function getProduct() {
                 discount: storeResult[i].allDiscount || "[]",
                 timeEstimate: storeResult[i].timeEstimate || null,
                 businessTime: today,
-                thumbnail: storeResult[i].thumbnail
+                thumbnail: storeResult[i].thumbnail,
+                last_update: storeResult[i].last_update
             }
         }
         if (storeResult) return storeResult;

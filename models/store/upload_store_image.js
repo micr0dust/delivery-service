@@ -28,7 +28,6 @@ module.exports = async function uploadStoreImg(data) {
                 ContentType: data.image.mimetype
             }, function(err, data) {
                 if (err) console.log(err, err.stack);
-                else console.log();
             });
         } else {
             const params = {
