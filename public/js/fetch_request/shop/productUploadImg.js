@@ -12,7 +12,6 @@ async function uploadProductImg(data) {
         body: bodyContent,
         headers: headersList
     }).then(async function(response) {
-        document.getElementById('loader').classList.remove('is-active');
         if (response.status === 200);
         else if (response.status === 403) {
             if (localStorage.refresh_token) {

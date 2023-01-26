@@ -228,6 +228,8 @@
         }
     };
 
+    document.getElementById('loader').classList.add('is-active');
+
     function dropTrigger(e) {
         let dt = e.dataTransfer;
         let files = dt.files;
@@ -610,7 +612,7 @@
             }
         }
         if (data.result.create_date) document.getElementById('create').value = new Date(data.result.create_date).toLocaleString();
-        if (data.result.last_login) document.getElementById('update').value = new Date(data.result.last_update).toLocaleString();
+        if (data.result.last_update) document.getElementById('update').value = new Date(data.result.last_update).toLocaleString();
         if (data.result.thumbnail)
             document.getElementById('thumbnail').src = `${data.result.thumbnail}?lastmod=${data.result.last_update}`;
         if (data.result.url) await getProductFn(data.result.url);

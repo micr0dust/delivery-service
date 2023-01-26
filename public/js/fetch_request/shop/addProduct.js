@@ -16,10 +16,10 @@ async function addProduct(oProduct) {
         body: formData,
         headers: headersList
     }).then(async function(response) {
-        document.getElementById('loader').classList.remove('is-active');
-        if (response.status === 201)
-            location.href = "/shop";
-        else if (response.status === 403) {
+        if (response.status === 201) {
+            const result = await response.text();
+            return JSON.parse(result);
+        } else if (response.status === 403) {
             if (localStorage.refresh_token) {
                 await getToken();
                 return addProduct(oProduct);

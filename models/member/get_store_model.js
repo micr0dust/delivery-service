@@ -41,6 +41,8 @@ module.exports = async function getStore(_id, storeData) {
         const result = {
             name: storeResult.name,
             address: storeResult.address,
+            create_date: storeResult.create_date,
+            last_update: storeResult.last_update,
             url: storeResult.url,
             timeEstimate: storeResult.timeEstimate,
             businessTime: storeResult.businessTime,

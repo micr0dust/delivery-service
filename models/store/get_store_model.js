@@ -18,7 +18,7 @@ module.exports = async function storeData(id) {
             name: findResult.name,
             address: findResult.address,
             create_date: findResult.create_date,
-            last_login: findResult.last_login,
+            last_update: findResult.last_update,
             url: findResult.url,
             product: findResult.product,
             place: findResult.place || null,

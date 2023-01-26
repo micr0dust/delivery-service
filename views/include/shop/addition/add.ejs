@@ -1,4 +1,5 @@
 <script src="/js/fetch_request/shop/addProduct.js"></script>
+<script src="/js/fetch_request/shop/productUploadImg.js"></script>
 <script>
     const dataStr = decodeURI(location.href.split('?')[1]);
     if (dataStr) {
@@ -9,8 +10,17 @@
     }
     document.getElementById('loader').classList.remove('is-active');
 
-    function submitProduct() {
+    async function submitProduct() {
         document.getElementById('loader').classList.add('is-active');
-        addProduct(getForm());
+        const files = document.getElementById('imgInp').files;
+        const res = await addProduct(getForm());
+        const data = res.result;
+        if (res && files.length)
+            await uploadProductImg({
+                id: data.id,
+                file: files[0]
+            });
+        if (res) location.href = "/shop";
+        document.getElementById('loader').classList.remove('is-active');
     }
 </script>

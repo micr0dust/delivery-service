@@ -50,7 +50,11 @@ module.exports = async function addProduct(id, productData) {
         });
         if (!updateResult) throw new Error("商家和商品綁定時發生錯誤");
 
-        return productData;
+        // 返回新增結果
+        const productResult = await product.findOne({ _id: ObjectId(insertResult.insertedId) });
+        if (!productResult) throw new Error("商品查詢錯誤");
+        productResult.thumbnail = `https://${config.aws.bucket}.s3.amazonaws.com/store/product/${productResult._id.toString()}`;
+        return productResult;
     } catch (err) {
         throw err;
     } finally {

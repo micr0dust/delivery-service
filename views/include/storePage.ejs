@@ -281,7 +281,6 @@
         let products = document.getElementById('product');
         while (products.hasChildNodes())
             products.removeChild(products.lastChild);
-        console.log(data);
         let productList = document.getElementById('product');
         for (let i = 0; i < data.products.length; i++) {
             const product = data.products[i];
@@ -334,7 +333,7 @@
             }
         }
         if (data.result.create_date) document.getElementById('create').value = new Date(data.result.create_date).toLocaleString();
-        if (data.result.last_login) document.getElementById('update').value = new Date(data.result.last_update).toLocaleString();
+        if (data.result.last_update) document.getElementById('update').value = new Date(data.result.last_update).toLocaleString();
         if (data.result.url) localStorage.setItem('url', data.result.url);
         if (data.result.thumbnail)
             document.getElementById('thumbnail').src = `${data.result.thumbnail}?${data.result.last_update}`;

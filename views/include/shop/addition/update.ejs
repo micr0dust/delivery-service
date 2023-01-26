@@ -7,43 +7,6 @@
     if (testID)
         getProduct(id);
 
-    const listenerFns = {
-        addblur: (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            document.getElementById('thumbnail').classList.add('blur');
-        },
-        rmblur: (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            document.getElementById('thumbnail').classList.remove('blur');
-        }
-    };
-
-    function dropTrigger(e) {
-        let dt = e.dataTransfer;
-        let files = dt.files;
-
-        changeThumbnail(files);
-    }
-
-    function changeThumbnail(files) {
-        document.getElementById('imgInp').files = files;
-        const [file] = files;
-        if (file) {
-            document.getElementById('thumbnail').src = URL.createObjectURL(file);
-        }
-    }
-
-    const dropArea = document.getElementById('drop-area');
-    dropArea.addEventListener('drop', dropTrigger, false);
-    ['dragenter', 'dragover'].forEach(eventName => {
-        dropArea.addEventListener(eventName, listenerFns.addblur, false);
-    });
-    ['dragleave', 'drop'].forEach(eventName => {
-        dropArea.addEventListener(eventName, listenerFns.rmblur, false);
-    });
-
     async function getProduct(id) {
         const unparse = await getOneProduct(id);
         const parse = JSON.parse(unparse);

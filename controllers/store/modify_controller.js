@@ -209,6 +209,7 @@ module.exports = class Store {
                     status: '新增成功',
                     code: true,
                     result: {
+                        id: result._id.toString(),
                         name: result.name,
                         price: result.price,
                         describe: result.describe,
