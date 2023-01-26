@@ -7,6 +7,43 @@
     if (testID)
         getProduct(id);
 
+    const listenerFns = {
+        addblur: (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            document.getElementById('thumbnail').classList.add('blur');
+        },
+        rmblur: (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            document.getElementById('thumbnail').classList.remove('blur');
+        }
+    };
+
+    function dropTrigger(e) {
+        let dt = e.dataTransfer;
+        let files = dt.files;
+
+        changeThumbnail(files);
+    }
+
+    function changeThumbnail(files) {
+        document.getElementById('imgInp').files = files;
+        const [file] = files;
+        if (file) {
+            document.getElementById('thumbnail').src = URL.createObjectURL(file);
+        }
+    }
+
+    const dropArea = document.getElementById('drop-area');
+    dropArea.addEventListener('drop', dropTrigger, false);
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropArea.addEventListener(eventName, listenerFns.addblur, false);
+    });
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropArea.addEventListener(eventName, listenerFns.rmblur, false);
+    });
+
     async function getProduct(id) {
         const unparse = await getOneProduct(id);
         const parse = JSON.parse(unparse);
@@ -15,6 +52,8 @@
         document.getElementById('price').value = data.price;
         document.getElementById('describe').value = data.describe;
         document.getElementById('tag').value = data.type;
+        if (data.thumbnail)
+            document.getElementById('thumbnail').src = `${data.thumbnail}?lastmod=${data.last_update}`;
 
         const options = JSON.parse(data.options);
         for (let i = 0; i < options.length; i++) {
@@ -41,8 +80,14 @@
         }
     }
 
-    function submitProduct() {
+    async function submitProduct() {
         document.getElementById('loader').classList.add('is-active');
+        const files = document.getElementById('imgInp').files;
+        if (files.length)
+            await uploadProductImg({
+                id: id,
+                file: files[0]
+            });
         putProduct(
             getForm({
                 id: id

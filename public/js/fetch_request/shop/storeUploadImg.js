@@ -1,7 +1,7 @@
 async function storeUploadImg(file) {
     let bodyContent = new FormData();
     bodyContent.append("image", file);
-    console.log(file);
+
     const headersList = {
         "Accept": "*/*",
         "token": localStorage.acesstoken

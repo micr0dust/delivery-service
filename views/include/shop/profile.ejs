@@ -84,7 +84,7 @@
                     <input type="text" id="update" class="form-control" placeholder="上次更新" name="update" data-cantChange disabled>
                 </div>
                 <button id="edit" class="btn btn-primary mt-1" onclick="edit(true)" disabled>編輯</button>
-                <button id="unedit" class="btn btn-danger mt-1 d-none" onclick="edit(false)">取消</button>
+                <button id="unedit" class="btn btn-danger mt-1 d-none" onclick="location.reload()">取消</button>
                 <button id="submit" class="btn btn-success ml-3 mt-1 d-none" onclick="checkMapBeforeSubmit()">儲存</button>
             </div>
         </div>
@@ -212,20 +212,21 @@
 <script src="/js/fetch_request/shop/locationVerify.js"></script>
 <script src="/js/fetch_request/shop/storeUploadImg.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAMbmNNct9nSHK4WRT8CDempAeDJmtbLVE&callback=initMap" async defer></script>
-
 <script>
     var map, geocoder;
     var originData;
-
-    const dropArea = document.getElementById('drop-area');
-
-    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-        dropArea.addEventListener(eventName, (e) => {
+    const listenerFns = {
+        addblur: (e) => {
             e.preventDefault();
             e.stopPropagation();
-        }, false)
-    });
-    dropArea.addEventListener('drop', dropTrigger, false);
+            document.getElementById('thumbnail').classList.add('blur');
+        },
+        rmblur: (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            document.getElementById('thumbnail').classList.remove('blur');
+        }
+    };
 
     function dropTrigger(e) {
         let dt = e.dataTransfer;
@@ -241,18 +242,6 @@
             document.getElementById('thumbnail').src = URL.createObjectURL(file);
         }
     }
-
-    ['dragenter', 'dragover'].forEach(eventName => {
-        dropArea.addEventListener(eventName, (e) => {
-            document.getElementById('thumbnail').classList.add('blur');
-        }, false);
-    });
-
-    ['dragleave', 'drop'].forEach(eventName => {
-        dropArea.addEventListener(eventName, (e) => {
-            document.getElementById('thumbnail').classList.remove('blur');
-        }, false);
-    });
 
     async function initMap() {
         const data = await getInfoFn();
@@ -272,12 +261,32 @@
         const edit = document.getElementById('edit');
         const unedit = document.getElementById('unedit');
         const submit = document.getElementById('submit');
+        const dropArea = document.getElementById('drop-area');
+
         if (able) {
+            dropArea.addEventListener('drop', dropTrigger, false);
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropArea.addEventListener(eventName, listenerFns.addblur, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, listenerFns.rmblur, false);
+            });
             edit.classList.add('d-none');
             unedit.classList.remove('d-none');
             submit.classList.remove('d-none');
             dropArea.querySelector('.overlay-text').classList.remove('d-none');
         } else {
+            dropArea.removeEventListener('drop', dropTrigger, false);
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropArea.removeEventListener(eventName, listenerFns.addblur, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropArea.removeEventListener(eventName, listenerFns.rmblur, false);
+            });
             unedit.classList.add('d-none');
             submit.classList.add('d-none');
             edit.classList.remove('d-none');
@@ -287,11 +296,11 @@
         const select = document.getElementsByTagName('select');
         const textarea = document.getElementsByTagName('textarea');
         for (let i = 0; i < input.length; i++)
-            input[i].disabled = able && !input[i].hasAttribute("data-cantChange") ? false : true;
+            input[i].disabled = !(able && !input[i].hasAttribute("data-cantChange"));
         for (let i = 0; i < select.length; i++)
-            select[i].disabled = able && !select[i].hasAttribute("data-cantChange") ? false : true;
+            select[i].disabled = !(able && !select[i].hasAttribute("data-cantChange"));
         for (let i = 0; i < textarea.length; i++)
-            textarea[i].disabled = able && !textarea[i].hasAttribute("data-cantChange") ? false : true;
+            textarea[i].disabled = !(able && !textarea[i].hasAttribute("data-cantChange"));
     }
 
     function createFormTitle() {
@@ -558,7 +567,7 @@
                 newProduct.content.querySelector('div > .overlay-text').textContent = "暫時下架";
             }
             if (product.thumbnail)
-                newProduct.content.getElementById('thumbnail').src = `${data.result.host}/${product.id}`;
+                newProduct.content.getElementById('thumbnail').src = `${data.result.host}/${product.id}?lastmod=${product.last_update}`;
             for (const key in product)
                 newProduct.content.querySelector('div').dataset[key] = product[key];
             newProduct.content.querySelector('div > a > .card-footer > span:nth-child(1)').textContent = product.name;

@@ -1,7 +1,24 @@
+<style>
+    .blur {
+        filter: grayscale(10%) brightness(50%) blur(2px);
+    }
+    
+    .overlay-text {
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 1.5rem;
+    }
+</style>
 <div class="container">
     <div class="row">
         <div class="card col-md-6 col-sm-12 mt-5">
-            <img class="card-img-top" id="img" src="/images/background.jpg" alt="Card image" style="width:100%">
+            <input class="form-control-file d-none" accept="image/png,.jpg,.jepg" type='file' id="imgInp" onchange="changeThumbnail(this.files)" />
+            <div id="drop-area">
+                <img class="card-img-top" id="thumbnail" src="/images/background.jpg" alt="Card image" style="width:100%">
+                <div class="overlay-text text-light">拖曳至此上傳圖片</div>
+            </div>
         </div>
         <div class="card col-md-6 col-sm-12">
             <div class="card-body">
@@ -95,8 +112,9 @@
     <div id="options" class="row mt-3 justify-content-start align-items-center">
         <button class="btn btn-primary mt-3 md-5" onclick="addOption(this)">新增選項</button>
     </div>
-    <script src="/js/fetch_request/storePage.js"></script>
 </div>
+<script src="/js/fetch_request/storePage.js"></script>
+<script src="/js/fetch_request/shop/productUploadImg.js"></script>
 <script>
     function cancel() {
         Swal.fire({

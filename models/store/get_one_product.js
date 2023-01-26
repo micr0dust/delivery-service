@@ -17,6 +17,7 @@ module.exports = async function oneProduct(id, data) {
         const productResult = await product.findOne({ _id: ObjectId(data.productID) });
         if (!productResult) throw new Error("查無商品");
         if (productResult.belong != storeResult._id.toString()) throw new Error("該商品不屬於你的商店");
+        productResult.thumbnail = `https://${config.aws.bucket}.s3.amazonaws.com/store/product/${productResult._id.toString()}`;
         return productResult;
     } catch (err) {
         throw err;
