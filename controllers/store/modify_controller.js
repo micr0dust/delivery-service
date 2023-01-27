@@ -431,13 +431,13 @@ module.exports = class Store {
         const date = new Date();
         getIncome(req.headers['token']).then(result => {
             res.json({
-                status: `成功獲取 ${date.getMonth()} 月營收`,
+                status: `成功獲取 ${date.getMonth()?date.getMonth():12} 月營收`,
                 code: true,
                 result: result
             });
         }, (err) => {
             res.status(500).json({
-                status: `無法獲取 ${date.getMonth()} 月營收`,
+                status: `無法獲取 ${date.getMonth()?date.getMonth():12} 月營收`,
                 code: false,
                 result: err.message
             });

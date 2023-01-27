@@ -38,6 +38,12 @@
         </div>
         <div class="input-group mb-2 mt-2">
             <div class="input-group-prepend">
+                <span class="input-group-text">下單時間</span>
+            </div>
+            <input type="text" class="form-control" placeholder="時間" name="DATE" disabled>
+        </div>
+        <div class="input-group mb-2 mt-2">
+            <div class="input-group-prepend">
                 <span class="input-group-text">預約時間</span>
             </div>
             <input type="text" class="form-control" placeholder="預約時間" name="reservation" disabled>
@@ -204,6 +210,7 @@
             poductDetail(orderTemplate.content.querySelector('[name="product-detail"]'), order[i]['order']);
             orderTemplate.content.querySelector('[name="name"]').value = order[i]['name'];
             orderTemplate.content.querySelector('[name="sequence"]').value = order[i]['sequence'];
+            orderTemplate.content.querySelector('[name="DATE"]').value = (new Date(order[i]['DATE'])).toLocaleString();
             orderTemplate.content.querySelector('[name="order"]').id = order[i]['_id'];
             orderTemplate.content.querySelector('[name="reservation"]').value = order[i]['reservation'] || "即時";
             orderTemplate.content.querySelector('[name="tableware"]').value = order[i]['tableware'] ? '是' : '否';

@@ -1,0 +1,156 @@
+<template id="optionTemplate">
+    <li name="option"></li>
+</template>
+<template id="productTemplate">
+    <li name="product">
+        <h5 name="name"></h5>
+        <ul name="options"></ul>
+    </li>
+</template>
+<template id="orderTemplate">
+    <div class="card col-12 mt-2" name="order">
+        <div class="input-group mb-2 mt-2">
+            <div class="input-group-prepend">
+                <span class="input-group-text">訂餐人</span>
+            </div>
+            <input type="text" class="form-control" placeholder="訂餐人" name="name" disabled>
+            <div class="input-group-prepend ml-3">
+                <span class="input-group-text">編號</span>
+            </div>
+            <input type="text" class="form-control" placeholder="編號" name="sequence" disabled>
+        </div>
+        <div class="input-group mb-2 mt-2">
+            <div class="input-group-prepend">
+                <span class="input-group-text">下單時間</span>
+            </div>
+            <input type="text" class="form-control" placeholder="時間" name="DATE" disabled>
+        </div>
+        <div class="input-group mb-2 mt-2">
+            <div class="input-group-prepend">
+                <span class="input-group-text">預約時間</span>
+            </div>
+            <input type="text" class="form-control" placeholder="預約時間" name="reservation" disabled>
+        </div>
+        <div class="input-group mb-2">
+            <div class="input-group-prepend">
+                <span class="input-group-text">免洗餐具</span>
+            </div>
+            <input type="text" class="form-control" placeholder="免洗餐具" name="tableware" disabled>
+        </div>
+        <div class="input-group mb-2">
+            <div class="input-group-prepend">
+                <span class="input-group-text">總金額</span>
+            </div>
+            <input type="text" class="form-control" placeholder="總金額" name="total" disabled>
+        </div>
+        <ul name="product-detail">
+
+        </ul>
+    </div>
+</template>
+<template id="loadingTemplate">
+    <span class="spinner-border spinner-border-sm"></span>
+</template>
+
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-6 order-2" id="sticky-sidebar">
+            <div class="col-md-6 col-sm-12 position-fixed" id="sticky-sidebar">
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">訂單類型</span>
+                    </div>
+                    <select onchange="orderListGenerate(JSON.parse(sessionStorage.orderData),this.value)" class="form-control" id="place">
+                        <option value="all">全部</option>
+                        <option value="done">已接受且結單</option>
+                        <option value="accepted">已接受未結單</option>
+                        <option value="unaccept">未接受</option>
+                        <option value="reject">已拒絕</option>
+                    </select>
+                </div>
+                <div class="input-group mb-2 mt-2">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">上個月營業額</span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="上個月營業額" id="income" disabled>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-12 p-0" id="history-order">
+            <div class="d-flex m-0">
+                <div class="p-2 bg-info flex-fill text-white text-center">歷史訂單</div>
+            </div>
+            <div id="history"></div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/fetch_request/shop/historyOrder.js"></script>
+<script src="/js/fetch_request/shop/getIncome.js"></script>
+
+<script>
+    let lastLength = -1;
+
+    async function init() {
+        const income = await getIncome();
+        document.getElementById('income').value = income.result;
+        orderListGenerate(await getHistoryOrder());
+    }
+    init();
+
+    function optionDetail(element, options) {
+        const data = JSON.parse(options);
+        for (let i = 0; i < data.length; i++) {
+            const optionTemplate = document.getElementById('optionTemplate').cloneNode(true);
+            const optionTxt = (option) => {
+                let result = "";
+                if (typeof option == Array)
+                    for (let j = 0; j < option.length; j++)
+                        result += `${option}${j < option.length - 1 ? "," : ""}`;
+                else return option;
+                return result;
+            }
+            optionTemplate.content.querySelector('[name="option"]').innerText = `${data[i]['title']}：${optionTxt(data[i]['option'])}`;
+            const newOption = document.importNode(optionTemplate.content, true);
+            element.appendChild(newOption);
+        }
+    }
+
+    function poductDetail(element, order) {
+        const data = JSON.parse(order);
+        for (let i = 0; i < data.length; i++) {
+            const productTemplate = document.getElementById('productTemplate').cloneNode(true);
+            optionDetail(productTemplate.content.querySelector('[name="options"]'), data[i]['options']);
+            productTemplate.content.querySelector('[name="name"]').innerText = `${data[i]['name']} X${data[i]['count']}`;
+            productTemplate.content.querySelector('[name="product"]').id = data[i]['_id'];
+            const newProduct = document.importNode(productTemplate.content, true);
+            element.appendChild(newProduct);
+        }
+    }
+
+    async function orderListGenerate(data, type) {
+        const order = data['result'];
+        const history = document.getElementById('history');
+        history.innerHTML = "";
+        const accept = (type === "done" || type === "accepted");
+        const complete = (type === "done" || type === "reject");
+        for (let i = 0; i < order.length; i++) {
+            if (type != "all" && (order[i]['accept'] != accept || order[i]['complete'] != complete)) continue;
+            const orderTemplate = document.getElementById('orderTemplate').cloneNode(true);
+            poductDetail(orderTemplate.content.querySelector('[name="product-detail"]'), order[i]['order']);
+            orderTemplate.content.querySelector('[name="name"]').value = order[i]['name'];
+            orderTemplate.content.querySelector('[name="sequence"]').value = order[i]['sequence'];
+            orderTemplate.content.querySelector('[name="DATE"]').value = (new Date(order[i]['DATE'])).toLocaleString();
+            orderTemplate.content.querySelector('[name="order"]').id = order[i]['_id'];
+            orderTemplate.content.querySelector('[name="reservation"]').value = order[i]['reservation'] || "即時";
+            orderTemplate.content.querySelector('[name="tableware"]').value = order[i]['tableware'] ? '是' : '否';
+            orderTemplate.content.querySelector('[name="total"]').value = order[i]['total'];
+            const newOrder = document.importNode(orderTemplate.content, true);
+            history.appendChild(newOrder);
+        }
+        const historyDiv = document.createElement("div");
+        historyDiv.classList.add('mt-5');
+        history.appendChild(historyDiv);
+        return order.length;
+    }
+</script>

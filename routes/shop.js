@@ -16,6 +16,9 @@ router.get('/update', function(req, res, next) {
 router.get('/bussiness', function(req, res, next) {
     res.render('console', { title: '營業中', part: 'shop/bussiness/index' });
 });
+router.get('/history', function(req, res, next) {
+    res.render('console', { title: '訂單紀錄', part: 'shop/history' });
+});
 
 
 module.exports = router;
