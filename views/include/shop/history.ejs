@@ -62,8 +62,9 @@
                     </div>
                     <select onchange="orderListGenerate(JSON.parse(sessionStorage.orderData),this.value)" class="form-control" id="place">
                         <option value="all">全部</option>
-                        <option value="done">已接受且結單</option>
-                        <option value="accepted">已接受未結單</option>
+                        <option value="done">已完成且已結單</option>
+                        <option value="finish">已完成且未結單</option>
+                        <option value="accepted">已接受未完成</option>
                         <option value="unaccept">未接受</option>
                         <option value="reject">已拒絕</option>
                     </select>
@@ -132,10 +133,11 @@
         const order = data['result'];
         const history = document.getElementById('history');
         history.innerHTML = "";
-        const accept = (type === "done" || type === "accepted");
+        const accept = (type === "done" || type === "accepted" || type === "finish");
+        const finish = (type === "done" || type === "finish") || null;
         const complete = (type === "done" || type === "reject");
         for (let i = 0; i < order.length; i++) {
-            if (type != "all" && (order[i]['accept'] != accept || order[i]['complete'] != complete)) continue;
+            if (type != "all" && (order[i]['finish'] != finish || order[i]['accept'] != accept || order[i]['complete'] != complete)) continue;
             const orderTemplate = document.getElementById('orderTemplate').cloneNode(true);
             poductDetail(orderTemplate.content.querySelector('[name="product-detail"]'), order[i]['order']);
             orderTemplate.content.querySelector('[name="name"]').value = order[i]['name'];
