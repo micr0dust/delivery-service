@@ -94,7 +94,7 @@
     async function init() {
         const income = await getIncome();
         document.getElementById('income').value = income.result;
-        orderListGenerate(await getHistoryOrder());
+        orderListGenerate(await getHistoryOrder(), "all");
     }
     init();
 
