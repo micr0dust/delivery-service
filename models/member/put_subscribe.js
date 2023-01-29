@@ -19,23 +19,25 @@ module.exports = async function subscribeNotification(id, data) {
         });
         if (!updateResult) throw new Error("資料庫更新失敗");
 
-        const message = {
-            app_id: config.onesignal.id,
-            contents: { "zh-Hant": "通知訂閱成功", "en": "notification subscribe successful" },
-            included_segments: ["included_player_ids"],
-            include_player_ids: [data.user_id],
-            content_availabe: true,
-            small_icon: "ic_notification_icon",
-            data: {
-                method: "test"
-            },
-        };
+        return "通知訂閱成功";
 
-        notifyPush.sendNotification(message, (error, result) => {
-            if (error) throw error;
-            console.log(result);
-        });
-        return "測試通知已發送，請確認有無收到通知";
+        // const message = {
+        //     app_id: config.onesignal.id,
+        //     contents: { "zh-Hant": "通知訂閱成功", "en": "notification subscribe successful" },
+        //     included_segments: ["included_player_ids"],
+        //     include_player_ids: [data.user_id],
+        //     content_availabe: true,
+        //     small_icon: "ic_notification_icon",
+        //     data: {
+        //         method: "test"
+        //     },
+        // };
+
+        // notifyPush.sendNotification(message, (error, result) => {
+        //     if (error) throw error;
+        //     console.log(result);
+        // });
+        // return "測試通知已發送，請確認有無收到通知";
     } catch (err) {
         throw err;
     } finally {
