@@ -1777,6 +1777,17 @@
                             "example": "ChIJP4zIp2epQjQRNPL8Eubdr_Q"
                           }
                         }
+                      },
+                      "product": {
+                        "type": "array",
+                        "example": [
+                          "6312b94e035d6736eb6ea2e9",
+                          "6312b9e7035d6736eb6ea2ea",
+                          "6316ed501869492a436d982b"
+                        ],
+                        "items": {
+                          "type": "string"
+                        }
                       }
                     }
                   }

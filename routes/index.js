@@ -650,7 +650,12 @@ router.get('/store', middleWave, memberModifyMethod.getStoreInfo, () => {
                                     "lat": "25.0541642",
                                     "lng": "121.5282883",
                                     "googlePlaceId": "ChIJP4zIp2epQjQRNPL8Eubdr_Q"
-                                }
+                                },
+                                "product": [
+                                    "6312b94e035d6736eb6ea2e9",
+                                    "6312b9e7035d6736eb6ea2ea",
+                                    "6316ed501869492a436d982b"
+                                ]
                             }
                         ]
                     }
