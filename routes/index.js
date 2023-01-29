@@ -645,7 +645,12 @@ router.get('/store', middleWave, memberModifyMethod.getStoreInfo, () => {
                                 "name": "友朋小吃",
                                 "address": "桃園市中壢區OO街OO號",
                                 "id": "8y3un9ka",
-                                "discount": "[]"
+                                "discount": "[]",
+                                "location": {
+                                    "lat": "25.0541642",
+                                    "lng": "121.5282883",
+                                    "googlePlaceId": "ChIJP4zIp2epQjQRNPL8Eubdr_Q"
+                                }
                             }
                         ]
                     }
