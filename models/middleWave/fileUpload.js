@@ -9,9 +9,9 @@ const profileUpload = multer({
     fileFilter(req, file, cb) {
         // 只接受三種圖片格式
         if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
-            cb(null, false);
-        }
-        cb(null, true);
+            cb(Error("wrong file type"), false);
+        } else
+            cb(null, true);
     }
 })
 
