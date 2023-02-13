@@ -49,10 +49,10 @@ module.exports = async function order(data, finalOrder) {
             //     throw new Error((productOwner.timeEstimate) ? `請提早${productOwner.timeEstimate}分鐘預約` : "預約時間已超過");
             if (!(hourData * 60 + minData > hourNow * 60 + minNow))
                 throw new Error("預約時間已超過");
-            if (!productOwner['businessTime'][hourNow][dayNow])
+            if (!productOwner['businessTime'][hourNow][dayNow] && !((new Date() - new Date(productOwner.latest)) / 1000 < 180))
                 throw new Error("店家現在未營業，所以無法預約");
             if (!productOwner['businessTime'][hourData][dayNow])
-                throw new Error("店家未在要求時段營業，所以無法預約");
+                throw new Error("預約時間必須在店家表定時間");
         } else if (orderData.reservation != null)
             throw new Error("預約時間為必填，即時單請填 null");
 

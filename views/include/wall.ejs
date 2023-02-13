@@ -18,8 +18,12 @@
 </div>
 <template id="storeTemplate">
     <div class="card mt-3">
-        <a class="text-decoration-none">
-            <div class="card-header">Header</div>
+        <a href="#" class="btn">
+            <div class="col-12">
+                <h4 name="name" class="card-title d-inline-block float-left"></h4>
+                <h4 name="open" class="text-success d-inline-block float-right">營業中</h4>
+                <h4 name="closed" class="text-danger d-inline-block float-right">已打烊</h4>
+            </div>
             <div class="card-body"><img id="thumbnail" class="img-fluid" src="/images/background.jpg"></div>
             <div class="card-footer">Footer</div>
         </a>
@@ -33,7 +37,11 @@
         for (let i = 0; i < data.result.length; i++) {
             const store = data.result[i];
             let newStore = document.getElementById('storeTemplate').cloneNode(true);
-            newStore.content.querySelector('a > .card-header').textContent = store.name;
+            if (!store.status || store.status > 180)
+                newStore.content.querySelector('[name="open"]').textContent = "";
+            else
+                newStore.content.querySelector('[name="closed"]').textContent = "";
+            newStore.content.querySelector('[name="name"]').textContent = store.name;
             newStore.content.querySelector('a > .card-footer').textContent = store.address;
             newStore.content.querySelector('a').href = location.href.split("/wall")[0] + "/storepage?" + store.id;
             if (store.thumbnail)

@@ -35,7 +35,12 @@ module.exports = class Store {
 
     // 營業店家取得未完成訂單
     getOrder(req, res, next) {
-        getOrder(req.headers['token']).then(result => {
+        const data = {
+            id: req.headers['token'],
+            time: onTime()
+        };
+
+        getOrder(data).then(result => {
             res.json({
                 status: "成功獲取訂單",
                 code: true,

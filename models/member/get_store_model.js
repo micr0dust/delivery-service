@@ -52,7 +52,8 @@ module.exports = async function getStore(_id, storeData) {
             product: productData,
             location: storeResult.location,
             thumbnail: storeResult.thumbnail,
-            host: `https://${config.aws.bucket}.s3.amazonaws.com/store/product`
+            host: `https://${config.aws.bucket}.s3.amazonaws.com/store/product`,
+            status: storeResult.latest ? (new Date() - new Date(storeResult.latest)) / 1000 : null
         };
 
         return result;

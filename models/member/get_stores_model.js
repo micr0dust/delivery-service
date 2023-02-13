@@ -35,7 +35,8 @@ module.exports = async function getProduct() {
                 product: storeResult[i].product,
                 thumbnail: storeResult[i].thumbnail,
                 location: storeResult[i].location,
-                last_update: storeResult[i].last_update
+                last_update: storeResult[i].last_update,
+                status: storeResult[i].latest ? (new Date() - new Date(storeResult[i].latest)) / 1000 : null
             }
         }
         if (storeResult) return storeResult;
