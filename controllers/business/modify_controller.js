@@ -37,7 +37,7 @@ module.exports = class Store {
     getOrder(req, res, next) {
         const data = {
             id: req.headers['token'],
-            time: onTime()
+            time: new Date().toISOString()
         };
 
         getOrder(data).then(result => {
