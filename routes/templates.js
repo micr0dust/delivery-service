@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
-    res.render('index', { title: 'Hello中原' });
+    res.render('index', { title: 'foodone' });
 });
 
 module.exports = router;

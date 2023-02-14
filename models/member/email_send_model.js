@@ -92,7 +92,7 @@ module.exports = async function mailEmit(id, time) {
                 const mailOptions = {
                     from: config.mail.account,
                     to: member.email,
-                    subject: 'Hello中原外送平台-信箱驗證',
+                    subject: 'foodone 外送平台-信箱驗證',
                     html: data
                 };
                 //console.log("html data ======================>", mailOptions.html);
@@ -105,7 +105,7 @@ module.exports = async function mailEmit(id, time) {
         // const mailOptions = {
         //     from: config.mail.account,
         //     to: member.email,
-        //     subject: 'Hello中原外送平台-信箱驗證',
+        //     subject: 'foodone 外送平台-信箱驗證',
         //     html: '<h1>' + verityCode + '</h1><p>使用者 ' + member.name + ' 您好，您的驗證碼為 ' + verityCode + '</p><p>驗證碼將在十分鐘後無效，如果你沒有註冊過本平台請無視此郵件</p>',
         // };
         // transporter.sendMail(mailOptions, (error, response) => {

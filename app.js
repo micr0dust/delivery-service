@@ -49,7 +49,7 @@ app.use('/admin', homeRouter
 );
 app.get('/', function(req, res, next) {
     // #swagger.ignore = true
-    res.render('index', { title: 'Hello中原' });
+    res.render('index', { title: 'foodone' });
 });
 app.use(rateLimiterMiddleware);
 app.use('/member', indexRouter
