@@ -16,7 +16,7 @@
         <div class="card col-md-6 col-sm-12 mt-5">
             <input class="form-control-file d-none" accept="image/png,.jpg,.jepg" type='file' id="imgInp" onchange="changeThumbnail(this.files)" />
             <div id="drop-area">
-                <img class="card-img-top" id="thumbnail" src="/images/background.jpg" alt="Card image" style="width:100%">
+                <img class="card-img-top" id="thumbnail" src="/images/background.jpg" alt="Card image" style="width:100%" onclick="document.getElementById('imgInp').click()">
                 <div class="overlay-text text-light">拖曳至此上傳圖片</div>
             </div>
         </div>

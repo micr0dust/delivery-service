@@ -35,15 +35,16 @@ module.exports = async function order(data, finalOrder) {
         if (orderData.reservation != null && !(/^(0[0-9]|1[0-9]|2[0-3]):([0-5][0-9]:?)$/.test(orderData.reservation))) throw new Error("reservation 格式必須是 HH:MM 或 null");
 
         // 時間檢查
+        const UTC8Time = new Date(
+            data.DATE.getTime() + (8 * 60 + data.DATE.getTimezoneOffset()) * 60 * 1000
+        );
+        const hourNow = UTC8Time.getHours();
+        const minNow = UTC8Time.getMinutes();
+        const dayNow = UTC8Time.getDay();
+
         if (orderData.reservation) {
             const hourData = parseInt(orderData.reservation.split(':')[0]);
             const minData = parseInt(orderData.reservation.split(':')[1]);
-            const UTC8Time = new Date(
-                data.DATE.getTime() + (8 * 60 + data.DATE.getTimezoneOffset()) * 60 * 1000
-            );
-            const hourNow = UTC8Time.getHours();
-            const minNow = UTC8Time.getMinutes();
-            const dayNow = UTC8Time.getDay();
             // if (!(hourData * 60 + minData > hourNow * 60 + minNow +
             //         ((productOwner.timeEstimate) ? parseInt(productOwner.timeEstimate) : 0)))
             //     throw new Error((productOwner.timeEstimate) ? `請提早${productOwner.timeEstimate}分鐘預約` : "預約時間已超過");
@@ -55,6 +56,10 @@ module.exports = async function order(data, finalOrder) {
                 throw new Error("預約時間必須在店家表定時間");
         } else if (orderData.reservation != null)
             throw new Error("預約時間為必填，即時單請填 null");
+        else {
+            if (!(productOwner['businessTime'][hourNow][dayNow] || (new Date() - new Date(productOwner.latest)) / 1000 < 180))
+                throw new Error("店家現在未營業，所以無法下訂單");
+        }
 
         let checked = [];
         for (let i = 0; i < orderList.length; i++) {

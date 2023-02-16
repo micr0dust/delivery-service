@@ -1,5 +1,6 @@
 const client = require('../connection_db');
 const config = require('../../config/development_config');
+const notifyPush = require('../push_notification');
 
 var ObjectId = require('mongodb').ObjectId;
 
