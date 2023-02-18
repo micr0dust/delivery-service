@@ -48,6 +48,6 @@ module.exports = async function income(id) {
     } catch (err) {
         throw err;
     } finally {
-        client.close();
+        await client.close();
     }
 }

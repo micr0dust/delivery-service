@@ -22,6 +22,6 @@ module.exports = async function oneProduct(id, data) {
     } catch (err) {
         throw err;
     } finally {
-        client.close();
+        await client.close();
     }
 }

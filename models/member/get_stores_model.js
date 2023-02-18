@@ -43,6 +43,6 @@ module.exports = async function getProduct() {
     } catch (err) {
         throw err;
     } finally {
-        client.close();
+        await client.close();
     }
 }

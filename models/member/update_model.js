@@ -21,6 +21,6 @@ module.exports = async function customerEdit(id, data) {
     } catch (err) {
         throw err;
     } finally {
-        client.close();
+        await client.close();
     }
 }

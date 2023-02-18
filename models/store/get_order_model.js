@@ -23,6 +23,6 @@ module.exports = async function getOrder(id) {
     } catch (err) {
         throw err;
     } finally {
-        client.close();
+        await client.close();
     }
 }

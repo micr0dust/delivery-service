@@ -24,6 +24,6 @@ module.exports = async function groupData(data) {
     } catch (err) {
         throw err;
     } finally {
-        client.close();
+        await client.close();
     }
 }

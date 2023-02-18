@@ -32,6 +32,6 @@ module.exports = async function storeData(id) {
     } catch (err) {
         throw err;
     } finally {
-        client.close();
+        await client.close();
     }
 }

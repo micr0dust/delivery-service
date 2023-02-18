@@ -20,6 +20,6 @@ module.exports = async function getAd() {
     } catch (err) {
         throw err;
     } finally {
-        client.close();
+        await client.close();
     }
 }

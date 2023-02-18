@@ -38,6 +38,6 @@ module.exports = async function loginAction(data) {
     } catch (err) {
         throw err;
     } finally {
-        client.close();
+        await client.close();
     }
 }

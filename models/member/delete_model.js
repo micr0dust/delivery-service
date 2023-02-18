@@ -37,6 +37,6 @@ module.exports = async function deleteAction(data) {
     } catch (err) {
         throw err;
     } finally {
-        client.close();
+        await client.close();
     }
 }

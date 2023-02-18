@@ -34,6 +34,6 @@ module.exports = async function memberLogin(data) {
     } catch (err) {
         throw err
     } finally {
-        client.close()
+        await client.close()
     }
 }

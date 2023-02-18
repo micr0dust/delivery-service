@@ -44,6 +44,6 @@ module.exports = async function removeRole(_id, data) {
     } catch (err) {
         throw err;
     } finally {
-        client.close();
+        await client.close();
     }
 }

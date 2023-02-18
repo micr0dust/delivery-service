@@ -55,6 +55,6 @@ module.exports = async function putAccept(data) {
     } catch (err) {
         throw err;
     } finally {
-        client.close();
+        await client.close();
     }
 }

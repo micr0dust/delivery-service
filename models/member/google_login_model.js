@@ -94,6 +94,6 @@ module.exports = async function memberLogin(data, onTime) {
     } catch (err) {
         throw err;
     } finally {
-        client.close()
+        await client.close()
     }
 }

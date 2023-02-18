@@ -27,6 +27,6 @@ module.exports = async function delOrder(_id, data) {
     } catch (err) {
         throw err;
     } finally {
-        client.close();
+        await client.close();
     }
 }

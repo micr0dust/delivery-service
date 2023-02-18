@@ -52,7 +52,7 @@ module.exports = async function deleteAction(id, data) {
     } catch (err) {
         throw err;
     } finally {
-        client.close();
+        await client.close();
     }
 
     function createNum() {

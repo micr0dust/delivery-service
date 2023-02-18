@@ -31,6 +31,6 @@ module.exports = async function googleGetRefreshToken(id) {
     } catch (err) {
         throw err;
     } finally {
-        client.close();
+        await client.close();
     }
 }

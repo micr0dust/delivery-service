@@ -54,6 +54,6 @@ module.exports = async function putFinish(data) {
     } catch (err) {
         throw err;
     } finally {
-        client.close();
+        await client.close();
     }
 }

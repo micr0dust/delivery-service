@@ -36,6 +36,6 @@ module.exports = async function getProduct(_id, storeData) {
     } catch (err) {
         throw err;
     } finally {
-        client.close();
+        await client.close();
     }
 }

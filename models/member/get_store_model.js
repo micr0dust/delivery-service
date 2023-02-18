@@ -60,6 +60,6 @@ module.exports = async function getStore(_id, storeData) {
     } catch (err) {
         throw err;
     } finally {
-        client.close();
+        await client.close();
     }
 }

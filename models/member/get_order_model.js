@@ -19,6 +19,6 @@ module.exports = async function getOrder(data) {
     } catch (err) {
         throw err;
     } finally {
-        client.close();
+        await client.close();
     }
 }

@@ -35,6 +35,6 @@ module.exports = async function storeEstablish(storeData) {
     } catch (err) {
         throw err;
     } finally {
-        client.close();
+        await client.close();
     }
 }
