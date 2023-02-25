@@ -237,14 +237,14 @@ module.exports = class Member {
 
         deleteAction(data).then(
             result => {
-                res.json({
+                return res.json({
                     status: '帳號已成功刪除',
                     code: true,
                     result: result
                 });
             },
             err => {
-                res.status(500).send({
+                return res.status(500).send({
                     status: '帳號無法刪除',
                     code: false,
                     result: err.message
@@ -256,14 +256,14 @@ module.exports = class Member {
     putEmailSend(req, res, next) {
         emailSend(req.headers['token'], onTime()).then(
             result => {
-                res.json({
+                return res.json({
                     status: '成功發送驗證碼',
                     code: true,
                     result: result
                 });
             },
             err => {
-                res.status(500).send({
+                return res.status(500).send({
                     status: '無法發送驗證碼',
                     code: false,
                     result: err.message
@@ -295,14 +295,14 @@ module.exports = class Member {
 
             emailVerify(data).then(
                 result => {
-                    res.json({
+                    return res.json({
                         status: '驗證成功',
                         code: true,
                         result: result
                     });
                 },
                 err => {
-                    res.status(400).send({
+                    return res.status(400).send({
                         status: '驗證失敗',
                         code: false,
                         result: err.message
@@ -315,14 +315,14 @@ module.exports = class Member {
     getUserInfo(req, res, next) {
         getUser(req.headers['token']).then(
             result => {
-                res.json({
+                return res.json({
                     status: '成功獲取使用者資料',
                     code: true,
                     result: result
                 });
             },
             err => {
-                res.status(500).send({
+                return res.status(500).send({
                     status: '無法獲取使用者資料',
                     code: false,
                     result: err.message
@@ -339,14 +339,14 @@ module.exports = class Member {
 
         getProduct(data).then(
             result => {
-                res.json({
+                return res.json({
                     status: '成功獲取商品資料',
                     code: true,
                     result: result
                 });
             },
             err => {
-                res.status(500).send({
+                return res.status(500).send({
                     status: '無法獲取商品資料',
                     code: false,
                     result: err.message
@@ -363,14 +363,14 @@ module.exports = class Member {
 
         getStore(data).then(
             result => {
-                res.json({
+                return res.json({
                     status: '成功獲取店家資料',
                     code: true,
                     result: result
                 });
             },
             err => {
-                res.status(500).send({
+                return res.status(500).send({
                     status: '無法獲取店家資料',
                     code: false,
                     result: err.message
@@ -382,14 +382,14 @@ module.exports = class Member {
     getStoreInfo(req, res, next) {
         getStoreAll().then(
             result => {
-                res.json({
+                return res.json({
                     status: '成功獲取商家列表',
                     code: true,
                     result: result
                 });
             },
             err => {
-                res.status(500).send({
+                return res.status(500).send({
                     status: '無法獲取商家列表',
                     code: false,
                     result: err.message
@@ -401,14 +401,14 @@ module.exports = class Member {
     getAd(req, res, next) {
         getAd().then(
             result => {
-                res.json({
+                return res.json({
                     status: '成功獲取廣告',
                     code: true,
                     result: result
                 });
             },
             err => {
-                res.status(500).send({
+                return res.status(500).send({
                     status: '無法獲取廣告',
                     code: false,
                     result: err.message
@@ -427,14 +427,14 @@ module.exports = class Member {
 
         orderAction(data, true).then(
             result => {
-                res.status(201).json({
+                return res.status(201).json({
                     status: '點餐成功',
                     code: true,
                     result: result
                 });
             },
             err => {
-                res.status(500).send({
+                return res.status(500).send({
                     status: '點餐失敗',
                     code: false,
                     result: err.message
@@ -450,7 +450,7 @@ module.exports = class Member {
             orderID: req.body.orderid
         };
         if (!commonCheck.checkHexStringId(data.orderID))
-            res.status(400).send({
+            return res.status(400).send({
                 status: '訂單撤回失敗',
                 code: false,
                 result: '必須輸入正確 ID 格式 /^[a-fA-F0-9]{24}$/'
@@ -458,14 +458,14 @@ module.exports = class Member {
 
         deleteOrder(data).then(
             result => {
-                res.json({
+                return res.json({
                     status: '訂單已成功撤回',
                     code: true,
                     result: result
                 });
             },
             err => {
-                res.status(500).send({
+                return res.status(500).send({
                     status: '訂單無法撤回',
                     code: false,
                     result: err.message
@@ -483,14 +483,14 @@ module.exports = class Member {
 
         orderAction(data, false).then(
             result => {
-                res.status(201).json({
+                return res.status(201).json({
                     status: '訂單結果預覽請求成功',
                     code: true,
                     result: result
                 })
             },
             err => {
-                res.status(500).send({
+                return res.status(500).send({
                     status: '訂單結果預覽請求失敗',
                     code: false,
                     result: err.message
@@ -507,14 +507,14 @@ module.exports = class Member {
 
         getOrder(data).then(
             result => {
-                res.json({
+                return res.json({
                     status: '成功獲取歷史訂單資料',
                     code: true,
                     result: result
                 });
             },
             err => {
-                res.status(500).send({
+                return res.status(500).send({
                     status: '無法獲取歷史訂單資料',
                     code: false,
                     result: err.message
@@ -527,14 +527,14 @@ module.exports = class Member {
         getToken(req.headers['refresh_token']).then(id => {
                 const token = getTokenFn(id, 30, config.secret);
                 res.setHeader('token', token);
-                res.json({
+                return res.json({
                     status: '成功獲取新token',
                     code: true,
                     result: 'token時效為半小時'
                 });
             },
             err => {
-                res.status(500).send({
+                return res.status(500).send({
                     status: '無法獲取token',
                     code: false,
                     result: err.message
@@ -631,7 +631,7 @@ module.exports = class Member {
                         const token = getTokenFn(rows._id.toString(), 30, config.secret);
                         //res.setHeader('token', token);
                         res.setHeader('refresh_token', rows.refresh_token);
-                        res.json({
+                        return res.json({
                             status: '登入成功',
                             code: true,
                             result: {
@@ -648,7 +648,7 @@ module.exports = class Member {
                     }
                 })
                 .catch(err => {
-                    res.status(400).send({
+                    return res.status(400).send({
                         status: '登入失敗',
                         code: false,
                         result: err.message
@@ -666,14 +666,14 @@ module.exports = class Member {
 
         postTwilioSend(data).then(
             result => {
-                res.json({
+                return res.json({
                     status: '成功請求驗證簡訊',
                     code: true,
                     result: result
                 });
             },
             err => {
-                res.status(500).send({
+                return res.status(500).send({
                     status: '無法請求驗證簡訊',
                     code: false,
                     result: err.message
@@ -695,14 +695,14 @@ module.exports = class Member {
             });
         postTwilioVerify(data).then(
             result => {
-                res.json({
+                return res.json({
                     status: '成功驗證手機號碼',
                     code: true,
                     result: result
                 });
             },
             err => {
-                res.status(500).send({
+                return res.status(500).send({
                     status: '手機號碼驗證失敗',
                     code: false,
                     result: err.message
@@ -724,14 +724,14 @@ module.exports = class Member {
         // });
         putSubscribe(data).then(
             result => {
-                res.json({
+                return res.json({
                     status: '成功訂閱通知',
                     code: true,
                     result: result
                 });
             },
             err => {
-                res.status(500).send({
+                return res.status(500).send({
                     status: '訂閱通知失敗',
                     code: false,
                     result: err.message

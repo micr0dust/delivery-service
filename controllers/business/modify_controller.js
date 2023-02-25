@@ -18,14 +18,14 @@ module.exports = class Store {
         getToken(req.headers['refresh_token']).then(id => {
                 const token = getTokenFn(id, 30, config.secret);
                 res.setHeader('token', token);
-                res.json({
+                return res.json({
                     status: '成功獲取新token',
                     code: true,
                     result: 'token時效為半小時'
                 });
             },
             err => {
-                res.status(500).send({
+                return res.status(500).send({
                     status: '無法獲取token',
                     code: false,
                     result: err.message
@@ -42,13 +42,13 @@ module.exports = class Store {
         };
 
         getOrder(data).then(result => {
-            res.json({
+            return res.json({
                 status: "成功獲取訂單",
                 code: true,
                 result: result
             })
         }, (err) => {
-            res.status(500).json({
+            return res.status(500).json({
                 status: "無法獲取訂單",
                 code: false,
                 result: err.message
@@ -76,13 +76,13 @@ module.exports = class Store {
                 result: "註解需少於 30 字"
             });
         putAccept(data).then(result => {
-            res.json({
+            return res.json({
                 status: "成功接受訂單",
                 code: true,
                 result: result
             });
         }, (err) => {
-            res.status(500).json({
+            return res.status(500).json({
                 status: "無法接受訂單",
                 code: false,
                 result: err.message

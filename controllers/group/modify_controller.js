@@ -11,13 +11,13 @@ module.exports = class Group {
             id: req.headers['id']
         };
         getGroupData(data).then(result => {
-            res.json({
+            return res.json({
                 status: "成功獲取群組資料",
                 code: true,
                 result: result
             });
         }, (err) => {
-            res.status(500).json({
+            return res.status(500).json({
                 status: "無法獲取群組資料",
                 code: false,
                 result: err.message
