@@ -12,13 +12,13 @@ module.exports = async function customerEdit(id, data) {
         const findResult = await member.findOne({ _id: ObjectId(id) });
         if (!findResult) throw new Error("查無帳號，請重新登入");
 
+        const numberExist = await member.findOne({ phone: data.phone});
+        if (numberExist) throw new Error("此電話已被註冊");
+        
         // 更新資料庫資料
         await member.updateOne({ _id: ObjectId(id) }, {
             $set: data
         });
-
-        const numberExist = await member.findOne({ phone: data.phone });
-        if (numberExist) throw new Error("此電話已被註冊");
 
         if(data.phone && findResult["phoneVerify"])
             await member.updateOne({ _id: ObjectId(id) }, {
