@@ -17,8 +17,8 @@ module.exports = async function customerEdit(id, data) {
             $set: data
         });
 
-        //const numberExist = await member.findOne({ phone: data.phone });
-        //if (numberExist) throw new Error("此電話已被註冊");
+        const numberExist = await member.findOne({ phone: data.phone });
+        if (numberExist) throw new Error("此電話已被註冊");
 
         if(data.phone && findResult["phoneVerify"])
             await member.updateOne({ _id: ObjectId(id) }, {
