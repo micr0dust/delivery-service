@@ -2,18 +2,18 @@ const client = require('../connection_db');
 const config = require('../../config/development_config');
 const mongoFn = require('../../service/mongodbFns');
 
-module.exports = async function getProduct(_id, storeData) {
+module.exports = async function getProduct(data) {
     await client.connect();
     const db = client.db(config.mongo.database);
     const store = db.collection(config.mongo.store);
     const product = db.collection(config.mongo.product);
 
     try {
-        const storeResult = await store.findOne({ url: storeData.url });
+        const storeResult = await store.findOne({ url: data.url });
         if (!storeResult) throw new Error("查無店家，請確認 id 是否正確");
         if (!storeResult.product) return [];
 
-        const isOwner = storeResult.belong === _id;
+        const isOwner = storeResult.belong === data._id;
         const productResult = await mongoFn.findToArray(product, { _id: { $in: storeResult.product } });
         if (!productResult) throw new Error("查無此商家商品");
 

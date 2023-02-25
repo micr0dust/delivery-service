@@ -5,6 +5,7 @@ const putComplete = require('../../models/business/put_complete_model');
 const putFinish = require('../../models/business/put_finish_model');
 
 const Check = require('../../service/store_check');
+const commonCheck = require('../../service/common_check');
 const config = require('../../config/development_config');
 
 const jwt = require('jsonwebtoken');
@@ -62,11 +63,18 @@ module.exports = class Store {
             orderID: req.body.id,
             comments: req.body.comments || null
         };
-        if (!check.check_id(data.orderID)) return res.status(401).send({
-            status: "無法接受",
-            code: false,
-            result: "id 格式錯誤"
-        });
+        if (!commonCheck.checkHexStringId(data.orderID)) 
+            return res.status(401).send({
+                status: "無法接受訂單",
+                code: false,
+                result: "必須輸入正確 ID 格式 /^[a-fA-F0-9]{24}$/"
+            });
+        if (data.comments && !commonCheck.checkStr(data.comments, /^.{1,30}$/)) 
+            return res.status(401).send({
+                status: "無法接受訂單",
+                code: false,
+                result: "註解需少於 30 字"
+            });
         putAccept(data).then(result => {
             res.json({
                 status: "成功接受訂單",
@@ -89,15 +97,15 @@ module.exports = class Store {
             orderID: req.body.id,
             comments: req.body.comments || null
         };
-        if (!check.check_id(data.orderID))
+        if (!commonCheck.checkHexStringId(data.orderID)) 
             return res.status(401).send({
-                status: "無法標記",
+                status: "無法更改訂單狀態為已完成",
                 code: false,
-                result: "id 格式錯誤"
+                result: "必須輸入正確 ID 格式 /^[a-fA-F0-9]{24}$/"
             });
-        if (data.comments && !check.checkDescribe(data.comments))
+        if (data.comments && !commonCheck.checkStr(data.comments, /^.{1,30}$/)) 
             return res.status(401).send({
-                status: "無法標記",
+                status: "無法更改訂單狀態為已完成",
                 code: false,
                 result: "註解需少於 30 字"
             });
@@ -123,15 +131,15 @@ module.exports = class Store {
             orderID: req.body.id,
             comments: req.body.comments || null
         };
-        if (!check.check_id(data.orderID))
+        if (!commonCheck.checkHexStringId(data.orderID)) 
             return res.status(401).send({
-                status: "無法標記",
+                status: "無法更改訂單狀態為已結束",
                 code: false,
-                result: "id 格式錯誤"
+                result: "必須輸入正確 ID 格式 /^[a-fA-F0-9]{24}$/"
             });
-        if (data.comments && !check.checkDescribe(data.comments))
+        if (data.comments && !commonCheck.checkStr(data.comments, /^.{1,30}$/)) 
             return res.status(401).send({
-                status: "無法標記",
+                status: "無法更改訂單狀態為已結束",
                 code: false,
                 result: "註解需少於 30 字"
             });

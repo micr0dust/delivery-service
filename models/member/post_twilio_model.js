@@ -4,7 +4,7 @@ const twilio = require('twilio')(config.teilio.id, config.teilio.token);
 
 var ObjectId = require('mongodb').ObjectId;
 
-module.exports = async function deleteAction(id, data) {
+module.exports = async function deleteAction(data) {
     await client.connect();
     const db = client.db(config.mongo.database);
     const member = db.collection(config.mongo.member);
@@ -12,7 +12,7 @@ module.exports = async function deleteAction(id, data) {
     try {
         const maxTryPerDay = 3;
         const waitHours = 20;
-        const memberResult = await member.findOne({ _id: ObjectId(id) });
+        const memberResult = await member.findOne({ _id: ObjectId(data._id) });
         const timeUntilLast = memberResult["phoneVerify"] ? new Date(memberResult["phoneVerify"]["lastSend"]) : new Date(0);
         const nowTime = new Date(data["time"]);
         const getTimes = memberResult["phoneVerify"] ? memberResult["phoneVerify"]["times"] : 0;
@@ -30,7 +30,7 @@ module.exports = async function deleteAction(id, data) {
         if (phoneNumber[0] === '0')
             phoneNumber = phoneNumber.substr(1, phoneNumber.length - 1);
         let phoneVerify = createNum();
-        const updateResult = await member.updateOne({ _id: ObjectId(id) }, {
+        const updateResult = await member.updateOne({ _id: ObjectId(data._id) }, {
             $set: {
                 phoneVerify: {
                     code: phoneVerify,

@@ -11,7 +11,7 @@ module.exports = async function uploadStoreImg(data) {
     const store = db.collection(config.mongo.store);
 
     try {
-        const memberResult = await member.findOne({ _id: ObjectId(data.id) });
+        const memberResult = await member.findOne({ _id: ObjectId(data._id) });
         if (!memberResult) throw new Error("查無帳號，請重新登入");
         if (!(~memberResult.role.indexOf("store"))) throw new Error("查無店家身分");
         const storeResult = await store.findOne({ belong: memberResult._id.toString() });

@@ -26,7 +26,15 @@ module.exports = async function addProduct(_id, data) {
         });
         if (!updateProduct) throw new Error("資料更新至資料庫時發生錯誤");
 
-        return productResult;
+        return {
+            name: productResult.name,
+            price: productResult.price,
+            describe: productResult.describe,
+            type: productResult.type,
+            discount: productResult.discount,
+            options: productResult.options,
+            pause: productResult.pause
+        };
     } catch (err) {
         throw err;
     } finally {

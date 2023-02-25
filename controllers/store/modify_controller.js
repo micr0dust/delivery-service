@@ -14,7 +14,7 @@ const geocoder = require('../../models/store/addressInfo');
 const uploadStoreImg = require('../../models/store/upload_store_image');
 const uploadProductImg = require('../../models/store/upload_product_image');
 
-
+const commonCheck = require('../../service/common_check');
 const Check = require('../../service/store_check');
 const encryption = require('../../models/encryption');
 const config = require('../../config/development_config');
@@ -41,51 +41,53 @@ module.exports = class Store {
             last_update: onTime()
         };
 
-        if (!check.checkName(data.name)) {
-            res.status(400).send({
+        if (!commonCheck.checkStr(data.name, /^.{1,30}$/)) {
+            return res.status(400).send({
                 status: '註冊失敗',
                 code: false,
                 result: '店名必須介於 1~30 字'
             });
-        } else if (!check.checkAddress(data.address)) {
-            res.status(400).send({
+        }
+        if (!commonCheck.checkStr(data.address, /^.{1,200}$/)) {
+            return res.status(400).send({
                 status: '註冊失敗',
                 code: false,
-                result: '地址必須介於1~200字'
+                result: '地址必須介於 1~200 字'
             });
-        } else if (!(!isNaN(data.location.lat) && ~data.location.lat.toString().indexOf('.'))) {
-            res.status(400).send({
+        }
+        if (!(!isNaN(data.location.lat) && ~data.location.lat.toString().indexOf('.'))) {
+            return res.status(400).send({
                 status: '註冊失敗',
                 code: false,
                 result: 'lat 必須為 float 字串'
             });
-        } else if (!(!isNaN(data.location.lng) && ~data.location.lng.toString().indexOf('.'))) {
-            res.status(400).send({
+        }
+        if (!(!isNaN(data.location.lng) && ~data.location.lng.toString().indexOf('.'))) {
+            return res.status(400).send({
                 status: '註冊失敗',
                 code: false,
                 result: 'lng 必須為 float 字串'
             });
-        } else {
-            toEstablish(data).then(result => {
-                    const token = getTokenFn(result._id.toString(), 30, config.secret);
-                    res.setHeader('token', token);
-                    res.status(201).json({
-                        status: '註冊成功',
-                        code: true,
-                        result: {
-                            name: result.name,
-                            address: result.address
-                        }
-                    });
-                })
-                .catch(err => {
-                    res.status(500).send({
-                        status: '註冊失敗',
-                        code: false,
-                        result: err.message
-                    });
-                });
         }
+        toEstablish(data).then(result => {
+            const token = getTokenFn(result._id.toString(), 30, config.secret);
+            res.setHeader('token', token);
+            return res.status(201).json({
+                status: '註冊成功',
+                code: true,
+                result: {
+                    name: result.name,
+                    address: result.address,
+                    url: result.url
+                }
+            });
+        }).catch(err => {
+            return res.status(500).send({
+                status: '註冊失敗',
+                code: false,
+                result: err.message
+            });
+        });
     }
 
     // 刪除商家、商家身分及其商品
@@ -95,29 +97,27 @@ module.exports = class Store {
             name: req.body.name
         };
 
-        if (!check.checkName(data.name))
-            res.status(400).send({
-                status: '商家身分刪除失敗',
-                code: false,
-                result: '必須輸入正確店名才能刪除帳號'
-            });
-
-
+        // if (!commonCheck.checkStr(data.name, /^.{1,30}$/))
+        //     res.status(400).send({
+        //         status: '商家身分刪除失敗',
+        //         code: false,
+        //         result: '必須輸入正確店名才能刪除帳號'
+        //     });
         delStore(data).then(
             result => {
-                res.json({
+                return res.status(200).json({
                     status: '商家身分已成功刪除',
                     code: true,
                     result: result
                 });
-            },
-            err => {
-                res.status(500).send({
+            },err => {
+                return res.status(500).send({
                     status: '商家身分刪除失敗',
                     code: false,
                     result: err.message
                 });
-            });
+            }
+        );
     }
 
     // 營業模式開啟
@@ -133,19 +133,18 @@ module.exports = class Store {
                 if (!token) res.status(500).send({
                     status: '切換失敗',
                     code: false,
-                    result: "伺服器錯誤，請稍後在試"
+                    result: "伺服器錯誤，請稍後再試"
                 });
 
                 res.setHeader('token', token);
                 res.setHeader('refresh_token', rows.refresh_token);
-                res.json({
-                    status: '成功',
+                return res.json({
+                    status: '切換成功',
                     code: true,
                     result: rows.name + ' 的營運模式已開啟'
                 });
-            })
-            .catch(err => {
-                res.status(500).send({
+            }).catch(err => {
+                return res.status(500).send({
                     status: '切換失敗',
                     code: false,
                     result: err.message
@@ -167,18 +166,11 @@ module.exports = class Store {
             last_update: onTime()
         };
 
-        if (!check.checkName(data.name)) {
+        if (!commonCheck.checkStr(data.name, /^.{1,30}$/)) {
             return res.status(400).send({
                 status: '新增失敗',
                 code: false,
                 result: '商品名必須介於1~30字'
-            });
-        }
-        if (!check.checkAddress(data.address)) {
-            return res.status(400).send({
-                status: '新增失敗',
-                code: false,
-                result: '地址必須介於1~200字'
             });
         }
         if (!check.checkPrice(data.price)) {
@@ -188,14 +180,14 @@ module.exports = class Store {
                 result: '金額必須為大於0的整數'
             });
         }
-        if (!check.checkDescribe(data.describe)) {
+        if (!commonCheck.checkStr(data.describe, /^.{1,30}$/)) {
             return res.status(400).send({
                 status: '新增失敗',
                 code: false,
                 result: '描述必須介於0~30字'
             });
         }
-        if (!check.checkType(data.type)) {
+        if (!commonCheck.checkStr(data.type, /^.{1,30}$/)) {
             return res.status(400).send({
                 status: '新增失敗',
                 code: false,
@@ -204,8 +196,7 @@ module.exports = class Store {
         }
         // insert to database
         addProduct(req.headers['token'], data).then(result => {
-                // respon successful
-                res.status(201).json({
+                return res.status(201).json({
                     status: '新增成功',
                     code: true,
                     result: {
@@ -220,7 +211,7 @@ module.exports = class Store {
                 });
             })
             .catch(err => {
-                res.status(500).send({
+                return res.status(500).send({
                     status: '新增失敗',
                     code: false,
                     result: err.message
@@ -243,39 +234,32 @@ module.exports = class Store {
 
         Object.keys(data).forEach((key) => !data[key] && delete data[key]);
 
-        if (data.name && !check.checkName(data.name)) {
+        if (data.name && !commonCheck.checkStr(data.name, /^.{1,30}$/)) {
             return res.status(400).send({
                 status: '更新失敗',
                 code: false,
-                result: '商品名必須介於1~30字'
-            });
-        }
-        if (data.address && !check.checkAddress(data.address)) {
-            return res.status(400).send({
-                status: '更新失敗',
-                code: false,
-                result: '地址必須介於1~200字'
+                result: '商品名必須介於 1~30 字'
             });
         }
         if (data.price && !check.checkPrice(data.price)) {
             return res.status(400).send({
                 status: '更新失敗',
                 code: false,
-                result: '金額必須為大於0的整數'
+                result: '金額必須為大於 0 的整數'
             });
         }
-        if (data.describe && !check.checkDescribe(data.describe)) {
+        if (data.describe && !commonCheck.checkStr(data.describe, /^.{1,30}$/)) {
             return res.status(400).send({
                 status: '更新失敗',
                 code: false,
-                result: '描述必須介於0~30字'
+                result: '描述必須介於 0~30 字'
             });
         }
-        if (data.type && !check.checkType(data.type)) {
+        if (data.type && !commonCheck.checkStr(data.type, /^.{1,10}$/)) {
             return res.status(400).send({
                 status: '更新失敗',
                 code: false,
-                result: '類別名稱必須介於0~10字'
+                result: '類別名稱必須介於 0~10 字'
             });
         }
         // insert to database
@@ -334,29 +318,22 @@ module.exports = class Store {
     // 店家更新商品上下架狀態
     switchProductStatue(req, res, next) {
         const data = {
+            _id: req.headers['token'],
             productID: req.body.productID
         };
 
-        if (!check.check_id(data.productID))
+        if (!commonCheck.checkHexStringId(data.productID))
             return res.status(400).send({
                 status: '格式錯誤',
                 code: false,
-                result: '必須輸入正確 ID 格式'
+                result: '必須輸入正確 ID 格式 /^[a-fA-F0-9]{24}$/'
             });
 
-        pauseProduct(req.headers['token'], data).then(result => {
+        pauseProduct(data).then(result => {
                 return res.status(200).json({
                     status: '狀態更新成功',
                     code: true,
-                    result: {
-                        name: result.name,
-                        price: result.price,
-                        describe: result.describe,
-                        type: result.type,
-                        discount: result.discount,
-                        options: result.options,
-                        pause: result.pause
-                    }
+                    result: result
                 });
             })
             .catch(err => {
@@ -371,18 +348,25 @@ module.exports = class Store {
     // 店家刪除商品
     deleteProduct(req, res, next) {
         const data = {
-            id: req.headers['token'],
-            product: req.body.product
+            _id: req.headers['token'],
+            productID: req.body.product
         };
 
+        if (!commonCheck.checkHexStringId(data.productID))
+            return res.status(400).send({
+                status: '格式錯誤',
+                code: false,
+                result: '必須輸入正確 ID 格式 /^[a-fA-F0-9]{24}$/'
+            });
+
         delProduct(data).then(result => {
-            res.json({
+            return res.json({
                 status: "成功刪除商品 ",
                 code: true,
-                result: req.body.product
+                result: result || req.body.product
             });
         }, (err) => {
-            res.status(500).json({
+            return res.status(500).json({
                 status: "刪除商品失敗",
                 code: false,
                 result: err.message
@@ -393,13 +377,13 @@ module.exports = class Store {
     // 店家取得歷史訂單
     getOrder(req, res, next) {
         orderData(req.headers['token']).then(result => {
-            res.json({
+            return res.json({
                 status: "成功獲取訂單",
                 code: true,
                 result: result
             });
         }, (err) => {
-            res.status(500).json({
+            return res.status(500).json({
                 status: "無法獲取訂單",
                 code: false,
                 result: err.message
@@ -418,7 +402,7 @@ module.exports = class Store {
                 result: result
             });
         }, (err) => {
-            res.status(500).json({
+            return res.status(500).json({
                 status: "無法獲取店家資料",
                 code: false,
                 result: err.message
@@ -430,13 +414,13 @@ module.exports = class Store {
     getIncome(req, res, next) {
         const date = new Date();
         getIncome(req.headers['token']).then(result => {
-            res.json({
+            return res.json({
                 status: `成功獲取 ${date.getMonth()?date.getMonth():12} 月營收`,
                 code: true,
                 result: result
             });
         }, (err) => {
-            res.status(500).json({
+            return res.status(500).json({
                 status: `無法獲取 ${date.getMonth()?date.getMonth():12} 月營收`,
                 code: false,
                 result: err.message
@@ -466,20 +450,18 @@ module.exports = class Store {
         Object.keys(data).forEach((key) => !data[key] && delete data[key]);
         for (let prop in data)
             if (!data[prop]) delete data[prop];
-        if (data.name && !check.checkName(data.name)) {
+        if (data.name && !commonCheck.checkStr(data.name, /^.{1,30}$/))
             return res.status(400).send({
                 status: '資料更新失敗',
                 code: false,
                 result: '店名必須介於 1~30 字'
             });
-        }
-        if (data.address && !check.checkAddress(data.address)) {
+        if (data.address && !commonCheck.checkStr(data.address, /^.{1,200}$/))
             return res.status(400).send({
                 status: '資料更新失敗',
                 code: false,
                 result: '地址必須介於 1~200 字'
             });
-        }
         if (data.location.lat && !(!isNaN(data.location.lat) && ~data.location.lat.toString().indexOf('.'))) {
             return res.status(400).send({
                 status: '註冊失敗',
@@ -501,11 +483,11 @@ module.exports = class Store {
                 result: '折價資料格式錯誤'
             });
         }
-        if (data.timeEstimate && !check.checkPrice(data.timeEstimate)) {
+        if (data.timeEstimate && !commonCheck.checkNum(data.timeEstimate)) {
             return res.status(400).send({
                 status: '新增失敗',
                 code: false,
-                result: '預估時間格式錯誤'
+                result: '預估時間格式錯誤，必須為 /^[1-9]\d*$/'
             });
         }
         if (data.place && !check.checkPlace(data.place)) {
@@ -515,7 +497,7 @@ module.exports = class Store {
                 result: '無效的取餐位置'
             });
         }
-        if (data.describe && !check.checkDescribe(data.describe)) {
+        if (data.describe && !commonCheck.checkStr(data.describe, /^.{1,100}$/)) {
             return res.status(400).send({
                 status: '格式錯誤',
                 code: false,
@@ -540,7 +522,7 @@ module.exports = class Store {
     // 取得地址資料
     addressInfo(req, res, next) {
         const data = {
-            id: req.headers['token'],
+            _id: req.headers['token'],
             address: req.body.address
         };
         geocoder(data).then(result => {
@@ -561,7 +543,7 @@ module.exports = class Store {
     // 上傳店家封面圖片
     uploadStoreImg(req, res, next) {
         const data = {
-            id: req.headers['token'],
+            _id: req.headers['token'],
             image: req.file
         };
         uploadStoreImg(data).then(result => {
@@ -582,18 +564,24 @@ module.exports = class Store {
     // 上傳特定商品縮略圖
     uploadProductImg(req, res, next) {
         const data = {
-            id: req.headers['token'],
+            _id: req.headers['token'],
             productID: req.body.product,
             image: req.file
         };
+        if (!commonCheck.checkHexStringId(data.productID))
+            return res.status(400).send({
+                status: '上傳失敗',
+                code: false,
+                result: '必須輸入正確商品 ID 格式 /^[a-fA-F0-9]{24}$/'
+            });
         uploadProductImg(data).then(result => {
-            res.status(200).json({
+            return res.status(200).json({
                 status: "成功上傳圖片",
                 code: true,
                 result: result
             });
         }, (err) => {
-            res.status(500).json({
+            return res.status(500).json({
                 status: "上傳圖片失敗",
                 code: false,
                 result: err.message

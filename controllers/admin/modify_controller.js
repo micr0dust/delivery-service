@@ -2,6 +2,7 @@ const addRole = require('../../models/admin/add_role');
 const removeRole = require('../../models/admin/delete_role');
 const adminVerify = require('../../models/admin/verify');
 
+const commonCheck = require('../../service/common_check');
 const Check = require('../../service/admin_check');
 const config = require('../../config/development_config');
 
@@ -40,6 +41,12 @@ module.exports = class Admin {
                 code: true,
                 result: `沒有名為 ${data.role} 的身分`
             });
+        if (!commonCheck.checkHexStringId(data.id))
+            return res.status(400).json({
+                status: "ID格式錯誤",
+                code: true,
+                result: `必須輸入正確 ID 格式 /^[a-fA-F0-9]{24}$/`
+            });
         addRole(req.headers['token'], data).then(result => {
                 if (result === 403) return res.redirect('/auth');
                 return res.json({
@@ -69,6 +76,12 @@ module.exports = class Admin {
                 status: "身分格式錯誤",
                 code: true,
                 result: `沒有名為 ${data.role} 的身分`
+            });
+        if (!commonCheck.checkHexStringId(data.id))
+            return res.status(400).json({
+                status: "ID格式錯誤",
+                code: true,
+                result: `必須輸入正確 ID 格式 /^[a-fA-F0-9]{24}$/`
             });
         removeRole(req.headers['token'], data).then(result => {
             if (result === 403) return res.redirect('/auth');

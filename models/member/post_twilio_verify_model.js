@@ -3,13 +3,13 @@ const config = require('../../config/development_config');
 
 var ObjectId = require('mongodb').ObjectId;
 
-module.exports = async function mailEmit(id, data) {
+module.exports = async function mailEmit(data) {
     await client.connect();
     const db = client.db(config.mongo.database);
     const member = db.collection(config.mongo.member);
     try {
         const tryTimes = 10;
-        const memberResult = await member.findOne({ _id: ObjectId(id) });
+        const memberResult = await member.findOne({ _id: ObjectId(data._id) });
         if (!memberResult)
             throw new Error("查無帳號，請重新登入");
 
@@ -24,7 +24,7 @@ module.exports = async function mailEmit(id, data) {
         if (memberResult["phoneVerify"]["verified"] === true)
             throw new Error("此手機號碼已被驗證過");
         if (data["code"] === memberResult["phoneVerify"]["code"]) {
-            const updateResult = await member.updateOne({ _id: ObjectId(id) }, {
+            const updateResult = await member.updateOne({ _id: ObjectId(data._id) }, {
                 $set: {
                     phoneVerify: {
                         code: memberResult["phoneVerify"]["code"],
@@ -38,7 +38,7 @@ module.exports = async function mailEmit(id, data) {
             if (!updateResult) new Error("資料庫更新失敗");
             return "驗證成功";
         } else {
-            const updateResult = await member.updateOne({ _id: ObjectId(id) }, {
+            const updateResult = await member.updateOne({ _id: ObjectId(data._id) }, {
                 $set: {
                     phoneVerify: {
                         code: memberResult["phoneVerify"]["code"],

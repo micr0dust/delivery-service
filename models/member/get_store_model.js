@@ -2,14 +2,14 @@ const client = require('../connection_db');
 const config = require('../../config/development_config');
 const mongoFn = require('../../service/mongodbFns');
 
-module.exports = async function getStore(_id, storeData) {
+module.exports = async function getStore(data) {
     await client.connect();
     const db = client.db(config.mongo.database);
     const store = db.collection(config.mongo.store);
     const product = db.collection(config.mongo.product);
 
     try {
-        const storeResult = await store.findOne({ url: storeData.url });
+        const storeResult = await store.findOne({ url: data.url });
         if (!storeResult) throw new Error("查無店家，請確認 id 是否正確");
         if (!storeResult.product) return [];
 

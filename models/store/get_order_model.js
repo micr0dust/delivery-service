@@ -1,8 +1,6 @@
 const client = require('../connection_db');
 const config = require('../../config/development_config');
 
-var ObjectId = require('mongodb').ObjectId;
-
 module.exports = async function getOrder(id) {
     await client.connect();
     const db = client.db(config.mongo.database);

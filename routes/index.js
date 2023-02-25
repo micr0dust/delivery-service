@@ -8,108 +8,109 @@ const MemberModifyMethod = require('../controllers/member/modify_controller');
 const middleWave = require('../models/middleWave/member');
 
 let memberModifyMethod = new MemberModifyMethod();
-router.post('/register', memberModifyMethod.postRegister, () => {
-    //  #swagger.summary  = '註冊'
-    //  #swagger.description = '以姓名、郵箱、密碼註冊帳號，並返回時效為一小時的 token'
-    /*  #swagger.consumes = ['application/x-www-form-urlencoded']*/
-    /*  #swagger.parameters['name'] = {
-                in: 'formData',
-                type: 'string',
-                required: 'true',
-                description: '使用者名稱',
-                schema: "吳玼芢"
-    }
-        #swagger.parameters['email'] = {
-                in: 'formData',
-                type: 'string',
-                required: 'true',
-                description: '電子信箱',
-                schema: "usermail123@gmail.com"
-    }
-        #swagger.parameters['password'] = {
-                in: 'formData',
-                type: 'string',
-                required: 'true',
-                description: '密碼',
-                schema: "Aaaaaaa1"
-    } */
+// router.post('/register', memberModifyMethod.postRegister, () => {
+//     //  #swagger.summary  = '註冊'
+//     //  #swagger.description = '以姓名、郵箱、密碼註冊帳號，並返回時效為一小時的 token'
+//     /*  #swagger.consumes = ['application/x-www-form-urlencoded']*/
+//     /*  #swagger.parameters['name'] = {
+//                 in: 'formData',
+//                 type: 'string',
+//                 required: 'true',
+//                 description: '使用者名稱',
+//                 schema: "吳玼芢"
+//     }
+//         #swagger.parameters['email'] = {
+//                 in: 'formData',
+//                 type: 'string',
+//                 required: 'true',
+//                 description: '電子信箱',
+//                 schema: "usermail123@gmail.com"
+//     }
+//         #swagger.parameters['password'] = {
+//                 in: 'formData',
+//                 type: 'string',
+//                 required: 'true',
+//                 description: '密碼',
+//                 schema: "Aaaaaaa1"
+//     } */
 
-    /*  #swagger.responses[200] = {
-                description: '註冊成功',
-                schema: {
-                    status: '註冊成功',
-                    code: true,
-                    result: {
-                            name: "使用者名稱",
-                            email: "usermail123@gmail.com"
-                        }
-                }
-            }
-    } */
-    /*
-        #swagger.responses[400] = {
-                description: '因格式錯誤導致的註冊失敗',
-                schema: {
-                    status: '註冊失敗',
-                    code: false,
-                    result: 'error message'
-                }
-            }
-    */
-    /*
-        #swagger.responses[500] = {
-                description: '因伺服器錯誤導致的註冊失敗',
-                schema: {
-                    status: '註冊失敗',
-                    code: false,
-                    result: 'error message'
-                }
-            }
-    */
-});
-router.post('/login', memberModifyMethod.postLogin, () => {
-    //  #swagger.summary  = '登入'
-    //  #swagger.description = '以郵箱、密碼登入帳號，並返回時效為一小時的 token'
-    /*  #swagger.consumes = ['application/x-www-form-urlencoded']*/
-    /*  #swagger.parameters['email'] = {
-                in: 'formData',
-                type: 'string',
-                required: 'true',
-                description: '電子信箱',
-                schema: "usermail123@gmail.com"
-    }
-        #swagger.parameters['password'] = {
-                in: 'formData',
-                type: 'string',
-                required: 'true',
-                description: '密碼',
-                schema: "Aaaaaaa1"
-    }
-        #swagger.responses[200] = {
-                description: '登入成功',
-                schema: {
-                    status: '登入成功',
-                    code: true,
-                    result: {
-                        "name": "測試用帳號2",
-                        "role": [
-                        "user"
-                        ]
-                    }
-                }
-            }
-    } */
-    /*
-        #swagger.responses[400] = {
-                description: '登入失敗',
-                schema: {
-                    status: '註冊失敗',
-                    code: false,
-                    result: 'error message'
-                }
-            }
-    */
-});
+//     /*  #swagger.responses[200] = {
+//                 description: '註冊成功',
+//                 schema: {
+//                     status: '註冊成功',
+//                     code: true,
+//                     result: {
+//                             name: "使用者名稱",
+//                             email: "usermail123@gmail.com"
+//                         }
+//                 }
+//             }
+//     } */
+//     /*
+//         #swagger.responses[400] = {
+//                 description: '因格式錯誤導致的註冊失敗',
+//                 schema: {
+//                     status: '註冊失敗',
+//                     code: false,
+//                     result: 'error message'
+//                 }
+//             }
+//     */
+//     /*
+//         #swagger.responses[500] = {
+//                 description: '因伺服器錯誤導致的註冊失敗',
+//                 schema: {
+//                     status: '註冊失敗',
+//                     code: false,
+//                     result: 'error message'
+//                 }
+//             }
+//     */
+// });
+
+// router.post('/login', memberModifyMethod.postLogin, () => {
+//     //  #swagger.summary  = '登入'
+//     //  #swagger.description = '以郵箱、密碼登入帳號，並返回時效為一小時的 token'
+//     /*  #swagger.consumes = ['application/x-www-form-urlencoded']*/
+//     /*  #swagger.parameters['email'] = {
+//                 in: 'formData',
+//                 type: 'string',
+//                 required: 'true',
+//                 description: '電子信箱',
+//                 schema: "usermail123@gmail.com"
+//     }
+//         #swagger.parameters['password'] = {
+//                 in: 'formData',
+//                 type: 'string',
+//                 required: 'true',
+//                 description: '密碼',
+//                 schema: "Aaaaaaa1"
+//     }
+//         #swagger.responses[200] = {
+//                 description: '登入成功',
+//                 schema: {
+//                     status: '登入成功',
+//                     code: true,
+//                     result: {
+//                         "name": "測試用帳號2",
+//                         "role": [
+//                         "user"
+//                         ]
+//                     }
+//                 }
+//             }
+//     } */
+//     /*
+//         #swagger.responses[400] = {
+//                 description: '登入失敗',
+//                 schema: {
+//                     status: '註冊失敗',
+//                     code: false,
+//                     result: 'error message'
+//                 }
+//             }
+//     */
+// });
 router.get("/google/login", memberModifyMethod.googleLogin, () => {
     //  #swagger.summary  = 'Google 網頁登入'
     //  #swagger.description = '將 id_token 傳給伺服器，表示該使用者授權登入'
@@ -284,77 +285,78 @@ router.delete('/', middleWave, memberModifyMethod.deleteAccount, () => {
     */
 });
 
-router.put('/email/send', middleWave, memberModifyMethod.putEmailSend, () => {
-    //  #swagger.summary  = '請求驗證 email 發送'
-    //  #swagger.description = '以使用者 token 請求，成功將發送驗證碼 email'
-    /*  #swagger.consumes = ['application/x-www-form-urlencoded']*/
-    /*  #swagger.parameters['token'] = {
-                in: 'header',
-                type: 'string',
-                required: 'true',
-                description: 'member access token',
-                schema: { $ref: '#/definitions/token' }
-    }*/
+// router.put('/email/send', middleWave, memberModifyMethod.putEmailSend, () => {
+//     //  #swagger.summary  = '請求驗證 email 發送'
+//     //  #swagger.description = '以使用者 token 請求，成功將發送驗證碼 email'
+//     /*  #swagger.consumes = ['application/x-www-form-urlencoded']*/
+//     /*  #swagger.parameters['token'] = {
+//                 in: 'header',
+//                 type: 'string',
+//                 required: 'true',
+//                 description: 'member access token',
+//                 schema: { $ref: '#/definitions/token' }
+//     }*/
 
-    /*  #swagger.responses[200] = {
-                description: '成功發送驗證碼',
-                schema: {
-                    status: '成功發送驗證碼',
-                    code: true,
-                    result: {}
-                }
-            }
-    } */
-    /*
-        #swagger.responses[500] = {
-                description: '無法發送驗證碼',
-                schema: {
-                    status: '無法發送驗證碼',
-                    code: false,
-                    result: 'error message'
-                }
-            }
-    */
-});
-router.put('/email/verify', middleWave, memberModifyMethod.putEmailVerify, () => {
-    //  #swagger.summary  = '驗證 email'
-    //  #swagger.description = '以使用者 token 和 verityCode 請求，返回 email 是否驗證成功'
-    /*  #swagger.consumes = ['application/x-www-form-urlencoded']*/
-    /*  #swagger.parameters['token'] = {
-                in: 'header',
-                type: 'string',
-                required: 'true',
-                description: 'member access token',
-                schema: { $ref: '#/definitions/token' }
-    }*/
-    /*  #swagger.parameters['verityCode'] = {
-                in: 'formData',
-                type: 'string',
-                required: 'true',
-                description: '驗證碼',
-                schema: { $ref: '#/definitions/token' }
-    } */
+//     /*  #swagger.responses[200] = {
+//                 description: '成功發送驗證碼',
+//                 schema: {
+//                     status: '成功發送驗證碼',
+//                     code: true,
+//                     result: {}
+//                 }
+//             }
+//     } */
+//     /*
+//         #swagger.responses[500] = {
+//                 description: '無法發送驗證碼',
+//                 schema: {
+//                     status: '無法發送驗證碼',
+//                     code: false,
+//                     result: 'error message'
+//                 }
+//             }
+//     */
+// });
 
-    /*  #swagger.responses[200] = {
-                description: '驗證成功',
-                schema: {
-                    status: '驗證成功',
-                    code: true,
-                    result: {}
-                }
-            }
-    } */
-    /*
-        #swagger.responses[401] = {
-                description: '驗證碼錯誤',
-                schema: {
-                    status: '驗證碼錯誤',
-                    code: false,
-                    result: '請確認驗證碼'
-                }
-            }
-    */
-});
+// router.put('/email/verify', middleWave, memberModifyMethod.putEmailVerify, () => {
+//     //  #swagger.summary  = '驗證 email'
+//     //  #swagger.description = '以使用者 token 和 verityCode 請求，返回 email 是否驗證成功'
+//     /*  #swagger.consumes = ['application/x-www-form-urlencoded']*/
+//     /*  #swagger.parameters['token'] = {
+//                 in: 'header',
+//                 type: 'string',
+//                 required: 'true',
+//                 description: 'member access token',
+//                 schema: { $ref: '#/definitions/token' }
+//     }*/
+//     /*  #swagger.parameters['verityCode'] = {
+//                 in: 'formData',
+//                 type: 'string',
+//                 required: 'true',
+//                 description: '驗證碼',
+//                 schema: { $ref: '#/definitions/token' }
+//     } */
+
+//     /*  #swagger.responses[200] = {
+//                 description: '驗證成功',
+//                 schema: {
+//                     status: '驗證成功',
+//                     code: true,
+//                     result: {}
+//                 }
+//             }
+//     } */
+//     /*
+//         #swagger.responses[401] = {
+//                 description: '驗證碼錯誤',
+//                 schema: {
+//                     status: '驗證碼錯誤',
+//                     code: false,
+//                     result: '請確認驗證碼'
+//                 }
+//             }
+//     */
+// });
 
 router.get('/user/info', middleWave, memberModifyMethod.getUserInfo, () => {
     //  #swagger.summary  = '獲取使用者資料'

@@ -19,6 +19,7 @@ const putSubscribe = require('../../models/member/put_subscribe');
 const getAd = require("../../models/member/get_ad_model");
 
 const verify = require('../../models/member/verification_model');
+const commonCheck = require('../../service/common_check');
 const Check = require('../../service/member_check');
 const encryption = require('../../models/encryption');
 const config = require('../../config/development_config');
@@ -29,7 +30,7 @@ const request = require("request");
 const client = new OAuth2Client(config.mail.id);
 
 module.exports = class Member {
-    //註冊帳號
+    //註冊帳號 (已停用)
     postRegister(req, res, next) {
         const check_password = check.checkPassword(req.body.password);
         if (check_password === false) {
@@ -91,7 +92,7 @@ module.exports = class Member {
         }
     }
 
-    //登入
+    //登入 (已停用)
     postLogin(req, res, next) {
         // 進行加密
         const password = req.body.password ? encryption(req.body.password) : null;
@@ -160,7 +161,7 @@ module.exports = class Member {
 
         const data = {
             update_date: onTime(),
-            name: req.body.name,
+            //name: req.body.name,
             phone: req.body.phone,
             gender: req.body.gender,
             birthday: req.body.birthday,
@@ -169,13 +170,13 @@ module.exports = class Member {
 
         Object.keys(data).forEach((key) => !data[key] && delete data[key]);
 
-        if (data.name && !check.checkName(data.name)) {
-            return res.status(400).send({
-                status: '更改失敗',
-                code: false,
-                result: '姓名必須介於 1~20 字元'
-            });
-        }
+        // if (data.name && !commonCheck.checkStr(data.name, /^.{1,20}$/)) {
+        //     return res.status(400).send({
+        //         status: '更改失敗',
+        //         code: false,
+        //         result: '姓名必須介於 1~20 字元'
+        //     });
+        // }
         if (data.email && !check.checkEmail(data.email)) {
             return res.status(400).send({
                 status: '更改失敗',
@@ -227,12 +228,12 @@ module.exports = class Member {
             id: req.headers['token'],
             name: req.body.name
         };
-        if (!check.checkName(data.name))
-            res.status(400).send({
-                status: '帳號刪除失敗',
-                code: false,
-                result: '必須輸入正確使用者名稱才能刪除帳號'
-            });
+        // if (!commonCheck.checkStr(data.name, /^.{1,20}$/))
+        //     res.status(400).send({
+        //         status: '帳號刪除失敗',
+        //         code: false,
+        //         result: '必須輸入正確使用者名稱才能刪除帳號'
+        //     });
 
         deleteAction(data).then(
             result => {
@@ -251,7 +252,7 @@ module.exports = class Member {
             });
     }
 
-    //驗證碼寄出
+    //驗證碼寄出 (已停用)
     putEmailSend(req, res, next) {
         emailSend(req.headers['token'], onTime()).then(
             result => {
@@ -270,7 +271,7 @@ module.exports = class Member {
             });
     }
 
-    //驗證 Email 驗證碼
+    //驗證 Email 驗證碼 (已停用)
     putEmailVerify(req, res, next) {
         if (check.checkNull(req.body.verityCode)) return res.status(401).send({
             status: "驗證失敗",
@@ -332,10 +333,11 @@ module.exports = class Member {
     //取得商品資料
     getProductInfo(req, res, next) {
         const data = {
+            _id: req.headers['token'],
             url: req.headers['id']
         };
 
-        getProduct(req.headers['token'], data).then(
+        getProduct(data).then(
             result => {
                 res.json({
                     status: '成功獲取商品資料',
@@ -355,10 +357,11 @@ module.exports = class Member {
     //取得店家詳細資料
     getStore(req, res, next) {
         const data = {
+            _id: req.headers['token'],
             url: req.body['id']
         };
 
-        getStore(req.headers['token'], data).then(
+        getStore(data).then(
             result => {
                 res.json({
                     status: '成功獲取店家資料',
@@ -443,16 +446,17 @@ module.exports = class Member {
     //訂單撤回
     deleteOrder(req, res, next) {
         const data = {
+            _id: req.headers['token'],
             orderID: req.body.orderid
         };
-        if (!check.checkHexStringId(data.orderID))
+        if (!commonCheck.checkHexStringId(data.orderID))
             res.status(400).send({
                 status: '訂單撤回失敗',
                 code: false,
-                result: '必須輸入正確 ID 格式'
+                result: '必須輸入正確 ID 格式 /^[a-fA-F0-9]{24}$/'
             });
 
-        deleteOrder(req.headers['token'], data).then(
+        deleteOrder(data).then(
             result => {
                 res.json({
                     status: '訂單已成功撤回',
@@ -656,10 +660,11 @@ module.exports = class Member {
     // 請求發送驗證簡訊
     postTwilioSend(req, res, next) {
         const data = {
+            _id: req.headers['token'],
             time: onTime()
         };
 
-        postTwilioSend(req.headers['token'], data).then(
+        postTwilioSend(data).then(
             result => {
                 res.json({
                     status: '成功請求驗證簡訊',
@@ -679,14 +684,16 @@ module.exports = class Member {
     // 驗證簡訊驗證碼
     postTwilioVerify(req, res, next) {
         const data = {
+            _id: req.headers['token'],
             code: req.body.code
         };
-        if (!check.checkCode(data.code)) return res.status(400).send({
-            status: "驗證碼格式錯誤",
-            code: false,
-            result: "驗證碼為八位整數"
-        });
-        postTwilioVerify(req.headers['token'], data).then(
+        if (!check.checkCode(data.code))
+            return res.status(400).send({
+                status: "驗證碼格式錯誤",
+                code: false,
+                result: "驗證碼為八位整數"
+            });
+        postTwilioVerify(data).then(
             result => {
                 res.json({
                     status: '成功驗證手機號碼',
@@ -707,6 +714,7 @@ module.exports = class Member {
     // 訂閱通知
     putSubscribe(req, res, next) {
         const data = {
+            _id: req.headers['token'],
             user_id: req.body.user_id
         };
         // if (!check.checkCode(data.code)) return res.status(400).send({
@@ -714,7 +722,7 @@ module.exports = class Member {
         //     code: false,
         //     result: "驗證碼為八位整數"
         // });
-        putSubscribe(req.headers['token'], data).then(
+        putSubscribe(data).then(
             result => {
                 res.json({
                     status: '成功訂閱通知',

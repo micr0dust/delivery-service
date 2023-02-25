@@ -4,17 +4,17 @@ const config = require('../../config/development_config');
 
 var ObjectId = require('mongodb').ObjectId;
 
-module.exports = async function subscribeNotification(id, data) {
+module.exports = async function subscribeNotification(data) {
     await client.connect();
     const db = client.db(config.mongo.database);
     const member = db.collection(config.mongo.member);
 
     try {
-        const memberResult = await member.findOne({ _id: ObjectId(id) });
+        const memberResult = await member.findOne({ _id: ObjectId(data._id) });
         if (!memberResult) throw new Error("查無帳號，請重新登入");
 
         // 更新資料庫資料
-        const updateResult = await member.updateOne({ _id: ObjectId(id) }, {
+        const updateResult = await member.updateOne({ _id: ObjectId(data._id) }, {
             $set: { notify_id: data.user_id }
         });
         if (!updateResult) throw new Error("資料庫更新失敗");
