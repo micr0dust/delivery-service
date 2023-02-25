@@ -1,5 +1,6 @@
 const client = require('../connection_db');
 const config = require('../../config/development_config');
+const mongoFn = require('../../service/mongodbFns');
 
 var ObjectId = require('mongodb').ObjectId;
 
@@ -10,7 +11,7 @@ module.exports = async function groupData(data) {
     try {
         const groupResult = await group.findOne({ _id: ObjectId(data.id) });
         if (!groupResult) throw new Error(`查無群組 ${data.id}`)
-        const findResult = await db.collection(groupResult.type).find({ _id: { $in: groupResult.data } }).toArray();
+        const findResult = await mongoFn.findToArray(db.collection(groupResult.type), { _id: { $in: groupResult.data } });
         if (!findResult) throw new Error("查無此帳號擁有的商店");
         const finalData = [];
         for (let i = 0; i < findResult.length; i++)

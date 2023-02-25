@@ -1,5 +1,6 @@
 const client = require('../connection_db');
 const config = require('../../config/development_config');
+const mongoFn = require('../../service/mongodbFns');
 
 var ObjectId = require('mongodb').ObjectId;
 
@@ -9,7 +10,7 @@ module.exports = async function getOrder(data) {
     const order = db.collection(config.mongo.order);
 
     try {
-        const findResult = await order.find({ id: data.id }).toArray();
+        const findResult = await mongoFn.findToArray(order, { id: data.id });
         if (!findResult) throw new Error("查無訂單");
         for (const child in findResult) {
             delete findResult[child]["id"];

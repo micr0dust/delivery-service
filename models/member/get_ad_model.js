@@ -1,5 +1,6 @@
 const client = require('../connection_db');
 const config = require('../../config/development_config');
+const mongoFn = require('../../service/mongodbFns');
 
 var ObjectId = require('mongodb').ObjectId;
 
@@ -13,7 +14,7 @@ module.exports = async function getAd() {
         const groupResult = await group.findOne({ _id: ObjectId("62ce7094d47de10b3b6d68f7") });
         if (!groupResult) throw new Error("查無群組");
         console.log(groupResult);
-        const findResult = await ad.find({ _id: { $in: groupResult.data } }).toArray();
+        const findResult = await mongoFn.findToArray(ad, { _id: { $in: groupResult.data } });
         console.log(findResult);
         if (!findResult) throw new Error("查無廣告");
         return findResult;

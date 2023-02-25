@@ -1,5 +1,6 @@
 const client = require('../connection_db');
 const config = require('../../config/development_config');
+const mongoFn = require('../../service/mongodbFns');
 
 module.exports = async function getProduct() {
     await client.connect();
@@ -7,12 +8,12 @@ module.exports = async function getProduct() {
     const store = db.collection(config.mongo.store);
 
     try {
-        const storeResult = await store.find({
+        const storeResult = await mongoFn.findToArray(store, {
             name: { $exists: true },
             address: { $exists: true },
             url: { $exists: true },
             businessTime: { $exists: true },
-        }).toArray();
+        });
         if (!storeResult) throw new Error("查無商家");
         for (let i = 0; i < storeResult.length; i++) {
             const today = [];

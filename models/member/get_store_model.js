@@ -1,5 +1,6 @@
 const client = require('../connection_db');
 const config = require('../../config/development_config');
+const mongoFn = require('../../service/mongodbFns');
 
 module.exports = async function getStore(_id, storeData) {
     await client.connect();
@@ -12,7 +13,7 @@ module.exports = async function getStore(_id, storeData) {
         if (!storeResult) throw new Error("查無店家，請確認 id 是否正確");
         if (!storeResult.product) return [];
 
-        const productResult = await product.find({ _id: { $in: storeResult.product } }).toArray();
+        const productResult = await mongoFn.findToArray(product, { _id: { $in: storeResult.product } });
         if (!productResult) throw new Error("查無此商家商品");
 
         const productData = [];

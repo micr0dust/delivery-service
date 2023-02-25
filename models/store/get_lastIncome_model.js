@@ -27,13 +27,13 @@ module.exports = async function income(id) {
             dateEnd.setMonth(dateEnd.getMonth());
             dateStart.setDate(1);
             dateEnd.setDate(1);
-            const findResult = await order.find({
+            const findResult = await mongoFn.findToArray(order, {
                 store: storeUrl,
                 DATE: {
                     $gte: new Date(dateStart.toISOString()),
                     $lt: new Date(dateEnd.toISOString())
                 }
-            }).toArray();
+            });
             if (!findResult) throw new Error("查無訂單");
             if (findResult) {
                 let sum = 0;

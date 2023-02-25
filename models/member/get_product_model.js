@@ -1,5 +1,6 @@
 const client = require('../connection_db');
 const config = require('../../config/development_config');
+const mongoFn = require('../../service/mongodbFns');
 
 module.exports = async function getProduct(_id, storeData) {
     await client.connect();
@@ -13,7 +14,7 @@ module.exports = async function getProduct(_id, storeData) {
         if (!storeResult.product) return [];
 
         const isOwner = storeResult.belong === _id;
-        const productResult = await product.find({ _id: { $in: storeResult.product } }).toArray();
+        const productResult = await mongoFn.findToArray(product, { _id: { $in: storeResult.product } });
         if (!productResult) throw new Error("查無此商家商品");
 
         const responData = [];

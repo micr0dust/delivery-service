@@ -14,9 +14,9 @@ module.exports = async function getOrder(id) {
         if (!storeResult) throw new Error("查無店家");
         const storeUrl = storeResult.url;
 
-        const findResult = await order.find({
+        const findResult = await mongoFn.findToArray(order, {
             store: storeUrl
-        }).toArray();
+        });
         if (!findResult) throw new Error("查無訂單");
 
         return findResult;

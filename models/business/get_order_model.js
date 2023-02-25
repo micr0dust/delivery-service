@@ -1,5 +1,6 @@
 const client = require('../connection_db');
 const config = require('../../config/development_config');
+const mongoFn = require('../../service/mongodbFns');
 
 var ObjectId = require('mongodb').ObjectId;
 
@@ -19,11 +20,10 @@ module.exports = async function getNowOrder(data) {
             }
         });
         if (!putResult) throw new Error("接受訂單時發生錯誤");
-
-        const findResult = await order.find({
+        const findResult = await mongoFn.findToArray(order, {
             store: storeUrl,
             complete: false
-        }).toArray();
+        });
 
         if (!findResult) throw new Error("查無訂單");
         return findResult;

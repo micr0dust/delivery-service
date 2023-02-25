@@ -2,6 +2,7 @@ const client = require('../connection_db');
 const config = require('../../config/development_config');
 const Check = require('../../service/member_check');
 const Discount = require('../../service/discount_check');
+const mongoFn = require('../../service/mongodbFns');
 
 var ObjectId = require('mongodb').ObjectId;
 let check = new Check();
@@ -80,7 +81,7 @@ module.exports = async function order(data, finalOrder) {
         const checkedOrder = checked;
         for (let i = 0; i < checkedOrder.length; i++)
             products.push(ObjectId(checkedOrder[i].id));
-        const productResult = await product.find({ _id: { $in: products } }).toArray();
+        const productResult = await mongoFn.findToArray(product, { _id: { $in: products } });
         if (!productResult) throw new Error('查無商品');
         for (let i = 0; i < productResult.length; i++)
             if (productResult[i].belong != productOwner._id.toString())
@@ -223,7 +224,7 @@ module.exports = async function order(data, finalOrder) {
                 '-' + (dd > 9 ? '' : '0') + dd
             ].join('');
         };
-        const orderResult = await order.find({ store: productOwner.url, DATE: { $gte: new Date(today()) } }).toArray();
+        const orderResult = await mongoFn.findToArray(order, { store: productOwner.url, DATE: { $gte: new Date(today()) } });
 
         const final = {
             DATE: data.DATE,
