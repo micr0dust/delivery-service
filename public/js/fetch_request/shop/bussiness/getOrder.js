@@ -26,13 +26,13 @@ async function getOrder() {
                 await bussinessLogin();
             return getOrder();
         } else {
-            const result = await response.text();
-            const data = JSON.parse(result);
-            Swal.fire({
-                icon: 'error',
-                title: data.status,
-                text: data.result
-            });
+            // const result = await response.text();
+            // const data = JSON.parse(result);
+            // Swal.fire({
+            //     icon: 'error',
+            //     title: data.status,
+            //     text: data.result
+            // });
         }
     });
 }
