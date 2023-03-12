@@ -115,7 +115,7 @@ module.exports = async function mailEmit(id, time) {
     } catch (err) {
         throw err;
     } finally {
-        await client.close();
+        //await client.close();
     }
 
     function createNum() {

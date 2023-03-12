@@ -55,6 +55,6 @@ module.exports = async function uploadStoreImg(data) {
     } catch (err) {
         throw err;
     } finally {
-        await client.close();
+        //await client.close();
     }
 }

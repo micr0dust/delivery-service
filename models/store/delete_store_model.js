@@ -69,6 +69,6 @@ module.exports = async function delStore(data) {
     } catch (err) {
         throw err;
     } finally {
-        await client.close();
+        //await client.close();
     }
 }

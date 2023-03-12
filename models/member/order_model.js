@@ -272,6 +272,6 @@ module.exports = async function order(data, finalOrder) {
     } catch (err) {
         throw err;
     } finally {
-        await client.close();
+        //await client.close();
     }
 }

@@ -18,6 +18,6 @@ module.exports = async function register(data) {
     } catch (err) {
         throw err;
     } finally {
-        await client.close();
+        //await client.close();
     }
 }

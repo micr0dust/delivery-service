@@ -41,6 +41,6 @@ module.exports = async function subscribeNotification(data) {
     } catch (err) {
         throw err;
     } finally {
-        await client.close();
+        //await client.close();
     }
 }

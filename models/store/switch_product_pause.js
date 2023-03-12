@@ -38,6 +38,6 @@ module.exports = async function addProduct(_id, data) {
     } catch (err) {
         throw err;
     } finally {
-        await client.close();
+        //await client.close();
     }
 }

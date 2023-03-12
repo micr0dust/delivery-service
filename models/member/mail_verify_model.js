@@ -32,6 +32,6 @@ module.exports = async function mailEmit(data) {
     } catch (err) {
         throw err;
     } finally {
-        await client.close();
+        //s
     }
 }

@@ -31,6 +31,6 @@ module.exports = async function getUser(id) {
     } catch (err) {
         throw err;
     } finally {
-        await client.close();
+        //await client.close();
     }
 }
