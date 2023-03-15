@@ -1,6 +1,23 @@
 <div class="container">
     <div class="row">
         <div class="card col-12 mt-5 mb-2"></div>
+        <div class="card col-12 mt-5" id="query">
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">查詢使用者</span>
+                </div>
+                <input type="text" class="form-control" placeholder="email" id="email">
+            </div>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">查詢結果</span>
+                </div>
+                <input type="text" class="form-control" placeholder="ID" id="queryID" disabled>
+            </div>
+            <div class="input-group mb-2">
+                <button class="btn btn-success mt-1 ml-3" onclick="getQuery()">查詢</button>
+            </div>
+        </div>
         <div class="card col-12 mt-5" id="role">
             <div class="input-group mb-2 mt-3">
                 <div class="input-group-prepend">
@@ -29,6 +46,7 @@
 <script src="/js/fetch_request/admin/verify.js"></script>
 <script src="/js/fetch_request/admin/addRole.js"></script>
 <script src="/js/fetch_request/admin/deleteRole.js"></script>
+<script src="/js/fetch_request/admin/queryUser.js"></script>
 <script>
     verify();
 
@@ -40,5 +58,9 @@
             id: id.value,
             role: role.value
         };
+    }
+    async function getQuery() {
+        const data = await queryUser(document.getElementById('email').value);
+        document.getElementById('queryID').value = data.result;
     }
 </script>

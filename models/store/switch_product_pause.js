@@ -3,7 +3,7 @@ const config = require('../../config/development_config');
 
 var ObjectId = require('mongodb').ObjectId;
 
-module.exports = async function addProduct(_id, data) {
+module.exports = async function pauseProduct(data) {
     await client.connect();
     const db = client.db(config.mongo.database);
     const member = db.collection(config.mongo.member);
@@ -11,7 +11,7 @@ module.exports = async function addProduct(_id, data) {
     const product = db.collection(config.mongo.product);
 
     try {
-        const memberResult = await member.findOne({ _id: ObjectId(_id) });
+        const memberResult = await member.findOne({ _id: ObjectId(data._id) });
         if (!memberResult) throw new Error("查無帳號，請重新登入");
         const storeResult = await store.findOne({ _id: ObjectId(memberResult.store_id) });
         if (!storeResult) throw new Error('查無商家，請確認該帳號確實擁有店家身分');

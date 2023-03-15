@@ -1,6 +1,7 @@
 const addRole = require('../../models/admin/add_role');
 const removeRole = require('../../models/admin/delete_role');
 const adminVerify = require('../../models/admin/verify');
+const queryUser = require('../../models/admin/query_user');
 
 const commonCheck = require('../../service/common_check');
 const Check = require('../../service/admin_check');
@@ -27,6 +28,36 @@ module.exports = class Admin {
                 result: err.message
             });
         });
+    }
+
+    // 查詢使用者 ID
+    getQueryUser(req, res, next) {
+        const data = {
+            _id: req.headers['token'],
+            email: req.body.email
+        };
+        if (!commonCheck.checkEmail(data.email))
+            return res.status(400).json({
+                status: "Email 格式錯誤",
+                code: true,
+                result: `必須輸入正確 Email 格式`
+            });
+        queryUser(data).then(result => {
+                if (result === 403) return res.redirect('/auth');
+                return res.json({
+                    status: '成功查詢到使用者 ID',
+                    code: true,
+                    result: result
+                });
+            },
+            err => {
+                return res.status(500).send({
+                    status: '查詢使用者 ID 失敗',
+                    code: false,
+                    result: err.message
+                });
+            }
+        );
     }
 
     // 賦予特定使用者特定身分

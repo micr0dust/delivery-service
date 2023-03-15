@@ -5564,6 +5564,143 @@
           }
         ]
       }
+    },
+    "/backend/query/user": {
+      "post": {
+        "tags": [
+          "backend"
+        ],
+        "summary": "對特定帳號新增身分",
+        "description": "以 token、欲加身分和目標 ID 請求，對該帳號新增身分",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "required": true,
+            "description": "member access token",
+            "schema": {
+              "$ref": "#/definitions/token"
+            }
+          },
+          {
+            "name": "email",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "description": "目標帳號 email",
+            "schema": {
+              "type": "string",
+              "example": "anyName123@gmail.com"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功查詢到使用者 ID",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "成功查詢到使用者 ID"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "result": {
+                  "type": "string",
+                  "example": "6218bc479bd8bbdaa3036906"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Email 格式錯誤",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "必須輸入正確 Email 格式"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "403": {
+            "description": "token錯誤",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "token錯誤"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "result": {
+                  "type": "string",
+                  "example": "請重新登入"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "description": "查詢使用者 ID 失敗",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "查詢使用者 ID 失敗"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
     }
   },
   "definitions": {

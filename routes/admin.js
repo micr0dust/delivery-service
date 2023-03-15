@@ -168,4 +168,55 @@ router.post('/role/remove', middleWave, adminModifyMethod.deleteRole, () => {
      */
 });
 
+router.post('/query/user', middleWave, adminModifyMethod.getQueryUser, () => {
+    //  #swagger.summary  = '對特定帳號新增身分'
+    //  #swagger.description = '以 token、欲加身分和目標 ID 請求，對該帳號新增身分'
+    /*  #swagger.consumes = ['application/x-www-form-urlencoded']*/
+    /*  #swagger.parameters['token'] = {
+                in: 'header',
+                type: 'string',
+                required: 'true',
+                description: 'member access token',
+                schema: { $ref: '#/definitions/token' }
+    }
+    */
+    /*  #swagger.parameters['email'] = {
+                 in: 'formData',
+                 type: 'string',
+                 required: 'true',
+                 description: '目標帳號 email',
+                 schema: "anyName123@gmail.com"
+        }
+    */
+
+    /*  #swagger.responses[200] = {
+                description: '成功查詢到使用者 ID',
+                schema: {
+                    status: '成功查詢到使用者 ID',
+                    code: true,
+                    result: "6218bc479bd8bbdaa3036906"
+                }
+            }
+    } */
+    /*
+        #swagger.responses[400] = {
+                description: 'Email 格式錯誤',
+                schema: {
+                    status: '必須輸入正確 Email 格式',
+                    code: false,
+                    result: 'error message'
+                }
+            }
+    */
+    /*
+         #swagger.responses[500] = {
+                 description: '查詢使用者 ID 失敗',
+                 schema: {
+                     status: '查詢使用者 ID 失敗',
+                     code: false,
+                     result: 'error message'
+                 }
+             }
+     */
+});
 module.exports = router;
