@@ -551,7 +551,6 @@ module.exports = class Member {
             "response_type=code&" +
             "client_id=" + config.mail.id;
         //console.log(JSON.stringify({ "redirect_url": google_oauth_url }))
-        res.setHeader('Content-Security-Policy', "require-trusted-types-for 'script'; default-src 'self' https://example.com; script-src 'self' https://example.com; script-src-attr 'none'; object-src 'none'; base-uri 'self'; report-uri /csp-report");
         res.send(JSON.stringify({ "redirect_url": google_oauth_url }));
     }
 
