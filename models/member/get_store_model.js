@@ -52,7 +52,7 @@ module.exports = async function getStore(data) {
             discount: storeResult.allDiscount || "[]",
             product: productData,
             location: storeResult.location,
-            thumbnail: storeResult.thumbnail,
+            thumbnail: storeResult.thumbnail || null,
             host: `https://${config.aws.bucket}.s3.amazonaws.com/store/product`,
             status: storeResult.latest ? (new Date() - new Date(storeResult.latest)) / 1000 : null
         };

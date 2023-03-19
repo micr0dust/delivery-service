@@ -34,7 +34,7 @@ module.exports = async function getProduct() {
                 timeEstimate: storeResult[i].timeEstimate || null,
                 businessTime: today,
                 product: storeResult[i].product,
-                thumbnail: storeResult[i].thumbnail,
+                thumbnail: storeResult[i].thumbnail || null,
                 location: storeResult[i].location,
                 last_update: storeResult[i].last_update,
                 status: storeResult[i].latest ? (new Date() - new Date(storeResult[i].latest)) / 1000 : null

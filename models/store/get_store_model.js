@@ -27,7 +27,7 @@ module.exports = async function storeData(id) {
             businessTime: findResult.businessTime || null,
             describe: findResult.describe || "",
             location: findResult.location,
-            thumbnail: findResult.thumbnail
+            thumbnail: findResult.thumbnail || null
         };
     } catch (err) {
         throw err;

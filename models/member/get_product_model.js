@@ -29,7 +29,7 @@ module.exports = async function getProduct(data) {
                 discount: productResult[i].discount,
                 options: productResult[i].options,
                 pause: productResult[i].pause,
-                thumbnail: productResult[i].thumbnail,
+                thumbnail: productResult[i].thumbnail || null,
                 last_update: productResult[i].last_update
             });
         }
