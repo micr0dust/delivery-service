@@ -8,25 +8,26 @@ module.exports = async function memberLogin(code, onTime) {
     await client.connect();
     const db = client.db(config.mongo.database);
     const member = db.collection(config.mongo.member);
-    
+    const privateKey = fs.readFileSync("./AuthKey_UNPJD6U65A.p8", 'utf8')
     let existData;
     try {
-        // const clientSecret = appleSignin.getClientSecret({
-        //     clientID: config.apple.clientID, // Apple Client ID
-        //     teamID: config.apple.teamID, // Apple Developer Team ID.
-        //     privateKey: privateKey, // private key associated with your client ID. -- Or provide a `privateKeyPath` property instead.
-        //     keyIdentifier: config.apple.keyID, // identifier of the private key.
-        //     // OPTIONAL
-        //     expAfter: 15777000, // Unix time in seconds after which to expire the clientSecret JWT. Default is now+5 minutes.
-        // });
-
+        const clientSecret = appleSignin.getClientSecret({
+            clientID: config.apple.clientID, // Apple Client ID
+            teamID: config.apple.teamID, // Apple Developer Team ID.
+            privateKey: privateKey, // private key associated with your client ID. -- Or provide a `privateKeyPath` property instead.
+            keyIdentifier: config.apple.keyID, // identifier of the private key.
+            // OPTIONAL
+            expAfter: 15777000, // Unix time in seconds after which to expire the clientSecret JWT. Default is now+5 minutes.
+        });
+        console.log(clientSecret);
         const options = {
             clientID: config.apple.clientID, // Apple Client ID
             redirectUri: config.heroku.hostname+'/member/google/callback', // use the same value which you passed to authorisation URL.
-            clientSecret: getClientSecret()
+            clientSecret: clientSecret
         };
         const tokenResponse = await appleSignin.getAuthorizationToken(code, options);
         if (!tokenResponse) throw new Error("嘗試取得 Apple 驗證 token 失敗");
+        throw new Error("靠杯");
         const { sub: userAppleId, email, email_verified } = await appleSignin.verifyIdToken(tokenResponse.id_token, {
             // Optional Options for further verification - Full list can be found here https://github.com/auth0/node-jsonwebtoken#jwtverifytoken-secretorpublickey-options-callback
             audience: config.apple.clientID, // client id - can also be an array
@@ -117,27 +118,4 @@ module.exports = async function memberLogin(code, onTime) {
     } finally {
         await client.close()
     }
-}
-
-async function getClientSecret() {
-    const headers = {
-      alg: 'ES256',
-      kid: config.apple.keyID
-    };
-    const timeNow = Math.floor(Date.now() / 1000);
-    const claims = {
-      iss: config.apple.teamID,
-      aud: 'https://appleid.apple.com',
-      sub: config.apple.clientID,
-      iat: timeNow,
-      exp: timeNow + 15777000
-    };
-    const privateKey = fs.readFileSync("./AuthKey_UNPJD6U65A.p8", 'utf8')
-    const token = jwt.sign(claims, privateKey, {
-      algorithm: 'ES256',
-      header: headers
-      // expiresIn: '24h'
-    });
-
-    return token;
 }
