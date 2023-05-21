@@ -27,7 +27,6 @@ module.exports = async function memberLogin(code, onTime) {
         };
         const tokenResponse = await appleSignin.getAuthorizationToken(code, options);
         if (!tokenResponse) throw new Error("嘗試取得 Apple 驗證 token 失敗");
-        throw new Error("靠杯");
         const { sub: userAppleId, email, email_verified } = await appleSignin.verifyIdToken(tokenResponse.id_token, {
             // Optional Options for further verification - Full list can be found here https://github.com/auth0/node-jsonwebtoken#jwtverifytoken-secretorpublickey-options-callback
             audience: config.apple.clientID, // client id - can also be an array
@@ -36,6 +35,7 @@ module.exports = async function memberLogin(code, onTime) {
             ignoreExpiration: true, // default is false
         });
         if (!userAppleId) throw new Error("Apple 登入驗證失敗");
+        new Error("靠杯");
 
         const profile = JSON.parse(tokenResponse);
         if (!profile.id) throw new Error("向 Apple 請求資料失敗");
