@@ -10,18 +10,11 @@ module.exports = async function memberLogin(code, onTime) {
 
     let existData;
     try {
-        const privateKey = jwt.sign({
-                algorithm: 'HS256',
-                exp: Math.floor(Date.now() / 1000) + 60 * 5, // token 5 分鐘後過期。
-                data: config.apple.clientID
-            },
-            onTime
-        );
         const clientSecret = appleSignin.getClientSecret({
             clientID: config.apple.clientID, // Apple Client ID
             teamID: config.apple.teamID, // Apple Developer Team ID.
-            privateKey: privateKey, // private key associated with your client ID. -- Or provide a `privateKeyPath` property instead.
-            keyIdentifier: onTime, // identifier of the private key.
+            privateKey: config.apple.privateKey, // private key associated with your client ID. -- Or provide a `privateKeyPath` property instead.
+            keyIdentifier: config.apple.keyID, // identifier of the private key.
             // OPTIONAL
             expAfter: 15777000, // Unix time in seconds after which to expire the clientSecret JWT. Default is now+5 minutes.
         });

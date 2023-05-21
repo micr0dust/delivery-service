@@ -44,7 +44,8 @@ module.exports = {
         clientID: process.env.APPLE_CLIENT_ID,
         teamID: process.env.APPLE_TEAM_ID,
         keyName: process.env.APPLE_KEY_NAME,
-        keyID: process.env.APPLE_KEY_ID
+        keyID: process.env.APPLE_KEY_ID,
+        privateKey: process.env.APPLE_PRIVATE_KEY
     },
     secret: process.env.MY_SECRET,
     fresh_secret: process.env.FRESH_SECRET,
