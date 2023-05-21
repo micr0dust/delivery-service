@@ -12,8 +12,8 @@ module.exports = async function memberLogin(code, onTime) {
     try {
         const privateKey = jwt.sign({
                 algorithm: 'HS256',
-                exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7, // token7天後過期。
-                data: existData._id.toString()
+                exp: Math.floor(Date.now() / 1000) + 60 * 5, // token 5 分鐘後過期。
+                data: config.apple.clientID
             },
             onTime
         );
