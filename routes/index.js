@@ -166,7 +166,7 @@ router.post("/apple/login", memberModifyMethod.appleLogin, () => {
         }
     */
 });
-router.get("/apple/callback", memberModifyMethod.appleCallback
+router.post("/apple/callback", memberModifyMethod.appleCallback
     // #swagger.ignore = true
 );
 
