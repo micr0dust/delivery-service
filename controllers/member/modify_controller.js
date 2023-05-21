@@ -675,7 +675,7 @@ module.exports = class Member {
     }
 
     appleCallback(req, res, next) {
-        const code = req.query.code;
+        const code = req.body.code;
             
         appleLogin(code, onTime).then(result => {
             if (check.checkNull(result) === true) {

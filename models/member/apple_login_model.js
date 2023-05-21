@@ -19,7 +19,6 @@ module.exports = async function memberLogin(code, onTime) {
             // OPTIONAL
             expAfter: 15777000, // Unix time in seconds after which to expire the clientSecret JWT. Default is now+5 minutes.
         });
-        console.log(clientSecret);
         const options = {
             clientID: config.apple.clientID, // Apple Client ID
             redirectUri: config.heroku.hostname+'/member/google/callback', // use the same value which you passed to authorisation URL.
@@ -35,7 +34,6 @@ module.exports = async function memberLogin(code, onTime) {
             ignoreExpiration: true, // default is false
         });
         if (!userAppleId) throw new Error("Apple 登入驗證失敗");
-        new Error("靠杯");
 
         const profile = JSON.parse(tokenResponse);
         if (!profile.id) throw new Error("向 Apple 請求資料失敗");
