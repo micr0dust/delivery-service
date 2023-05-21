@@ -10,13 +10,6 @@ module.exports = async function memberLogin(code, onTime) {
 
     let existData;
     try {
-        const privateKey = jwt.sign({
-                algorithm: 'HS256',
-                exp: Math.floor(Date.now() / 1000) + 60 * 5, // token 5 分鐘後過期。
-                data: config.apple.privateKey
-            },
-            onTime
-        );
         const clientSecret = appleSignin.getClientSecret({
             clientID: config.apple.clientID, // Apple Client ID
             teamID: config.apple.teamID, // Apple Developer Team ID.
@@ -25,12 +18,12 @@ module.exports = async function memberLogin(code, onTime) {
             // OPTIONAL
             expAfter: 15777000, // Unix time in seconds after which to expire the clientSecret JWT. Default is now+5 minutes.
         });
+        console.log(clientSecret);
         const options = {
             clientID: config.apple.clientID, // Apple Client ID
             redirectUri: config.heroku.hostname+'/member/google/callback', // use the same value which you passed to authorisation URL.
             clientSecret: clientSecret
         };
-        console.log(clientSecret);
         const tokenResponse = await appleSignin.getAuthorizationToken(code, options);
         if (!tokenResponse) throw new Error("嘗試取得 Apple 驗證 token 失敗");
         const { sub: userAppleId, email, email_verified } = await appleSignin.verifyIdToken(tokenResponse.id_token, {
