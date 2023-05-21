@@ -676,7 +676,7 @@ module.exports = class Member {
 
     appleCallback(req, res, next) {
         const code = req.query.code;
-
+            
         appleLogin(code, onTime).then(result => {
             if (check.checkNull(result) === true) {
                 return res.status(400).send({

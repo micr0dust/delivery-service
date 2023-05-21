@@ -139,7 +139,7 @@
       }
     },
     "/member/apple/login": {
-      "get": {
+      "post": {
         "tags": [
           "member"
         ],
