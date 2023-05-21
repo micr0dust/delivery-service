@@ -40,6 +40,12 @@ module.exports = {
         secret: process.env.AWS_SECRET,
         bucket: process.env.AWS_BUCKET
     },
+    apple:{
+        clientID: process.env.APPLE_CLIENT_ID,
+        teamID: process.env.APPLE_TEAM_ID,
+        keyName: process.env.APPLE_KEY_NAME,
+        keyID: process.env.APPLE_KEY_ID
+    },
     secret: process.env.MY_SECRET,
     fresh_secret: process.env.FRESH_SECRET,
     verify_secret: process.env.VERIFY_SECRET

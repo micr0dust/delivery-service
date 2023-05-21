@@ -35,20 +35,8 @@
           "member"
         ],
         "summary": "Google 網頁登入",
-        "description": "將 id_token 傳給伺服器，表示該使用者授權登入",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "header",
-            "type": "string",
-            "required": true,
-            "description": "id_token = googleUser.getAuthResponse().id_token",
-            "schema": {
-              "type": "string",
-              "example": "id_token"
-            }
-          }
-        ],
+        "description": "回傳登入網址，請瀏覽器重新導向",
+        "parameters": [],
         "responses": {
           "200": {
             "description": "redirect_url",
@@ -142,6 +130,27 @@
               "xml": {
                 "name": "main"
               }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests"
+          }
+        }
+      }
+    },
+    "/member/apple/login": {
+      "get": {
+        "tags": [
+          "member"
+        ],
+        "summary": "Google 網頁登入",
+        "description": "回傳登入網址，請瀏覽器重新導向",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "redirect_url",
+            "schema": {
+              "$ref": "#/definitions/redirect_url"
             }
           },
           "429": {

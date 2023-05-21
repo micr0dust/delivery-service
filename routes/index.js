@@ -113,15 +113,7 @@ let memberModifyMethod = new MemberModifyMethod();
 // });
 router.get("/google/login", memberModifyMethod.googleLogin, () => {
     //  #swagger.summary  = 'Google 網頁登入'
-    //  #swagger.description = '將 id_token 傳給伺服器，表示該使用者授權登入'
-    /*  #swagger.parameters['id'] = {
-                in: 'header',
-                type: 'string',
-                required: 'true',
-                description: 'id_token = googleUser.getAuthResponse().id_token',
-                schema: "id_token"
-    }
-    */
+    //  #swagger.description = '回傳登入網址，請瀏覽器重新導向'
     /*
         #swagger.responses[200] = {
             description: "redirect_url",
@@ -161,6 +153,20 @@ router.post("/google/mlogin", memberModifyMethod.googleMobileLogin, () => {
     */
 });
 router.get("/google/callback", memberModifyMethod.googleCallback
+    // #swagger.ignore = true
+);
+
+router.get("/apple/login", memberModifyMethod.appleLogin, () => {
+    //  #swagger.summary  = 'Google 網頁登入'
+    //  #swagger.description = '回傳登入網址，請瀏覽器重新導向'
+    /*
+        #swagger.responses[200] = {
+            description: "redirect_url",
+            schema: {$ref: "#/definitions/redirect_url"}
+        }
+    */
+});
+router.get("/apple/callback", memberModifyMethod.appleCallback
     // #swagger.ignore = true
 );
 
