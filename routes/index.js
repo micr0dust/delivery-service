@@ -156,7 +156,7 @@ router.get("/google/callback", memberModifyMethod.googleCallback
     // #swagger.ignore = true
 );
 
-router.get("/apple/login", memberModifyMethod.appleLogin, () => {
+router.post("/apple/login", memberModifyMethod.appleLogin, () => {
     //  #swagger.summary  = 'Google 網頁登入'
     //  #swagger.description = '回傳登入網址，請瀏覽器重新導向'
     /*

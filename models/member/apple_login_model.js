@@ -3,7 +3,7 @@ const config = require('../../config/development_config');
 const jwt = require('jsonwebtoken');
 const appleSignin = require('apple-signin-auth');
 
-module.exports = async function memberLogin(data, onTime) {
+module.exports = async function memberLogin(code, onTime) {
     await client.connect();
     const db = client.db(config.mongo.database);
     const member = db.collection(config.mongo.member);
@@ -34,8 +34,8 @@ module.exports = async function memberLogin(data, onTime) {
         });
         if (!userAppleId) throw new Error("Apple 登入驗證失敗");
 
-        const profile = JSON.parse(data);
-        if (!profile.id) throw new Error("向 Google 請求資料失敗");
+        const profile = JSON.parse(tokenResponse);
+        if (!profile.id) throw new Error("向 Apple 請求資料失敗");
 
         const findResult = await member.findOne({
             appleID: userAppleId,
