@@ -30,7 +30,7 @@ module.exports = async function memberLogin(code, onTime) {
             redirectUri: config.heroku.hostname+'/member/google/callback', // use the same value which you passed to authorisation URL.
             clientSecret: clientSecret
         };
-        console.log(options);
+        console.log(clientSecret);
         const tokenResponse = await appleSignin.getAuthorizationToken(code, options);
         if (!tokenResponse) throw new Error("嘗試取得 Apple 驗證 token 失敗");
         const { sub: userAppleId, email, email_verified } = await appleSignin.verifyIdToken(tokenResponse.id_token, {
