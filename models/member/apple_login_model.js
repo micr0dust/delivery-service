@@ -28,8 +28,9 @@ module.exports = async function memberLogin(code, onTime) {
         const options = {
             clientID: config.apple.clientID, // Apple Client ID
             redirectUri: config.heroku.hostname+'/member/google/callback', // use the same value which you passed to authorisation URL.
-            clientSecret: getClientSecret()
+            clientSecret: clientSecret
         };
+        console.log(options);
         const tokenResponse = await appleSignin.getAuthorizationToken(code, options);
         if (!tokenResponse) throw new Error("嘗試取得 Apple 驗證 token 失敗");
         const { sub: userAppleId, email, email_verified } = await appleSignin.verifyIdToken(tokenResponse.id_token, {
@@ -123,26 +124,3 @@ module.exports = async function memberLogin(code, onTime) {
         await client.close()
     }
 }
-
-async function getClientSecret() {
-    const headers = {
-        alg: 'ES256',
-        kid: config.apple.keyID
-    };
-    const timeNow = Math.floor(Date.now() / 1000);
-    const claims = {
-      iss: config.apple.teamID,
-      aud: 'https://appleid.apple.com',
-      sub: config.apple.clientID,
-      iat: timeNow,
-      exp: timeNow + 15777000
-    };
-
-    const token = jwt.sign(claims, PRIVATEKEY, {
-      algorithm: 'ES256',
-      header: headers
-      // expiresIn: '24h'
-    });
-
-    return token;
-  }
