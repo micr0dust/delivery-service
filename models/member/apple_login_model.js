@@ -2,18 +2,19 @@ const client = require('../connection_db');
 const config = require('../../config/development_config');
 const jwt = require('jsonwebtoken');
 const appleSignin = require('apple-signin-auth');
+const fs = require('fs');
 
 module.exports = async function memberLogin(code, onTime) {
     await client.connect();
     const db = client.db(config.mongo.database);
     const member = db.collection(config.mongo.member);
-
+    const privateKey = fs.readFileSync("./AuthKey_UNPJD6U65A.p8", 'utf8')
     let existData;
     try {
         const clientSecret = appleSignin.getClientSecret({
             clientID: config.apple.clientID, // Apple Client ID
             teamID: config.apple.teamID, // Apple Developer Team ID.
-            privateKey: config.apple.privateKey, // private key associated with your client ID. -- Or provide a `privateKeyPath` property instead.
+            privateKey: privateKey, // private key associated with your client ID. -- Or provide a `privateKeyPath` property instead.
             keyIdentifier: config.apple.keyID, // identifier of the private key.
             // OPTIONAL
             expAfter: 15777000, // Unix time in seconds after which to expire the clientSecret JWT. Default is now+5 minutes.
