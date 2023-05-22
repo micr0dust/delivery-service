@@ -2,10 +2,8 @@ const client = require('../connection_db');
 const config = require('../../config/development_config');
 const jwt = require('jsonwebtoken');
 const appleSignin = require('apple-signin-auth');
-const jose = require('jose');
 const fs = require('fs');
-//const privateKey = fs.readFileSync("./AuthKey_UNPJD6U65A.p8", 'utf8');
-const privateKey = config.apple.privateKey;
+const privateKey = fs.readFileSync("./AuthKey_UNPJD6U65A.p8", 'utf8');
 
 module.exports = async function memberLogin(code, onTime) {
     await client.connect();
@@ -131,7 +129,6 @@ async function getClientSecret() {
       iss: config.apple.teamID,
       aud: 'https://appleid.apple.com',
       sub: config.apple.clientID,
-      iat: timeNow,
       exp: timeNow + 15777000
     };
 
