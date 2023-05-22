@@ -8,7 +8,8 @@ module.exports = async function memberLogin(code, onTime) {
     await client.connect();
     const db = client.db(config.mongo.database);
     const member = db.collection(config.mongo.member);
-    const privateKey = fs.readFileSync("./AuthKey_UNPJD6U65A.p8", 'utf8')
+    //const privateKey = fs.readFileSync("./AuthKey_UNPJD6U65A.p8", 'utf8');
+    const privateKey = config.apple.privateKey;
     let existData;
     try {
         const clientSecret = appleSignin.getClientSecret({
