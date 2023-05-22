@@ -2,14 +2,16 @@ const client = require('../connection_db');
 const config = require('../../config/development_config');
 const jwt = require('jsonwebtoken');
 const appleSignin = require('apple-signin-auth');
+const jose = require('jose');
 const fs = require('fs');
+//const privateKey = fs.readFileSync("./AuthKey_UNPJD6U65A.p8", 'utf8');
+const privateKey = config.apple.privateKey;
 
 module.exports = async function memberLogin(code, onTime) {
     await client.connect();
     const db = client.db(config.mongo.database);
     const member = db.collection(config.mongo.member);
-    //const privateKey = fs.readFileSync("./AuthKey_UNPJD6U65A.p8", 'utf8');
-    const privateKey = config.apple.privateKey;
+    
     let existData;
     try {
         const clientSecret = appleSignin.getClientSecret({
@@ -23,7 +25,7 @@ module.exports = async function memberLogin(code, onTime) {
         const options = {
             clientID: config.apple.clientID, // Apple Client ID
             redirectUri: config.heroku.hostname+'/member/google/callback', // use the same value which you passed to authorisation URL.
-            clientSecret: clientSecret
+            clientSecret: getClientSecret()
         };
         const tokenResponse = await appleSignin.getAuthorizationToken(code, options);
         if (!tokenResponse) throw new Error("嘗試取得 Apple 驗證 token 失敗");
@@ -118,3 +120,26 @@ module.exports = async function memberLogin(code, onTime) {
         await client.close()
     }
 }
+
+async function getClientSecret() {
+    const headers = {
+      alg: 'ES256',
+      kid: config.apple.keyID
+    };
+    const timeNow = Math.floor(Date.now() / 1000);
+    const claims = {
+      iss: config.apple.teamID,
+      aud: 'https://appleid.apple.com',
+      sub: config.apple.clientID,
+      iat: timeNow,
+      exp: timeNow + 15777000
+    };
+
+    const token = jwt.sign(claims, privateKey, {
+      algorithm: 'ES256',
+      header: headers
+      // expiresIn: '24h'
+    });
+
+    return token;
+  }

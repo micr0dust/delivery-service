@@ -23,6 +23,7 @@
         "google-auth-library": "^8.0.2",
         "googleapis": "^109.0.1",
         "http-errors": "2.0.0",
+        "jose": "^4.14.4",
         "jsonwebtoken": "9.0.0",
         "mongodb": "4.5.0",
         "morgan": "1.10.0",
