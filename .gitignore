@@ -5,3 +5,4 @@ api-docs.json
 command.txt
 nginx.conf
 ecosystem.config.js
+*.p8
