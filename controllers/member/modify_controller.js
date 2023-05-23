@@ -552,6 +552,7 @@ module.exports = class Member {
             "response_type=code&" +
             "client_id=" + config.mail.id;
         //console.log(JSON.stringify({ "redirect_url": google_oauth_url }))
+        return res.redirect(google_oauth_url); 
         res.send(JSON.stringify({ "redirect_url": google_oauth_url }));
     }
 

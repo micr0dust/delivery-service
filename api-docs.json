@@ -30,7 +30,7 @@
   ],
   "paths": {
     "/member/google/login": {
-      "get": {
+      "post": {
         "tags": [
           "member"
         ],

@@ -111,7 +111,7 @@ let memberModifyMethod = new MemberModifyMethod();
 //             }
 //     */
 // });
-router.get("/google/login", memberModifyMethod.googleLogin, () => {
+router.post("/google/login", memberModifyMethod.googleLogin, () => {
     //  #swagger.summary  = 'Google 網頁登入'
     //  #swagger.description = '回傳登入網址，請瀏覽器重新導向'
     /*
