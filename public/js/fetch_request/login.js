@@ -11,7 +11,7 @@ function googleLogin() {
         "Content-Type": "application/x-www-form-urlencoded"
     };
     fetch("/member/google/login", {
-        method: "GET",
+        method: "POST",
         headers: headersList
     }).then(function(response) {
         document.getElementById('loader').classList.remove('is-active');
@@ -55,12 +55,6 @@ function onSignIn(googleUser) {
         localStorage.setItem('redirct', redirct);
     }
 
-    window.location.href = "https://accounts.google.com/o/oauth2/v2/auth?" +
-            "scope=email%20profile&" +
-            "redirect_uri=" + location.hostname + "/member/google/callback&" +
-            "response_type=code&" +
-            "client_id=1047924292997-3pht638fc2a7qs83lnt2deqiqkfmntj8.apps.googleusercontent.com";
-
     document.getElementById('loader').classList.add('is-active');
 
     const headersList = {
@@ -69,7 +63,7 @@ function onSignIn(googleUser) {
         "Content-Type": "application/x-www-form-urlencoded"
     };
     fetch("/member/google/login", {
-        method: "GET",
+        method: "POST",
         headers: headersList
     }).then(function(response) {
         document.getElementById('loader').classList.remove('is-active');

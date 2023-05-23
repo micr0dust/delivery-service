@@ -66,13 +66,6 @@
     var fgender;
     var fbirthday;
 
-    let urlparm = window.location.href;
-    if (window.location.href.split('?')[1]) {
-        urlparm = window.location.href.split('?')[1];
-        if (urlparm.split('&')[0].split('=')[0] == "refresh_token")
-            if (urlparm.split('&')[0].split('=')[1] != "")
-                localStorage.setItem('refresh_token', urlparm.split('&')[0].split('=')[1]);
-    }
 
     function editFn() {
         document.getElementById('phone').disabled = false;

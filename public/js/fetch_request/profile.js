@@ -4,7 +4,7 @@ async function getMember() {
         "token": localStorage.acesstoken,
         "Content-Type": "application/x-www-form-urlencoded"
     };
-
+    document.getElementById('loader').classList.add('is-active');
     return await fetch("/member/user/info", {
         method: "GET",
         headers: headersList
