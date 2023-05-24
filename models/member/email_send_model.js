@@ -41,7 +41,7 @@ module.exports = async function mailEmit(id, time) {
 
             ejs.renderFile(__dirname + "/email.ejs", {
                 host: config.heroku.hostname,
-                user: "Smtp",
+                user: member.name,
                 verityCode: token
             },async function(err, data){
                 const mailOptions = {
@@ -148,7 +148,6 @@ module.exports = async function mailEmit(id, time) {
     } catch (err) {
         throw err;
     } finally {
-        console.log(1);
         //await client.close();
     }
 
