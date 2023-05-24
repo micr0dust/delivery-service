@@ -29,6 +29,237 @@
     "http"
   ],
   "paths": {
+    "/member/register": {
+      "post": {
+        "tags": [
+          "member"
+        ],
+        "summary": "註冊",
+        "description": "以姓名、郵箱、密碼註冊帳號，並返回時效為一小時的 token",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "description": "使用者名稱",
+            "schema": {
+              "type": "string",
+              "example": "吳玼芢"
+            }
+          },
+          {
+            "name": "email",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "description": "電子信箱",
+            "schema": {
+              "type": "string",
+              "example": "usermail123@gmail.com"
+            }
+          },
+          {
+            "name": "password",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "description": "密碼",
+            "schema": {
+              "type": "string",
+              "example": "Aaaaaaa1"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "註冊成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "註冊成功"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "result": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "example": "使用者名稱"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "usermail123@gmail.com"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "因格式錯誤導致的註冊失敗",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "註冊失敗"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "description": "因伺服器錯誤導致的註冊失敗",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "註冊失敗"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/member/login": {
+      "post": {
+        "tags": [
+          "member"
+        ],
+        "summary": "登入",
+        "description": "以郵箱、密碼登入帳號，並返回時效為一小時的 token",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "description": "電子信箱",
+            "schema": {
+              "type": "string",
+              "example": "usermail123@gmail.com"
+            }
+          },
+          {
+            "name": "password",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "description": "密碼",
+            "schema": {
+              "type": "string",
+              "example": "Aaaaaaa1"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "登入成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "登入成功"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "result": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "example": "測試用帳號2"
+                    },
+                    "role": {
+                      "type": "array",
+                      "example": [
+                        "user"
+                      ],
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "登入失敗",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "註冊失敗"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests"
+          }
+        }
+      }
+    },
     "/member/google/login": {
       "post": {
         "tags": [
@@ -456,6 +687,222 @@
                 "name": "main"
               }
             }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/member/email/send": {
+      "put": {
+        "tags": [
+          "member"
+        ],
+        "summary": "請求驗證 email 發送",
+        "description": "以使用者 token 請求，成功將發送驗證碼 email",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "required": true,
+            "description": "member access token",
+            "schema": {
+              "$ref": "#/definitions/token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功發送驗證碼",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "成功發送驗證碼"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "result": {
+                  "type": "object",
+                  "properties": {}
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "403": {
+            "description": "token錯誤",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "token錯誤"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "result": {
+                  "type": "string",
+                  "example": "請重新登入"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "description": "無法發送驗證碼",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "無法發送驗證碼"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/member/email/verify": {
+      "put": {
+        "tags": [
+          "member"
+        ],
+        "summary": "驗證 email",
+        "description": "以使用者 token 和 verityCode 請求，返回 email 是否驗證成功",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "required": true,
+            "description": "member access token",
+            "schema": {
+              "$ref": "#/definitions/token"
+            }
+          },
+          {
+            "name": "verityCode",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "description": "驗證碼",
+            "schema": {
+              "$ref": "#/definitions/token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "驗證成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "驗證成功"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "result": {
+                  "type": "object",
+                  "properties": {}
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "驗證碼錯誤",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "驗證碼錯誤"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "result": {
+                  "type": "string",
+                  "example": "請確認驗證碼"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "403": {
+            "description": "token錯誤",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "token錯誤"
+                },
+                "code": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "result": {
+                  "type": "string",
+                  "example": "請重新登入"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests"
           }
         },
         "security": [

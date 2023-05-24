@@ -31,7 +31,7 @@ const request = require("request");
 const client = new OAuth2Client(config.mail.id);
 
 module.exports = class Member {
-    //註冊帳號 (已停用)
+    //註冊帳號
     postRegister(req, res, next) {
         const check_password = check.checkPassword(req.body.password);
         if (check_password === false) {
@@ -93,7 +93,7 @@ module.exports = class Member {
         }
     }
 
-    //登入 (已停用)
+    //登入
     postLogin(req, res, next) {
         // 進行加密
         const password = req.body.password ? encryption(req.body.password) : null;
@@ -253,7 +253,7 @@ module.exports = class Member {
             });
     }
 
-    //驗證碼寄出 (已停用)
+    //驗證碼寄出
     putEmailSend(req, res, next) {
         emailSend(req.headers['token'], onTime()).then(
             result => {
@@ -272,7 +272,7 @@ module.exports = class Member {
             });
     }
 
-    //驗證 Email 驗證碼 (已停用)
+    //驗證 Email 驗證碼
     putEmailVerify(req, res, next) {
         if (check.checkNull(req.body.verityCode)) return res.status(401).send({
             status: "驗證失敗",
