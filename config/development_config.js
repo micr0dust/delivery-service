@@ -26,7 +26,8 @@ module.exports = {
     },
     teilio: {
         id: process.env.TWILIO_ID,
-        token: process.env.TWILIO_TOKEN
+        token: process.env.TWILIO_TOKEN,
+        phone: process.env.TWILIO_PHONE
     },
     onesignal: {
         id: process.env.ONESIGNAL_ID,
