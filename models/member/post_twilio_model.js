@@ -44,7 +44,7 @@ module.exports = async function deleteAction(data) {
 
         const messages = await twilio.messages
             .create({
-                body: `你的 Fordon 驗證碼為 ${phoneVerify}`,
+                body: `你的 Foodone 驗證碼為 ${phoneVerify}`,
                 from: config.teilio.phone,
                 to: '+886' + phoneNumber
             });

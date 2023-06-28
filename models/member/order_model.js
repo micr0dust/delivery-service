@@ -74,7 +74,6 @@ module.exports = async function order(data, finalOrder) {
                 options: orderList[i].options
             });
         }
-
         const testRecords = [];
         const finalRecords = [];
         const products = [];
@@ -98,12 +97,12 @@ module.exports = async function order(data, finalOrder) {
             )[0];
 
             //選項處理
-            let newPrice, newOptions;
+            let newPrice=parseFloat(aProduct.price), newOptions=null;
             if (aProduct.options) {
                 let arrOptions = JSON.parse(aProduct.options);
                 let orderOptions = JSON.parse(checkedOrder[i].options);
                 let optionData = [];
-                let price = parseFloat(aProduct.price);
+                let price = newPrice;
                 for (let j = 0; j < arrOptions.length; j++) {
                     const found = orderOptions.find(opt => opt['title'] === arrOptions[j]['title']);
                     if (found) {
