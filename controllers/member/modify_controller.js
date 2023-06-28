@@ -659,48 +659,48 @@ module.exports = class Member {
         });
     }
 
-    //appleLogin
-    appleLogin(req, res, next) {
-        const options = {
-            clientID: config.apple.clientID, // Apple Client ID
-            redirectUri: config.heroku.hostname+'/member/apple/callback',
-            // OPTIONAL
-            // optional, An unguessable random string. It is primarily used to protect against CSRF attacks.
-            state: Math.floor(Math.random() * 10**20).toString(36), 
-            // Force set to form_post if scope includes 'email'
-            responseMode: 'query' | 'fragment' | 'form_post', 
-            scope: 'name%20email' // optional
-        };
-        const authorizationUrl = appleSignin.getAuthorizationUrl(options);
-        res.send(JSON.stringify({ "redirect_url": authorizationUrl }));
-    }
+    // //appleLogin
+    // appleLogin(req, res, next) {
+    //     const options = {
+    //         clientID: config.apple.clientID, // Apple Client ID
+    //         redirectUri: config.heroku.hostname+'/member/apple/callback',
+    //         // OPTIONAL
+    //         // optional, An unguessable random string. It is primarily used to protect against CSRF attacks.
+    //         state: Math.floor(Math.random() * 10**20).toString(36), 
+    //         // Force set to form_post if scope includes 'email'
+    //         responseMode: 'query' | 'fragment' | 'form_post', 
+    //         scope: 'name%20email' // optional
+    //     };
+    //     const authorizationUrl = appleSignin.getAuthorizationUrl(options);
+    //     res.send(JSON.stringify({ "redirect_url": authorizationUrl }));
+    // }
 
-    appleCallback(req, res, next) {
-        const code = req.body.code;
+    // appleCallback(req, res, next) {
+    //     const code = req.body.code;
             
-        appleLogin(code, onTime).then(result => {
-            if (check.checkNull(result) === true) {
-                return res.status(400).send({
-                    status: '登入失敗',
-                    code: true,
-                    result: "需要存取帳戶的權限"
-                });
-            }
-            if (check.checkNull(result) === false) {
-                const token = getTokenFn(result._id.toString(), 30, config.secret);
-                //res.setHeader('token', token);
-                res.setHeader('refresh_token', result.refresh_token);
-                res.redirect('/auth?refresh_token=' + result.refresh_token);
-            }
-        })
-        .catch(err => {
-            res.status(400).send({
-                status: '登入失敗',
-                code: false,
-                result: err.message
-            });
-        });
-    }
+    //     appleLogin(code, onTime).then(result => {
+    //         if (check.checkNull(result) === true) {
+    //             return res.status(400).send({
+    //                 status: '登入失敗',
+    //                 code: true,
+    //                 result: "需要存取帳戶的權限"
+    //             });
+    //         }
+    //         if (check.checkNull(result) === false) {
+    //             const token = getTokenFn(result._id.toString(), 30, config.secret);
+    //             //res.setHeader('token', token);
+    //             res.setHeader('refresh_token', result.refresh_token);
+    //             res.redirect('/auth?refresh_token=' + result.refresh_token);
+    //         }
+    //     })
+    //     .catch(err => {
+    //         res.status(400).send({
+    //             status: '登入失敗',
+    //             code: false,
+    //             result: err.message
+    //         });
+    //     });
+    // }
 
     // 請求發送驗證簡訊
     postTwilioSend(req, res, next) {

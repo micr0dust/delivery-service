@@ -157,19 +157,19 @@ router.get("/google/callback", memberModifyMethod.googleCallback
     // #swagger.ignore = true
 );
 
-router.post("/apple/login", memberModifyMethod.appleLogin, () => {
-    //  #swagger.summary  = 'Google 網頁登入'
-    //  #swagger.description = '回傳登入網址，請瀏覽器重新導向'
-    /*
-        #swagger.responses[200] = {
-            description: "redirect_url",
-            schema: {$ref: "#/definitions/redirect_url"}
-        }
-    */
-});
-router.post("/apple/callback", memberModifyMethod.appleCallback
-    // #swagger.ignore = true
-);
+// router.post("/apple/login", memberModifyMethod.appleLogin, () => {
+//     //  #swagger.summary  = 'Google 網頁登入'
+//     //  #swagger.description = '回傳登入網址，請瀏覽器重新導向'
+//     /*
+//         #swagger.responses[200] = {
+//             description: "redirect_url",
+//             schema: {$ref: "#/definitions/redirect_url"}
+//         }
+//     */
+// });
+// router.post("/apple/callback", memberModifyMethod.appleCallback
+//     // #swagger.ignore = true
+// );
 
 //router.get("/google/refresh_token", memberModifyMethod.googleGetToken);
 
