@@ -17,7 +17,7 @@ const postTwilioSend = require('../../models/member/post_twilio_model');
 const postTwilioVerify = require('../../models/member/post_twilio_verify_model');
 const putSubscribe = require('../../models/member/put_subscribe');
 const getAd = require("../../models/member/get_ad_model");
-const appleLogin = require('../../models/member/apple_login_model');
+//const appleLogin = require('../../models/member/apple_login_model');
 
 const verify = require('../../models/member/verification_model');
 const commonCheck = require('../../service/common_check');
