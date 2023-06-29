@@ -8,7 +8,7 @@ module.exports = async function register(data) {
     const collection = db.collection(config.mongo.member);
 
     try {
-        const findResult = await collection.findOne({ email: data.email });
+        const findResult = await collection.findOne({ email: data.email, password: {$exists: true}});
         if (findResult) throw new Error("該信箱已被註冊");
 
         // 將資料寫入資料庫
