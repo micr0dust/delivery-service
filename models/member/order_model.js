@@ -97,7 +97,7 @@ module.exports = async function order(data, finalOrder) {
             )[0];
 
             //選項處理
-            let newPrice=parseFloat(aProduct.price), newOptions=null;
+            let newPrice=parseFloat(aProduct.price), newOptions = [];
             if (aProduct.options) {
                 let arrOptions = JSON.parse(aProduct.options);
                 let orderOptions = JSON.parse(checkedOrder[i].options);
