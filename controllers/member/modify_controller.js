@@ -73,7 +73,15 @@ module.exports = class Member {
         } else if (checkEmail) {
             toRegister(memberData).then(result => {
                     const token = getTokenFn(result._id.toString(), 30, config.secret);
+                    const refresh_token = jwt.sign({
+                        algorithm: 'HS256',
+                        exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7, // token7天後過期。
+                        data: result._id.toString()
+                    },
+                    config.fresh_secret
+                );
                     res.setHeader('token', token);
+                    res.setHeader('refresh_token', refresh_token);
                     res.json({
                         status: '註冊成功',
                         code: true,
