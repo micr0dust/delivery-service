@@ -47,8 +47,10 @@ module.exports = class Member {
             name: req.body.name,
             email: req.body.email,
             password: password,
+            verityCode: false,
             role: ["user"],
             create_date: onTime(),
+            update_date: onTime(),
             phoneVerify: {
                 code: "00000000",
                 verified: false,
@@ -73,21 +75,20 @@ module.exports = class Member {
         } else if (checkEmail) {
             toRegister(memberData).then(result => {
                     const token = getTokenFn(result._id.toString(), 30, config.secret);
-                    const refresh_token = jwt.sign({
-                        algorithm: 'HS256',
-                        exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7, // token7天後過期。
-                        data: result._id.toString()
-                    },
-                    config.fresh_secret
-                );
                     res.setHeader('token', token);
-                    res.setHeader('refresh_token', refresh_token);
+                    res.setHeader('refresh_token', result.refresh_token);
                     res.json({
                         status: '註冊成功',
                         code: true,
                         result: {
                             name: result.name,
-                            email: result.email
+                            email: result.email,
+                            verityCode: result.verityCode,
+                            role: result.role,
+                            create_date: result.create_date,
+                            update_date: result.update_date,
+                            refresh_token: result.refresh_token,
+                            phoneVerify: result.phoneVerify.verified
                         }
                     });
                 })
@@ -142,7 +143,13 @@ module.exports = class Member {
                         code: true,
                         result: {
                             name: result.name,
-                            role: result.role
+                            email: result.email,
+                            verityCode: result.verityCode,
+                            role: result.role,
+                            create_date: result.create_date,
+                            update_date: result.update_date,
+                            refresh_token: result.refresh_token,
+                            phoneVerify: result.phoneVerify.verified
                         }
                     });
                 }
