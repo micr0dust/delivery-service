@@ -1037,7 +1037,7 @@ json-stringify-safe@~5.0.1:
   resolved "https://registry.yarnpkg.com/json-stringify-safe/-/json-stringify-safe-5.0.1.tgz#1296a2d58fd45f19a0f6ce01d65701e2c735b6eb"
   integrity sha512-ZClg6AaYvamvYEE82d3Iyd3vSSIjQ+odgjaTzRuO3s7toCdFKczob2i0zCh7JE8kWn17yvAWhUVxvqGwUalsRA==
 
-json5@^2.2.1:
+json5@^2.2.3:
   version "2.2.3"
   resolved "https://registry.yarnpkg.com/json5/-/json5-2.2.3.tgz#78cd6f1a19bdc12b73db5ad0c61efd66c1e29283"
   integrity sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==
@@ -1705,15 +1705,15 @@ supports-color@^7.1.0:
   dependencies:
     has-flag "^4.0.0"
 
-swagger-autogen@2.21.1:
-  version "2.21.1"
-  resolved "https://registry.yarnpkg.com/swagger-autogen/-/swagger-autogen-2.21.1.tgz#6aa3b2378f996d85a85508c9556c61d04521a64d"
-  integrity sha512-PHCaE1yd1Lh5P3htLsGGrkF7fbuWubfBdCjRu/4Jfdk6Foqt6/6wQdSGkwtnrAbOwSekVv2/58A2vox7fWxzhg==
+swagger-autogen@2.23.7:
+  version "2.23.7"
+  resolved "https://registry.yarnpkg.com/swagger-autogen/-/swagger-autogen-2.23.7.tgz#40023e583b1d4b4321313bb92cc768488758f135"
+  integrity sha512-vr7uRmuV0DCxWc0wokLJAwX3GwQFJ0jwN+AWk0hKxre2EZwusnkGSGdVFd82u7fQLgwSTnbWkxUL7HXuz5LTZQ==
   dependencies:
     acorn "^7.4.1"
     deepmerge "^4.2.2"
     glob "^7.1.7"
-    json5 "^2.2.1"
+    json5 "^2.2.3"
 
 swagger-jsdoc@^6.2.0:
   version "6.2.8"
