@@ -8,7 +8,7 @@
         "dev": "node ./swagger.js --delay 500ms --watch node ./bin/www"
     },
     "engines": {
-        "node": "14.17.6"
+        "node": "14.21.3"
     },
     "dependencies": {
         "apple-signin-auth": "^1.7.5",
